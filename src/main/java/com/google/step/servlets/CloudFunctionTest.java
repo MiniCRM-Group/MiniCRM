@@ -14,6 +14,14 @@
 
 package com.google.step.servlets;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.FieldNamingPolicy;
+
+import com.google.step.data.Lead;
+
+import java.io.IOException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
 /** Servlet that handles requests to the blog page */
-@WebServlet("/example")
-public class ExampleServlet extends HttpServlet {
+@WebServlet("/CFTest")
+public class CloudFunctionTest extends HttpServlet {
 
   @Override
   public void init(){
@@ -31,9 +39,19 @@ public class ExampleServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     //This is the get method!
+    response.setContentType("text/html;");
+    Lead myLead = new Lead("Hello!");
+    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    response.getWriter().println(gson.toJson(myLead));
+
   }
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //This is the post method!
+    response.setContentType("text/html;");
+    Gson gson = new Gson();
+    //response.getWriter().println(gson.toJson());
+
+
   }
 }
