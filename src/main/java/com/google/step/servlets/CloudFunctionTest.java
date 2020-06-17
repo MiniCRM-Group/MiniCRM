@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
-/** Servlet that handles requests to the blog page */
+/** Testing code for the Cloud Function Servlet to receive lead data */
 @WebServlet("/CFTest")
 public class CloudFunctionTest extends HttpServlet {
 
