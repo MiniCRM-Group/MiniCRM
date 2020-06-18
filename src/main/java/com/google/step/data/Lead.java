@@ -21,10 +21,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.FieldNamingPolicy;
 
-import java.util.List;
-import java.util.Collections;
+import java.util.*;
 import java.io.Reader;
-import java.util.EnumMap;
 
 /**
  * This class represents a lead and all its data.
@@ -37,8 +35,7 @@ public class Lead {
   private long formId;
   private String googleKey;
   private List<ColumnData> userColumnData;
-  //TODO: Map ENUM of IDS to column data
-  private EnumMap<DataIds,String> columnData;
+  private Map<String,String> columnData;
   private boolean isTest;
   private long adgroupId;
   private long creativeId;
@@ -68,6 +65,15 @@ public class Lead {
     return gson.fromJson(reader, Lead.class);
   }
 
+  /**
+   * Creates and populates the columnData Map from userColumnData
+   */
+  private void generateDataMap() {
+    columnData = new HashMap<>(userColumnData.size());
+    for (ColumnData cData : userColumnData) {
+      columnData.put(cData.getColumnId(), cData.getStringValue());
+    }
+  }
   //Getters and Setters
   public String getLeadId() {
     return leadId;
