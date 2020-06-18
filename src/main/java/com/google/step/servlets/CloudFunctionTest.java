@@ -21,6 +21,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.step.data.Lead;
 
 import java.io.IOException;
+import java.io.BufferedReader;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,26 +32,32 @@ import javax.servlet.ServletException;
 /** Testing code for the Cloud Function Servlet to receive lead data */
 @WebServlet("/CFTest")
 public class CloudFunctionTest extends HttpServlet {
+  private Lead myLead;
 
   @Override
   public void init(){
     //This is the init method!
+    myLead = new Lead("Hello!");
   }
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     //This is the get method!
     response.setContentType("text/html;");
-    Lead myLead = new Lead("Hello!");
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    Gson gson = new GsonBuilder()
+                  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                  .setPrettyPrinting()
+                  .create();
     response.getWriter().println(gson.toJson(myLead));
 
   }
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //This is the post method!
     response.setContentType("text/html;");
-    Gson gson = new Gson();
-    //response.getWriter().println(gson.toJson());
+    BufferedReader reader = request.getReader();
+    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    myLead = gson.fromJson(reader, Lead.class);
 
 
   }
