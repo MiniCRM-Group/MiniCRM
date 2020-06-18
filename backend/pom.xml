@@ -66,6 +66,16 @@
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
+                    <execution>
+                        <id>install angular cli</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install @angular/cli</arguments>                
+                        </configuration>
+                    </execution>
                     <!-- Executes npm build script which runs ng build -->
                     <execution>
                         <id>build angular app</id>
