@@ -15,6 +15,7 @@
 package com.google.step.data;
 
 import com.google.step.data.ColumnData;
+import com.google.step.data.DataIds;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,6 +24,7 @@ import com.google.gson.FieldNamingPolicy;
 import java.util.List;
 import java.util.Collections;
 import java.io.Reader;
+import java.util.EnumMap;
 
 /**
  * This class represents a lead and all its data.
@@ -36,7 +38,10 @@ public class Lead {
   private String googleKey;
   private List<ColumnData> userColumnData;
   //TODO: Map ENUM of IDS to column data
+  private EnumMap<DataIds,String> columnData;
   private boolean isTest;
+  private long adgroupId;
+  private long creativeId;
 
   private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
