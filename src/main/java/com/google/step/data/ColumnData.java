@@ -21,4 +21,29 @@ public class ColumnData {
   private String columnName; //DEPRECATED
   private String stringValue;
   private String columnId;
+
+  //Getters and Setters
+  public String getColumnName() {
+    return columnName;
+  }
+
+  public void setColumnName(String columnName) {
+    this.columnName = columnName;
+  }
+
+  public String getStringValue() {
+    return stringValue;
+  }
+
+  public void setStringValue(String stringValue) {
+    this.stringValue = stringValue;
+  }
+
+  public String getColumnId() {
+    return columnId;
+  }
+
+  public void setColumnId(String columnId) {
+    this.columnId = columnId;
+  }
 }
