@@ -18,7 +18,7 @@ package com.google.step.data;
  * This class represents column data for a lead.
  */
 public class ColumnData {
-  private String columnName;
+  private String columnName; //DEPRECATED
   private String stringValue;
   private String columnId;
 }

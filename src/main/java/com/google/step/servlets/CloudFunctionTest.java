@@ -43,10 +43,6 @@ public class CloudFunctionTest extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     //This is the get method!
     response.setContentType("text/html;");
-    Gson gson = new GsonBuilder()
-                  .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                  .setPrettyPrinting()
-                  .create();
     response.getWriter().println(gson.toJson(myLead));
 
   }
@@ -55,9 +51,7 @@ public class CloudFunctionTest extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //This is the post method!
     response.setContentType("text/html;");
-    BufferedReader reader = request.getReader();
-    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-    myLead = gson.fromJson(reader, Lead.class);
+    myLead = Lead.fromJson(request.getReader());
 
 
   }
