@@ -4,3 +4,7 @@
 target/
 .idea
 *.iml
+
+# Ignore anything in webapp except for WEB-INF
+src/main/webapp/
+!src/main/webapp/WEB-INF/
