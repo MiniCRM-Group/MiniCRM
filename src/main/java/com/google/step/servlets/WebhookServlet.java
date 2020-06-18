@@ -31,7 +31,7 @@ import javax.servlet.ServletException;
 
 /** Testing code for the Cloud Function Servlet to receive lead data */
 @WebServlet("/CFTest")
-public class CloudFunctionTest extends HttpServlet {
+public class WebhookServlet extends HttpServlet {
   private Lead myLead;
 
   @Override
