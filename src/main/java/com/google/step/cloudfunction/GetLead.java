@@ -26,7 +26,6 @@ public class GetLead implements HttpFunction {
   @Override
   public void service(HttpRequest request, HttpResponse response) throws Exception {
     Lead newLead = Lead.fromReader(request.getReader());
-    System.out.println("Hello!");
-    System.out.println(newLead.getLeadId());
+    response.getWriter().write(newLead.getLeadId());
   }
 }
