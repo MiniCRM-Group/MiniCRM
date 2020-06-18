@@ -30,9 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
 /** Testing code for the Cloud Function Servlet to receive lead data */
-@WebServlet("/CFTest")
+@WebServlet("/webhook")
 public class WebhookServlet extends HttpServlet {
   private Lead myLead;
+  private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
   @Override
   public void init(){
@@ -42,15 +43,17 @@ public class WebhookServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     //This is the get method!
+    //Dev:
     response.setContentType("text/html;");
     response.getWriter().println(gson.toJson(myLead));
-
+    //Production:
+    //Shouldn't be here -> send back
+    //response.sendRedirect(request.getHeader("referer"));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //This is the post method!
-    response.setContentType("text/html;");
     myLead = Lead.fromJson(request.getReader());
 
 
