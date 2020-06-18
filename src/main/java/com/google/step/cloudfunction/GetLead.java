@@ -15,15 +15,18 @@
 
 package com.google.step.cloudfunction;
 
+import com.google.step.data.Lead;
+
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import java.io.BufferedWriter;
 
-public class Example implements HttpFunction {
+public class GetLead implements HttpFunction {
   @Override
   public void service(HttpRequest request, HttpResponse response) throws Exception {
-    BufferedWriter writer = response.getWriter();
-    writer.write("Hello world!");
+    Lead newLead = Lead.fromReader(request.getReader());
+    System.out.println("Hello!");
+    System.out.println(newLead.getLeadId());
   }
 }
