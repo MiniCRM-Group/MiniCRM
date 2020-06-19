@@ -16,7 +16,7 @@
 package com.google.step.cloudfunction;
 
 import com.google.step.data.Lead;
-
+/*
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
@@ -29,3 +29,4 @@ public class GetLead implements HttpFunction {
     response.getWriter().write(newLead.getLeadId());
   }
 }
+*/
