@@ -28,26 +28,30 @@ import com.google.step.data.Lead;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.io.BufferedReader;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
 
-/** Testing code for the Cloud Function Servlet to receive lead data */
+/** Servlet to act as the webhook to receive lead data from the Google Ads server
+ *  Responds to GET requests with JSON with lead data.
+ */
 @WebServlet("/webhook")
 public class WebhookServlet extends HttpServlet {
   private Lead myLead;
-  private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+  private static final Gson gson = new GsonBuilder()
+          .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+          .create();
 
-  @Override
-  public void init() {
-  }
+  /**
+   * Returns JSON representing all leads in the datastore sorted by time in response to a GET request
+   * @param request       the HTTP Request
+   * @param response      the HTTP Response
+   * @throws IOException  if an input exception occurs with the response writer
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //Dev:
     response.setContentType("application/json;");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Lead").addSort("date", SortDirection.DESCENDING);
@@ -57,12 +61,14 @@ public class WebhookServlet extends HttpServlet {
       leads.add(new Lead(leadEntity));
     }
     response.getWriter().println(gson.toJson(leads));
-
-    //Production:
-    //Shouldn't be here -> send back
-    //response.sendRedirect(request.getHeader("referer"));
   }
 
+  /**
+   * Accepts a POST request containing JSON in the body describing a lead from Google Ads server.
+   * @param request       the HTTP Request
+   * @param response      the HTTP Response
+   * @throws IOException  if an output exception occurs with the request reader
+   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
