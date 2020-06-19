@@ -180,6 +180,14 @@ public class Lead {
     return Collections.unmodifiableMap(columnData);
   }
 
+  public void putColumnData(String key, String value) {
+    columnData.put(key, value);
+  }
+
+  public String getColumnData(String key) {
+    return columnData.get(key);
+  }
+
   public boolean isTest() {
     return isTest;
   }
