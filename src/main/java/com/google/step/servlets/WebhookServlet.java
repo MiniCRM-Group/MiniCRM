@@ -43,13 +43,10 @@ public class WebhookServlet extends HttpServlet {
   private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
   @Override
-  public void init(){
-    //This is the init method!
-    myLead = new Lead("Hello!");
+  public void init() {
   }
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //This is the get method!
     //Dev:
     response.setContentType("text/html;");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
