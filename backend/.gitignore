@@ -1,0 +1,14 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+target/
+.idea
+*.iml
+.classpath
+.factorypath
+.project
+.settings
+
+# Ignore anything in webapp except for WEB-INF
+src/main/webapp/
+!src/main/webapp/WEB-INF/
