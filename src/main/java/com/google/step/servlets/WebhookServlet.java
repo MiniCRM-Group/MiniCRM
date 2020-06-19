@@ -17,6 +17,9 @@ package com.google.step.servlets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.FieldNamingPolicy;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+
 
 import com.google.step.data.Lead;
 
@@ -53,9 +56,8 @@ public class WebhookServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //This is the post method!
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     myLead = Lead.fromReader(request.getReader());
-
-
+    datastore.put(myLead.asEntity());
   }
 }
