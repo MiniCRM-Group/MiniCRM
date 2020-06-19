@@ -41,7 +41,7 @@ public class WebhookServlet extends HttpServlet {
     myLead = new Lead("Hello!");
   }
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //This is the get method!
     //Dev:
     response.setContentType("text/html;");
@@ -54,7 +54,7 @@ public class WebhookServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //This is the post method!
-    myLead = Lead.fromJson(request.getReader());
+    myLead = Lead.fromReader(request.getReader());
 
 
   }
