@@ -22,18 +22,31 @@ public class ColumnData {
   private String columnId;
 
   //Getters and Setters
+
+  /**
+   * @return columnData value
+   */
   public String getStringValue() {
     return stringValue;
   }
 
+  /**
+   * @param stringValue new value
+   */
   public void setStringValue(String stringValue) {
     this.stringValue = stringValue;
   }
 
+  /**
+   * @return current columnId
+   */
   public String getColumnId() {
     return columnId;
   }
 
+  /**
+   * @param columnId new columnId
+   */
   public void setColumnId(String columnId) {
     this.columnId = columnId;
   }
