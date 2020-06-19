@@ -151,7 +151,7 @@ public class Lead {
   public Long getCampaignId() {
     return campaignId;
   }
-  public void setCampaignId(long campaignId) {
+  public void setCampaignId(Long campaignId) {
     this.campaignId = campaignId;
   }
 
@@ -172,7 +172,7 @@ public class Lead {
   public Long getFormId() {
     return formId;
   }
-  public void setFormId(long formId) {
+  public void setFormId(Long formId) {
     this.formId = formId;
   }
 
@@ -197,5 +197,19 @@ public class Lead {
 
   public boolean isTest() {
     return isTest;
+  }
+
+  public Long getAdgroupId() {
+    return adgroupId;
+  }
+  public void setAdgroupId(Long adgroupId) {
+    this.adgroupId = adgroupId;
+  }
+
+  public Long getCreativeId() {
+    return creativeId;
+  }
+  public void setCreativeId(Long creativeId) {
+    this.creativeId = creativeId;
   }
 }
