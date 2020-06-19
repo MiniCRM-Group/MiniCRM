@@ -30,7 +30,7 @@ import java.util.Date;
 /**
  * This class represents a lead and all its data.
  */
-public class Lead {
+public final class Lead {
   private Date date;
   private String leadId;
   private Long campaignId;
@@ -116,6 +116,7 @@ public class Lead {
     }
     return leadEntity;
   }
+
   /**
    * Creates a lead based off of JSON
    * @param reader a reader object containing a JSON describing a lead object
@@ -136,79 +137,154 @@ public class Lead {
       columnData.put(cData.getColumnId(), cData.getStringValue());
     }
   }
+
   //Getters and Setters
+  /**
+   * @return the Date this lead was received
+   */
   public Date getDate() {
     return date;
   }
 
+  /**
+   * @return current leadId
+   */
   public String getLeadId() {
     return leadId;
   }
+
+  /**
+   * @param leadId new leadId
+   */
   public void setLeadId(String leadId) {
     this.leadId = leadId;
   }
 
+  /**
+   * @return current campaignId
+   */
   public Long getCampaignId() {
     return campaignId;
   }
+
+  /**
+   * @param campaignId new campaignId
+   */
   public void setCampaignId(Long campaignId) {
     this.campaignId = campaignId;
   }
 
+  /**
+   * @return current gclId
+   */
   public String getGclId() {
     return gclId;
   }
+
+  /**
+   * @param gclId new gclId
+   */
   public void setGclId(String gclId) {
     this.gclId = gclId;
   }
 
+  /**
+   * @return current apiVersion
+   */
   public String getApiVersion() {
     return apiVersion;
   }
+
+  /**
+   * @param apiVersion new apiVersion
+   */
   public void setApiVersion(String apiVersion) {
     this.apiVersion = apiVersion;
   }
 
+  /**
+   * @return current formId
+   */
   public Long getFormId() {
     return formId;
   }
+
+  /**
+   * @param formId new formId
+   */
   public void setFormId(Long formId) {
     this.formId = formId;
   }
 
+  /**
+   * @return current googleKey
+   */
   public String getGoogleKey() {
     return googleKey;
   }
+
+  /**
+   * @param googleKey new googleKey
+   */
   public void setGoogleKey(String googleKey) {
     this.googleKey = googleKey;
   }
 
+  /**
+   * @return unmodifiable map representing this lead's column data
+   */
   public Map<String, String> getColumnData() {
     return Collections.unmodifiableMap(columnData);
   }
 
+  /**
+   * Puts the key value pair associated into the Lead's column data
+   * @param key   the key
+   * @param value the value
+   */
   public void putColumnData(String key, String value) {
     columnData.put(key, value);
   }
 
+  /**
+   * @param key the property key
+   * @return the value associated with the key
+   */
   public String getColumnData(String key) {
     return columnData.get(key);
   }
 
+  /**
+   * @return whether this Lead is a test
+   */
   public boolean isTest() {
     return isTest;
   }
 
+  /**
+   * @return this Lead's adgroupId
+   */
   public Long getAdgroupId() {
     return adgroupId;
   }
+
+  /**
+   * @param adgroupId adgroupId to set
+   */
   public void setAdgroupId(Long adgroupId) {
     this.adgroupId = adgroupId;
   }
 
+  /**
+   * @return this Lead's creativeId
+   */
   public Long getCreativeId() {
     return creativeId;
   }
+
+  /**
+   * @param creativeId creativeId to set
+   */
   public void setCreativeId(Long creativeId) {
     this.creativeId = creativeId;
   }
