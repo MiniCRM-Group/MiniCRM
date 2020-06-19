@@ -48,7 +48,7 @@ public class WebhookServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     //Dev:
-    response.setContentType("text/html;");
+    response.setContentType("application/json;");
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Lead").addSort("date", SortDirection.DESCENDING);
     PreparedQuery queryResults = datastore.prepare(query);
