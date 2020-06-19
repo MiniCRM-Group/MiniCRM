@@ -83,7 +83,9 @@ public class Lead {
    * @return a lead object created by the JSON
    */
   public static Lead fromReader(Reader reader) {
-    return gson.fromJson(reader, Lead.class);
+    Lead thisLead = gson.fromJson(reader, Lead.class);
+    thisLead.generateDataMap();
+    return thisLead;
   }
 
   /**
