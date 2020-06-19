@@ -23,13 +23,18 @@ import com.google.gson.FieldNamingPolicy;
 
 import com.google.appengine.api.datastore.Entity;
 
-import java.util.*;
 import java.io.Reader;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Date;
 
 /**
  * This class represents a lead and all its data.
  */
 public class Lead {
+  private Date date;
   private String leadId;
   private long campaignId;
   private String gclId;
@@ -48,9 +53,11 @@ public class Lead {
    * Blank constructor
    */
   public Lead() {
+    this.date = new Date(System.currentTimeMillis());
   }
 
   public Lead(String leadId) {
+    this();
     this.leadId = leadId;
   }
 
@@ -59,9 +66,11 @@ public class Lead {
    * @param entity entity of type lead that represents a lead
    */
   public Lead(Entity entity) {
+    this();
     if (!entity.getKind().equals("Lead")) {
       throw new IllegalArgumentException("Entity is not of type Lead.");
     }
+    this.date = (Date) entity.getProperty("date");
     this.leadId = (String) entity.getProperty("leadId");
     this.campaignId = (Long) entity.getProperty("campaignId");
     this.gclId = (String) entity.getProperty("gclId");
@@ -72,6 +81,7 @@ public class Lead {
     this.adgroupId = (Long) entity.getProperty("adgroupId");
     this.creativeId = (Long) entity.getProperty("creativeId");
 
+    entity.removeProperty("date");
     entity.removeProperty("leadId");
     entity.removeProperty("campaignId");
     entity.removeProperty("gclId");
@@ -99,6 +109,7 @@ public class Lead {
    */
   public Entity asEntity() {
     Entity leadEntity = new Entity("Lead");
+    leadEntity.setProperty("date", date);
     leadEntity.setProperty("leadId", leadId);
     leadEntity.setProperty("campaignId", campaignId);
     leadEntity.setProperty("gclId", gclId);
@@ -134,6 +145,10 @@ public class Lead {
     }
   }
   //Getters and Setters
+  public Date getDate() {
+    return date;
+  }
+
   public String getLeadId() {
     return leadId;
   }
