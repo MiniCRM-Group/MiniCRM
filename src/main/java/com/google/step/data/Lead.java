@@ -176,8 +176,8 @@ public class Lead {
     this.googleKey = googleKey;
   }
 
-  public List<ColumnData> getUserColumnData() {
-    return Collections.unmodifiableList(userColumnData);
+  public Map<String, String> getColumnData() {
+    return Collections.unmodifiableMap(columnData);
   }
 
   public boolean isTest() {
