@@ -47,7 +47,7 @@ public final class Lead {
   private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
   /**
-   * Blank constructor
+   * Blank constructor that sets the time when this lead was created
    */
   public Lead() {
     this.date = new Date(System.currentTimeMillis());
