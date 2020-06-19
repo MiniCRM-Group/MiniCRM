@@ -154,24 +154,10 @@ public final class Lead {
   }
 
   /**
-   * @param leadId new leadId
-   */
-  public void setLeadId(String leadId) {
-    this.leadId = leadId;
-  }
-
-  /**
    * @return current campaignId
    */
   public Long getCampaignId() {
     return campaignId;
-  }
-
-  /**
-   * @param campaignId new campaignId
-   */
-  public void setCampaignId(Long campaignId) {
-    this.campaignId = campaignId;
   }
 
   /**
@@ -182,24 +168,10 @@ public final class Lead {
   }
 
   /**
-   * @param gclId new gclId
-   */
-  public void setGclId(String gclId) {
-    this.gclId = gclId;
-  }
-
-  /**
    * @return current apiVersion
    */
   public String getApiVersion() {
     return apiVersion;
-  }
-
-  /**
-   * @param apiVersion new apiVersion
-   */
-  public void setApiVersion(String apiVersion) {
-    this.apiVersion = apiVersion;
   }
 
   /**
@@ -210,24 +182,10 @@ public final class Lead {
   }
 
   /**
-   * @param formId new formId
-   */
-  public void setFormId(Long formId) {
-    this.formId = formId;
-  }
-
-  /**
    * @return current googleKey
    */
   public String getGoogleKey() {
     return googleKey;
-  }
-
-  /**
-   * @param googleKey new googleKey
-   */
-  public void setGoogleKey(String googleKey) {
-    this.googleKey = googleKey;
   }
 
   /**
@@ -269,23 +227,9 @@ public final class Lead {
   }
 
   /**
-   * @param adgroupId adgroupId to set
-   */
-  public void setAdgroupId(Long adgroupId) {
-    this.adgroupId = adgroupId;
-  }
-
-  /**
    * @return this Lead's creativeId
    */
   public Long getCreativeId() {
     return creativeId;
-  }
-
-  /**
-   * @param creativeId creativeId to set
-   */
-  public void setCreativeId(Long creativeId) {
-    this.creativeId = creativeId;
   }
 }
