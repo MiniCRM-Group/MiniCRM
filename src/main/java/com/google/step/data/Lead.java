@@ -44,11 +44,47 @@ public class Lead {
 
   private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
+  /**
+   * Blank constructor
+   */
   public Lead() {
   }
 
   public Lead(String leadId) {
     this.leadId = leadId;
+  }
+
+  /**
+   * Constructs a lead object based off an Entity of type Lead
+   * @param entity entity of type lead that represents a lead
+   */
+  public Lead(Entity entity) {
+    if (!entity.getKind().equals("Lead")) {
+      throw new IllegalArgumentException("Entity is not of type Lead.");
+    }
+    this.leadId = (String) entity.getProperty("leadId");
+    this.campaignId = (Long) entity.getProperty("campaignId");
+    this.gclId = (String) entity.getProperty("gclId");
+    this.apiVersion = (String) entity.getProperty("apiVersion");
+    this.formId = (Long) entity.getProperty("formId");
+    this.googleKey = (String) entity.getProperty("googleKey");
+    this.isTest = (Boolean) entity.getProperty("isTest");
+    this.adgroupId = (Long) entity.getProperty("adgroupId");
+    this.creativeId = (Long) entity.getProperty("creativeId");
+
+    entity.removeProperty("leadId");
+    entity.removeProperty("campaignId");
+    entity.removeProperty("gclId");
+    entity.removeProperty("apiVersion");
+    entity.removeProperty("formId");
+    entity.removeProperty("googleKey");
+    entity.removeProperty("isTest");
+    entity.removeProperty("adgroupId");
+    entity.removeProperty("creativeId");
+    this.columnData = new HashMap<>();
+    for (String key : entity.getProperties().keySet()) {
+      columnData.put(key, (String) entity.getProperty(key));
+    }
   }
 
   /**
