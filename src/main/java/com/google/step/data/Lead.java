@@ -21,6 +21,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.FieldNamingPolicy;
 
+import com.google.appengine.api.datastore.Entity;
+
 import java.util.*;
 import java.io.Reader;
 
@@ -56,6 +58,25 @@ public class Lead {
     return gson.toJson(this);
   }
 
+  /**
+   * @return this lead object represented as an Entity
+   */
+  public Entity asEntity() {
+    Entity leadEntity = new Entity("Lead");
+    leadEntity.setProperty("leadId", leadId);
+    leadEntity.setProperty("campaignId", campaignId);
+    leadEntity.setProperty("gclId", gclId);
+    leadEntity.setProperty("apiVersion", apiVersion);
+    leadEntity.setProperty("formId", formId);
+    leadEntity.setProperty("googleKey", googleKey);
+    leadEntity.setProperty("isTest", isTest);
+    leadEntity.setProperty("adgroupId", adgroupId);
+    leadEntity.setProperty("creativeId", creativeId);
+    for (String key : columnData.keySet()) {
+      leadEntity.setProperty(key, columnData.get(key));
+    }
+    return leadEntity;
+  }
   /**
    * Creates a lead based off of JSON
    * @param reader a reader object containing a JSON describing a lead object
