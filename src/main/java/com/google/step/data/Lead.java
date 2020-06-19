@@ -14,9 +14,6 @@
 
 package com.google.step.data;
 
-import com.google.step.data.ColumnData;
-import com.google.step.data.DataIds;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.FieldNamingPolicy;
