@@ -19,11 +19,15 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.FieldNamingPolicy;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
 import com.google.step.data.Lead;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.io.BufferedReader;
 
 import javax.servlet.annotation.WebServlet;
@@ -48,7 +52,15 @@ public class WebhookServlet extends HttpServlet {
     //This is the get method!
     //Dev:
     response.setContentType("text/html;");
-    response.getWriter().println(gson.toJson(myLead));
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Lead").addSort("date", SortDirection.DESCENDING);
+    PreparedQuery queryResults = datastore.prepare(query);
+    ArrayList<Lead> leads = new ArrayList<>();
+    for (Entity leadEntity : queryResults.asIterable()) {
+      leads.add(new Lead(leadEntity));
+    }
+    response.getWriter().println(gson.toJson(leads));
+
     //Production:
     //Shouldn't be here -> send back
     //response.sendRedirect(request.getHeader("referer"));
