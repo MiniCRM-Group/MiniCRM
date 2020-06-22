@@ -2,9 +2,9 @@
   "name": "frontend",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng build --prod && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
+    "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod && mv -v ./dist/frontend/* ../backend/src/main/webapp",
+    "build": "ng build --prod && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
