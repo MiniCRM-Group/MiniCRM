@@ -33,16 +33,16 @@ import java.util.Date;
 public final class Lead {
   private Date date;
   private String leadId;
-  private Long campaignId;
+  private long campaignId;
   private String gclId;
   private String apiVersion;
-  private Long formId;
+  private long formId;
   private String googleKey;
   private List<ColumnData> userColumnData;
   private Map<String,String> columnData;
   private boolean isTest;
-  private Long adgroupId;
-  private Long creativeId;
+  private long adgroupId;
+  private long creativeId;
 
   private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
@@ -156,7 +156,7 @@ public final class Lead {
   /**
    * @return current campaignId
    */
-  public Long getCampaignId() {
+  public long getCampaignId() {
     return campaignId;
   }
 
@@ -177,7 +177,7 @@ public final class Lead {
   /**
    * @return current formId
    */
-  public Long getFormId() {
+  public long getFormId() {
     return formId;
   }
 
@@ -222,14 +222,14 @@ public final class Lead {
   /**
    * @return this Lead's adgroupId
    */
-  public Long getAdgroupId() {
+  public long getAdgroupId() {
     return adgroupId;
   }
 
   /**
    * @return this Lead's creativeId
    */
-  public Long getCreativeId() {
+  public long getCreativeId() {
     return creativeId;
   }
 }
