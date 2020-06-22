@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
+    "ng": "ng build --prod && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "start": "ng serve",
     "build": "ng build --prod && mv -v ./dist/frontend/* ../backend/src/main/webapp",
     "test": "ng test",
