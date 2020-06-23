@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --prod && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
+    "start": "ng serve --configuration=developer --aot",
+    "build": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
+    "builddev": "ng build --configuration=developer && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
