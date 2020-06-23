@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration=developer --aot",
+    "start": "ng serve --aot",
     "build": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "builddev": "ng build --configuration=developer && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "test": "ng test",
