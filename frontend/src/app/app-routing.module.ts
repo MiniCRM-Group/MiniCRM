@@ -16,8 +16,8 @@ const routes: Routes = [
     },
     {
         path:'analytics',
-            loadChildren:'./leads/analytics.module#AnalyticsModule'
-        },
+        loadChildren:'./leads/analytics.module#AnalyticsModule'
+    },
     {
         path: '',
         redirectTo: '',
