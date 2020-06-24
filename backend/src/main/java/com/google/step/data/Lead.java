@@ -54,8 +54,8 @@ public final class Lead {
   }
 
   /**
-   * Constructs a lead object based off an Entity of type Lead
-   * @param entity entity of type lead that represents a lead
+   * Constructs a lead object based off an Entity of kind Lead
+   * @param entity entity of kind lead that represents a lead
    */
   public Lead(Entity entity) {
     this();
