@@ -38,10 +38,10 @@ public final class UserDatastoreUtil {
      * @return     true if the user is contained in the datastore, false otherwise
      * @throws DatastoreFailureException if a datastore error occurs
      */
-    public static boolean existsInDatastore(User user) {
+    public static boolean userExistsInDatastore(User user) {
         try {
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            Key userKey = createKey(user);
+            Key userKey = createUserKey(user);
             datastore.get(userKey);
             return true;
         } catch (EntityNotFoundException e) {
@@ -56,8 +56,8 @@ public final class UserDatastoreUtil {
      *  belongs to was being modified concurrently
      * @throws DatastoreFailureException if any other datastore error occurs
      */
-    public static void putInDatastore(User user) {
-        Key userKey = createKey(user);
+    public static void putUserInDatastore(User user) {
+        Key userKey = createUserKey(user);
         Entity userEntity = new Entity(userKey);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(userEntity);
@@ -68,7 +68,7 @@ public final class UserDatastoreUtil {
      * @param user the user object to create a key for
      * @return     the key unique to the user's id
      */
-    private static Key createKey(User user) {
+    public static Key createUserKey(User user) {
         return KeyFactory.createKey("UserAccount", user.getUserId());
     }
 }
