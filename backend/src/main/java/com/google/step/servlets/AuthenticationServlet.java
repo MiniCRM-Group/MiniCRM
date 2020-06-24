@@ -1,4 +1,4 @@
-package com.google.sps.servlets;
+package com.google.step.servlets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
