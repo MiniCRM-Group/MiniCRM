@@ -60,7 +60,7 @@ public final class Lead {
   public Lead(Entity entity) {
     this();
     if (!entity.getKind().equals("Lead")) {
-      throw new IllegalArgumentException("Entity is not of type Lead.");
+      throw new IllegalArgumentException("Entity is not of kind Lead.");
     }
     this.date = (Date) entity.getProperty("date");
     this.leadId = (String) entity.getProperty("leadId");
