@@ -30,7 +30,7 @@ import com.google.appengine.api.datastore.Key;
  * This class is designed to be the single point of responsibility for storing and reading
  * UserAccount entities from the datstore.
  */
-public final class UserAccount {
+public final class UserDatastoreUtil {
 
     /**
      * Checks whether the user object passed in exists in datastore
