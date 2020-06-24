@@ -34,6 +34,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.step.utils.UserAuthenticationUtil;
+
 /**
  * Servlet to act as the webhook to receive lead data from the Google Ads server
  *  Responds to GET requests with JSON with lead data.
@@ -44,6 +46,7 @@ public class WebhookServlet extends HttpServlet {
   private static final Gson gson = new GsonBuilder()
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .create();
+  private static final UserAuthenticationUtil userAuthenticationUtil = new UserAuthenticationUtil();
 
   /**
    * Returns JSON representing all leads in the datastore sorted by time in response to a GET request
@@ -53,7 +56,7 @@ public class WebhookServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json;");
+    userAuthenticationUtil.authenticate(response);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Lead").addSort("date", SortDirection.DESCENDING);
     PreparedQuery queryResults = datastore.prepare(query);
@@ -61,6 +64,7 @@ public class WebhookServlet extends HttpServlet {
     for (Entity leadEntity : queryResults.asIterable()) {
       leads.add(new Lead(leadEntity));
     }
+    response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(leads));
   }
 

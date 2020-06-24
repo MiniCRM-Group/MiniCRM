@@ -75,15 +75,16 @@
                             <arguments>install @angular/cli</arguments>                
                         </configuration>
                     </execution>
-                    <!-- Executes npm build script which runs ng build -->
+                    <!-- Executes npm build script which runs ng builddev -->
                     <execution>
                         <id>build angular app</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
                         <phase>process-resources</phase>
+                        <!-- Change to run build for prod-->
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run builddev</arguments>
                         </configuration>
                     </execution>
                 </executions>
