@@ -15,7 +15,7 @@ public final class UserAuthenticationUtil {
     }
     
     public void authenticate(HttpServletResponse response) throws IOException {
-        if(!userService.isUserLoggedIn()) {
+        if (!userService.isUserLoggedIn()) {
             response.sendRedirect(REDIRECT_URL);
         }
     }
