@@ -16,14 +16,15 @@ public final class UserAuthenticationUtil {
         userService = UserServiceFactory.getUserService();
     }
     
-    public void authenticate(HttpServletResponse response) throws IOException {
+    public boolean isAuthenticated() throws IOException {
         if (!userService.isUserLoggedIn()) {
-            response.sendRedirect(REDIRECT_URL);
+            return false;
         } else { //user is logged in
             User user = userService.getCurrentUser();
             if (!UserDatastoreUtil.userExistsInDatastore(user)) {
                 UserDatastoreUtil.putUserInDatastore(user);
             }
+            return true;
         }
 
     }

@@ -56,7 +56,10 @@ public class WebhookServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    userAuthenticationUtil.authenticate(response);
+    if (!userAuthenticationUtil.isAuthenticated()) {
+      response.sendRedirect("/");
+      return;
+    }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Lead").addSort("date", SortDirection.DESCENDING);
     PreparedQuery queryResults = datastore.prepare(query);
