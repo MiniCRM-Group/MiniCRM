@@ -34,4 +34,10 @@ export class AppComponent {
       description: ""
     }
   ];
+
+  constructor(private httpService: HttpService) { }
+
+  ngOnInit() {
+
+  }
 }

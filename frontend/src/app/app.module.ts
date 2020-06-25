@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 // Flex + Grid Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -33,6 +34,7 @@ import { IntroComponent } from './intro/intro.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FlexLayoutModule,
 
     // Material

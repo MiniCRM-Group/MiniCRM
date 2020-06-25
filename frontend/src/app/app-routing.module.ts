@@ -15,7 +15,7 @@ const routes: Routes = [
     { path: 'leads', component: LeadsComponent },
     { path: 'campaigns', component: CampaignsComponent },
     { path: 'analytics', component: AnalyticsComponent },
-    { path: 'guide', component: GuideComponent},
+    { path: 'guide', component: GuideComponent },
     { path: 'intro', loadChildren: introModule },
 ];
 
