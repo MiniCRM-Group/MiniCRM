@@ -1,4 +1,4 @@
-<mat-drawer-container class="container" autosize>
+<!-- <mat-drawer-container class="container" autosize>
   <mat-drawer #drawer class="sidenav">
     <button color="primary" mat-button routerLink="/guide">Guide</button>
     <button color="primary" mat-button routerLink="/campaigns">Campaigns</button>
@@ -25,4 +25,52 @@
 
     <router-outlet></router-outlet>
   </div>
-</mat-drawer-container>
+</mat-drawer-container> -->
+
+<mat-toolbar color="primary">
+  <mat-icon>layers</mat-icon>
+  <h6>miniCRM</h6>
+</mat-toolbar>
+<div id="content" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="57px">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="183px">
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <span class="mat-display-4">
+          A simple, <br> 
+          lightweight <br>
+          CRM app. <br>
+        </span>
+        <button mat-raised-button color="primary">LOGIN</button>
+    </div>
+    <div>
+      <div id="screenshot" fxLayout="row" fxLayoutAlign="center center" >
+        <span class="mat-h2">Screenshot here.</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="150px" >
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div>
+        <mat-icon class="icon-display">list_all</mat-icon>
+      </div>
+      <span class="mat-h1">Lead Forms Compatible</span>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div>
+        <mat-icon class="icon-display">table_chart</mat-icon>
+      </div>
+      <span class="mat-h1">Qualify Leads</span>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div>
+        <mat-icon class="icon-display">email</mat-icon>
+      </div>
+      <span class="mat-h1">Contact Leads</span>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div>
+        <mat-icon class="icon-display">bar_chart</mat-icon>
+      </div>
+      <span class="mat-h1">Analyze Leads</span>
+    </div>
+  </div>
+</div>

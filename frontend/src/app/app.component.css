@@ -1,4 +1,4 @@
-.container {
+/* .container {
     position:absolute;
     top:0;
     left:0;
@@ -18,4 +18,20 @@
 
 .spacer {
     flex: 1 1 auto;
+}
+ */
+
+ #screenshot {
+    width: 511px;
+    height: 322px;
+    background-color: #C4C4C4;
+ }
+
+.icon-display {
+    font-size: 150px;
+    width: 150px;
+}
+
+#content {
+    margin-top: 57px;
 }
