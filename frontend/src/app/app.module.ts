@@ -13,7 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 
-import { AppComponent } from './app.compone;
+import { AppComponent } from './app.component;
 import { LeadsComponent } from './leads/leads.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { GuideComponent } from './guide/guide.component';
