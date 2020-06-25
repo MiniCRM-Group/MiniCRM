@@ -42,35 +42,18 @@
         <button mat-raised-button color="primary">LOGIN</button>
     </div>
     <div>
-      <div id="screenshot" fxLayout="row" fxLayoutAlign="center center" >
+      <div id="screenshot" fxLayout="row" fxLayoutAlign="center center">
         <span class="mat-h2">Screenshot here.</span>
       </div>
     </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="150px" >
-    <div fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="150px">
+    <div *ngFor="let feature of features" fxLayout="column" fxLayoutAlign="center center">
       <div>
-        <mat-icon class="icon-display">list_all</mat-icon>
+        <mat-icon class="icon-display">{{ feature.icon }}</mat-icon>
       </div>
-      <span class="mat-h1">Lead Forms Compatible</span>
-    </div>
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <div>
-        <mat-icon class="icon-display">table_chart</mat-icon>
-      </div>
-      <span class="mat-h1">Qualify Leads</span>
-    </div>
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <div>
-        <mat-icon class="icon-display">email</mat-icon>
-      </div>
-      <span class="mat-h1">Contact Leads</span>
-    </div>
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <div>
-        <mat-icon class="icon-display">bar_chart</mat-icon>
-      </div>
-      <span class="mat-h1">Analyze Leads</span>
+      <span class="mat-h1">{{ feature.name }}</span>
+      <span class="mat-h4">{{ feature.description }}</span>
     </div>
   </div>
 </div>
