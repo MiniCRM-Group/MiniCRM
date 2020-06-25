@@ -53,6 +53,7 @@ public class WebhookServlet extends HttpServlet {
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .create();
   private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+  private static final String ID_URL_PARAM = "id";
 
   /**
    * Returns JSON representing the advertiser's webhook and google key
@@ -71,7 +72,7 @@ public class WebhookServlet extends HttpServlet {
     String advertiserKeyString = KeyFactory.keyToString(AdvertiserUtil.createAdvertiserKey(user));
     String webhookUrl = request.getScheme() + "://" +
             request.getServerName() + ":" +
-            request.getServerPort() + "/api/webhook?id=" +
+            request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
             advertiserKeyString;
     //generate random google key (currently 20 chars)
     Random rand = new SecureRandom();
@@ -91,9 +92,16 @@ public class WebhookServlet extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    String advertiserKeyString = request.getParameter(ID_URL_PARAM);
+    if (advertiserKeyString == null) {
+      return; //stop execution, we expect an id param in the url
+    }
+    Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
+
     myLead = Lead.fromReader(request.getReader());
-    datastore.put(myLead.asEntity());
+    //TODO: Add additional verification steps
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(myLead.asEntity(advertiserKey));
   }
 
   /**
