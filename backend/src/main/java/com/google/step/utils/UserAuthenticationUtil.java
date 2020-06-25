@@ -15,8 +15,8 @@ public final class UserAuthenticationUtil {
     public UserAuthenticationUtil() {
         userService = UserServiceFactory.getUserService();
     }
-    
-    public boolean isAuthenticated() throws IOException {
+
+    public boolean isAuthenticated() {
         if (!userService.isUserLoggedIn()) {
             return false;
         } else { //user is logged in
