@@ -17,7 +17,6 @@ public final class UserAuthenticationUtil {
             }
             return true;
         }
-
     }
 
     public User getCurrentUser() {
