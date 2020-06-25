@@ -41,8 +41,8 @@ export class AppComponent {
 
   ngOnInit() {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
-      console.log(res);
-    })
+      
+    });
   }
 
 }
