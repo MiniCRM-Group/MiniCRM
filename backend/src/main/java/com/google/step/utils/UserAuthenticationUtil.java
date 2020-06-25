@@ -5,14 +5,9 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.User;
 
 public final class UserAuthenticationUtil {
-    private static final String REDIRECT_URL = "/";
-    private UserService userService;
+    private static UserService userService = UserServiceFactory.getUserService();
 
-    public UserAuthenticationUtil() {
-        userService = UserServiceFactory.getUserService();
-    }
-
-    public boolean isAuthenticated() {
+    public static boolean isAuthenticated() {
         if (!userService.isUserLoggedIn()) {
             return false;
         } else { //user is logged in

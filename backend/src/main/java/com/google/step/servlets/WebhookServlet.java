@@ -46,7 +46,6 @@ public class WebhookServlet extends HttpServlet {
   private static final Gson gson = new GsonBuilder()
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .create();
-  private static final UserAuthenticationUtil userAuthenticationUtil = new UserAuthenticationUtil();
 
   /**
    * Returns JSON representing all leads in the datastore sorted by time in response to a GET request
@@ -56,7 +55,7 @@ public class WebhookServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    if (!userAuthenticationUtil.isAuthenticated()) {
+    if (!UserAuthenticationUtil.isAuthenticated()) {
       response.sendRedirect("/");
       return;
     }
