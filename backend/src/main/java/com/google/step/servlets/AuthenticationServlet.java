@@ -28,8 +28,7 @@ public class AuthenticationServlet extends HttpServlet {
         boolean loggedIn = userService.isUserLoggedIn();
         if (loggedIn) {
             url = userService.createLogoutURL("/");
-        }
-        else {
+        } else {
             url = userService.createLoginURL("/");
         }
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(url, loggedIn);
