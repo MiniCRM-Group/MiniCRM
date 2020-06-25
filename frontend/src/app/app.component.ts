@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LoginService } from './login.service';
+import { LoginResponse } from './types/responses/login-response';
 
 interface Feature {
   icon: string,
@@ -35,9 +37,12 @@ export class AppComponent {
     }
   ];
 
-  constructor(private httpService: HttpService) { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
-
+    this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
+      console.log(res);
+    })
   }
+
 }
