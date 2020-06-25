@@ -10,7 +10,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 
-@WebServlet("/authentication")
+@WebServlet("/api/authentication")
 public class AuthenticationServlet extends HttpServlet {
     /**
      * Checks state of user in this class.
