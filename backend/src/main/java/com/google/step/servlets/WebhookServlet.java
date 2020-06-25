@@ -40,13 +40,12 @@ import com.google.step.utils.UserAuthenticationUtil;
  * Servlet to act as the webhook to receive lead data from the Google Ads server
  *  Responds to GET requests with JSON with lead data.
  */
-@WebServlet("/webhook")
+@WebServlet("/api/webhook")
 public class WebhookServlet extends HttpServlet {
   private Lead myLead;
   private static final Gson gson = new GsonBuilder()
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .create();
-  private static final UserAuthenticationUtil userAuthenticationUtil = new UserAuthenticationUtil();
 
   /**
    * Returns JSON representing all leads in the datastore sorted by time in response to a GET request
@@ -56,7 +55,10 @@ public class WebhookServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    userAuthenticationUtil.authenticate(response);
+    if (!UserAuthenticationUtil.isAuthenticated()) {
+      response.sendRedirect("/");
+      return;
+    }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Lead").addSort("date", SortDirection.DESCENDING);
     PreparedQuery queryResults = datastore.prepare(query);

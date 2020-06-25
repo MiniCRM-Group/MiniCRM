@@ -1,4 +1,4 @@
-package com.google.sps.servlets;
+package com.google.step.servlets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +10,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 
-@WebServlet("/authentication")
+@WebServlet("/api/authentication")
 public class AuthenticationServlet extends HttpServlet {
     /**
      * Checks state of user in this class.
@@ -26,10 +26,9 @@ public class AuthenticationServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String url;
         boolean loggedIn = userService.isUserLoggedIn();
-        if(loggedIn){
+        if (loggedIn) {
             url = userService.createLogoutURL("/");
-        }
-        else{
+        } else {
             url = userService.createLoginURL("/");
         }
         AuthenticationResponse authenticationResponse = new AuthenticationResponse(url, loggedIn);
