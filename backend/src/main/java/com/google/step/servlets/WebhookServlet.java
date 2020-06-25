@@ -121,7 +121,7 @@ public class WebhookServlet extends HttpServlet {
     }
 
     public String toJson(){
-      Gson gson = new Gson();
+      Gson gson = new GsonBuilder().disableHtmlEscaping().create();
       return gson.toJson(this);
     }
   }
