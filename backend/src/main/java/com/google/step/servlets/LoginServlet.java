@@ -1,4 +1,4 @@
-package com.google.sps.servlets;
+package com.google.step.servlets;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,9 +9,10 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
+import com.google.step.interfaces.ClientResponse;
 
-@WebServlet("/authentication")
-public class AuthenticationServlet extends HttpServlet {
+@WebServlet("/api/login")
+public class LoginServlet extends HttpServlet {
     /**
      * Checks state of user in this class.
      */
@@ -26,22 +27,21 @@ public class AuthenticationServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String url;
         boolean loggedIn = userService.isUserLoggedIn();
-        if(loggedIn){
+        if (loggedIn) {
             url = userService.createLogoutURL("/");
-        }
-        else{
+        } else {
             url = userService.createLoginURL("/");
         }
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse(url, loggedIn);
+        LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
         response.setContentType("application/json;");
-        response.getWriter().println(authenticationResponse.getJson());
+        response.getWriter().println(loginClientResponse.getJson());
     }
 
     /**
      * Response object providing URL for logging in or logging out.
      */
 
-    private final class AuthenticationResponse {
+    private final class LoginClientResponse implements ClientResponse {
         /**
          * URL for user to login/logout.
          */
@@ -57,7 +57,7 @@ public class AuthenticationServlet extends HttpServlet {
          * @param url URL for logging in or out.
          * @param loggedIn Whether user is logged in or out.
          */
-        AuthenticationResponse(String url, boolean loggedIn){
+        LoginClientResponse(String url, boolean loggedIn){
             this.url = url;
             this.loggedIn = loggedIn;
         }
