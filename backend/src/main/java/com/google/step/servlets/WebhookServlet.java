@@ -40,7 +40,7 @@ import com.google.step.utils.UserAuthenticationUtil;
  * Servlet to act as the webhook to receive lead data from the Google Ads server
  *  Responds to GET requests with JSON with lead data.
  */
-@WebServlet("/webhook")
+@WebServlet("/api/webhook")
 public class WebhookServlet extends HttpServlet {
   private Lead myLead;
   private static final Gson gson = new GsonBuilder()
