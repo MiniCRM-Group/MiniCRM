@@ -20,7 +20,7 @@ public final class UserAuthenticationUtil {
         }
     }
 
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return userService.getCurrentUser();
     }
 }
