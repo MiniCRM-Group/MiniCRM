@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LeadService } from '../shared/lead.service';
+import { Lead } from './model/lead.model';
 
 @Component({
   selector: 'app-leads',
@@ -7,10 +8,17 @@ import { LeadService } from '../shared/lead.service';
   styleUrls: ['./leads.component.css']
 })
 export class LeadsComponent implements OnInit {
+   leads : Lead[];
 
-   constructor() { }
+   constructor(private leadService : LeadService) { }
 
-    ngOnInit(): void {
-    }
+     ngOnInit() {
+        this.getAllLeads();
+      }
+
+      getAllLeads(): void {
+        this.leadService.getAllLeads()
+        .subscribe(leads => this.leads = leads);
+      }
 
 }
