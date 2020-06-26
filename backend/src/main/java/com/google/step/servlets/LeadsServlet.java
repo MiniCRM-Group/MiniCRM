@@ -18,6 +18,7 @@ import com.google.appengine.api.datastore.*;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.google.step.data.Lead;
+import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
 
 import javax.servlet.annotation.WebServlet;
@@ -51,7 +52,9 @@ public class LeadsServlet extends HttpServlet {
             return;
         }
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Query query = new Query("Lead").addSort("date", Query.SortDirection.DESCENDING);
+        Query query = new Query("Lead")
+                .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
+                .addSort("date", Query.SortDirection.DESCENDING);
         PreparedQuery queryResults = datastore.prepare(query);
         ArrayList<Lead> leads = new ArrayList<>();
         for (Entity leadEntity : queryResults.asIterable()) {
