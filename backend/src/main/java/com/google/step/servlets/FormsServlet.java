@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Random;
 
-@WebServlet("/api/add-form")
+@WebServlet("/api/forms")
 public class FormsServlet extends HttpServlet {
     private static final String ID_URL_PARAM = "id";
     private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
