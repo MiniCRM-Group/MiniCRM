@@ -3,21 +3,21 @@ package com.google.step.utils;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.users.User;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public final class UserAuthenticationUtil {
-    private static final String REDIRECT_URL = "/";
-    private UserService userService;
+    private static UserService userService = UserServiceFactory.getUserService();
 
-    public UserAuthenticationUtil() {
-        userService = UserServiceFactory.getUserService();
-    }
-    
-    public void authenticate(HttpServletResponse response) throws IOException {
-        if(!userService.isUserLoggedIn()) {
-            response.sendRedirect(REDIRECT_URL);
+    public static boolean isAuthenticated() {
+        if (!userService.isUserLoggedIn()) {
+            return false;
+        } else { //user is logged in
+            User user = userService.getCurrentUser();
+            if (!AdvertiserUtil.advertiserExistsInDatastore(user)) {
+                AdvertiserUtil.putAdvertiserInDatastore(user);
+            }
+            return true;
         }
+
     }
 
     public User getCurrentUser() {

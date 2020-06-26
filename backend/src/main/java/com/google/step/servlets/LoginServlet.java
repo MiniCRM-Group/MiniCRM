@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         if (loggedIn) {
             url = userService.createLogoutURL("/");
         } else {
-            url = userService.createLoginURL("/");
+            url = userService.createLoginURL("/crm/guide");
         }
         LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
         response.setContentType("application/json;");

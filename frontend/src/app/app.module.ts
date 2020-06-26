@@ -15,13 +15,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
+import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { LeadsComponent } from './leads/leads.component';
-import { CampaignsComponent } from './campaigns/campaigns.component';
-import { GuideComponent } from './guide/guide.component';
-import { AnalyticsComponent } from './analytics/analytics.component';
-import { IntroComponent } from './intro/intro.component';
+import { CrmComponent } from './crm/crm.component';
+import { LeadsComponent } from './crm/leads/leads.component';
+import { CampaignsComponent } from './crm/campaigns/campaigns.component';
+import { GuideComponent } from './crm/guide/guide.component';
+import { AnalyticsComponent } from './crm/analytics/analytics.component';
+import { LandingComponent } from './landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { IntroComponent } from './intro/intro.component';
     LeadsComponent,
     CampaignsComponent,
     GuideComponent,
-    AnalyticsComponent
+    AnalyticsComponent,
+    CrmComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,9 @@ import { IntroComponent } from './intro/intro.component';
     MatSidenavModule,
     MatToolbarModule
   ],
-  providers: [],
+  providers: [
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

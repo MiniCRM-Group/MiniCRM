@@ -11,16 +11,11 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   loginEndpoint = 'api/login';
-  loginUrl = '';
 
   getLoginResponse(): Observable<LoginResponse> {
     const options = {
       responseType: 'json' as const
     };
     return this.http.get<LoginResponse>(this.loginEndpoint, options);
-  }
-
-  setLoginUrl() {
-    
   }
 }
