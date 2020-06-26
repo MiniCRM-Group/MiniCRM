@@ -35,6 +35,24 @@ public class FormsServlet extends HttpServlet {
     private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
     /**
+     * Returns JSON representing the advertiser's unique webhook. Mainly for debugging
+     * @param request       the HTTP Request
+     * @param response      the HTTP Response
+     * @throws IOException  if an input exception occurs with the response writer or reader
+     */
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (!UserAuthenticationUtil.isAuthenticated()) {
+            response.sendRedirect("/");
+            return;
+        }
+        String webhookUrl = generateUserWebhook(request, UserAuthenticationUtil.getCurrentUser());
+
+        response.setContentType("application/json;");
+        response.getWriter().println(new WebhookResponse(webhookUrl, "").toJson());
+    }
+
+    /**
      * Returns JSON representing the advertiser's webhook and google key
      * @param request       the HTTP Request. Expecting parameter form_id with the form_id to add
      * @param response      the HTTP Response
@@ -46,13 +64,8 @@ public class FormsServlet extends HttpServlet {
             response.sendRedirect("/");
             return;
         }
-        User user = UserAuthenticationUtil.getCurrentUser();
-        //generate URL-Safe Key string
-        String advertiserKeyString = KeyFactory.keyToString(AdvertiserUtil.createAdvertiserKey(user));
-        String webhookUrl = request.getScheme() + "://" +
-                request.getServerName() + ":" +
-                request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
-                advertiserKeyString;
+
+        String webhookUrl = generateUserWebhook(request, UserAuthenticationUtil.getCurrentUser());
         //generate random google key (currently 20 chars)
         Random rand = new SecureRandom();
         StringBuilder googleKeyBuilder = new StringBuilder(20);
@@ -61,6 +74,18 @@ public class FormsServlet extends HttpServlet {
         }
         response.setContentType("application/json;");
         response.getWriter().println(new WebhookResponse(webhookUrl, googleKeyBuilder.toString()).toJson());
+    }
+
+    /**
+     * @return the webhook for this user with a URL-Safe Key String uniquely identifying the user
+     */
+    private String generateUserWebhook(HttpServletRequest request, User user) {
+        //generate URL-Safe Key string
+        String advertiserKeyString = KeyFactory.keyToString(AdvertiserUtil.createAdvertiserKey(user));
+        return request.getScheme() + "://" +
+                request.getServerName() + ":" +
+                request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
+                advertiserKeyString;
     }
 
     /**
