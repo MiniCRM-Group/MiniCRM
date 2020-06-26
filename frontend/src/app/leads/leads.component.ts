@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LeadService } from '../shared/lead.service';
 
 @Component({
   selector: 'app-leads',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeadsComponent implements OnInit {
 
-  constructor() { }
+   constructor() { }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+    }
 
 }

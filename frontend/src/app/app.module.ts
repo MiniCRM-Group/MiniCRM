@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
+import { LeadService } from './shared/lead.service';
 
 // Material section
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 
-import { AppComponent } from './app.compone;
+import { AppComponent } from './app.component';
 import { LeadsComponent } from './leads/leads.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { GuideComponent } from './guide/guide.component';
@@ -21,9 +22,6 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { IntroComponent } from './intro/intro.component';
 @NgModule({
   declarations: [
-
-    HttpClientModule,
-
     AppComponent,
     LeadsComponent,
     CampaignsComponent,
@@ -31,6 +29,7 @@ import { IntroComponent } from './intro/intro.component';
     AnalyticsComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
 
@@ -41,7 +40,7 @@ import { IntroComponent } from './intro/intro.component';
     MatSidenavModule,
     MatToolbarModule
   ],
-  providers: [],
+  providers: [LeadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
