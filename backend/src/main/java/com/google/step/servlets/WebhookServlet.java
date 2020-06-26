@@ -52,37 +52,7 @@ public class WebhookServlet extends HttpServlet {
   private static final Gson gson = new GsonBuilder()
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .create();
-  private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
   private static final String ID_URL_PARAM = "id";
-
-  /**
-   * Returns JSON representing the advertiser's webhook and google key
-   * @param request       the HTTP Request
-   * @param response      the HTTP Response
-   * @throws IOException  if an input exception occurs with the response writer
-   */
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
-      return;
-    }
-    User user = UserAuthenticationUtil.getCurrentUser();
-    //generate URL-Safe Key string
-    String advertiserKeyString = KeyFactory.keyToString(AdvertiserUtil.createAdvertiserKey(user));
-    String webhookUrl = request.getScheme() + "://" +
-            request.getServerName() + ":" +
-            request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
-            advertiserKeyString;
-    //generate random google key (currently 20 chars)
-    Random rand = new SecureRandom();
-    StringBuilder googleKeyBuilder = new StringBuilder(20);
-    for (int i = 0; i < 20; i++) {
-      googleKeyBuilder.append(alphanumerics[rand.nextInt(alphanumerics.length)]);
-    }
-    response.setContentType("application/json;");
-    response.getWriter().println(new WebhookResponse(webhookUrl, googleKeyBuilder.toString()).toJson());
-  }
 
   /**
    * Accepts a POST request containing JSON in the body describing a lead from Google Ads server.
@@ -102,35 +72,5 @@ public class WebhookServlet extends HttpServlet {
     //TODO: Add additional verification steps
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(myLead.asEntity(advertiserKey));
-  }
-
-  /**
-   * Response object providing a user's webhook and randomly generated google_key
-   */
-  private final class WebhookResponse {
-    /**
-     * Webhook URL for Advertiser to put in Google Ads.
-     */
-    private String webhookUrl;
-
-    /**
-     * Randomly generated Google Key
-     */
-    private String googleKey;
-
-    /**
-     * Constructor for response to send back to user containing the webhook and google key
-     * @param webhookUrl url to receive lead data from Google Ads
-     * @param googleKey  randomly generated google key string
-     */
-    WebhookResponse(String webhookUrl, String googleKey) {
-      this.webhookUrl = webhookUrl;
-      this.googleKey = googleKey;
-    }
-
-    public String toJson(){
-      Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-      return gson.toJson(this);
-    }
   }
 }
