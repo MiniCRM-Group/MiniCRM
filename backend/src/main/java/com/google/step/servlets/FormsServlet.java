@@ -30,13 +30,13 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 @WebServlet("/api/add-form")
-public class AddFormServlet extends HttpServlet {
+public class FormsServlet extends HttpServlet {
     private static final String ID_URL_PARAM = "id";
     private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
     /**
      * Returns JSON representing the advertiser's webhook and google key
-     * @param request       the HTTP Request
+     * @param request       the HTTP Request. Expecting parameter form_id with the form_id to add
      * @param response      the HTTP Response
      * @throws IOException  if an input exception occurs with the response writer or reader
      */
