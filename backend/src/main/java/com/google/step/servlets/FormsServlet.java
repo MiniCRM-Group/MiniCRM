@@ -16,6 +16,7 @@ package com.google.step.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -34,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -43,7 +46,7 @@ public class FormsServlet extends HttpServlet {
     private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
 
     /**
-     * Returns JSON representing the advertiser's unique webhook. Mainly for debugging
+     * Returns JSON representing the advertiser's unique webhook and all their Form data.
      * @param request       the HTTP Request
      * @param response      the HTTP Response
      * @throws IOException  if an input exception occurs with the response writer or reader
@@ -55,9 +58,17 @@ public class FormsServlet extends HttpServlet {
             return;
         }
         String webhookUrl = generateUserWebhook(request, UserAuthenticationUtil.getCurrentUser());
-
+        Query query = new Query("Form")
+                .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
+                .addSort("date", Query.SortDirection.DESCENDING);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery preparedQuery = datastore.prepare(query);
+        List<Form> forms = new ArrayList<>();
+        for (Entity formEntity : preparedQuery.asIterable()) {
+            forms.add(new Form(formEntity));
+        }
         response.setContentType("application/json;");
-        response.getWriter().println(new WebhookResponse(webhookUrl, "", 0).toJson());
+        response.getWriter().println(new FormsResponse(webhookUrl, forms).toJson());
     }
 
     /**
@@ -161,7 +172,7 @@ public class FormsServlet extends HttpServlet {
     }
 
     /**
-     * Response object providing a user's webhook and randomly generated google_key
+     * Response object providing a user's webhook and randomly generated google_key to a POST request
      */
     private final class WebhookResponse {
         /**
@@ -189,6 +200,36 @@ public class FormsServlet extends HttpServlet {
             this.webhookUrl = webhookUrl;
             this.googleKey = googleKey;
             this.formId = formId;
+        }
+
+        public String toJson(){
+            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+            return gson.toJson(this);
+        }
+    }
+
+    /**
+     * Response object providing a user's webhook and all their forms to a GET request
+     */
+    private final class FormsResponse {
+        /**
+         * Webhook URL for Advertiser to put in Google Ads.
+         */
+        private String webhookUrl;
+
+        /**
+         * List of the User's forms
+         */
+        private List<Form> forms;
+
+        /**
+         * Constructor for response to send back to user containing the webhook
+         * @param webhookUrl url to receive lead data from Google Ads
+         * @param forms      list of all the user's forms
+         */
+        FormsResponse(String webhookUrl, List<Form> forms) {
+            this.webhookUrl = webhookUrl;
+            this.forms = new ArrayList<>(forms);
         }
 
         public String toJson(){
