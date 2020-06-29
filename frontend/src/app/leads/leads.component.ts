@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LeadService } from '../shared/lead.service';
 import { Lead } from './model/lead.model';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-leads',
@@ -10,6 +11,9 @@ import { Lead } from './model/lead.model';
 export class LeadsComponent implements OnInit {
    leads : Lead[];
 
+    displayedColumns = ['lead_id','name', 'phone_number', 'campaign_id', 'date'];
+    dataSource: MatTableDataSource<Lead>;
+
    constructor(private leadService : LeadService) { }
 
      ngOnInit() : void {
@@ -18,7 +22,7 @@ export class LeadsComponent implements OnInit {
 
       getAllLeads(): void {
         this.leadService.getAllLeads()
-        .subscribe(leads => this.leads = leads);
+        .subscribe((leads) => {this.dataSource = new MatTableDataSource(leads); });
       }
 
 
