@@ -21,6 +21,7 @@ import { GuideComponent } from './guide/guide.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { IntroComponent } from './intro/intro.component';
 import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 //fixing 404 problem here by using # pr
 import { HashLocationStrategy, LocationStrategy  } from '@angular/common';
@@ -43,7 +44,8 @@ import { HashLocationStrategy, LocationStrategy  } from '@angular/common';
     MatIconModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [LeadService,  {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
