@@ -109,6 +109,8 @@ public class FormsServlet extends HttpServlet {
             response.sendRedirect("/");
             return;
         }
+
+        //read the content body
         long formId;
         String formName;
         if (request.getContentType().contains("application/x-www-form-urlencoded")) {
@@ -125,6 +127,7 @@ public class FormsServlet extends HttpServlet {
             return;
         }
 
+        //query the datastore to see if the form id already is claimed
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query("Form")
                 .setFilter(new Query.FilterPredicate("formId", Query.FilterOperator.EQUAL, formId))
@@ -135,15 +138,8 @@ public class FormsServlet extends HttpServlet {
             response.sendError(403, "Form ID already claimed by another user.");
         }
 
-
         String webhookUrl = generateUserWebhook(request, UserAuthenticationUtil.getCurrentUser());
-        //generate random google key (currently 20 chars)
-        Random rand = new SecureRandom();
-        StringBuilder googleKeyBuilder = new StringBuilder(20);
-        for (int i = 0; i < 20; i++) {
-            googleKeyBuilder.append(alphanumerics[rand.nextInt(alphanumerics.length)]);
-        }
-        String googleKey = googleKeyBuilder.toString();
+        String googleKey = generateRandomGoogleKey(20);
 
         //store the form entity in the datastore
         Form newForm = new Form(formId,
@@ -166,6 +162,20 @@ public class FormsServlet extends HttpServlet {
                 request.getServerName() + ":" +
                 request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
                 advertiserKeyString;
+    }
+
+    /**
+     * Generates a random Google Key of the specified length
+     * @param length the length of the Google Key
+     * @return       the randomly generated Google Key
+     */
+    private String generateRandomGoogleKey(int length) {
+        Random rand = new SecureRandom();
+        StringBuilder googleKeyBuilder = new StringBuilder(20);
+        for (int i = 0; i < 20; i++) {
+            googleKeyBuilder.append(alphanumerics[rand.nextInt(alphanumerics.length)]);
+        }
+        return googleKeyBuilder.toString();
     }
 
     /**
