@@ -24,7 +24,12 @@ public class Form {
     private Date date;
     private long formId;
     private String formName;
-    private Key advertiserKey;
+
+    /**
+     * Key for the advertiser entity that this form belongs to.
+     * Transient to prevent GSON from serializing this when sending form data to client.
+     */
+    private transient Key advertiserKey;
     private String googleKey;
     private boolean verified;
 

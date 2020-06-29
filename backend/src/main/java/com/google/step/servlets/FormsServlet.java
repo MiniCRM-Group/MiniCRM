@@ -109,15 +109,12 @@ public class FormsServlet extends HttpServlet {
             response.sendRedirect("/");
             return;
         }
-        //TODO: Change to JSON instead of urlencoding
         long formId;
         String formName;
         if (request.getContentType().contains("application/x-www-form-urlencoded")) {
-            System.out.println("form-urlencoding!");
             formId = Long.parseLong(request.getParameter("form_id"));
             formName = request.getParameter("form_name");
         } else if (request.getContentType().contains("application/json")) {
-            System.out.println("JSON!");
             Gson gson = new Gson();
             Map<String, String> jsonMap = gson.fromJson(request.getReader(), Map.class);
             formId = Long.parseLong(jsonMap.get("form_id"));
@@ -135,7 +132,7 @@ public class FormsServlet extends HttpServlet {
                 .setKeysOnly();
         PreparedQuery queryResults = datastore.prepare(query);
         if (queryResults.asList(FetchOptions.Builder.withDefaults()).size() > 0) { //there already exists a verified form with this id
-            response.sendError(403, "Form ID already claimed by anoter user.");
+            response.sendError(403, "Form ID already claimed by another user.");
         }
 
 
