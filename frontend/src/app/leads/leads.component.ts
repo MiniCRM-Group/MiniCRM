@@ -20,12 +20,15 @@ export class LeadsComponent implements OnInit {
 
      ngOnInit() : void {
          this.getAllLeads();
-     setTimeout(() => this.dataSource.paginator = this.paginator);
+  //   setTimeout(() => this.dataSource.paginator = this.paginator);
       }
 
       getAllLeads(): void {
         this.leadService.getAllLeads()
-        .subscribe((leads) => {this.dataSource = new MatTableDataSource(leads); });
+        .subscribe((leads) => {
+        this.dataSource = new MatTableDataSource(leads);
+         this.dataSource.paginator = this.paginator;
+        });
       }
 
 
