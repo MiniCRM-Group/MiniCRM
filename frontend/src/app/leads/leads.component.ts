@@ -12,7 +12,7 @@ export class LeadsComponent implements OnInit {
 
    constructor(private leadService : LeadService) { }
 
-     ngOnInit() {
+     ngOnInit() : void {
         this.getAllLeads();
       }
 
@@ -20,5 +20,6 @@ export class LeadsComponent implements OnInit {
         this.leadService.getAllLeads()
         .subscribe(leads => this.leads = leads);
       }
+
 
 }

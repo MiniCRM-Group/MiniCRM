@@ -1,6 +1,5 @@
 
 export interface ColumnData {
-   stringValue:String;
-   columnId:String;
-
+   FULL_NAME:String;
+   PHONE_NUMBER:String;
 }

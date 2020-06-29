@@ -20,6 +20,10 @@ import { CampaignsComponent } from './campaigns/campaigns.component';
 import { GuideComponent } from './guide/guide.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { IntroComponent } from './intro/intro.component';
+import {MatTableModule} from '@angular/material/table';
+
+//fixing 404 problem here by using # pr
+import { HashLocationStrategy, LocationStrategy  } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,9 +42,10 @@ import { IntroComponent } from './intro/intro.component';
     MatButtonModule,
     MatIconModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule
   ],
-  providers: [LeadService],
+  providers: [LeadService,  {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

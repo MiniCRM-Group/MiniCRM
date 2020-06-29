@@ -2,16 +2,15 @@ import{ ColumnData } from './column-data.model';
 
 export interface Lead {
    date:Date;
-   leadId:string;
-   campaignId:number;
-   gclId:string;
-   apiVersion:string;
-   formId:number;
-   googleKey:string;
-   userColumnData: ColumnData[];
-   columnData : Map<String, String>;
-   isTest : boolean;
-   adgroupId : number;
-   creativeId : number;
+   lead_id:string;
+   campaign_id:number;
+   gcl_id:string;
+   api_version:string;
+   form_id:number;
+   google_Key:string;
+   column_data : ColumnData;
+   is_test : boolean;
+   adgroup_id : number;
+   creative_id : number;
 
  }
