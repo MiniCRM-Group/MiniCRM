@@ -120,11 +120,11 @@ public class FormsServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query("Form")
                 .setFilter(new Query.FilterPredicate("formId", Query.FilterOperator.EQUAL, formId))
+                .setFilter(new Query.FilterPredicate("verified", Query.FilterOperator.EQUAL, true))
                 .setKeysOnly();
         PreparedQuery queryResults = datastore.prepare(query);
-        if (queryResults.asList(FetchOptions.Builder.withDefaults()).size() > 0) { //there already exists a form with this id
+        if (queryResults.asList(FetchOptions.Builder.withDefaults()).size() > 0) { //there already exists a verified form with this id
             response.sendError(403, "Form ID already claimed by anoter user.");
-            //TODO: make sure this form is verified to send back this response
         }
 
 
