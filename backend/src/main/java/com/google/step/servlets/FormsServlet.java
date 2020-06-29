@@ -172,7 +172,7 @@ public class FormsServlet extends HttpServlet {
     private String generateRandomGoogleKey(int length) {
         Random rand = new SecureRandom();
         StringBuilder googleKeyBuilder = new StringBuilder(length);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < length; i++) {
             googleKeyBuilder.append(alphanumerics[rand.nextInt(alphanumerics.length)]);
         }
         return googleKeyBuilder.toString();
