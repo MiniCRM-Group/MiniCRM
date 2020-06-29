@@ -14,16 +14,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 
+// Component imports
 import { AppComponent } from './app.component';
 import { LeadsComponent } from './leads/leads.component';
 import { CampaignsComponent } from './campaigns/campaigns.component';
 import { GuideComponent } from './guide/guide.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { IntroComponent } from './intro/intro.component';
+
+// Material imports
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
-//fixing 404 problem here by using # pr
+// Fixing 404 problem here by using # pr
 import { HashLocationStrategy, LocationStrategy  } from '@angular/common';
 @NgModule({
   declarations: [

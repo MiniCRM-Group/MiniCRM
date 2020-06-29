@@ -1,5 +1,6 @@
-import{ ColumnData } from './column-data.model';
+import { ColumnData } from './column-data.model';
 
+// An interface to handle fetching a lead's property
 export interface Lead {
    date:Date;
    lead_id:string;
