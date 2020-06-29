@@ -11,18 +11,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 @WebFilter("/*")
 public class ClientAppFilter implements Filter {
-    private Logger logger;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        logger = Logger.getLogger("com.google.step.clientappfilter");
+
     }
 
     @Override
@@ -34,27 +31,25 @@ public class ClientAppFilter implements Filter {
         try {
             path = new URI(requestUrl).getPath();
         } catch(URISyntaxException e) {
-            logger.log(Level.SEVERE, "bad uri");
+            
         }
         if (validUrl(path)) {
             //allowed, continue navigation
             filterChain.doFilter(servletRequest, servletResponse);
-            logger.log(Level.WARNING, "valid endpoint");
         } else {
             //Angular URL, send back to index.html
             RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("/");
             dispatcher.forward(servletRequest, servletResponse);
-            logger.log(Level.WARNING, "invalid endpoint");
         }
     }
 
     @Override
     public void destroy() {
-
+        // nothing to destroy for now, but this method must still be implemented
     }
 
     private boolean validUrl(String url) {
-        //implement how to validate the URL
+        // valid urls start with /api (for API endpoints) or /_ah (for other GCP URLs)
         return url.startsWith("/api") || url.startsWith("/_ah");
     }
 }

@@ -7,5 +7,5 @@ public interface ClientResponse {
     /**
      * Returns this response as a String in JSON format.
      */
-    public String getJson();
+    public String toJson();
 }

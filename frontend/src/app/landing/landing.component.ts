@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginService } from '../login.service';
+import { LoginService } from '../services/login.service';
 import { LoginResponse } from '../types/responses/login-response';
 
 interface Feature {

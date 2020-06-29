@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         }
         LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
         response.setContentType("application/json;");
-        response.getWriter().println(loginClientResponse.getJson());
+        response.getWriter().println(loginClientResponse.toJson());
     }
 
     /**
@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
             this.loggedIn = loggedIn;
         }
 
-        public String getJson(){
+        public String toJson(){
             Gson gson = new Gson();
             return gson.toJson(this);
         }
