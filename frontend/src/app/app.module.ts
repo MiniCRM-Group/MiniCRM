@@ -23,8 +23,8 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { IntroComponent } from './intro/intro.component';
 
 // Material imports
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 // Fixing 404 problem here by using # pr
 import { HashLocationStrategy, LocationStrategy  } from '@angular/common';

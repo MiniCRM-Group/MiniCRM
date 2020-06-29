@@ -16,27 +16,28 @@ import {MatSort} from '@angular/material/sort';
 })
 export class LeadsComponent implements OnInit {
     //Creates an array of Leads
-    leads : Lead[];
+   leads : Lead[];
 
     //Initiating dataSource for tabulating the fetched JSON
-    displayedColumns = ['lead_id','name', 'phone_number', 'campaign_id', 'date'];
-    dataSource: MatTableDataSource<Lead>;
+   displayedColumns = ['lead_id','name', 'phone_number', 'campaign_id', 'date'];
+   dataSource : MatTableDataSource<Lead>;
 
    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
    constructor(private leadService : LeadService) { }
 
-     ngOnInit() : void {
+   ngOnInit() : void {
          this.getAllLeads();
-     }
+   }
 
-      getAllLeads(): void {
+   getAllLeads(): void {
+
          this.leadService.getAllLeads()
          .subscribe((leads) => {
          this.dataSource = new MatTableDataSource(leads);
          this.dataSource.paginator = this.paginator;
 
-        });
-      }
+   });
+   }
 
 
 }
