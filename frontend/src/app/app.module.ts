@@ -15,7 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
-import { PathLocationStrategy, LocationStrategy } from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { CrmComponent } from './crm/crm.component';

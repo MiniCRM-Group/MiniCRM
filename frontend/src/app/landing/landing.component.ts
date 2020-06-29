@@ -36,13 +36,13 @@ export class LandingComponent {
       description: ''
     }
   ];
-  loginUrl: string = '';
+  loginUrl: string;
 
   constructor(private loginService: LoginService) { }
 
   ngOnInit() {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
-      this.loginUrl = res.loggedIn ? '/crm/guide' : res.url;
+      this.loginUrl = res.loggedIn ? 'crm/guide' : res.url;
     });
   }
 
