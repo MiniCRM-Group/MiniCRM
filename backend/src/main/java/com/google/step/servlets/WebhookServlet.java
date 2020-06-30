@@ -63,7 +63,7 @@ public class WebhookServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String advertiserKeyString = request.getParameter(ID_URL_PARAM);
-    if (advertiserKeyString == null) {
+    if (advertiserKeyString == null || advertiserKeyString.equals("")) {
       return; //stop execution, we expect an id param in the url
     }
     Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
