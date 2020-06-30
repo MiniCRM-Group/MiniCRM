@@ -21,6 +21,7 @@ import com.google.step.data.Lead;
 import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
 
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ public class LeadsServlet extends HttpServlet {
                 .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
                 .addSort("date", Query.SortDirection.DESCENDING);
         PreparedQuery queryResults = datastore.prepare(query);
-        ArrayList<Lead> leads = new ArrayList<>();
+        List<Lead> leads = new ArrayList<>();
         for (Entity leadEntity : queryResults.asIterable()) {
             leads.add(new Lead(leadEntity));
         }
