@@ -14,6 +14,7 @@
 
 package com.google.step.data;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.FieldNamingPolicy;
@@ -97,10 +98,11 @@ public final class Lead {
   }
 
   /**
+   * @param parentKey the key of the parent entity of this entity. Should be an Advertiser key.
    * @return this lead object represented as an Entity
    */
-  public Entity asEntity() {
-    Entity leadEntity = new Entity("Lead");
+  public Entity asEntity(Key parentKey) {
+    Entity leadEntity = new Entity("Lead", parentKey);
     leadEntity.setProperty("date", date);
     leadEntity.setProperty("leadId", leadId);
     leadEntity.setProperty("campaignId", campaignId);

@@ -17,10 +17,9 @@ public final class UserAuthenticationUtil {
             }
             return true;
         }
-
     }
 
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return userService.getCurrentUser();
     }
 }

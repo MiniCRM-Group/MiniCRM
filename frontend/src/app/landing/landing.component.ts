@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../services/login.service';
-import { LoginResponse } from '../types/responses/login-response';
+import { LoginResponse } from '../models/login-response.model';
 
 interface Feature {
   icon: string,

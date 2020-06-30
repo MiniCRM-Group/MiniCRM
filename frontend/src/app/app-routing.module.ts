@@ -8,7 +8,6 @@ import { CampaignsComponent }   from './crm/campaigns/campaigns.component';
 import { GuideComponent }   from './crm/guide/guide.component';
 import { AnalyticsComponent }   from './crm/analytics/analytics.component';
 
-const  introModule = () => import('./intro/intro.module').then(x => x.IntroModule);
 const routes: Routes = [
     { path: '', component: LandingComponent },
     { 
