@@ -20,6 +20,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 import java.util.Date;
 
+/**
+ * This class represents a Form and all of its data.
+ * Supports conversion to datastore Entity objects and back.
+ */
 public class Form {
     private Date date;
     private long formId;
@@ -47,7 +51,7 @@ public class Form {
                  Key advertiserKey,
                  String googleKey,
                  boolean verified) {
-        this();
+        this.date = new Date(System.currentTimeMillis());
         this.formId = formId;
         this.formName = formName;
         this.advertiserKey = advertiserKey;
@@ -56,32 +60,10 @@ public class Form {
     }
 
     /**
-     * Constructs a form with default value of not verified
-     * @param formId        form id
-     * @param formName      form name
-     * @param advertiserKey advertiser key
-     * @param googleKey     google key
-     */
-    public Form (long formId,
-                 String formName,
-                 Key advertiserKey,
-                 String googleKey) {
-        this(formId, formName, advertiserKey, googleKey, false);
-    }
-
-    /**
-     * Private blank constructor that initializes the date created.
-     */
-    private Form () {
-        this.date = new Date(System.currentTimeMillis());
-    }
-
-    /**
      * Generates a Form object based off an entity of kind Form.
      * @param entity
      */
     public Form (Entity entity) {
-        this();
         if (!entity.getKind().equals("Form")) {
             throw new IllegalArgumentException("Entity is not of kind Form.");
         }

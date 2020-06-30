@@ -17,10 +17,14 @@ package com.google.step.servlets;
 import com.google.appengine.api.datastore.*;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
+import com.google.step.data.Form;
 import com.google.step.data.Lead;
 import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,11 +59,11 @@ public class LeadsServlet extends HttpServlet {
         Query query = new Query("Lead")
                 .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
                 .addSort("date", Query.SortDirection.DESCENDING);
-        PreparedQuery queryResults = datastore.prepare(query);
-        ArrayList<Lead> leads = new ArrayList<>();
-        for (Entity leadEntity : queryResults.asIterable()) {
-            leads.add(new Lead(leadEntity));
-        }
+        PreparedQuery preparedQuery = datastore.prepare(query);
+
+        List<Lead> leads = StreamSupport.stream(preparedQuery.asIterable().spliterator(), false)
+            .map(Lead::new).collect(Collectors.toList());
+
         response.setContentType("application/json;");
         response.getWriter().println(gson.toJson(leads));
     }

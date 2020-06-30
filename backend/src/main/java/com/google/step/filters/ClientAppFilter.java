@@ -29,18 +29,20 @@ public class ClientAppFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String requestUrl = request.getRequestURL().toString();
+        String path;
         try {
-            String path = new URI(requestUrl).getPath();
-            if (validUrl(path)) {
-                //allowed, continue navigation
-                filterChain.doFilter(servletRequest, servletResponse);
-            } else {
-                //Angular URL, send back to index.html
-                RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("/");
-                dispatcher.forward(servletRequest, servletResponse);
-            }
+            path = new URI(requestUrl).getPath();
         } catch(URISyntaxException e) {
             response.sendError(400, e.getMessage());
+            return;
+        }
+        if (isValidUrl(path)) {
+            //allowed, continue navigation
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else {
+            //Angular URL, send back to index.html
+            RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("/");
+            dispatcher.forward(servletRequest, servletResponse);
         }
     }
 
@@ -48,7 +50,7 @@ public class ClientAppFilter implements Filter {
     public void destroy() {
     }
 
-    private boolean validUrl(String url) {
+    private boolean isValidUrl(String url) {
         // valid urls start with /api (for API endpoints) or /_ah (for other GCP URLs)
         return url.startsWith("/api") || url.startsWith("/_ah");
     }

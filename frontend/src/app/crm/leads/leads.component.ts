@@ -35,13 +35,14 @@ export class LeadsComponent implements OnInit {
 
          this.leadService.getAllLeads()
          .subscribe((leads) => {
+
          this.dataSource = new MatTableDataSource(leads);
          this.dataSource.paginator = this.paginator;
          this.dataSource.sort = this.sort;
 
    });
-   }
 
+   }
 
 }
 
