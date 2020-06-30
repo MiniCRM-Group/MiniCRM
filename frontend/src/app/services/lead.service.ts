@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { Lead } from '../leads/model/lead.model';
-
-
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Lead } from '../models/lead.model';
+import { Observable } from 'rxjs';
 
 
 @Injectable()
@@ -18,4 +14,4 @@ export class LeadService {
       return this.http.get<Lead[]>(this.url);
     }
 
- }
+}

@@ -14,18 +14,23 @@
 
 package com.google.step.servlets;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
+import com.google.step.interfaces.ClientResponse;
+import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.appengine.api.users.User;
-import com.google.gson.Gson;
 
-@WebServlet("/api/authentication")
-public class AuthenticationServlet extends HttpServlet {
+/**
+ * Servlet to check if user is logged in and return 
+ * corresponding URL for logging in/out.
+ */
+@WebServlet("/api/login")
+public class LoginServlet extends HttpServlet {
     /**
      * Checks state of user in this class.
      */
@@ -43,26 +48,18 @@ public class AuthenticationServlet extends HttpServlet {
         if (loggedIn) {
             url = userService.createLogoutURL("/");
         } else {
-            url = userService.createLoginURL("/");
+            url = userService.createLoginURL("/crm/guide");
         }
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse(url, loggedIn);
+        LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
         response.setContentType("application/json;");
-        response.getWriter().println(authenticationResponse.getJson());
+        response.getWriter().println(loginClientResponse.toJson());
     }
 
     /**
      * Response object providing URL for logging in or logging out.
      */
-
-    private final class AuthenticationResponse {
-        /**
-         * URL for user to login/logout.
-         */
+    private final class LoginClientResponse implements ClientResponse {
         private String url;
-
-        /**
-         * True if user is logged in and false otherwise.
-         */
         private boolean loggedIn;
 
         /**
@@ -70,12 +67,13 @@ public class AuthenticationServlet extends HttpServlet {
          * @param url URL for logging in or out.
          * @param loggedIn Whether user is logged in or out.
          */
-        AuthenticationResponse(String url, boolean loggedIn){
+        LoginClientResponse(String url, boolean loggedIn){
             this.url = url;
             this.loggedIn = loggedIn;
         }
 
-        public String getJson(){
+        @Override
+        public String toJson(){
             Gson gson = new Gson();
             return gson.toJson(this);
         }

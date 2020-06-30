@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
-import { LeadService } from '../shared/lead.service';
+import { LeadService } from '../../services/lead.service';
 
-import { Lead } from './model/lead.model';
+import { Lead } from '../../models/lead.model';
 
 //Material imports
 import { MatTableDataSource } from '@angular/material/table';
@@ -25,18 +25,13 @@ export class LeadsComponent implements OnInit {
    constructor(private leadService : LeadService) { }
 
    ngOnInit() : void {
-         this.getAllLeads();
+      this.getAllLeads();
    }
 
    getAllLeads(): void {
-
-         this.leadService.getAllLeads()
-         .subscribe((leads) => {
-         this.dataSource = new MatTableDataSource(leads);
-         this.dataSource.paginator = this.paginator;
-
-   });
+      this.leadService.getAllLeads().subscribe((leads) => {
+      this.dataSource = new MatTableDataSource(leads);
+      this.dataSource.paginator = this.paginator;
+      });
    }
-
-
 }

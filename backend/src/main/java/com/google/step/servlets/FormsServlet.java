@@ -26,6 +26,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.step.data.Form;
+import com.google.step.interfaces.ClientResponse;
 import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
 
@@ -181,7 +182,7 @@ public class FormsServlet extends HttpServlet {
     /**
      * Response object providing a user's webhook and randomly generated google_key to a POST request
      */
-    private final class WebhookResponse {
+    private final class WebhookResponse implements ClientResponse {
         /**
          * Webhook URL for Advertiser to put in Google Ads.
          */
@@ -209,6 +210,7 @@ public class FormsServlet extends HttpServlet {
             this.formId = formId;
         }
 
+        @Override
         public String toJson(){
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
             return gson.toJson(this);
@@ -218,7 +220,7 @@ public class FormsServlet extends HttpServlet {
     /**
      * Response object providing a user's webhook and all their forms to a GET request
      */
-    private final class FormsResponse {
+    private final class FormsResponse implements ClientResponse  {
         /**
          * Webhook URL for Advertiser to put in Google Ads.
          */
@@ -239,6 +241,7 @@ public class FormsServlet extends HttpServlet {
             this.forms = new ArrayList<>(forms);
         }
 
+        @Override
         public String toJson(){
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
             return gson.toJson(this);
