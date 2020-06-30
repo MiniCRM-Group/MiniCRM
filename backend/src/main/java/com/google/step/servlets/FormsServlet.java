@@ -148,7 +148,8 @@ public class FormsServlet extends HttpServlet {
         Form newForm = new Form(formId,
                 formName,
                 AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()),
-                googleKey);
+                googleKey,
+                false);
         datastore.put(newForm.asEntity());
 
         response.setContentType("application/json;");
