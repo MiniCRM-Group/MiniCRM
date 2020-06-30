@@ -135,7 +135,7 @@ public class FormsServlet extends HttpServlet {
                 .setFilter(new Query.FilterPredicate("verified", Query.FilterOperator.EQUAL, true))
                 .setKeysOnly();
         PreparedQuery queryResults = datastore.prepare(query);
-        if (queryResults.asList(FetchOptions.Builder.withDefaults()).size() > 0) { //there already exists a verified form with this id
+        if (!queryResults.asList(FetchOptions.Builder.withDefaults()).isEmpty()) { //there already exists a verified form with this id
             response.sendError(403, "Form ID already claimed by another user.");
         }
 
