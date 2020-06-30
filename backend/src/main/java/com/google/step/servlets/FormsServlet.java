@@ -30,6 +30,8 @@ import com.google.step.interfaces.ClientResponse;
 import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,10 +66,10 @@ public class FormsServlet extends HttpServlet {
                 .addSort("date", Query.SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery preparedQuery = datastore.prepare(query);
-        List<Form> forms = new ArrayList<>();
-        for (Entity formEntity : preparedQuery.asIterable()) {
-            forms.add(new Form(formEntity));
-        }
+
+        List<Form> forms = StreamSupport.stream(preparedQuery.asIterable().spliterator(), false)
+            .map(Form::new).collect(Collectors.toList());
+
         response.setContentType("application/json;");
         response.getWriter().println(new FormsResponse(webhookUrl, forms).toJson());
     }
@@ -135,7 +137,7 @@ public class FormsServlet extends HttpServlet {
                 .setFilter(new Query.FilterPredicate("verified", Query.FilterOperator.EQUAL, true))
                 .setKeysOnly();
         PreparedQuery queryResults = datastore.prepare(query);
-        if (queryResults.asList(FetchOptions.Builder.withDefaults()).size() > 0) { //there already exists a verified form with this id
+        if (!queryResults.asList(FetchOptions.Builder.withDefaults()).isEmpty()) { //there already exists a verified form with this id
             response.sendError(403, "Form ID already claimed by another user.");
         }
 
@@ -146,7 +148,8 @@ public class FormsServlet extends HttpServlet {
         Form newForm = new Form(formId,
                 formName,
                 AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()),
-                googleKey);
+                googleKey,
+                false);
         datastore.put(newForm.asEntity());
 
         response.setContentType("application/json;");
