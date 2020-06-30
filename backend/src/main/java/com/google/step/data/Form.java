@@ -20,6 +20,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 import java.util.Date;
 
+/**
+ * This class represents a Form and all of its data.
+ * Supports conversion to datastore Entity objects and back.
+ */
 public class Form {
     private Date date;
     private long formId;
