@@ -14,17 +14,21 @@
 
 package com.google.step.servlets;
 
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
+import com.google.step.interfaces.ClientResponse;
+import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.appengine.api.users.User;
-import com.google.gson.Gson;
-import com.google.step.interfaces.ClientResponse;
 
+/**
+ * Servlet to check if user is logged in and return 
+ * corresponding URL for logging in/out.
+ */
 @WebServlet("/api/login")
 public class LoginServlet extends HttpServlet {
     /**
@@ -54,16 +58,8 @@ public class LoginServlet extends HttpServlet {
     /**
      * Response object providing URL for logging in or logging out.
      */
-
     private final class LoginClientResponse implements ClientResponse {
-        /**
-         * URL for user to login/logout.
-         */
         private String url;
-
-        /**
-         * True if user is logged in and false otherwise.
-         */
         private boolean loggedIn;
 
         /**
@@ -76,6 +72,7 @@ public class LoginServlet extends HttpServlet {
             this.loggedIn = loggedIn;
         }
 
+        @Override
         public String toJson(){
             Gson gson = new Gson();
             return gson.toJson(this);

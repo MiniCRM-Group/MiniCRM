@@ -1,25 +1,27 @@
 package com.google.step.filters;
 
-import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
-import java.net.URISyntaxException;
 
+/**
+ * Filters any Angular routing URLs from requests made by Angular app.
+ */
 @WebFilter("/*")
 public class ClientAppFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-
     }
 
     @Override
@@ -27,25 +29,23 @@ public class ClientAppFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String requestUrl = request.getRequestURL().toString();
-        String path = "";
         try {
-            path = new URI(requestUrl).getPath();
+            String path = new URI(requestUrl).getPath();
+            if (validUrl(path)) {
+                //allowed, continue navigation
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+                //Angular URL, send back to index.html
+                RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("/");
+                dispatcher.forward(servletRequest, servletResponse);
+            }
         } catch(URISyntaxException e) {
-            
-        }
-        if (validUrl(path)) {
-            //allowed, continue navigation
-            filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            //Angular URL, send back to index.html
-            RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("/");
-            dispatcher.forward(servletRequest, servletResponse);
+            response.sendError(400, e.getMessage());
         }
     }
 
     @Override
     public void destroy() {
-        // nothing to destroy for now, but this method must still be implemented
     }
 
     private boolean validUrl(String url) {
