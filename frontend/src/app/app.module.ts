@@ -29,6 +29,7 @@ import { LandingComponent } from './landing/landing.component';
 
 // Service imports
 import { LeadService } from './services/lead.service';
+import { FormsComponent } from './crm/forms/forms.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LeadService } from './services/lead.service';
     GuideComponent,
     AnalyticsComponent,
     CrmComponent,
-    LandingComponent
+    LandingComponent,
+    FormsComponent
   ],
   imports: [
     HttpClientModule,
