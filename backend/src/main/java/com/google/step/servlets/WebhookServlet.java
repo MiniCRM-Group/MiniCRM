@@ -22,7 +22,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.step.data.Lead;
+import com.google.step.utils.EmailUtil;
 import java.io.IOException;
+import javax.mail.MessagingException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +57,11 @@ public class WebhookServlet extends HttpServlet {
       return; //stop execution, we expect an id param in the url
     }
     Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
-
+    try {
+      EmailUtil.sendTestEmail();
+    } catch (MessagingException e) {
+      System.out.println(e);
+    }
     myLead = Lead.fromReader(request.getReader());
     //TODO: Add additional verification steps
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

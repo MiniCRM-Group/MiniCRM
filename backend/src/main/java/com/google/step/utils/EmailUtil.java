@@ -35,9 +35,9 @@ public final class EmailUtil {
     Session session = Session.getDefaultInstance(new Properties(), null);
     Message msg = new MimeMessage(session);
     try {
-      msg.setFrom(new InternetAddress("test@lead-form-ads.appspot.com", "Test Address"));
+      msg.setFrom(new InternetAddress("test@form-ads-leads.appspot.com", "Test Address"));
     } catch (UnsupportedEncodingException e) {
-      msg.setFrom(new InternetAddress("test@lead-form-ads.appspot.com"));
+      msg.setFrom(new InternetAddress("test@form-ads-leads.appspot.com"));
     }
     try {
       msg.addRecipient(Message.RecipientType.TO,
