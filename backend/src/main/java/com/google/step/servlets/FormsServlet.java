@@ -30,6 +30,8 @@ import com.google.step.interfaces.ClientResponse;
 import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,10 +66,10 @@ public class FormsServlet extends HttpServlet {
                 .addSort("date", Query.SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery preparedQuery = datastore.prepare(query);
-        List<Form> forms = new ArrayList<>();
-        for (Entity formEntity : preparedQuery.asIterable()) {
-            forms.add(new Form(formEntity));
-        }
+
+        List<Form> forms = StreamSupport.stream(preparedQuery.asIterable().spliterator(), false)
+            .map(Form::new).collect(Collectors.toList());
+
         response.setContentType("application/json;");
         response.getWriter().println(new FormsResponse(webhookUrl, forms).toJson());
     }
