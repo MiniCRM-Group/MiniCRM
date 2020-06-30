@@ -1,4 +1,7 @@
-import { ColumnData } from './column-data.model';
+interface ColumnData {
+  FULL_NAME: String;
+  PHONE_NUMBER: String;
+}
 
 // An interface to handle fetching a lead's property
 export interface Lead {
@@ -13,5 +16,4 @@ export interface Lead {
    is_test: boolean;
    adgroup_id: number;
    creative_id: number;
-
- }
+}

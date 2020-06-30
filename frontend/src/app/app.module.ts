@@ -1,45 +1,52 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { HttpClientModule } from '@angular/common/http';
-import { LeadService } from './shared/lead.service';
 
-// Material section
+// Flex + Grid Layout
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+// Material imports
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 // Component imports
 import { AppComponent } from './app.component';
-import { LeadsComponent } from './leads/leads.component';
-import { CampaignsComponent } from './campaigns/campaigns.component';
-import { GuideComponent } from './guide/guide.component';
-import { AnalyticsComponent } from './analytics/analytics.component';
-import { IntroComponent } from './intro/intro.component';
+import { CrmComponent } from './crm/crm.component';
+import { LeadsComponent } from './crm/leads/leads.component';
+import { CampaignsComponent } from './crm/campaigns/campaigns.component';
+import { GuideComponent } from './crm/guide/guide.component';
+import { AnalyticsComponent } from './crm/analytics/analytics.component';
+import { LandingComponent } from './landing/landing.component';
 
-// Material imports
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
+// Service imports
+import { LeadService } from './services/lead.service';
 
-// Fixing 404 problem here by using # pr
-import { HashLocationStrategy, LocationStrategy  } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
     LeadsComponent,
     CampaignsComponent,
     GuideComponent,
-    AnalyticsComponent
+    AnalyticsComponent,
+    CrmComponent,
+    LandingComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    FlexLayoutModule,
 
     // Material
     BrowserAnimationsModule,
@@ -48,9 +55,13 @@ import { HashLocationStrategy, LocationStrategy  } from '@angular/common';
     MatSidenavModule,
     MatToolbarModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
-  providers: [LeadService,  {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [
+    LeadService,
+    { provide: LocationStrategy, useClass: PathLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
-import { LeadService } from '../shared/lead.service';
+import { LeadService } from '../../services/lead.service';
 
-import { Lead } from './model/lead.model';
+import { Lead } from '../../models/lead.model';
 
 //Material imports
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-leads',
@@ -22,6 +23,8 @@ export class LeadsComponent implements OnInit {
    dataSource : MatTableDataSource<Lead>;
 
    @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+   @ViewChild(MatSort, {static: true}) sort: MatSort;
+
    constructor(private leadService : LeadService) { }
 
    ngOnInit() : void {
@@ -34,9 +37,11 @@ export class LeadsComponent implements OnInit {
          .subscribe((leads) => {
          this.dataSource = new MatTableDataSource(leads);
          this.dataSource.paginator = this.paginator;
+         this.dataSource.sort = this.sort;
 
    });
    }
 
 
 }
+
