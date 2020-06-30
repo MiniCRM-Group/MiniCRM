@@ -34,6 +34,7 @@ public class ClientAppFilter implements Filter {
             path = new URI(requestUrl).getPath();
         } catch(URISyntaxException e) {
             response.sendError(400, e.getMessage());
+            return;
         }
         if (isValidUrl(path)) {
             //allowed, continue navigation
