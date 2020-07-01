@@ -50,31 +50,6 @@ public class FormsServlet extends HttpServlet {
       .toCharArray();
 
   /**
-   * Deletes the form specified by the form_id specified in the request headers or a url parameter.
-   * Returns a 204 No Content status code on a successful deletion. Authentication required.
-   *
-   * @param request  the HTTP Request
-   * @param response the HTTP Response
-   */
-  @Override
-  public void doDelete(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
-
-    if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
-      return;
-    }
-
-    long formId = Long.parseLong(request.getParameter("form_id"));
-    User user = UserAuthenticationUtil.getCurrentUser();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.delete(Form.getFormKeyFromUserAndFormId(user, formId));
-
-    response.setStatus(204); //Success - 204 No Content
-  }
-
-  /**
    * Returns JSON representing the advertiser's unique webhook and all their Form data.
    * Authentication required.
    *
@@ -170,6 +145,31 @@ public class FormsServlet extends HttpServlet {
 
     response.setContentType("application/json;");
     response.getWriter().println(new WebhookResponse(webhookUrl, googleKey, formId).toJson());
+  }
+
+  /**
+   * Deletes the form specified by the form_id specified in the request headers or a url parameter.
+   * Returns a 204 No Content status code on a successful deletion. Authentication required.
+   *
+   * @param request  the HTTP Request
+   * @param response the HTTP Response
+   */
+  @Override
+  public void doDelete(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+
+    if (!UserAuthenticationUtil.isAuthenticated()) {
+      response.sendRedirect("/");
+      return;
+    }
+
+    long formId = Long.parseLong(request.getParameter("form_id"));
+    User user = UserAuthenticationUtil.getCurrentUser();
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.delete(Form.getFormKeyFromUserAndFormId(user, formId));
+
+    response.setStatus(204); //Success - 204 No Content
   }
 
   /**
