@@ -16,13 +16,18 @@ package com.google.step.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.step.data.Lead;
+import com.google.step.utils.AdvertiserUtil;
+import com.google.step.utils.EmailUtil;
 import java.io.IOException;
+import javax.mail.MessagingException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,9 +60,21 @@ public class WebhookServlet extends HttpServlet {
       return; //stop execution, we expect an id param in the url
     }
     Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
-
+    User user;
+    try {
+      user = AdvertiserUtil.getUserFromAdvertiserKey(advertiserKey);
+    } catch (EntityNotFoundException e) {
+      response.sendError(404,
+          "Invalid webhook url. Advertiser has not registered with our site.");
+      return;
+    }
     myLead = Lead.fromReader(request.getReader());
     //TODO: Add additional verification steps
+    try {
+      EmailUtil.sendNewLeadEmail(user);
+    } catch (MessagingException e) {
+      System.out.println(e);
+    }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(myLead.asEntity(advertiserKey));
   }
