@@ -30,7 +30,7 @@ import com.google.appengine.api.users.User;
  * representing a User provided by Google Authentication using our application.
  */
 public final class AdvertiserUtil {
-
+  public static final String ADVERTISER_ENTITY_NAME = "Advertiser";
   /**
    * Checks whether the user object passed in exists in datastore as an advertiser
    *
@@ -60,12 +60,47 @@ public final class AdvertiserUtil {
    * @throws DatastoreFailureException                 if any other datastore error occurs
    */
   public static void putAdvertiserInDatastore(User user) {
-    Key advertiserKey = createAdvertiserKey(user);
-    Entity userEntity = new Entity(advertiserKey);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(userEntity);
+    datastore.put(userToAdvertiserEntity(user));
   }
 
+  /**
+   * Converts a Google User to an Advertiser datastore Entity
+   * @param user  the google user to be converted
+   * @return      the Entity of kind Advertiser representation of the google User
+   */
+  private static Entity userToAdvertiserEntity(User user) {
+    Entity entity = new Entity(createAdvertiserKey(user));
+    entity.setProperty("authDomain", user.getAuthDomain());
+    entity.setProperty("email", user.getEmail());
+    entity.setProperty("federatedIdentity", user.getFederatedIdentity());
+    entity.setProperty("nickname", user.getNickname());
+    entity.setProperty("userId", user.getUserId());
+    return entity;
+  }
+
+  /**
+   * Gets a User object from the datastore from the advertiser key
+   * @param advertiserKey key for this user generated from the user id
+   * @return              a User object for the key passed in
+   * @throws EntityNotFoundException if the advertiserKey given does not exist in the datastore
+   */
+  public static User getUserFromAdvertiserKey(Key advertiserKey) throws EntityNotFoundException {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    return advertiserEntityToUser(datastore.get(advertiserKey));
+  }
+
+  /**
+   * Converts an Advertiser Entity into a Google User Object with the same data
+   * @param advertiserEntity the advertiser entity represeting the Google User
+   * @return                 a Google User object with the same data as the given advertiser Entity
+   */
+  private static User advertiserEntityToUser(Entity advertiserEntity) {
+    return new User((String) advertiserEntity.getProperty("email"),
+        (String) advertiserEntity.getProperty("authDomain"),
+        (String) advertiserEntity.getProperty("userId"),
+        (String) advertiserEntity.getProperty("federatedIdentity"));
+  }
   /**
    * Creates a Key based on the User Id
    *
@@ -73,6 +108,6 @@ public final class AdvertiserUtil {
    * @return the key unique to the user's id
    */
   public static Key createAdvertiserKey(User user) {
-    return KeyFactory.createKey("Advertiser", user.getUserId());
+    return KeyFactory.createKey(ADVERTISER_ENTITY_NAME, user.getUserId());
   }
 }
