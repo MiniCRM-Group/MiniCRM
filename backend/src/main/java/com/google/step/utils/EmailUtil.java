@@ -14,6 +14,7 @@
 
 package com.google.step.utils;
 
+import com.google.appengine.api.users.User;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import javax.mail.Address;
@@ -31,23 +32,25 @@ import javax.mail.internet.MimeMessage;
  */
 public final class EmailUtil {
 
-  public static void sendTestEmail() throws MessagingException {
+  public static void sendNewLeadEmail(User user) throws MessagingException {
     Session session = Session.getDefaultInstance(new Properties(), null);
     Message msg = new MimeMessage(session);
     try {
-      msg.setFrom(new InternetAddress("test@form-ads-leads.appspot.com", "Test Address"));
+      msg.setFrom(new InternetAddress("noreply-test@form-ads-leads.appspot.com",
+          "New Lead"));
     } catch (UnsupportedEncodingException e) {
-      msg.setFrom(new InternetAddress("test@form-ads-leads.appspot.com"));
+      msg.setFrom(new InternetAddress("noreply-test@form-ads-leads.appspot.com"));
     }
     try {
       msg.addRecipient(Message.RecipientType.TO,
-          new InternetAddress("alexkimt@gmail.com", "Test User"));
+          new InternetAddress(user.getEmail(), user.getNickname()));
     } catch (UnsupportedEncodingException e) {
       msg.addRecipient(Message.RecipientType.TO,
-          new InternetAddress("alexkimt@gmail.com"));
+          new InternetAddress(user.getEmail()));
     }
-    msg.setSubject("Test email!");
-    msg.setText("This is the test email's text!");
+    msg.setSubject("New Lead Received!");
+    msg.setText("You just got a new lead! "
+        + "Check your new lead out at form-ads-leads.appspot.com!");
     Transport.send(msg);
   }
 }
