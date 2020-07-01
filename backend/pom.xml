@@ -65,15 +65,12 @@
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
+                    <!-- Installs npm packages -->
                     <execution>
-                        <id>install angular cli</id>
+                        <id>install node packages</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <arguments>install @angular/cli</arguments>                
-                        </configuration>
                     </execution>
                     <!-- Executes npm build script which runs ng builddev -->
                     <execution>

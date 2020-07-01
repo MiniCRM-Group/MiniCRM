@@ -14,6 +14,9 @@
 
 package com.google.step.servlets;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.FieldNamingPolicy;
@@ -27,13 +30,16 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.step.data.Lead;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
 
 /**
@@ -46,29 +52,7 @@ public class WebhookServlet extends HttpServlet {
   private static final Gson gson = new GsonBuilder()
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .create();
-
-  /**
-   * Returns JSON representing all leads in the datastore sorted by time in response to a GET request
-   * @param request       the HTTP Request
-   * @param response      the HTTP Response
-   * @throws IOException  if an input exception occurs with the response writer
-   */
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
-      return;
-    }
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Lead").addSort("date", SortDirection.DESCENDING);
-    PreparedQuery queryResults = datastore.prepare(query);
-    ArrayList<Lead> leads = new ArrayList<>();
-    for (Entity leadEntity : queryResults.asIterable()) {
-      leads.add(new Lead(leadEntity));
-    }
-    response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(leads));
-  }
+  private static final String ID_URL_PARAM = "id";
 
   /**
    * Accepts a POST request containing JSON in the body describing a lead from Google Ads server.
@@ -78,8 +62,15 @@ public class WebhookServlet extends HttpServlet {
    */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    String advertiserKeyString = request.getParameter(ID_URL_PARAM);
+    if (advertiserKeyString == null || advertiserKeyString.equals("")) {
+      return; //stop execution, we expect an id param in the url
+    }
+    Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
+
     myLead = Lead.fromReader(request.getReader());
-    datastore.put(myLead.asEntity());
+    //TODO: Add additional verification steps
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(myLead.asEntity(advertiserKey));
   }
 }

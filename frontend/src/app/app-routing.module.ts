@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LeadsComponent }   from './leads/leads.component';
-import { CampaignsComponent }   from './campaigns/campaigns.component';
-import { GuideComponent }   from './guide/guide.component';
-import { AnalyticsComponent }   from './analytics/analytics.component';
-const  introModule = () => import('./intro/intro.module').then(x => x.IntroModule);
+import { LandingComponent } from './landing/landing.component';
+import { CrmComponent } from './crm/crm.component';
+import { LeadsComponent }   from './crm/leads/leads.component';
+import { CampaignsComponent }   from './crm/campaigns/campaigns.component';
+import { GuideComponent }   from './crm/guide/guide.component';
+import { AnalyticsComponent }   from './crm/analytics/analytics.component';
+
 const routes: Routes = [
-    {
-        path: '',
-        redirectTo: '',
-        pathMatch: 'full'
-    },
-    { path: 'leads', component: LeadsComponent },
-    { path: 'campaigns', component: CampaignsComponent },
-    { path: 'analytics', component: AnalyticsComponent },
-    { path: 'guide', component: GuideComponent},
-    { path: 'intro', loadChildren: introModule },
+    { path: '', component: LandingComponent },
+    { 
+        path: 'crm', 
+        component: CrmComponent,
+        children: [
+            { path: 'leads', component: LeadsComponent },
+            { path: 'campaigns', component: CampaignsComponent },
+            { path: 'analytics', component: AnalyticsComponent },
+            { path: 'guide', component: GuideComponent }
+        ] 
+    }
 ];
 
 @NgModule({

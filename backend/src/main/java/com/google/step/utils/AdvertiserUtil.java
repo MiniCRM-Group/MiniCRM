@@ -46,6 +46,8 @@ public final class AdvertiserUtil {
             return true;
         } catch (EntityNotFoundException e) {
             return false;
+        } finally {
+            return false;
         }
     }
 
