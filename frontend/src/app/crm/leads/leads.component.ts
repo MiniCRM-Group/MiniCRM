@@ -29,7 +29,7 @@ export class LeadsComponent implements OnInit {
    constructor(private leadService : LeadService) { }
 
    ngOnInit() : void {
-         this.getAllLeads();
+      this.getAllLeads();
    }
 
    getAllLeads(): void {
