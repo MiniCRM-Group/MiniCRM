@@ -17,6 +17,8 @@ package com.google.step.data;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.User;
+import com.google.step.utils.AdvertiserUtil;
 import java.util.Date;
 
 /**
@@ -89,6 +91,10 @@ public class Form {
     formEntity.setProperty("googleKey", googleKey);
     formEntity.setProperty("verified", verified);
     return formEntity;
+  }
+
+  public static Key getFormKeyFromUserAndFormId(User user, long formId) {
+    return KeyFactory.createKey(AdvertiserUtil.createAdvertiserKey(user), "Form", formId);
   }
 
 }

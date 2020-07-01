@@ -44,11 +44,38 @@ import javax.servlet.http.HttpServletResponse;
 public class FormsServlet extends HttpServlet {
 
   private static final String ID_URL_PARAM = "id";
-  private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  private final char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
       .toCharArray();
 
   /**
+   * Deletes the form specified by the form_id specified in the request headers or a url parameter.
+   * Returns a 204 No Content status code on a successful deletion.
+   * Authentication required.
+   *
+   * @param request  the HTTP Request
+   * @param response the HTTP Response
+   */
+  @Override
+  public void doDelete(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+
+    if (!UserAuthenticationUtil.isAuthenticated()) {
+      response.sendRedirect("/");
+      return;
+    }
+
+    long formId = Long.parseLong(request.getParameter("form_id"));
+    User user = UserAuthenticationUtil.getCurrentUser();
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.delete(Form.getFormKeyFromUserAndFormId(user, formId));
+
+    response.setStatus(204); //Success - 204 No Content
+  }
+
+  /**
    * Returns JSON representing the advertiser's unique webhook and all their Form data.
+   * Authentication required.
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -87,6 +114,7 @@ public class FormsServlet extends HttpServlet {
    * 'application/json; charset=UTF-8' } }) .then(res => res.json()) .then(console.log)
    * <p>
    * Note: form_id should be a string not a number without quotation marks.
+   * Authentication required.
    *
    * @param request  the HTTP Request. Expecting parameter form_id with the form_id to add
    * @param response the HTTP Response
@@ -178,17 +206,17 @@ public class FormsServlet extends HttpServlet {
     /**
      * Webhook URL for Advertiser to put in Google Ads.
      */
-    private String webhookUrl;
+    private final String webhookUrl;
 
     /**
      * Randomly generated Google Key
      */
-    private String googleKey;
+    private final String googleKey;
 
     /**
      * The id of the form
      */
-    private long formId;
+    private final long formId;
 
     /**
      * Constructor for response to send back to user containing the webhook and google key
@@ -218,12 +246,12 @@ public class FormsServlet extends HttpServlet {
     /**
      * Webhook URL for Advertiser to put in Google Ads.
      */
-    private String webhookUrl;
+    private final String webhookUrl;
 
     /**
      * List of the User's forms
      */
-    private List<Form> forms;
+    private final List<Form> forms;
 
     /**
      * Constructor for response to send back to user containing the webhook
