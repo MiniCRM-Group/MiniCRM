@@ -150,6 +150,8 @@ public class FormsServlet extends HttpServlet {
   /**
    * Deletes the form specified by the form_id specified in the request headers or a url parameter.
    * Returns a 204 No Content status code on a successful deletion. Authentication required.
+   * Note: returns 204 No Content even if the form to be deleted never existed in the first place.
+   * Instead, guarantees that it doesn't exist anymore in the datastore.
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
