@@ -1,42 +1,44 @@
+
 <p>leads works!</p>
 <li *ngFor="let lead of leads">
   <p>{{lead.date}}, {{lead.lead_id}}, {{lead.campaign_id}}, {{lead.gcl_id}}, {{lead.api_version}}, {{lead.form_id}}, {{lead.google_key}}, {{lead.column_data.FULL_NAME}}, {{lead.column_data.PHONE_NUMBER}}, {{lead.is_test}}, {{lead.adgroup_id}}, {{lead.creative_id}}</p>
 </li>
 
+
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    
     <!-- Lead Id Column -->
     <ng-container matColumnDef="lead_id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td *matCellDef="let lead"> {{lead.lead_id}} </td>
+      <mat-header-cell *matHeaderCellDef > ID </mat-header-cell>
+      <mat-cell *matCellDef="let lead"> {{lead.lead_id}} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-      <td mat-cell *matCellDef="let lead"> {{lead.column_data.FULL_NAME}} </td>
+      <mat-header-cell *matHeaderCellDef > Name </mat-header-cell>
+      <mat-cell *matCellDef="let lead"> {{lead.column_data.FULL_NAME}} </mat-cell>
     </ng-container>
 
     <!-- Phone Number Column -->
     <ng-container matColumnDef="phone_number">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
-      <td mat-cell *matCellDef="let lead"> {{lead.column_data.PHONE_NUMBER}} </td>
+      <mat-header-cell *matHeaderCellDef > Phone Number </mat-header-cell>
+      <mat-cell *matCellDef="let lead"> {{lead.column_data.PHONE_NUMBER}} </mat-cell>
     </ng-container>
 
     <!-- Campaign Id Column -->
     <ng-container matColumnDef="campaign_id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Campaign Id </th>
-      <td mat-cell *matCellDef="let lead"> {{lead.campaign_id}} </td>
+      <mat-header-cell *matHeaderCellDef > Campaign Id </mat-header-cell>
+      <mat-cell *matCellDef="let lead"> {{lead.campaign_id}} </mat-cell>
     </ng-container>
 
     <!-- Date Column -->
     <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-      <td mat-cell *matCellDef="let lead"> {{lead.date}} </td>
+      <mat-header-cell *matHeaderCellDef > Date </mat-header-cell>
+      <mat-cell *matCellDef="let lead"> {{lead.date}} </mat-cell>
     </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+ <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
