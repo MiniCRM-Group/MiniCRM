@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,8 +51,7 @@ public class FormsServlet extends HttpServlet {
 
   /**
    * Deletes the form specified by the form_id specified in the request headers or a url parameter.
-   * Returns a 204 No Content status code on a successful deletion.
-   * Authentication required.
+   * Returns a 204 No Content status code on a successful deletion. Authentication required.
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -113,8 +114,8 @@ public class FormsServlet extends HttpServlet {
    * JSON.stringify({ form_id: "1234", form_name: "exampleForm" }), headers: { 'Content-type':
    * 'application/json; charset=UTF-8' } }) .then(res => res.json()) .then(console.log)
    * <p>
-   * Note: form_id should be a string not a number without quotation marks.
-   * Authentication required.
+   * Note: form_id should be a string not a number without quotation marks. Authentication
+   * required.
    *
    * @param request  the HTTP Request. Expecting parameter form_id with the form_id to add
    * @param response the HTTP Response
@@ -147,8 +148,8 @@ public class FormsServlet extends HttpServlet {
     //query the datastore to see if the form id already is claimed
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Form")
-        .setFilter(new Query.FilterPredicate("formId", Query.FilterOperator.EQUAL, formId))
-        .setFilter(new Query.FilterPredicate("verified", Query.FilterOperator.EQUAL, true))
+        .setFilter(CompositeFilterOperator.and(FilterOperator.EQUAL.of("formId", formId),
+            FilterOperator.EQUAL.of("verified", true)))
         .setKeysOnly();
     PreparedQuery queryResults = datastore.prepare(query);
     if (!queryResults.asList(FetchOptions.Builder.withDefaults())
