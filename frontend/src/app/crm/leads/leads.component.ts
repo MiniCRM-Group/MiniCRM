@@ -32,13 +32,12 @@ export class LeadsComponent implements OnInit {
    }
 
    getAllLeads(): void {
-      this.leadService.getAllLeads()
-      .subscribe((leads) => {
-         this.dataSource = new MatTableDataSource(leads);
-         this.dataSource.paginator = this.paginator;
-         this.dataSource.sort = this.sort;
-   });
-
+     this.leadService.getAllLeads()
+     .subscribe((leads) => {
+       this.dataSource = new MatTableDataSource(leads);
+       this.dataSource.paginator = this.paginator;
+       this.dataSource.sort = this.sort;
+      });
    }
 
 }
