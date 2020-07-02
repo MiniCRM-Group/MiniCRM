@@ -7,7 +7,6 @@ import { Lead } from '../../models/lead.model';
 //Material imports
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-
 import { MatSort } from '@angular/material/sort';
 
 @Component({
@@ -33,14 +32,11 @@ export class LeadsComponent implements OnInit {
    }
 
    getAllLeads(): void {
-
-         this.leadService.getAllLeads()
-         .subscribe((leads) => {
-
-            this.dataSource = new MatTableDataSource(leads);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-
+      this.leadService.getAllLeads()
+      .subscribe((leads) => {
+         this.dataSource = new MatTableDataSource(leads);
+         this.dataSource.paginator = this.paginator;
+         this.dataSource.sort = this.sort;
    });
 
    }
