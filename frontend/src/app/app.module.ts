@@ -13,6 +13,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +25,7 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { CrmComponent } from './crm/crm.component';
 import { LeadsComponent } from './crm/leads/leads.component';
+import { FormsComponent } from './crm/forms/forms.component';
 import { CampaignsComponent } from './crm/campaigns/campaigns.component';
 import { GuideComponent } from './crm/guide/guide.component';
 import { AnalyticsComponent } from './crm/analytics/analytics.component';
@@ -29,12 +33,12 @@ import { LandingComponent } from './landing/landing.component';
 
 // Service imports
 import { LeadService } from './services/lead.service';
-import { FormsComponent } from './crm/forms/forms.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LeadsComponent,
+    FormsComponent,
     CampaignsComponent,
     GuideComponent,
     AnalyticsComponent,
@@ -56,7 +60,9 @@ import { FormsComponent } from './crm/forms/forms.component';
     MatSidenavModule,
     MatToolbarModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     LeadService,
