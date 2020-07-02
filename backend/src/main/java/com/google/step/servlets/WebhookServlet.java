@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
  * requests with JSON with lead data.
  */
 @WebServlet("/api/webhook")
-public class WebhookServlet extends HttpServlet {
+public final class WebhookServlet extends HttpServlet {
 
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

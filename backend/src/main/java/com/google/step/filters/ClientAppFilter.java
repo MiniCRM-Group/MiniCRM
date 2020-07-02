@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * Filters any Angular routing URLs from requests made by Angular app.
  */
 @WebFilter("/*")
-public class ClientAppFilter implements Filter {
+public final class ClientAppFilter implements Filter {
 
   @Override
   public void init(FilterConfig filterConfig) {

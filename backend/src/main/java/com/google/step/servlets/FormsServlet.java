@@ -20,6 +20,8 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,14 +43,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/forms")
-public class FormsServlet extends HttpServlet {
+public final class FormsServlet extends HttpServlet {
 
   private static final String ID_URL_PARAM = "id";
-  private char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  private final char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
       .toCharArray();
 
   /**
    * Returns JSON representing the advertiser's unique webhook and all their Form data.
+   * Authentication required.
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -86,7 +89,8 @@ public class FormsServlet extends HttpServlet {
    * JSON.stringify({ form_id: "1234", form_name: "exampleForm" }), headers: { 'Content-type':
    * 'application/json; charset=UTF-8' } }) .then(res => res.json()) .then(console.log)
    * <p>
-   * Note: form_id should be a string not a number without quotation marks.
+   * Note: form_id should be a string not a number without quotation marks. Authentication
+   * required.
    *
    * @param request  the HTTP Request. Expecting parameter form_id with the form_id to add
    * @param response the HTTP Response
@@ -119,8 +123,8 @@ public class FormsServlet extends HttpServlet {
     //query the datastore to see if the form id already is claimed
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Form")
-        .setFilter(new Query.FilterPredicate("formId", Query.FilterOperator.EQUAL, formId))
-        .setFilter(new Query.FilterPredicate("verified", Query.FilterOperator.EQUAL, true))
+        .setFilter(CompositeFilterOperator.and(FilterOperator.EQUAL.of("formId", formId),
+            FilterOperator.EQUAL.of("verified", true)))
         .setKeysOnly();
     PreparedQuery queryResults = datastore.prepare(query);
     if (!queryResults.asList(FetchOptions.Builder.withDefaults())
@@ -141,6 +145,33 @@ public class FormsServlet extends HttpServlet {
 
     response.setContentType("application/json;");
     response.getWriter().println(new WebhookResponse(webhookUrl, googleKey, formId).toJson());
+  }
+
+  /**
+   * Deletes the form specified by the form_id specified in the request headers or a url parameter.
+   * Returns a 204 No Content status code on a successful deletion. Authentication required.
+   * Note: returns 204 No Content even if the form to be deleted never existed in the first place.
+   * Instead, guarantees that it doesn't exist anymore in the datastore.
+   *
+   * @param request  the HTTP Request
+   * @param response the HTTP Response
+   */
+  @Override
+  public void doDelete(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
+
+    if (!UserAuthenticationUtil.isAuthenticated()) {
+      response.sendRedirect("/");
+      return;
+    }
+
+    long formId = Long.parseLong(request.getParameter("form_id"));
+    User user = UserAuthenticationUtil.getCurrentUser();
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.delete(Form.getFormKeyFromUserAndFormId(user, formId));
+
+    response.setStatus(204); //Success - 204 No Content
   }
 
   /**
@@ -178,17 +209,17 @@ public class FormsServlet extends HttpServlet {
     /**
      * Webhook URL for Advertiser to put in Google Ads.
      */
-    private String webhookUrl;
+    private final String webhookUrl;
 
     /**
      * Randomly generated Google Key
      */
-    private String googleKey;
+    private final String googleKey;
 
     /**
      * The id of the form
      */
-    private long formId;
+    private final long formId;
 
     /**
      * Constructor for response to send back to user containing the webhook and google key
@@ -218,12 +249,12 @@ public class FormsServlet extends HttpServlet {
     /**
      * Webhook URL for Advertiser to put in Google Ads.
      */
-    private String webhookUrl;
+    private final String webhookUrl;
 
     /**
      * List of the User's forms
      */
-    private List<Form> forms;
+    private final List<Form> forms;
 
     /**
      * Constructor for response to send back to user containing the webhook
