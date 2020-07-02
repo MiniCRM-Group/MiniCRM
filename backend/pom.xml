@@ -65,6 +65,13 @@
                         </goals>
                         <phase>generate-resources</phase>
                     </execution>
+                    <!-- Installs npm packages -->
+                    <execution>
+                        <id>install node packages</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                    </execution>
                     <!-- Executes npm build script which runs ng builddev -->
                     <execution>
                         <id>build angular app</id>
