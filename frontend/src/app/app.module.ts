@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 // Flex + Grid Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,6 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 // Routing
@@ -23,16 +25,14 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 // Component imports
 import { AppComponent } from './app.component';
-import { CrmComponent } from './crm/crm.component';
-import { LeadsComponent } from './crm/leads/leads.component';
-import { FormsComponent } from './crm/forms/forms.component';
-import { CampaignsComponent } from './crm/campaigns/campaigns.component';
-import { GuideComponent } from './crm/guide/guide.component';
-import { AnalyticsComponent } from './crm/analytics/analytics.component';
-import { LandingComponent } from './landing/landing.component';
-
-// Service imports
-import { LeadService } from './services/lead.service';
+import { CrmComponent } from './components/crm/crm.component';
+import { LeadsComponent } from './components/crm/leads/leads.component';
+import { FormsComponent } from './components/crm/forms/forms.component';
+import { CampaignsComponent } from './components/crm/campaigns/campaigns.component';
+import { GuideComponent } from './components/crm/guide/guide.component';
+import { AnalyticsComponent } from './components/crm/analytics/analytics.component';
+import { LandingComponent } from './components/landing/landing.component';
+import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 
 @NgModule({
   declarations: [
@@ -44,11 +44,13 @@ import { LeadService } from './services/lead.service';
     AnalyticsComponent,
     CrmComponent,
     LandingComponent,
-    FormsComponent
+    FormsComponent,
+    CrmTableComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     FlexLayoutModule,
@@ -62,10 +64,10 @@ import { LeadService } from './services/lead.service';
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule
   ],
   providers: [
-    LeadService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

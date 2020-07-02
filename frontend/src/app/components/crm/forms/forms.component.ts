@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Form } from '../../models/form.model';
+import { Form } from '../../../models/server_responses/forms-response.model';
 
 const FORM_DATA: Form[] = [
   {
@@ -25,7 +25,7 @@ const FORM_DATA: Form[] = [
 })
 export class FormsComponent implements OnInit {
   displayedColumns: string[] = ['formId', 'formName', 'googleKey', 'verified', 'date'];
-  dataSource: Form[] = FORM_DATA;
+  forms: Form[] = FORM_DATA;
 
   constructor() { }
 

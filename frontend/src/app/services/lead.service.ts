@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Lead } from '../models/lead.model';
+import { Lead } from '../models/server_responses/lead.model';
 import { Observable } from 'rxjs';
 
 

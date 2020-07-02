@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
-import { LeadService } from '../../services/lead.service';
+import { LeadService } from '../../../services/lead.service';
 
-import { Lead } from '../../models/lead.model';
+import { Lead } from '../../../models/server_responses/lead.model';
 
 //Material imports
 import { MatTableDataSource } from '@angular/material/table';
