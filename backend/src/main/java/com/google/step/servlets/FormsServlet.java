@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/forms")
-public class FormsServlet extends HttpServlet {
+public final class FormsServlet extends HttpServlet {
 
   private static final String ID_URL_PARAM = "id";
   private final char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

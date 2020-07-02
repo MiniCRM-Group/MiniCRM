@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet to check if user is logged in and return corresponding URL for logging in/out.
  */
 @WebServlet("/api/login")
-public class LoginServlet extends HttpServlet {
+public final class LoginServlet extends HttpServlet {
 
   /**
    * Checks state of user in this class.

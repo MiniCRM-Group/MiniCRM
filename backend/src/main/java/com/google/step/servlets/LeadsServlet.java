@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
  * Handles GET request to return Lead data in JSON to the client.
  */
 @WebServlet("/api/leads")
-public class LeadsServlet extends HttpServlet {
+public final class LeadsServlet extends HttpServlet {
 
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
