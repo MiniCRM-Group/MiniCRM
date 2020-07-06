@@ -257,24 +257,10 @@ public final class Lead {
     }
 
     /**
-     * @param stringValue new value
-     */
-    public void setStringValue(String stringValue) {
-      this.stringValue = stringValue;
-    }
-
-    /**
      * @return current columnId
      */
     public String getColumnId() {
       return columnId;
-    }
-
-    /**
-     * @param columnId new columnId
-     */
-    public void setColumnId(String columnId) {
-      this.columnId = columnId;
     }
   }
 }
