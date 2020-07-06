@@ -41,6 +41,17 @@ public final class LoginServlet extends HttpServlet {
     userService = UserServiceFactory.getUserService();
   }
 
+  /**
+   * Returns JSON representing whether or not the client is logged in with Google and a
+   * corresponding login/logout URL.
+   *
+   * HTTP Response Status Codes:
+   * - 200 OK: Success
+   *
+   * @param request  the HTTP Request
+   * @param response the HTTP Response
+   * @throws IOException if an input exception occurs with the response writer or reader
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String url;
