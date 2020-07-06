@@ -14,14 +14,17 @@
 
 package com.google.step.servlets;
 
-import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.step.data.Form;
 import com.google.step.data.Lead;
 import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.UserAuthenticationUtil;
-
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -29,42 +32,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import com.google.gson.Gson;
 
 /**
  * Handles GET request to return Lead data in JSON to the client.
  */
 @WebServlet("/api/leads")
-public class LeadsServlet extends HttpServlet {
-    private static final Gson gson = new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create();
+public final class LeadsServlet extends HttpServlet {
 
-    /**
-     * Returns JSON representing all leads in the datastore sorted by time in response to a GET request
-     * @param request       the HTTP Request
-     * @param response      the HTTP Response
-     * @throws IOException  if an input exception occurs with the response writer
-     */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (!UserAuthenticationUtil.isAuthenticated()) {
-            response.sendRedirect("/");
-            return;
-        }
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Query query = new Query("Lead")
-                .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
-                .addSort("date", Query.SortDirection.DESCENDING);
-        PreparedQuery preparedQuery = datastore.prepare(query);
+  private static final Gson gson = new GsonBuilder()
+      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+      .create();
 
-        List<Lead> leads = StreamSupport.stream(preparedQuery.asIterable().spliterator(), false)
-            .map(Lead::new).collect(Collectors.toList());
-
-        response.setContentType("application/json;");
-        response.getWriter().println(gson.toJson(leads));
+  /**
+   * Returns JSON representing all leads in the datastore sorted by time in response to a GET
+   * request
+   *
+   * @param request  the HTTP Request
+   * @param response the HTTP Response
+   * @throws IOException if an input exception occurs with the response writer
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    if (!UserAuthenticationUtil.isAuthenticated()) {
+      response.sendRedirect("/");
+      return;
     }
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Lead")
+        .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
+        .addSort("date", Query.SortDirection.DESCENDING);
+    PreparedQuery preparedQuery = datastore.prepare(query);
+
+    List<Lead> leads = StreamSupport.stream(preparedQuery.asIterable().spliterator(), false)
+        .map(Lead::new).collect(Collectors.toList());
+
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(leads));
+  }
 }

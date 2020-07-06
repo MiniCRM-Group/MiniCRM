@@ -14,24 +14,26 @@
 
 package com.google.step.data;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.FieldNamingPolicy;
-
-import com.google.appengine.api.datastore.Entity;
-
 import java.io.Reader;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Date;
 
 /**
- * This class represents a lead and all its data.
+ * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
+ * objects.
  */
 public final class Lead {
+
+  private static final Gson gson = new GsonBuilder()
+      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
   private Date date;
   private String leadId;
   private long campaignId;
@@ -40,12 +42,10 @@ public final class Lead {
   private long formId;
   private String googleKey;
   private List<ColumnData> userColumnData;
-  private Map<String,String> columnData;
+  private Map<String, String> columnData;
   private boolean isTest;
   private long adgroupId;
   private long creativeId;
-
-  private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
   /**
    * Blank constructor that sets the time when this lead was created
@@ -56,6 +56,7 @@ public final class Lead {
 
   /**
    * Constructs a lead object based off an Entity of kind Lead
+   *
    * @param entity entity of kind lead that represents a lead
    */
   public Lead(Entity entity) {
@@ -91,6 +92,18 @@ public final class Lead {
   }
 
   /**
+   * Creates a lead based off of JSON
+   *
+   * @param reader a reader object containing a JSON describing a lead object
+   * @return a lead object created by the JSON
+   */
+  public static Lead fromReader(Reader reader) {
+    Lead thisLead = gson.fromJson(reader, Lead.class);
+    thisLead.generateDataMap();
+    return thisLead;
+  }
+
+  /**
    * @return this object represented as JSON
    */
   public String asJson() {
@@ -120,17 +133,6 @@ public final class Lead {
   }
 
   /**
-   * Creates a lead based off of JSON
-   * @param reader a reader object containing a JSON describing a lead object
-   * @return a lead object created by the JSON
-   */
-  public static Lead fromReader(Reader reader) {
-    Lead thisLead = gson.fromJson(reader, Lead.class);
-    thisLead.generateDataMap();
-    return thisLead;
-  }
-
-  /**
    * Creates and populates the columnData Map from userColumnData
    */
   private void generateDataMap() {
@@ -141,6 +143,7 @@ public final class Lead {
   }
 
   //Getters and Setters
+
   /**
    * @return the Date this lead was received
    */
@@ -199,6 +202,7 @@ public final class Lead {
 
   /**
    * Puts the key value pair associated into the Lead's column data
+   *
    * @param key   the key
    * @param value the value
    */
