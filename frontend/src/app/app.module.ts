@@ -35,9 +35,7 @@ import { LandingComponent } from './landing/landing.component';
 // Service imports
 import { LeadService } from './services/lead.service';
 
-
 @NgModule({
-
   declarations: [
     AppComponent,
     LeadsComponent,
