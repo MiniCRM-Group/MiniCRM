@@ -27,8 +27,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * This utility class is responsible for using the App Engine Mail API to handle any emailing that
- * the server needs to make.
+ * Handles any emailing that the server needs to make.
  */
 public final class EmailUtil {
 

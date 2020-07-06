@@ -27,6 +27,8 @@ import com.google.step.data.Lead;
 import com.google.step.utils.AdvertiserUtil;
 import com.google.step.utils.EmailUtil;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -70,10 +72,13 @@ public final class WebhookServlet extends HttpServlet {
     }
     myLead = Lead.fromReader(request.getReader());
     //TODO: Add additional verification steps
+
     try {
       EmailUtil.sendNewLeadEmail(user);
     } catch (MessagingException e) {
-      System.out.println(e);
+      Logger logger = Logger.getLogger("com.google.step.servlets.WebhookServlet");
+      logger.log(Level.SEVERE, "Failed to send new lead email notification.", e);
+      //TODO: Determine what happens when the email fails
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(myLead.asEntity(advertiserKey));

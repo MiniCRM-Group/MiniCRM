@@ -41,9 +41,9 @@ public final class AdvertiserUtil {
    * @throws DatastoreFailureException if a datastore error occurs
    */
   public static boolean advertiserExistsInDatastore(User user) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Key advertiserKey = createAdvertiserKey(user);
     try {
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      Key advertiserKey = createAdvertiserKey(user);
       datastore.get(advertiserKey);
       return true;
     } catch (EntityNotFoundException e) {
