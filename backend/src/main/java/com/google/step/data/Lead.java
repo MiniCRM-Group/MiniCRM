@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents a lead and all its data.
+ * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
+ * objects.
  */
 public final class Lead {
 

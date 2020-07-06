@@ -22,7 +22,7 @@ import com.google.step.utils.AdvertiserUtil;
 import java.util.Date;
 
 /**
- * This class represents a Form and all of its data. Supports conversion to datastore Entity objects
+ * Represents a Form and all of its data. Supports conversion to datastore Entity objects
  * and back.
  */
 public final class Form {
