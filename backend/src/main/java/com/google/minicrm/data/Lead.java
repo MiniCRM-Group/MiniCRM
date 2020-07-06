@@ -61,7 +61,6 @@ public final class Lead {
    * @param entity entity of kind lead that represents a lead
    */
   public Lead(Entity entity) {
-    this();
     if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Lead.");
     }
