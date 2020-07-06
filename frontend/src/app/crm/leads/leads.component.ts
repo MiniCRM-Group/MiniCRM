@@ -48,14 +48,9 @@ export class LeadsComponent implements AfterViewInit {
     });
   }
   applyFilter(event: Event) {
-    // console.log(this.dataSource);
-    console.log('Hello1')
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    console.log(this.dataSource.filter);
-    console.log('Hello2')
     if (this.dataSource.paginator != null) {
-      console.log('Hello3');
       this.dataSource.paginator.firstPage();
     }
   }
