@@ -1,9 +1,9 @@
 export interface Form {
-    readonly formId: number,
-    readonly formName: string;
-    readonly googleKey: string;
-    readonly verified: boolean;
-    readonly date: string;
+    formId: number,
+    formName: string;
+    googleKey: string;
+    verified: boolean;
+    date: string;
 }
 
 export interface FormsResponse {

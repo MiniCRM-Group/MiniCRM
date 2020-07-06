@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NameMap, Table, TableInput, TableRow, TableRowInput } from '../../../models/component_states/table.model';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-crm-table',
@@ -9,9 +10,11 @@ import { NameMap, Table, TableInput, TableRow, TableRowInput } from '../../../mo
 export class CrmTableComponent implements OnInit {
   @Input() private dataSource: TableInput;
   @Input() private nameMaps?: NameMap[];
+  @Input() private keyOrdering?: string[];
   @Input() private selectionEnabled?: boolean;
   dataSourceTable: Table;
   displayedColumnNames: string[];
+  isEmpty: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
@@ -33,6 +36,7 @@ export class CrmTableComponent implements OnInit {
       }
     } else {
       // show a message saying there is nothing to display
+      this.isEmpty = true;
     }
   }
 
@@ -46,14 +50,13 @@ export class CrmTableComponent implements OnInit {
   }
 
   private getDefaultNameMaps(): NameMap[] {
-    let keys: string[] = Object.keys(this.dataSource[0]);
+    let keys: string[] = this.keyOrdering ?? Object.keys(this.dataSource[0]);
     let defaultNameMaps: NameMap[] = keys.map((key: string) => {
       return {
         columnName: key,
-        displayedColumnName: key
+        displayedColumnName: _.startCase(key)
       }
     });
-    console.log(defaultNameMaps);
     return defaultNameMaps;
   }
 

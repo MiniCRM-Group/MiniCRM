@@ -1,16 +1,21 @@
-<table mat-table [dataSource]="dataSourceTable.tableRows" class="mat-elevation-z8">
-    <ng-container matColumnDef="isSelected">
-        <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox></mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let element">
-            <mat-checkbox [(ngModel)]="element.isSelected"></mat-checkbox>
-        </td>
-    </ng-container>
-    <ng-container *ngFor="let nameMap of dataSourceTable.nameMaps" [matColumnDef]="nameMap.columnName">
-        <th mat-header-cell *matHeaderCellDef>{{ nameMap.displayedColumnName }}</th>
-        <td mat-cell *matCellDef="let element"> {{ element.datum[nameMap.columnName] }}</td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumnNames"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnNames;"></tr>
-</table>
+<div *ngIf="!isEmpty; else emptyMessage">
+    <table mat-table [dataSource]="dataSourceTable.tableRows" class="mat-elevation-z8">
+        <ng-container matColumnDef="isSelected">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox></mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-checkbox [(ngModel)]="element.isSelected"></mat-checkbox>
+            </td>
+        </ng-container>
+        <ng-container *ngFor="let nameMap of dataSourceTable.nameMaps" [matColumnDef]="nameMap.columnName">
+            <th mat-header-cell *matHeaderCellDef>{{ nameMap.displayedColumnName }}</th>
+            <td mat-cell *matCellDef="let element"> {{ element.datum[nameMap.columnName] }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnNames"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnNames;"></tr>
+    </table>
+</div>
+<ng-template #emptyMessage>
+    <p>Nothing to display here.</p>
+</ng-template>

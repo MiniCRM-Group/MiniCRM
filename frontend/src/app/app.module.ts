@@ -17,6 +17,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 // Routing
@@ -33,6 +35,7 @@ import { GuideComponent } from './components/crm/guide/guide.component';
 import { AnalyticsComponent } from './components/crm/analytics/analytics.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
+import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { CrmTableComponent } from './components/shared/crm-table/crm-table.compo
     CrmComponent,
     LandingComponent,
     FormsComponent,
-    CrmTableComponent
+    CrmTableComponent,
+    LinkFormDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -65,7 +69,9 @@ import { CrmTableComponent } from './components/shared/crm-table/crm-table.compo
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ClipboardModule,
+    MatDialogModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
