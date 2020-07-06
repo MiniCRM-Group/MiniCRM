@@ -49,8 +49,12 @@ public final class WebhookServlet extends HttpServlet {
 
   /**
    * Accepts a POST request containing JSON in the body describing a lead from Google Ads server.
-   * Expects an url parameter "id" with the advertiserKeyString. Does nothing if the "id" parameter
-   * is not found or is an empty string.
+   * Expects an url parameter "id" with the advertiserKeyString.
+   *
+   * HTTP Response Status Codes:
+   * - 200 OK: success
+   * - 404 Not Found: if the id parameter is not specified or blank or if the id specified is not
+   *                  valid
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -60,6 +64,7 @@ public final class WebhookServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String advertiserKeyString = request.getParameter(ID_URL_PARAM);
     if (advertiserKeyString == null || advertiserKeyString.equals("")) {
+      response.sendError(404, "Invalid webhook url. Need to specify id parameter.");
       return; //stop execution, we expect an id param in the url
     }
     Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
