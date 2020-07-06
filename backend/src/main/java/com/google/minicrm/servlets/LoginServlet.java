@@ -67,7 +67,8 @@ public final class LoginServlet extends HttpServlet {
   }
 
   /**
-   * Response object providing URL for logging in or logging out.
+   * Response object providing URL for logging in or logging out and whether the user is logged in
+   * or not.
    */
   private final class LoginClientResponse implements ClientResponse {
 

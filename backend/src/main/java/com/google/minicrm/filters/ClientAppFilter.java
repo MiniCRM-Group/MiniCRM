@@ -64,7 +64,7 @@ public final class ClientAppFilter implements Filter {
   }
 
   /**
-   * Returns whether or not the passed in url is valid
+   * Returns whether or not the passed in url is a valid api url.
    * @param url the String representation of the url
    * @return    true if the url is a valid api url, false otherwise.
    */

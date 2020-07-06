@@ -93,7 +93,7 @@ public final class Lead {
   }
 
   /**
-   * Creates a lead based off of JSON
+   * Creates a lead based off of JSON representing the Lead
    *
    * @param reader a reader object containing a JSON describing a lead object
    * @return a lead object created by the JSON
@@ -112,6 +112,10 @@ public final class Lead {
   }
 
   /**
+   * Generates an Entity of kind Lead with the parent entity specified by the parentKey passed in.
+   * All Entity properties have the same name as their respective instance variables.
+   * The key value pairs in the columnData map are stored separately.
+   *
    * @param parentKey the key of the parent entity of this entity. Should be an Advertiser key.
    * @return this lead object represented as an Entity
    */

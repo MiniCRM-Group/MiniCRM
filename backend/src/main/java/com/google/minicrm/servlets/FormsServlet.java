@@ -152,7 +152,8 @@ public final class FormsServlet extends HttpServlet {
   }
 
   /**
-   * Deletes the form specified by the form_id specified in the request headers or a url parameter.
+   * Deletes the form owned by the current user specified by the form_id specified in the request
+   * headers or a url parameter.
    * Authentication required.
    *
    * HTTP Response Status Codes:
@@ -195,7 +196,7 @@ public final class FormsServlet extends HttpServlet {
   }
 
   /**
-   * Generates a random Google Key of the specified length
+   * Generates a random Google Key of the specified length with alphanumeric characters.
    *
    * @param length the length of the Google Key
    * @return the randomly generated Google Key
@@ -210,7 +211,8 @@ public final class FormsServlet extends HttpServlet {
   }
 
   /**
-   * Response object providing a user's webhook and randomly generated google_key to a POST request
+   * Represents a response to a POST request containing a user's unique webhook and
+   * form_id and google_key of the form created.
    */
   private final class WebhookResponse implements ClientResponse {
 

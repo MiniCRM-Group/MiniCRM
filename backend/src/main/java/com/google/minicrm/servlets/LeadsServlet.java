@@ -44,8 +44,8 @@ public final class LeadsServlet extends HttpServlet {
       .create();
 
   /**
-   * Returns JSON representing all leads in the datastore sorted by time in response to a GET
-   * request
+   * Returns JSON representing all leads in the datastore owned by the current logged in user
+   * sorted by time.
    *
    * HTTP Response Status Codes:
    * - 200 OK: on success

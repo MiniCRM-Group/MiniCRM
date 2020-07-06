@@ -97,7 +97,7 @@ public final class AdvertiserUtil {
   /**
    * Converts an Advertiser Entity into a Google User Object with the same data
    *
-   * @param entity the advertiser entity represeting the Google User
+   * @param entity the advertiser entity representing the Google User
    * @return a Google User object with the same data as the given advertiser Entity
    */
   private static User advertiserEntityToUser(Entity entity) {
@@ -110,7 +110,7 @@ public final class AdvertiserUtil {
   }
 
   /**
-   * /** Creates a Key based on the User Id
+   * Creates an Advertiser Key based on the User Id of the User object passed in
    *
    * @param user the user object to create a key for
    * @return the key unique to the user's id

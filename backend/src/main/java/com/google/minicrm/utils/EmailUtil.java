@@ -31,7 +31,7 @@ import javax.mail.internet.MimeMessage;
 public final class EmailUtil {
 
   /**
-   * Sends an email to the given user notifying them of their new lead
+   * Sends an email asynchronously to the given user notifying them of their new lead
    * @param user                 the google user to send the email to. Uses the user's email address
    * @throws MessagingException  if any errors with the Mail API service occurs. The email will not
    *                             be sent

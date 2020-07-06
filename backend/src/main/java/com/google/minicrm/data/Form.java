@@ -94,6 +94,12 @@ public final class Form {
     return formEntity;
   }
 
+  /**
+   * Creates a Key for a Form entity with the specified formId and user.
+   * @param user   the user owning the form
+   * @param formId the id of the form
+   * @return       the key for the form entity with the specified formId and user.
+   */
   public static Key getFormKeyFromUserAndFormId(User user, long formId) {
     return KeyFactory.createKey(AdvertiserUtil.createAdvertiserKey(user), KIND_NAME, formId);
   }
