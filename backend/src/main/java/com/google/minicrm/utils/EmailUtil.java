@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.utils;
+package com.google.minicrm.utils;
 
 import com.google.appengine.api.users.User;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 

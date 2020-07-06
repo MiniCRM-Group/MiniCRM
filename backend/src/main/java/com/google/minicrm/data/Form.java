@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.data;
+package com.google.minicrm.data;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
-import com.google.step.utils.AdvertiserUtil;
+import com.google.minicrm.utils.AdvertiserUtil;
 import java.util.Date;
 
 /**

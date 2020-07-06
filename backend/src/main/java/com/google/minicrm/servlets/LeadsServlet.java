@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.servlets;
+package com.google.minicrm.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -21,9 +21,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.step.data.Lead;
-import com.google.step.utils.AdvertiserUtil;
-import com.google.step.utils.UserAuthenticationUtil;
+import com.google.minicrm.data.Lead;
+import com.google.minicrm.utils.AdvertiserUtil;
+import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
