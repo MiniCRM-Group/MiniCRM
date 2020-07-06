@@ -4,6 +4,9 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+/**
+ * Handles authentication with Google UserService.
+ */
 public final class UserAuthenticationUtil {
 
   private static UserService userService = UserServiceFactory.getUserService();

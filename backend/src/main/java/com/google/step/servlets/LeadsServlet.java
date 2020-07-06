@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Handles GET request to return Lead data in JSON to the client.
+ * Handles requests to /api/leads regarding anything related to the advertiser's leads.
  */
 @WebServlet("/api/leads")
 public final class LeadsServlet extends HttpServlet {

@@ -25,9 +25,9 @@ import com.google.appengine.api.users.User;
 
 
 /**
- * This class is designed to be the single point of responsibility for storing and reading
- * Advertiser entities from the datastore. Advertiser refers to the entity in the datastore,
- * representing a User provided by Google Authentication using our application.
+ * Handles storing and reading Advertiser entities from the datastore.
+ * Advertiser refers to the entity in the datastore, representing a User provided by
+ * Google Authentication using our application.
  */
 public final class AdvertiserUtil {
 

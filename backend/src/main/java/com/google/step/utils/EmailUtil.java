@@ -28,6 +28,7 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * Handles any emailing that the server needs to make.
+ * Utilizes the Google App Engine Mail API.
  */
 public final class EmailUtil {
 

@@ -36,8 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet to act as the webhook to receive lead data from the Google Ads server Responds to GET
- * requests with JSON with lead data.
+ * Handles POST requests to /api/webhook to receive lead data from the Google Ads server.
  */
 @WebServlet("/api/webhook")
 public final class WebhookServlet extends HttpServlet {
@@ -50,6 +49,8 @@ public final class WebhookServlet extends HttpServlet {
 
   /**
    * Accepts a POST request containing JSON in the body describing a lead from Google Ads server.
+   * Expects an url parameter "id" with the advertiserKeyString. Does nothing if the "id" parameter
+   * is not found or is an empty string.
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response

@@ -42,6 +42,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Handles requests to /api/forms regarding anything related to the advertiser's forms.
+ */
 @WebServlet("/api/forms")
 public final class FormsServlet extends HttpServlet {
 
