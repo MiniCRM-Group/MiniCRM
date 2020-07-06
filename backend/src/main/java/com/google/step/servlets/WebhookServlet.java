@@ -74,6 +74,7 @@ public final class WebhookServlet extends HttpServlet {
       EmailUtil.sendNewLeadEmail(user);
     } catch (MessagingException e) {
       System.out.println(e);
+      //TODO: Determine what happens when the email fails
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(myLead.asEntity(advertiserKey));
