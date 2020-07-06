@@ -14,6 +14,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatCardModule } from '@angular/material/card';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -57,10 +61,12 @@ import { LeadService } from './services/lead.service';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatInputModule,
     MatFormFieldModule,
-    MatInputModule
-  ],
-  providers: [
+    MatProgressSpinnerModule,
+    MatCardModule
+   ],
+  providers: [LeadService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]
