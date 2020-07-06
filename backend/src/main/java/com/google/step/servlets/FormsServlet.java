@@ -56,6 +56,10 @@ public final class FormsServlet extends HttpServlet {
    * Returns JSON representing the advertiser's unique webhook and all their Form data.
    * Authentication required.
    *
+   * HTTP Response Status Codes:
+   * - 200 OK: Success
+   * - 401 Unauthorized: if not logged in with Google
+   *
    * @param request  the HTTP Request
    * @param response the HTTP Response
    * @throws IOException if an input exception occurs with the response writer or reader
@@ -63,7 +67,7 @@ public final class FormsServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
+      response.sendError(401, "Log in with Google to continue."); //401 Unauthorized
       return;
     }
     String webhookUrl = generateUserWebhook(request, UserAuthenticationUtil.getCurrentUser());
@@ -82,18 +86,14 @@ public final class FormsServlet extends HttpServlet {
 
   /**
    * Returns JSON representing the advertiser's webhook and google key Request body needs to contain
-   * form_id and form_name in application/x-www-form-urlencoded or application/json Example POST
-   * request using application/x-www-form-urlencoded: fetch('http://localhost:8080/api/forms', {
-   * method: 'POST', body: params, }) .then(res => res.json()) .then(console.log)
-   * <p>
-   * where params is a URLSearchParams object with keys form_id and form_name. URLSearchParams
-   * automatically sets encoding to application/x-www-form-urlencoded. Example POST request using
-   * application/json: fetch('http://localhost:8080/api/forms', { method: 'POST', body:
-   * JSON.stringify({ form_id: "1234", form_name: "exampleForm" }), headers: { 'Content-type':
-   * 'application/json; charset=UTF-8' } }) .then(res => res.json()) .then(console.log)
-   * <p>
-   * Note: form_id should be a string not a number without quotation marks. Authentication
-   * required.
+   * form_id and form_name in application/x-www-form-urlencoded or application/json as Strings.
+   * Authentication required.
+   *
+   * HTTP Response Status Codes:
+   * - 201 Created: on success
+   * - 401 Unauthorized: if not logged in with Google
+   * - 403 Forbidden: if the form id is already claimed and verified
+   * - 415 Not Supported: if content body is not a valid type
    *
    * @param request  the HTTP Request. Expecting parameter form_id with the form_id to add
    * @param response the HTTP Response
@@ -102,7 +102,7 @@ public final class FormsServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
+      response.sendError(401, "Log in with Google to continue."); //401 Unauthorized
       return;
     }
 
@@ -146,15 +146,20 @@ public final class FormsServlet extends HttpServlet {
         false);
     datastore.put(newForm.asEntity());
 
+    response.setStatus(201); //201 Created
     response.setContentType("application/json;");
     response.getWriter().println(new WebhookResponse(webhookUrl, googleKey, formId).toJson());
   }
 
   /**
    * Deletes the form specified by the form_id specified in the request headers or a url parameter.
-   * Returns a 204 No Content status code on a successful deletion. Authentication required.
+   * Authentication required.
+   *
+   * HTTP Response Status Codes:
+   * - 204 No Content: on successful deletion.
    * Note: returns 204 No Content even if the form to be deleted never existed in the first place.
    * Instead, guarantees that it doesn't exist anymore in the datastore.
+   * - 401 Unauthorized: if not logged in with Google
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -164,7 +169,7 @@ public final class FormsServlet extends HttpServlet {
       throws IOException {
 
     if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
+      response.sendError(401, "Log in with Google to continue."); //401 Unauthorized
       return;
     }
 

@@ -47,6 +47,10 @@ public final class LeadsServlet extends HttpServlet {
    * Returns JSON representing all leads in the datastore sorted by time in response to a GET
    * request
    *
+   * HTTP Response Status Codes:
+   * - 200 OK: on success
+   * - 401 Unauthorized: if not logged in with Google
+   *
    * @param request  the HTTP Request
    * @param response the HTTP Response
    * @throws IOException if an input exception occurs with the response writer
@@ -54,7 +58,7 @@ public final class LeadsServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
+      response.sendError(401, "Log in with Google to continue."); //401 Unauthorized
       return;
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
