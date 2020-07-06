@@ -19,7 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { MatSortModule } from '@angular/material/sort';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -67,6 +67,7 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     MatToolbarModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSortModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,

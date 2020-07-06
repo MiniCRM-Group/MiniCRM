@@ -17,13 +17,15 @@ package com.google.step.data;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.User;
+import com.google.step.utils.AdvertiserUtil;
 import java.util.Date;
 
 /**
  * This class represents a Form and all of its data. Supports conversion to datastore Entity objects
  * and back.
  */
-public class Form {
+public final class Form {
 
   private Date date;
   private long formId;
@@ -89,6 +91,10 @@ public class Form {
     formEntity.setProperty("googleKey", googleKey);
     formEntity.setProperty("verified", verified);
     return formEntity;
+  }
+
+  public static Key getFormKeyFromUserAndFormId(User user, long formId) {
+    return KeyFactory.createKey(AdvertiserUtil.createAdvertiserKey(user), "Form", formId);
   }
 
 }

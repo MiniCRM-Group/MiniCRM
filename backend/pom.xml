@@ -89,7 +89,7 @@
                     <nodeVersion>v14.4.0</nodeVersion>
                     <workingDirectory>../frontend</workingDirectory>
                     <installDirectory>../frontend</installDirectory>
-                </configuration>  
+                </configuration>
             </plugin>
         </plugins>
     </build>
