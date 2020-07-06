@@ -45,6 +45,7 @@ public final class Lead {
   private boolean isTest;
   private long adgroupId;
   private long creativeId;
+  private String note;
 
   /**
    * Blank constructor that sets the time when this lead was created
@@ -73,6 +74,7 @@ public final class Lead {
     this.isTest = (Boolean) entity.getProperty("isTest");
     this.adgroupId = (Long) entity.getProperty("adgroupId");
     this.creativeId = (Long) entity.getProperty("creativeId");
+    this.note = (String) entity.getProperty("note");
 
     entity.removeProperty("date");
     entity.removeProperty("leadId");
@@ -84,6 +86,7 @@ public final class Lead {
     entity.removeProperty("isTest");
     entity.removeProperty("adgroupId");
     entity.removeProperty("creativeId");
+    entity.removeProperty("note");
     this.columnData = new HashMap<>();
     for (String key : entity.getProperties().keySet()) {
       columnData.put(key, (String) entity.getProperty(key));
@@ -125,6 +128,7 @@ public final class Lead {
     leadEntity.setProperty("isTest", isTest);
     leadEntity.setProperty("adgroupId", adgroupId);
     leadEntity.setProperty("creativeId", creativeId);
+    leadEntity.setProperty("note", note);
     for (String key : columnData.keySet()) {
       leadEntity.setProperty(key, columnData.get(key));
     }
@@ -236,5 +240,12 @@ public final class Lead {
    */
   public long getCreativeId() {
     return creativeId;
+  }
+
+  /**
+   * @return this Lead's note
+   */
+  public String getNote() {
+    return note;
   }
 }
