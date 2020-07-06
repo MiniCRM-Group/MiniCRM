@@ -32,6 +32,7 @@ import java.util.Map;
  */
 public final class Lead {
 
+  public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
   private Date date;
@@ -61,7 +62,7 @@ public final class Lead {
    */
   public Lead(Entity entity) {
     this();
-    if (!entity.getKind().equals("Lead")) {
+    if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Lead.");
     }
     this.date = (Date) entity.getProperty("date");
@@ -115,7 +116,7 @@ public final class Lead {
    * @return this lead object represented as an Entity
    */
   public Entity asEntity(Key parentKey) {
-    Entity leadEntity = new Entity("Lead", parentKey);
+    Entity leadEntity = new Entity(KIND_NAME, parentKey);
     leadEntity.setProperty("date", date);
     leadEntity.setProperty("leadId", leadId);
     leadEntity.setProperty("campaignId", campaignId);

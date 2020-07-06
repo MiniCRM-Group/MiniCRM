@@ -62,7 +62,7 @@ public final class LeadsServlet extends HttpServlet {
       return;
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Lead")
+    Query query = new Query(Lead.KIND_NAME)
         .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
         .addSort("date", Query.SortDirection.DESCENDING);
     PreparedQuery preparedQuery = datastore.prepare(query);

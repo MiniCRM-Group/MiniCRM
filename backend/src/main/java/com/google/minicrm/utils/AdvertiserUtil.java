@@ -31,7 +31,7 @@ import com.google.appengine.api.users.User;
  */
 public final class AdvertiserUtil {
 
-  public static final String ADVERTISER_ENTITY_NAME = "Advertiser";
+  public static final String ADVERTISER_KIND_NAME = "Advertiser";
 
   /**
    * Checks whether the user object passed in exists in datastore as an advertiser
@@ -116,6 +116,6 @@ public final class AdvertiserUtil {
    * @return the key unique to the user's id
    */
   public static Key createAdvertiserKey(User user) {
-    return KeyFactory.createKey(ADVERTISER_ENTITY_NAME, user.getUserId());
+    return KeyFactory.createKey(ADVERTISER_KIND_NAME, user.getUserId());
   }
 }

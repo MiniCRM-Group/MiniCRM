@@ -71,7 +71,7 @@ public final class FormsServlet extends HttpServlet {
       return;
     }
     String webhookUrl = generateUserWebhook(request, UserAuthenticationUtil.getCurrentUser());
-    Query query = new Query("Form")
+    Query query = new Query(Form.KIND_NAME)
         .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
         .addSort("date", Query.SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -125,7 +125,7 @@ public final class FormsServlet extends HttpServlet {
 
     //query the datastore to see if the form id already is claimed
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Form")
+    Query query = new Query(Form.KIND_NAME)
         .setFilter(CompositeFilterOperator.and(FilterOperator.EQUAL.of("formId", formId),
             FilterOperator.EQUAL.of("verified", true)))
         .setKeysOnly();
