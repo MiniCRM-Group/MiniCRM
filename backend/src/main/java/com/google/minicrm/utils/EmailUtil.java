@@ -12,27 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.utils;
+package com.google.minicrm.utils;
 
 import com.google.appengine.api.users.User;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
  * Handles any emailing that the server needs to make.
+ * Utilizes the Google App Engine Mail API.
  */
 public final class EmailUtil {
 
   /**
-   * Sends an email to the given user notifying them of their new lead
+   * Sends an email asynchronously to the given user notifying them of their new lead
    * @param user                 the google user to send the email to. Uses the user's email address
    * @throws MessagingException  if any errors with the Mail API service occurs. The email will not
    *                             be sent

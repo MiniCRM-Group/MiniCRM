@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.servlets;
+package com.google.minicrm.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -21,9 +21,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.step.data.Lead;
-import com.google.step.utils.AdvertiserUtil;
-import com.google.step.utils.UserAuthenticationUtil;
+import com.google.minicrm.data.Lead;
+import com.google.minicrm.utils.AdvertiserUtil;
+import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Handles GET request to return Lead data in JSON to the client.
+ * Handles requests to /api/leads regarding anything related to the advertiser's leads.
  */
 @WebServlet("/api/leads")
 public final class LeadsServlet extends HttpServlet {
@@ -44,8 +44,12 @@ public final class LeadsServlet extends HttpServlet {
       .create();
 
   /**
-   * Returns JSON representing all leads in the datastore sorted by time in response to a GET
-   * request
+   * Returns JSON representing all leads in the datastore owned by the current logged in user
+   * sorted by time.
+   *
+   * HTTP Response Status Codes:
+   * - 200 OK: on success
+   * - 401 Unauthorized: if not logged in with Google
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -54,11 +58,11 @@ public final class LeadsServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     if (!UserAuthenticationUtil.isAuthenticated()) {
-      response.sendRedirect("/");
+      response.sendError(401, "Log in with Google to continue."); //401 Unauthorized
       return;
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query = new Query("Lead")
+    Query query = new Query(Lead.KIND_NAME)
         .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
         .addSort("date", Query.SortDirection.DESCENDING);
     PreparedQuery preparedQuery = datastore.prepare(query);

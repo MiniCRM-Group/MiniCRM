@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.data;
+package com.google.minicrm.data;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
-import com.google.step.utils.AdvertiserUtil;
+import com.google.minicrm.utils.AdvertiserUtil;
 import java.util.Date;
 
 /**
@@ -27,6 +27,7 @@ import java.util.Date;
  */
 public final class Form {
 
+  public static final String KIND_NAME = "Form";
   private Date date;
   private long formId;
   private String formName;
@@ -67,7 +68,7 @@ public final class Form {
    * @param entity
    */
   public Form(Entity entity) {
-    if (!entity.getKind().equals("Form")) {
+    if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Form.");
     }
     this.date = (Date) entity.getProperty("date");
@@ -82,7 +83,7 @@ public final class Form {
    * @return an entity representation of this Form with Kind Form
    */
   public Entity asEntity() {
-    Key formKey = KeyFactory.createKey(advertiserKey, "Form", formId);
+    Key formKey = KeyFactory.createKey(advertiserKey, KIND_NAME, formId);
     Entity formEntity = new Entity(formKey);
     formEntity.setProperty("date", date);
     formEntity.setProperty("formId", formId);
@@ -93,8 +94,14 @@ public final class Form {
     return formEntity;
   }
 
+  /**
+   * Creates a Key for a Form entity with the specified formId and user.
+   * @param user   the user owning the form
+   * @param formId the id of the form
+   * @return       the key for the form entity with the specified formId and user.
+   */
   public static Key getFormKeyFromUserAndFormId(User user, long formId) {
-    return KeyFactory.createKey(AdvertiserUtil.createAdvertiserKey(user), "Form", formId);
+    return KeyFactory.createKey(AdvertiserUtil.createAdvertiserKey(user), KIND_NAME, formId);
   }
 
 }

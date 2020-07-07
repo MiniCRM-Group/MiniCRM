@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.servlets;
+package com.google.minicrm.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.step.interfaces.ClientResponse;
+import com.google.minicrm.interfaces.ClientResponse;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet to check if user is logged in and return corresponding URL for logging in/out.
+ * Handles requests to /api/login to check if user is logged in and returns the corresponding URL
+ * for logging in/out.
  */
 @WebServlet("/api/login")
 public final class LoginServlet extends HttpServlet {
@@ -40,6 +41,17 @@ public final class LoginServlet extends HttpServlet {
     userService = UserServiceFactory.getUserService();
   }
 
+  /**
+   * Returns JSON representing whether or not the client is logged in with Google and a
+   * corresponding login/logout URL.
+   *
+   * HTTP Response Status Codes:
+   * - 200 OK: Success
+   *
+   * @param request  the HTTP Request
+   * @param response the HTTP Response
+   * @throws IOException if an input exception occurs with the response writer or reader
+   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String url;
@@ -55,7 +67,8 @@ public final class LoginServlet extends HttpServlet {
   }
 
   /**
-   * Response object providing URL for logging in or logging out.
+   * Response object providing URL for logging in or logging out and whether the user is logged in
+   * or not.
    */
   private final class LoginClientResponse implements ClientResponse {
 
