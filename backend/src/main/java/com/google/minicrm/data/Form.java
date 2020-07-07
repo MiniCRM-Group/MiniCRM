@@ -33,33 +33,16 @@ public final class Form {
   private String formName;
 
   /**
-   * Key for the advertiser entity that this form belongs to. Transient to prevent GSON from
-   * serializing this when sending form data to client.
-   */
-  private transient Key advertiserKey;
-  private String googleKey;
-  private boolean verified;
-
-  /**
    * Full parameter constructor for a Form object Auto generated the date object
    *
    * @param formId        the id of the form
    * @param formName      the name of the form
-   * @param advertiserKey the key of the advertiser entity in datastore
-   * @param googleKey     the google key for this form
-   * @param verified      whether or not this form has been verified
    */
   public Form(long formId,
-      String formName,
-      Key advertiserKey,
-      String googleKey,
-      boolean verified) {
+      String formName) {
     this.date = new Date(System.currentTimeMillis());
     this.formId = formId;
     this.formName = formName;
-    this.advertiserKey = advertiserKey;
-    this.googleKey = googleKey;
-    this.verified = verified;
   }
 
   /**
@@ -74,34 +57,20 @@ public final class Form {
     this.date = (Date) entity.getProperty("date");
     this.formId = (Long) entity.getProperty("formId");
     this.formName = (String) entity.getProperty("formName");
-    this.advertiserKey = (Key) entity.getProperty("advertiserKey");
-    this.googleKey = (String) entity.getProperty("googleKey");
-    this.verified = (Boolean) entity.getProperty("verified");
   }
 
   /**
+   * Generates an Entity of kind Form with the parent entity specified by the parentKey passed in.
+   * All Entity properties have the same name as their respective instance variables.
+   * @param parentKey  the key of the parent entity of this key. Should be an Advertiser Key.
    * @return an entity representation of this Form with Kind Form
    */
-  public Entity asEntity() {
-    Key formKey = KeyFactory.createKey(advertiserKey, KIND_NAME, formId);
+  public Entity asEntity(Key parentKey) {
+    Key formKey = KeyFactory.createKey(parentKey, KIND_NAME, formId);
     Entity formEntity = new Entity(formKey);
     formEntity.setProperty("date", date);
     formEntity.setProperty("formId", formId);
     formEntity.setProperty("formName", formName);
-    formEntity.setProperty("advertiserKey", advertiserKey);
-    formEntity.setProperty("googleKey", googleKey);
-    formEntity.setProperty("verified", verified);
     return formEntity;
   }
-
-  /**
-   * Creates a Key for a Form entity with the specified formId and user.
-   * @param user   the user owning the form
-   * @param formId the id of the form
-   * @return       the key for the form entity with the specified formId and user.
-   */
-  public static Key getFormKeyFromUserAndFormId(User user, long formId) {
-    return KeyFactory.createKey(AdvertiserUtil.createAdvertiserKey(user), KIND_NAME, formId);
-  }
-
 }
