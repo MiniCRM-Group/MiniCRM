@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.data;
+package com.google.minicrm.data;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
@@ -27,10 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class represents a lead and all its data.
+ * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
+ * objects.
  */
 public final class Lead {
 
+  public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
   private Date date;
@@ -59,8 +61,7 @@ public final class Lead {
    * @param entity entity of kind lead that represents a lead
    */
   public Lead(Entity entity) {
-    this();
-    if (!entity.getKind().equals("Lead")) {
+    if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Lead.");
     }
     this.date = (Date) entity.getProperty("date");
@@ -91,7 +92,7 @@ public final class Lead {
   }
 
   /**
-   * Creates a lead based off of JSON
+   * Creates a lead based off of JSON representing the Lead
    *
    * @param reader a reader object containing a JSON describing a lead object
    * @return a lead object created by the JSON
@@ -110,11 +111,15 @@ public final class Lead {
   }
 
   /**
+   * Generates an Entity of kind Lead with the parent entity specified by the parentKey passed in.
+   * All Entity properties have the same name as their respective instance variables.
+   * The key value pairs in the columnData map are stored separately.
+   *
    * @param parentKey the key of the parent entity of this entity. Should be an Advertiser key.
    * @return this lead object represented as an Entity
    */
   public Entity asEntity(Key parentKey) {
-    Entity leadEntity = new Entity("Lead", parentKey);
+    Entity leadEntity = new Entity(KIND_NAME, parentKey);
     leadEntity.setProperty("date", date);
     leadEntity.setProperty("leadId", leadId);
     leadEntity.setProperty("campaignId", campaignId);
@@ -236,5 +241,30 @@ public final class Lead {
    */
   public long getCreativeId() {
     return creativeId;
+  }
+
+  /**
+   * This class represents column data for a lead.
+   */
+  private class ColumnData {
+
+    private String stringValue;
+    private String columnId;
+
+    //Getters and Setters
+
+    /**
+     * @return columnData value
+     */
+    public String getStringValue() {
+      return stringValue;
+    }
+
+    /**
+     * @return current columnId
+     */
+    public String getColumnId() {
+      return columnId;
+    }
   }
 }

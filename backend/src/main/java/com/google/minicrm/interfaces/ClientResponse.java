@@ -1,4 +1,4 @@
-package com.google.step.interfaces;
+package com.google.minicrm.interfaces;
 
 /**
  * Represents responses sent back to the client.
