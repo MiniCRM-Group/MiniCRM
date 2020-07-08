@@ -12,6 +12,9 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog } from '@angular/material/dialog';
+
 
 /**
  * Imports from the RxJS library
@@ -33,21 +36,24 @@ export class LeadsComponent implements AfterViewInit {
 
   readonly isLoading$ = new BehaviorSubject<boolean>(true);
   readonly dataSource: MatTableDataSource<Lead>;
+    selection = new SelectionModel<Lead>(true, []);
   /**
    * Column IDs that we plan to show on the table are stored here
    */
   readonly displayedColumns: string[] = [
+    'select',
     'lead_id',
     'name',
     'phone_number',
     'campaign_id',
     'date',
+    'details'
   ];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService) {
+  constructor(private readonly leadService: LeadService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
   }
@@ -103,12 +109,12 @@ export class LeadsComponent implements AfterViewInit {
    * A Recursive function to check for each data in the nested JSON
    * @param lead A lead that exists in the JSON
    * @param data The whole data we have in the JSON
-   * @param key
+   * @param key The property of the lead at is nested if it exists
    * @return lead
    */
   nestedPropertyFilterCheck(property, data, key) {
     if (typeof data[key] === 'object') {
-    console.log('2  ' + data[key])
+    console.log('2  ' + key)
       for (const k in data[key]) {
       console.log('3  ' + k);
         if (data[key][k] !== null) {
@@ -135,5 +141,43 @@ export class LeadsComponent implements AfterViewInit {
     }
   }
 
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+    /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: Lead): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.lead_id + 1}`;
+  }
+
+  openDialog() {
+      const dialogRef = this.dialog.open(DetailsDialog);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+  }
+
+
+
 
 }
+  @Component({
+    selector: 'DetailsDialog',
+    templateUrl: './leads-details.component.html',
+    styleUrls: ['./leads.component.css']
+  })
+export class DetailsDialog {}

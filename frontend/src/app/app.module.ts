@@ -18,6 +18,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -34,6 +36,7 @@ import { LandingComponent } from './landing/landing.component';
 
 // Service imports
 import { LeadService } from './services/lead.service';
+import { LeadsDetailsComponent } from './crm/leads/leads-details/leads-details.component';
 
 
 @NgModule({
@@ -45,7 +48,8 @@ import { LeadService } from './services/lead.service';
     GuideComponent,
     AnalyticsComponent,
     CrmComponent,
-    LandingComponent
+    LandingComponent,
+    LeadsDetailsComponent
   ],
   imports: [
     HttpClientModule,
@@ -66,8 +70,11 @@ import { LeadService } from './services/lead.service';
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule
    ],
+  entryComponents: [LeadsDetailsComponent],
   providers: [LeadService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
