@@ -46,7 +46,8 @@ public final class Form {
   /**
    * Generates a Form object based off an entity of kind Form.
    *
-   * @param entity
+   * @param entity an entity to generate the Form object from
+   * @throw IllegalArgumentException if the entity passed is not of kind Form
    */
   public Form(Entity entity) {
     if (!entity.getKind().equals(KIND_NAME)) {
