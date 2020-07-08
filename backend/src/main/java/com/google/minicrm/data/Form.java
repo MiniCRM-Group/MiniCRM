@@ -27,7 +27,7 @@ public final class Form implements DatastoreObject{
 
   public static final String KIND_NAME = "Form";
 
-  private Key advertiserKey;
+  private transient Key advertiserKey;
   private Date date;
   private long formId;
   private String formName;

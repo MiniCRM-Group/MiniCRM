@@ -35,7 +35,7 @@ public final class Lead implements DatastoreObject {
   public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-  private Key advertiserKey;
+  private transient Key advertiserKey;
   private Date date;
   private String leadId;
   private long campaignId;
