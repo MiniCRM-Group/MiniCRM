@@ -106,16 +106,14 @@ public final class WebhookServlet extends HttpServlet {
     }
     Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
     Advertiser advertiser;
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     try {
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       advertiser = new Advertiser(datastore.get(advertiserKey));
     } catch (EntityNotFoundException e) {
       response.sendError(404,
           "Invalid webhook url. Advertiser has not registered with our site.");
       return;
     }
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Lead newLead = Lead.fromReader(request.getReader(), advertiserKey);
 
     //verify the lead

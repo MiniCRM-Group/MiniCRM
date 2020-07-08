@@ -25,9 +25,7 @@ public final class UserAuthenticationUtil {
     } else { //user is logged in
       User user = userService.getCurrentUser();
       if (!DatastoreUtil.exists(Advertiser.generateKey(user))) {
-        Advertiser newAdvertiser = new Advertiser(user);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        datastore.put(newAdvertiser.asEntity());
+        DatastoreUtil.put(new Advertiser(user));
       }
       return true;
     }
