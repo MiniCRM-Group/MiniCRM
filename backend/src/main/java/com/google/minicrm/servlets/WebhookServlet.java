@@ -23,6 +23,7 @@ import com.google.appengine.api.users.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.minicrm.data.Advertiser;
 import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.interfaces.ClientResponse;
@@ -67,14 +68,17 @@ public final class WebhookServlet extends HttpServlet {
       return;
     }
     User user = UserAuthenticationUtil.getCurrentUser();
-    String googleKey;
+    Key advertiserKey = Advertiser.generateKey(user);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Advertiser advertiser;
     try {
-      googleKey = AdvertiserUtil.getGoogleKey(user);
+      advertiser = new Advertiser(datastore.get(advertiserKey));
     } catch (EntityNotFoundException e) {
       //shouldn't happen since authentication guarantees the entity exists
       response.sendError(500, e.toString());
       return;
     }
+    String googleKey = advertiser.getGoogleKey();
     String webhook = AdvertiserUtil.getUserWebhook(request, user);
 
     response.setContentType("application/json;");
@@ -102,9 +106,10 @@ public final class WebhookServlet extends HttpServlet {
       return; //stop execution, we expect an id param in the url
     }
     Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
-    User user;
+    Advertiser advertiser;
     try {
-      user = AdvertiserUtil.getUserFromAdvertiserKey(advertiserKey);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      advertiser = new Advertiser(datastore.get(advertiserKey));
     } catch (EntityNotFoundException e) {
       response.sendError(404,
           "Invalid webhook url. Advertiser has not registered with our site.");
@@ -128,7 +133,7 @@ public final class WebhookServlet extends HttpServlet {
 
     //send an email notification to the advertiser that they have a new lead
     try {
-      EmailUtil.sendNewLeadEmail(user);
+      EmailUtil.sendNewLeadEmail(advertiser.getUser());
     } catch (MessagingException e) {
       Logger logger = Logger.getLogger("com.google.step.servlets.WebhookServlet");
       logger.log(Level.SEVERE, "Failed to send new lead email notification.", e);
