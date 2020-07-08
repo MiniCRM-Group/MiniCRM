@@ -24,8 +24,10 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.minicrm.data.Lead;
+import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.AdvertiserUtil;
 import com.google.minicrm.utils.EmailUtil;
+import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Handles POST requests to /api/webhook to receive lead data from the Google Ads server.
+ * Handles requests to /api/webhook for anything related to each advertisers webhook.
+ * Expects POST request from the Google Ads server containing new lead data.
  */
 @WebServlet("/api/webhook")
 public final class WebhookServlet extends HttpServlet {
@@ -46,6 +49,37 @@ public final class WebhookServlet extends HttpServlet {
       .create();
   private static final String ID_URL_PARAM = "id";
   private Lead myLead;
+
+  /**
+   * Returns JSON describing the currently logged in user's Google Key and unique webhook.
+   * Authentication required.
+   *
+   * HTTP Response Status Codes:
+   *
+   * @param request
+   * @param response
+   * @throws IOException
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    if (!UserAuthenticationUtil.isAuthenticated()) {
+      response.sendError(401, "Log in with Google to continue."); //401 Unauthorized
+      return;
+    }
+    User user = UserAuthenticationUtil.getCurrentUser();
+    String googleKey;
+    try {
+      googleKey = AdvertiserUtil.getGoogleKey(user);
+    } catch (EntityNotFoundException e) {
+      //shouldn't happen since authentication guarantees the entity exists
+      response.sendError(500, e.toString());
+      return;
+    }
+    String webhook = AdvertiserUtil.getUserWebhook(request, user);
+
+    response.setContentType("application/json;");
+    response.getWriter().println(new WebhookResponse(webhook, googleKey).toJson());
+  }
 
   /**
    * Accepts a POST request containing JSON in the body describing a lead from Google Ads server.
@@ -79,6 +113,7 @@ public final class WebhookServlet extends HttpServlet {
     myLead = Lead.fromReader(request.getReader());
     //TODO: Add additional verification steps
 
+    //send an email notification to the advertiser that they have a new lead
     try {
       EmailUtil.sendNewLeadEmail(user);
     } catch (MessagingException e) {
@@ -88,5 +123,39 @@ public final class WebhookServlet extends HttpServlet {
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(myLead.asEntity(advertiserKey));
+  }
+
+  /**
+   * Represents a response to a POST request containing a user's unique webhook and
+   * form_id and google_key of the form created.
+   */
+  private final class WebhookResponse implements ClientResponse {
+
+    /**
+     * Webhook URL for Advertiser to put in Google Ads.
+     */
+    private final String webhookUrl;
+
+    /**
+     * Randomly generated Google Key
+     */
+    private final String googleKey;
+
+    /**
+     * Constructor for response to send back to user containing the webhook and google key
+     *
+     * @param webhookUrl url to receive lead data from Google Ads
+     * @param googleKey  randomly generated google key string
+     */
+    WebhookResponse(String webhookUrl, String googleKey) {
+      this.webhookUrl = webhookUrl;
+      this.googleKey = googleKey;
+    }
+
+    @Override
+    public String toJson() {
+      Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+      return gson.toJson(this);
+    }
   }
 }
