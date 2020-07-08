@@ -23,6 +23,7 @@ import com.google.appengine.api.users.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.AdvertiserUtil;
@@ -48,7 +49,6 @@ public final class WebhookServlet extends HttpServlet {
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
       .create();
   private static final String ID_URL_PARAM = "id";
-  private Lead myLead;
 
   /**
    * Returns JSON describing the currently logged in user's Google Key and unique webhook.
@@ -110,8 +110,21 @@ public final class WebhookServlet extends HttpServlet {
           "Invalid webhook url. Advertiser has not registered with our site.");
       return;
     }
-    myLead = Lead.fromReader(request.getReader());
-    //TODO: Add additional verification steps
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Lead newLead = Lead.fromReader(request.getReader());
+
+    //verify the lead
+
+
+    //check if this lead belongs to a new form, if it does make a new form entity
+    Key formKey = Form.generateFormKey(advertiserKey, newLead.getFormId());
+    try {
+      datastore.get(formKey);
+    } catch (EntityNotFoundException e) { //the form does not exist, make a new one
+      Form newForm = new Form(newLead.getFormId(), Long.toString(newLead.getFormId()));
+      datastore.put(newForm.asEntity(advertiserKey));
+    }
 
     //send an email notification to the advertiser that they have a new lead
     try {
@@ -121,8 +134,7 @@ public final class WebhookServlet extends HttpServlet {
       logger.log(Level.SEVERE, "Failed to send new lead email notification.", e);
       //TODO: Determine what happens when the email fails
     }
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(myLead.asEntity(advertiserKey));
+    datastore.put(newLead.asEntity(advertiserKey));
   }
 
   /**
