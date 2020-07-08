@@ -21,9 +21,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.minicrm.data.Advertiser;
 import com.google.minicrm.data.Form;
 import com.google.minicrm.interfaces.ClientResponse;
-import com.google.minicrm.utils.AdvertiserUtil;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public final class FormsServlet extends HttpServlet {
       return;
     }
     Query query = new Query(Form.KIND_NAME)
-        .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
+        .setAncestor(Advertiser.generateKey(UserAuthenticationUtil.getCurrentUser()))
         .addSort("date", Query.SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery preparedQuery = datastore.prepare(query);
@@ -99,7 +99,7 @@ public final class FormsServlet extends HttpServlet {
     User user = UserAuthenticationUtil.getCurrentUser();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.delete(Form.generateKey(AdvertiserUtil.createAdvertiserKey(user), formId));
+    datastore.delete(Form.generateKey(Advertiser.generateKey(user), formId));
 
     response.setStatus(204); //Success - 204 No Content
   }
