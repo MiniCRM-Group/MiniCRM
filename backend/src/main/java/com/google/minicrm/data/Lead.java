@@ -30,7 +30,7 @@ import java.util.Map;
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
  * objects.
  */
-public final class Lead {
+public final class Lead implements DatastoreObject {
 
   public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()

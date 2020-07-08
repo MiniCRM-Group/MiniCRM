@@ -23,7 +23,7 @@ import java.util.Date;
  * Represents a Form and all of its data. Supports conversion to datastore Entity objects
  * and back.
  */
-public final class Form {
+public final class Form implements DatastoreObject{
 
   public static final String KIND_NAME = "Form";
 

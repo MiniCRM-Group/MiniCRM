@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * data relevant to the Advertiser (i.e. their googleKey). Supports conversion to datastore entities
  * and back.
  */
-public class Advertiser {
+public class Advertiser implements DatastoreObject {
   public static final String KIND_NAME = "Advertiser";
 
   private static final String ID_URL_PARAM = "id";
