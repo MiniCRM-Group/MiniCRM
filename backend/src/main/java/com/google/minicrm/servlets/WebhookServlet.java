@@ -27,7 +27,6 @@ import com.google.minicrm.data.Advertiser;
 import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.interfaces.ClientResponse;
-import com.google.minicrm.utils.AdvertiserUtil;
 import com.google.minicrm.utils.EmailUtil;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
