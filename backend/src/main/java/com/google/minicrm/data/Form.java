@@ -17,8 +17,6 @@ package com.google.minicrm.data;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.User;
-import com.google.minicrm.utils.AdvertiserUtil;
 import java.util.Date;
 
 /**
@@ -66,7 +64,7 @@ public final class Form {
    * @return an entity representation of this Form with Kind Form
    */
   public Entity asEntity(Key parentKey) {
-    Key formKey = generateFormKey(parentKey, formId);
+    Key formKey = generateKey(parentKey, formId);
     Entity formEntity = new Entity(formKey);
     formEntity.setProperty("date", date);
     formEntity.setProperty("formId", formId);
@@ -80,7 +78,7 @@ public final class Form {
    * @param formId    the id of the form
    * @return          a key for the form specified by the parentKey and formId given
    */
-  public static Key generateFormKey(Key parentKey, long formId) {
+  public static Key generateKey(Key parentKey, long formId) {
     return KeyFactory.createKey(parentKey, KIND_NAME, formId);
   }
 }

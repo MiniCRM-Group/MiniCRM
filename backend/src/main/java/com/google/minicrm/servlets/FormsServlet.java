@@ -16,12 +16,8 @@ package com.google.minicrm.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
-import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.users.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,11 +26,8 @@ import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.AdvertiserUtil;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import javax.servlet.annotation.WebServlet;
@@ -106,7 +99,7 @@ public final class FormsServlet extends HttpServlet {
     User user = UserAuthenticationUtil.getCurrentUser();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.delete(Form.generateFormKey(AdvertiserUtil.createAdvertiserKey(user), formId));
+    datastore.delete(Form.generateKey(AdvertiserUtil.createAdvertiserKey(user), formId));
 
     response.setStatus(204); //Success - 204 No Content
   }

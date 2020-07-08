@@ -118,7 +118,7 @@ public final class WebhookServlet extends HttpServlet {
 
 
     //check if this lead belongs to a new form, if it does make a new form entity
-    Key formKey = Form.generateFormKey(advertiserKey, newLead.getFormId());
+    Key formKey = Form.generateKey(advertiserKey, newLead.getFormId());
     try {
       datastore.get(formKey);
     } catch (EntityNotFoundException e) { //the form does not exist, make a new one
