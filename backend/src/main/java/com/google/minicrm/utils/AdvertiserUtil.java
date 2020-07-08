@@ -53,13 +53,12 @@ public final class AdvertiserUtil {
       return true;
     } catch (EntityNotFoundException e) {
       return false;
-    } finally {
-      return false;
     }
   }
 
   /**
-   * Puts the user object passed in to the datastore as an advertiser entity
+   * Puts the user object passed in to the datastore as an advertiser entity.
+   * Remakes and changes the advertiser's Google Key if they already exist in the datastore.
    *
    * @param user the google user to be added
    * @throws java.util.ConcurrentModificationException if the entity group that the user entity
@@ -156,7 +155,7 @@ public final class AdvertiserUtil {
   /**
    * @return the webhook for this user with a URL-Safe Key String uniquely identifying the user
    */
-  private static String getUserWebhook(HttpServletRequest request, User user) {
+  public static String getUserWebhook(HttpServletRequest request, User user) {
     //generate URL-Safe Key string
     String advertiserKeyString = KeyFactory.keyToString(AdvertiserUtil.createAdvertiserKey(user));
     return request.getScheme() + "://" +
