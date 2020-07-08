@@ -35,6 +35,7 @@ public final class Lead {
   public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+  private Key advertiserKey;
   private Date date;
   private String leadId;
   private long campaignId;
@@ -64,6 +65,7 @@ public final class Lead {
     if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Lead.");
     }
+    this.advertiserKey = entity.getParent();
     this.date = (Date) entity.getProperty("date");
     this.leadId = (String) entity.getProperty("leadId");
     this.campaignId = (Long) entity.getProperty("campaignId");
@@ -92,14 +94,16 @@ public final class Lead {
   }
 
   /**
-   * Creates a lead based off of JSON representing the Lead
+   * Creates a lead based off of JSON representing the Lead with the parent advertiserKey specified.
    *
    * @param reader a reader object containing a JSON describing a lead object
+   * @param advertiserKey the Key of the advertiser that this lead belongs to
    * @return a lead object created by the JSON
    */
-  public static Lead fromReader(Reader reader) {
+  public static Lead fromReader(Reader reader, Key advertiserKey) {
     Lead thisLead = gson.fromJson(reader, Lead.class);
     thisLead.generateDataMap();
+    thisLead.advertiserKey = advertiserKey;
     return thisLead;
   }
 
@@ -115,11 +119,10 @@ public final class Lead {
    * All Entity properties have the same name as their respective instance variables.
    * The key value pairs in the columnData map are stored separately.
    *
-   * @param parentKey the key of the parent entity of this entity. Should be an Advertiser key.
    * @return this lead object represented as an Entity
    */
-  public Entity asEntity(Key parentKey) {
-    Entity leadEntity = new Entity(KIND_NAME, parentKey);
+  public Entity asEntity() {
+    Entity leadEntity = new Entity(KIND_NAME, advertiserKey);
     leadEntity.setProperty("date", date);
     leadEntity.setProperty("leadId", leadId);
     leadEntity.setProperty("campaignId", campaignId);

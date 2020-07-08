@@ -117,7 +117,7 @@ public final class WebhookServlet extends HttpServlet {
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Lead newLead = Lead.fromReader(request.getReader());
+    Lead newLead = Lead.fromReader(request.getReader(), advertiserKey);
 
     //verify the lead
 
@@ -127,8 +127,8 @@ public final class WebhookServlet extends HttpServlet {
     try {
       datastore.get(formKey);
     } catch (EntityNotFoundException e) { //the form does not exist, make a new one
-      Form newForm = new Form(newLead.getFormId(), Long.toString(newLead.getFormId()));
-      datastore.put(newForm.asEntity(advertiserKey));
+      Form newForm = new Form(advertiserKey, newLead.getFormId(), Long.toString(newLead.getFormId()));
+      datastore.put(newForm.asEntity());
     }
 
     //send an email notification to the advertiser that they have a new lead
@@ -139,7 +139,7 @@ public final class WebhookServlet extends HttpServlet {
       logger.log(Level.SEVERE, "Failed to send new lead email notification.", e);
       //TODO: Determine what happens when the email fails
     }
-    datastore.put(newLead.asEntity(advertiserKey));
+    datastore.put(newLead.asEntity());
   }
 
   /**

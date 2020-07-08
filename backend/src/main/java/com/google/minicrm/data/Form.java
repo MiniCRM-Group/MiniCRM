@@ -26,6 +26,8 @@ import java.util.Date;
 public final class Form {
 
   public static final String KIND_NAME = "Form";
+
+  private Key advertiserKey;
   private Date date;
   private long formId;
   private String formName;
@@ -36,9 +38,11 @@ public final class Form {
    * @param formId        the id of the form
    * @param formName      the name of the form
    */
-  public Form(long formId,
+  public Form(Key advertiserKey,
+      long formId,
       String formName) {
     this.date = new Date(System.currentTimeMillis());
+    this.advertiserKey = advertiserKey;
     this.formId = formId;
     this.formName = formName;
   }
@@ -53,19 +57,19 @@ public final class Form {
     if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Form.");
     }
+    this.advertiserKey = entity.getParent();
     this.date = (Date) entity.getProperty("date");
     this.formId = (Long) entity.getProperty("formId");
     this.formName = (String) entity.getProperty("formName");
   }
 
   /**
-   * Generates an Entity of kind Form with the parent entity specified by the parentKey passed in.
+   * Generates an Entity of kind Form as an ancestor of the Advertiser this form belongs to.
    * All Entity properties have the same name as their respective instance variables.
-   * @param parentKey  the key of the parent entity of this key. Should be an Advertiser Key.
    * @return an entity representation of this Form with Kind Form
    */
-  public Entity asEntity(Key parentKey) {
-    Key formKey = generateKey(parentKey, formId);
+  public Entity asEntity() {
+    Key formKey = generateKey(advertiserKey, formId);
     Entity formEntity = new Entity(formKey);
     formEntity.setProperty("date", date);
     formEntity.setProperty("formId", formId);
