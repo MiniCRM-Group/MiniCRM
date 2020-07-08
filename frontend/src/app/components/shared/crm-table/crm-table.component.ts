@@ -1,68 +1,81 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NameMap, Table, TableInput, TableRow, TableRowInput } from '../../../models/component_states/table.model';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { TableData, KeyDisplayedNameMap } from '../../../models/component_states/table-data.model';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'app-crm-table',
   templateUrl: './crm-table.component.html',
-  styleUrls: ['./crm-table.component.css']
+  styleUrls: ['./crm-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CrmTableComponent implements OnInit {
-  @Input() private dataSource: TableInput;
-  @Input() private nameMaps?: NameMap[];
-  @Input() private keyOrdering?: string[];
-  @Input() private selectionEnabled?: boolean;
-  dataSourceTable: Table;
-  displayedColumnNames: string[];
+export class CrmTableComponent<T> implements OnInit {
+  @Input() tableData: TableData<T>;
   isEmpty: boolean = false;
-  constructor() { }
+
+  constructor() {
+  }
+
+  private getDefaultNameMaps(): KeyDisplayedNameMap[] {
+    let keys: string[] = this.tableData.keyOrdering ?? Object.keys(this.tableData.dataSource.data[0]);
+    let defaultMaps: KeyDisplayedNameMap[] = keys.map((key: string) => {
+      return {
+        key: key,
+        displayedName: _.startCase(key)
+      }
+    });
+    return defaultMaps;
+  }
 
   ngOnInit(): void {
-    if(this.dataSource.length > 0) {
-      this.dataSourceTable = {
-        tableRows: this.getDefaultTableRows(),
-        nameMaps: this.nameMaps ?? this.getDefaultNameMaps(),
-        selectAll: this.selectAll,
-        getSelected: () => [],
-        filter: (a, b) => [],
-        sort: (a, b) => [],
-      };
-      this.displayedColumnNames = this.dataSourceTable
-      .nameMaps.map((nm: NameMap) => {
-        return nm.columnName; 
-      });
-      if(this.selectionEnabled ?? false) {
-        this.displayedColumnNames.unshift('isSelected')
+    if(this.tableData.dataSource.data.length > 0) {
+      if(this.tableData.keyDisplayedNameOrdering === undefined) {
+        this.tableData.keyDisplayedNameOrdering = this.getDefaultNameMaps();
+      }
+      if(this.tableData.keyOrdering === undefined) {
+        this.tableData.keyOrdering = this.tableData.keyDisplayedNameOrdering.map(map => map.key);
+      }
+      if(this.tableData.selection !== undefined) {
+        this.tableData.keyOrdering.unshift('select');
       }
     } else {
-      // show a message saying there is nothing to display
       this.isEmpty = true;
     }
   }
 
-  private getDefaultTableRows(): TableRow[] {
-    return this.dataSource.map((datum: TableRowInput) => {
-      return {
-        datum: datum,
-        isSelected: false // by default no row is selected
-      }
-    });
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.tableData.selection.selected.length;
+    const numRows = this.tableData.dataSource.data.length;
+    return numSelected == numRows;
   }
 
-  private getDefaultNameMaps(): NameMap[] {
-    let keys: string[] = this.keyOrdering ?? Object.keys(this.dataSource[0]);
-    let defaultNameMaps: NameMap[] = keys.map((key: string) => {
-      return {
-        columnName: key,
-        displayedColumnName: _.startCase(key)
-      }
-    });
-    return defaultNameMaps;
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.tableData.selection.clear() :
+        this.tableData.dataSource.data.forEach(row => this.tableData.selection.select(row));
   }
 
-  private selectAll(): void {
-    this.dataSourceTable.tableRows.forEach((tr: TableRow) => {
-      tr.isSelected = true;
-    });
-  }
+  // ngOnInit(): void {
+  //   if(this.dataSource.length > 0) {
+  //     this.dataSourceTable = {
+  //       dataSource: this.getDefaultTableRows(),
+  //       nameMaps: this.nameMaps ?? this.getDefaultNameMaps(),
+  //       selectAll: this.selectAll,
+  //       getSelected: () => [],
+  //       filter: (a, b) => [],
+  //       sort: (a, b) => [],
+  //     };
+  //     this.displayedColumnNames = this.dataSourceTable
+  //     .nameMaps.map((nm: NameMap) => {
+  //       return nm.columnName; 
+  //     });
+  //     if(this.selectionEnabled ?? false) {
+  //       this.displayedColumnNames.unshift('isSelected')
+  //     }
+  //   } else {
+  //     // show a message saying there is nothing to display
+  //     this.isEmpty = true;
+  //   }
+  // }
 }
