@@ -19,6 +19,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
+import com.google.minicrm.data.DatastoreObject;
 
 /**
  * Handles any frequent methods and access patterns to the datastore.
@@ -30,7 +31,6 @@ public class DatastoreUtil {
    *
    * @param entityKey  the key whose existence in the datastore will be checked
    * @return true if the key exists the datastore as an advertiser, false otherwise
-   * @throws DatastoreFailureException if a datastore error occurs
    */
   public static boolean exists(Key entityKey) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -42,4 +42,13 @@ public class DatastoreUtil {
     }
   }
 
+  /**
+   * Puts the given datastoreObject in the datastore
+   * @param datastoreObject the object to be put in the datastore
+   * @return the Key of the entity representation of the datastoreObject
+   */
+  public static Key put(DatastoreObject datastoreObject) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    return datastore.put(datastoreObject.asEntity());
+  }
 }
