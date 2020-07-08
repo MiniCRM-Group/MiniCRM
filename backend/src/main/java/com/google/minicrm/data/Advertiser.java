@@ -20,6 +20,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import java.security.SecureRandom;
 import java.util.Random;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Represents an Advertiser using our web application. Consists of a Google User object and other
@@ -28,6 +29,8 @@ import java.util.Random;
  */
 public class Advertiser {
   public static final String KIND_NAME = "Advertiser";
+
+  private static final String ID_URL_PARAM = "id";
   private static final char[] alphanumerics = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
       .toCharArray();
 
@@ -81,6 +84,19 @@ public class Advertiser {
    */
   public static Key generateKey(User user) {
     return KeyFactory.createKey(KIND_NAME, user.getUserId());
+  }
+
+  /**
+   * Generates the webhook for this user based on the HttpRequest and the advertiser key
+   * @return the webhook for this user with a URL-Safe Key String uniquely identifying the user
+   */
+  public String generateWebhook(HttpServletRequest request) {
+    //generate URL-Safe Key string
+    String advertiserKeyString = KeyFactory.keyToString(generateKey(this.user));
+    return request.getScheme() + "://" +
+        request.getServerName() + ":" +
+        request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
+        advertiserKeyString;
   }
 
   //GETTERS AND SETTERS

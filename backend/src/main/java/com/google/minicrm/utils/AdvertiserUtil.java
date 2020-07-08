@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletRequest;
 public final class AdvertiserUtil {
 
 
-  private static final String ID_URL_PARAM = "id";
   /**
    * Checks whether the user object passed in exists in datastore as an advertiser
    *
@@ -55,15 +54,5 @@ public final class AdvertiserUtil {
     }
   }
 
-  /**
-   * @return the webhook for this user with a URL-Safe Key String uniquely identifying the user
-   */
-  public static String getUserWebhook(HttpServletRequest request, User user) {
-    //generate URL-Safe Key string
-    String advertiserKeyString = KeyFactory.keyToString(Advertiser.generateKey(user));
-    return request.getScheme() + "://" +
-        request.getServerName() + ":" +
-        request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
-        advertiserKeyString;
-  }
+
 }

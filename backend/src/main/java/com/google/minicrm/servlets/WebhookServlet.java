@@ -79,7 +79,7 @@ public final class WebhookServlet extends HttpServlet {
       return;
     }
     String googleKey = advertiser.getGoogleKey();
-    String webhook = AdvertiserUtil.getUserWebhook(request, user);
+    String webhook = advertiser.generateWebhook(request);
 
     response.setContentType("application/json;");
     response.getWriter().println(new WebhookResponse(webhook, googleKey).toJson());
