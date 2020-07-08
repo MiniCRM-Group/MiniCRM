@@ -66,11 +66,21 @@ public final class Form {
    * @return an entity representation of this Form with Kind Form
    */
   public Entity asEntity(Key parentKey) {
-    Key formKey = KeyFactory.createKey(parentKey, KIND_NAME, formId);
+    Key formKey = generateFormKey(parentKey, formId);
     Entity formEntity = new Entity(formKey);
     formEntity.setProperty("date", date);
     formEntity.setProperty("formId", formId);
     formEntity.setProperty("formName", formName);
     return formEntity;
+  }
+
+  /**
+   * Generates a datastore key for the form specified by the parent advertiser key and form id given
+   * @param parentKey the key for the advertiser entity that owns this form
+   * @param formId    the id of the form
+   * @return          a key for the form specified by the parentKey and formId given
+   */
+  public static Key generateFormKey(Key parentKey, long formId) {
+    return KeyFactory.createKey(parentKey, KIND_NAME, formId);
   }
 }
