@@ -71,7 +71,7 @@ public final class AdvertiserUtil {
   }
 
   /**
-   * Converts a Google User to an Advertiser datastore Entity
+   * Converts a Google User to an Advertiser datastore Entity with a randomly generated Google Key.
    *
    * @param user the google user to be converted
    * @return the Entity of kind Advertiser representation of the google User
