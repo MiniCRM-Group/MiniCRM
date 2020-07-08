@@ -1,8 +1,11 @@
 package com.google.minicrm.utils;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.minicrm.data.Advertiser;
 
 /**
  * Handles authentication with Google UserService.
@@ -22,7 +25,9 @@ public final class UserAuthenticationUtil {
     } else { //user is logged in
       User user = userService.getCurrentUser();
       if (!AdvertiserUtil.advertiserExistsInDatastore(user)) {
-        AdvertiserUtil.putAdvertiserInDatastore(user);
+        Advertiser newAdvertiser = new Advertiser(user);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(newAdvertiser.asEntity());
       }
       return true;
     }
