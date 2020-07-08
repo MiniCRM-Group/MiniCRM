@@ -45,6 +45,20 @@ public class Advertiser {
   }
 
   /**
+   * Constructs an Advertiser based off of an entity of Kind Advertiser
+   *
+   * @param entity an entity to generate the Advertiser from
+   * @throw IllegalArgumentException if the entity passed is not of kind Advertiser
+   */
+  public Advertiser(Entity entity) {
+    if (!entity.getKind().equals(KIND_NAME)) {
+      throw new IllegalArgumentException("Entity is not of kind Advertiser.");
+    }
+    this.user = advertiserEntityToUser(entity);
+    this.googleKey = (String) entity.getProperty("googleKey");
+  }
+
+  /**
    * Creates an entity representation of this Advertiser
    * @return an entity of kind "Advertiser" representing this Advertiser
    */
@@ -94,8 +108,7 @@ public class Advertiser {
 
 
   /**
-   * Converts an Advertiser Entity into a Google User Object with the same data and a randomly
-   * generated google key
+   * Converts an Advertiser Entity into a Google User Object with the same data.
    *
    * @param entity the advertiser entity representing the Google User
    * @return a Google User object with the same data as the given advertiser Entity
