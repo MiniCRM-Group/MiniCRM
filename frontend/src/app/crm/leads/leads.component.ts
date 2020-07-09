@@ -90,7 +90,6 @@ export class LeadsComponent implements AfterViewInit {
       const accumulator = (currentTerm, key) => {
         //Using the recusrsive method here becuase using an if/else condition will increase space complexity n times.
         return this.nestedPropertyFilterCheck(currentTerm, data, key);
-        console.log('1 abcd  ' + currentTerm );
       };
       const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
 
@@ -114,13 +113,9 @@ export class LeadsComponent implements AfterViewInit {
    */
   nestedPropertyFilterCheck(property, data, key) {
     if (typeof data[key] === 'object') {
-    console.log('2  ' + key)
       for (const k in data[key]) {
-      console.log('3  ' + k);
         if (data[key][k] !== null) {
-        console.log('4  ' + data[key][k])
             property = this.nestedPropertyFilterCheck(property, data[key], k);
-            console.log('5  ' + property);
           }
         }
     } else {
@@ -170,9 +165,6 @@ export class LeadsComponent implements AfterViewInit {
         console.log(`Dialog result: ${result}`);
       });
   }
-
-
-
 
 }
   @Component({
