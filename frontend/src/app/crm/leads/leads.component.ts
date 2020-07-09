@@ -80,28 +80,28 @@ export class LeadsComponent implements AfterViewInit {
   loadAllLeads(): void {
     this.isLoading$.next(true);
     this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
-    this.dataSource.data = leads;
-
-    /**
-     * @param data The whole data we have in the JSON.
-     * @param filter The value that the user searches transformedFilter.
-     */
-    this.dataSource.filterPredicate = (data, filter: string)  => {
-      const accumulator = (currentTerm, key) => {
-        //Using the recusrsive method here becuase using an if/else condition will increase space complexity n times.
-        return this.nestedPropertyFilterCheck(currentTerm, data, key);
-      };
-      const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+      this.dataSource.data = leads;
 
       /**
-       * Transform the filter by converting it to lowercase and removing whitespace.
+       * @param data The whole data we have in the JSON.
+       * @param filter The value that the user searches transformedFilter.
        */
-      const transformedFilter = filter.trim().toLowerCase();
-      console.log(dataStr.indexOf(transformedFilter) !== -1);
-      return dataStr.indexOf(transformedFilter) !== -1;
-    };
-    this.isLoading$.next(false);
-    });
+      this.dataSource.filterPredicate = (data, filter: string)  => {
+        const accumulator = (currentTerm, key) => {
+          //Using the recusrsive method here becuase using an if/else condition will increase space complexity n times.
+          return this.nestedPropertyFilterCheck(currentTerm, data, key);
+        };
+        const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+
+        /**
+         * Transform the filter by converting it to lowercase and removing whitespace.
+         */
+        const transformedFilter = filter.trim().toLowerCase();
+        console.log(dataStr.indexOf(transformedFilter) !== -1);
+        return dataStr.indexOf(transformedFilter) !== -1;
+      };
+      this.isLoading$.next(false);
+      });
   }
 
   /**
