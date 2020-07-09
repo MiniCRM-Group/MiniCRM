@@ -27,6 +27,7 @@ import com.google.minicrm.data.Advertiser;
 import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.interfaces.ClientResponse;
+import com.google.minicrm.utils.DatastoreUtil;
 import com.google.minicrm.utils.EmailUtil;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
@@ -93,6 +94,7 @@ public final class WebhookServlet extends HttpServlet {
    * - 401 Unauthorized: if the advertiser's google key and the lead's google key do not match
    * - 404 Not Found: if the id parameter is not specified or blank or if the id specified is not
    *                  valid
+   * - 409 Conflict: if the lead sent already has been successfully sent
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -124,7 +126,11 @@ public final class WebhookServlet extends HttpServlet {
     }
 
     //de-duplicate the lead
-
+    Key leadKey = Lead.generateKey(advertiserKey, newLead.getLeadId());
+    if (DatastoreUtil.exists(leadKey)) {
+      response.sendError(409, "This lead already has been successfully sent and exists.");
+      return;
+    }
 
 
     //check if this lead belongs to a new form, if it does make a new form entity
