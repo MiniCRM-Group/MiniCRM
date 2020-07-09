@@ -1,5 +1,6 @@
 <div class="container">
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z1">
+
 
     <mat-form-field>
       <mat-label>Filter your leads</mat-label>
@@ -11,8 +12,24 @@
 
     <mat-table [dataSource]="dataSource"
                matSort
-               cdkFocusInitial
                class="mat-elevation-z8">
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+                        [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let lead">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(lead) : null"
+                        [checked]="selection.isSelected(lead)"
+                        [aria-label]="checkboxLabel(lead)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
 
       <!-- Lead Id Column -->
       <ng-container matColumnDef="lead_id">
@@ -48,6 +65,15 @@
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> Date </mat-header-cell>
         <mat-cell *matCellDef="let lead"> {{lead.date}} </mat-cell>
+      </ng-container>
+
+      <!-- More-info Column -->
+      <ng-container matColumnDef="details">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> More Info </mat-header-cell>
+        <mat-cell *matCellDef="let lead"> <button mat-icon-button color="primary" (click)="openDialog()">
+          <mat-icon class="material-icons">info_outline</mat-icon>
+        </button></mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
