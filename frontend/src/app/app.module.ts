@@ -37,7 +37,6 @@ import { LandingComponent } from './landing/landing.component';
 
 // Service imports
 import { LeadService } from './services/lead.service';
-import { LeadsDetailsComponent } from './crm/leads/leads-details/leads-details.component';
 
 @NgModule({
   declarations: [
@@ -47,8 +46,7 @@ import { LeadsDetailsComponent } from './crm/leads/leads-details/leads-details.c
     GuideComponent,
     AnalyticsComponent,
     CrmComponent,
-    LandingComponent,
-    LeadsDetailsComponent
+    LandingComponent
   ],
   imports: [
     HttpClientModule,
@@ -73,7 +71,6 @@ import { LeadsDetailsComponent } from './crm/leads/leads-details/leads-details.c
     MatCheckboxModule,
     MatDialogModule
    ],
-  entryComponents: [LeadsDetailsComponent],
   providers: [LeadService,
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
