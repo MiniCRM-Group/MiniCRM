@@ -149,7 +149,7 @@ public final class Lead implements DatastoreObject {
    * @param leadId    the id of the lead
    * @return          a key for thelead specified by the parentKey and leadId given
    */
-  public Key generateKey(Key parentKey, String leadId) {
+  public static Key generateKey(Key parentKey, String leadId) {
     return KeyFactory.createKey(parentKey, KIND_NAME, leadId);
   }
 
