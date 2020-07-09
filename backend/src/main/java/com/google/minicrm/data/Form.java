@@ -17,91 +17,79 @@ package com.google.minicrm.data;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.User;
-import com.google.minicrm.utils.AdvertiserUtil;
 import java.util.Date;
 
 /**
  * Represents a Form and all of its data. Supports conversion to datastore Entity objects
  * and back.
+ * Forms are direct children entities of the Advertiser entity that they belong to. They are not
+ * directly linked to their leads. Instead, leads are linked to their respective form with the form
+ * id instance variable.
  */
-public final class Form {
+public final class Form implements DatastoreObject{
 
   public static final String KIND_NAME = "Form";
+
+  /**
+   * The entity Key of the advertiser entity that this form belongs to.
+   */
+  private transient Key advertiserKey;
   private Date date;
   private long formId;
   private String formName;
-
-  /**
-   * Key for the advertiser entity that this form belongs to. Transient to prevent GSON from
-   * serializing this when sending form data to client.
-   */
-  private transient Key advertiserKey;
-  private String googleKey;
-  private boolean verified;
 
   /**
    * Full parameter constructor for a Form object Auto generated the date object
    *
    * @param formId        the id of the form
    * @param formName      the name of the form
-   * @param advertiserKey the key of the advertiser entity in datastore
-   * @param googleKey     the google key for this form
-   * @param verified      whether or not this form has been verified
    */
-  public Form(long formId,
-      String formName,
-      Key advertiserKey,
-      String googleKey,
-      boolean verified) {
+  public Form(Key advertiserKey,
+      long formId,
+      String formName) {
     this.date = new Date(System.currentTimeMillis());
+    this.advertiserKey = advertiserKey;
     this.formId = formId;
     this.formName = formName;
-    this.advertiserKey = advertiserKey;
-    this.googleKey = googleKey;
-    this.verified = verified;
   }
 
   /**
    * Generates a Form object based off an entity of kind Form.
    *
-   * @param entity
+   * @param entity an entity to generate the Form object from
+   * @throw IllegalArgumentException if the entity passed is not of kind Form
    */
   public Form(Entity entity) {
     if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Form.");
     }
+    this.advertiserKey = entity.getParent();
     this.date = (Date) entity.getProperty("date");
     this.formId = (Long) entity.getProperty("formId");
     this.formName = (String) entity.getProperty("formName");
-    this.advertiserKey = (Key) entity.getProperty("advertiserKey");
-    this.googleKey = (String) entity.getProperty("googleKey");
-    this.verified = (Boolean) entity.getProperty("verified");
   }
 
   /**
+   * Generates an Entity of kind Form as an ancestor of the Advertiser this form belongs to.
+   * All Entity properties have the same name as their respective instance variables.
    * @return an entity representation of this Form with Kind Form
    */
   public Entity asEntity() {
-    Key formKey = KeyFactory.createKey(advertiserKey, KIND_NAME, formId);
+    Key formKey = generateKey(advertiserKey, formId);
     Entity formEntity = new Entity(formKey);
     formEntity.setProperty("date", date);
     formEntity.setProperty("formId", formId);
     formEntity.setProperty("formName", formName);
-    formEntity.setProperty("advertiserKey", advertiserKey);
-    formEntity.setProperty("googleKey", googleKey);
-    formEntity.setProperty("verified", verified);
     return formEntity;
   }
 
   /**
-   * Creates a Key for a Form entity with the specified formId and user.
-   * @param user   the user owning the form
-   * @param formId the id of the form
-   * @return       the key for the form entity with the specified formId and user.
+   * Generates a datastore key for the form specified by the parent advertiser key and form id given
+   * @param parentKey the key for the advertiser entity that owns this form
+   * @param formId    the id of the form
+   * @return          a key for the form specified by the parentKey and formId given
    */
-  public static Key getFormKeyFromUserAndFormId(User user, long formId) {
-    return KeyFactory.createKey(AdvertiserUtil.createAdvertiserKey(user), KIND_NAME, formId);
+  public static Key generateKey(Key parentKey, long formId) {
+    return KeyFactory.createKey(parentKey, KIND_NAME, formId);
   }
-
 }

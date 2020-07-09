@@ -40,10 +40,10 @@ public final class EmailUtil {
     Session session = Session.getDefaultInstance(new Properties(), null);
     Message msg = new MimeMessage(session);
     try {
-      msg.setFrom(new InternetAddress("noreply-test@form-ads-leads.appspot.com",
+      msg.setFrom(new InternetAddress("noreply-test@form-ads-leads.appspotmail.com",
           "New Lead"));
     } catch (UnsupportedEncodingException e) {
-      msg.setFrom(new InternetAddress("noreply-test@form-ads-leads.appspot.com"));
+      msg.setFrom(new InternetAddress("noreply-test@form-ads-leads.appspotmail.com"));
     }
     try {
       msg.addRecipient(Message.RecipientType.TO,
