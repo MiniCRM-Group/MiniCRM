@@ -16,6 +16,7 @@ package com.google.minicrm.data;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -125,7 +126,7 @@ public final class Lead implements DatastoreObject {
    * @return this lead object represented as an Entity
    */
   public Entity asEntity() {
-    Entity leadEntity = new Entity(KIND_NAME, advertiserKey);
+    Entity leadEntity = new Entity(generateKey(advertiserKey, leadId));
     leadEntity.setProperty("date", date);
     leadEntity.setProperty("leadId", leadId);
     leadEntity.setProperty("campaignId", campaignId);
@@ -140,6 +141,16 @@ public final class Lead implements DatastoreObject {
       leadEntity.setProperty(key, columnData.get(key));
     }
     return leadEntity;
+  }
+
+  /**
+   * Generates a datastore key for the lead specified by the parent advertiser key and lead id given
+   * @param parentKey the key for the advertiser entity that owns this lead
+   * @param leadId    the id of the lead
+   * @return          a key for thelead specified by the parentKey and leadId given
+   */
+  public Key generateKey(Key parentKey, String leadId) {
+    return KeyFactory.createKey(parentKey, KIND_NAME, leadId);
   }
 
   /**
