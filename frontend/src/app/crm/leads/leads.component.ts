@@ -36,7 +36,7 @@ export class LeadsComponent implements AfterViewInit {
 
   readonly isLoading$ = new BehaviorSubject<boolean>(true);
   readonly dataSource: MatTableDataSource<Lead>;
-    selection = new SelectionModel<Lead>(true, []);
+  selection = new SelectionModel<Lead>(true, []);
   /**
    * Column IDs that we plan to show on the table are stored here
    */
