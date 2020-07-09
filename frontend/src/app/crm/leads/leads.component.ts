@@ -97,7 +97,6 @@ export class LeadsComponent implements AfterViewInit {
          * Transform the filter by converting it to lowercase and removing whitespace.
          */
         const transformedFilter = filter.trim().toLowerCase();
-        console.log(dataStr.indexOf(transformedFilter) !== -1);
         return dataStr.indexOf(transformedFilter) !== -1;
       };
       this.isLoading$.next(false);
@@ -162,7 +161,6 @@ export class LeadsComponent implements AfterViewInit {
       const dialogRef = this.dialog.open(DetailsDialog);
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log(`Dialog result: ${result}`);
       });
   }
 
