@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { FormsResponse } from '../models/server_responses/forms-response.model';
 import { LinkFormResponse } from '../models/server_responses/link-form-response.model';
 import { WebHookResponse } from '../models/server_responses/webhook-response.model';
 import { retry, catchError } from 'rxjs/operators';
+import { Form } from '../models/server_responses/forms-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,5 +44,18 @@ export class FormService {
         throw error.message;
       })
     );
+  }
+
+  unlinkForms(formsToUnlink: Form[]): any {
+    const formIds = formsToUnlink.map((form: Form) => form.formId);
+    let httpParams: HttpParams = new HttpParams();
+    formIds.forEach((formId: number) => {
+      httpParams = httpParams.append('formIds[]', formId.toString());
+    });
+    const options = {
+      responseType: 'json' as const,
+      params: httpParams
+    };
+    return this.http.delete<any>(this.formEndpoint, options);
   }
 }

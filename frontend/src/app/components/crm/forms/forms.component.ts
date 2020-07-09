@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Form, FormsResponse } from '../../../models/server_responses/forms-response.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Form } from '../../../models/server_responses/forms-response.model';
 import { MatDialog } from '@angular/material/dialog';
 import { LinkFormDialogComponent } from './link-form-dialog/link-form-dialog.component';
 import { FormService } from '../../../services/form.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
-import { map, first } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -36,6 +36,9 @@ export class FormsComponent implements OnInit {
   }
 
   deleteForms(): void {
-    console.log(this.formsTable.selection.selected);
+    this.formService.unlinkForms(this.formsTable.selection.selected)
+    .subscribe((_any: any) => {
+      console.log('success');
+    });
   }
 }
