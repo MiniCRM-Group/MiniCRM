@@ -33,12 +33,19 @@ export class FormsComponent implements OnInit {
         form_id: ''
       }
     });
+    dialogRef.afterClosed().subscribe((_any: any) => {
+      // refresh because we added a form row
+      this.formsTable.refreshDataSource();
+    });
   }
 
   deleteForms(): void {
     this.formService.unlinkForms(this.formsTable.selection.selected)
     .subscribe((_any: any) => {
-      console.log('success');
+      if(this.formsTable !== undefined) {
+        // refresh because we deleted some form rows
+        this.formsTable.refreshDataSource();
+      }
     });
   }
 }

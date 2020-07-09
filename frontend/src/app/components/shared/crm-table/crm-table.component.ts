@@ -31,6 +31,10 @@ export class CrmTableComponent<T> implements OnInit {
       // adds selection column
       this.keyOrdering.unshift('select'); 
     }
+    this.refreshDataSource();
+  }
+
+  public refreshDataSource(): void {
     this.data.subscribe((res: T[]) => {
       this.dataSource.data = res;
       this.changeDectectorRef.detectChanges();
