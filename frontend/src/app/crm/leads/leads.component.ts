@@ -106,22 +106,22 @@ export class LeadsComponent implements AfterViewInit {
 
   /**
    * A Recursive function to check for each data in the nested JSON
-   * @param lead A lead that exists in the JSON
+   * @param leadString A lead that exists in the JSON
    * @param data The whole data we have in the JSON
    * @param key The property of the lead at is nested if it exists
-   * @return lead
+   * @return leadString
    */
-  nestedPropertyFilterCheck(property, data, key) {
+  nestedPropertyFilterCheck(leadString, data, key) {
     if (typeof data[key] === 'object') {
       for (const k in data[key]) {
         if (data[key][k] !== null) {
-            property = this.nestedPropertyFilterCheck(property, data[key], k);
+            leadString = this.nestedPropertyFilterCheck(leadString, data[key], k);
           }
         }
     } else {
-        property += data[key];
+        leadString += data[key];
     }
-      return property;
+      return leadString;
   }
 
  /**
