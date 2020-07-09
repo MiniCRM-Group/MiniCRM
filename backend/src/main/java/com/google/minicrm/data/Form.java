@@ -22,11 +22,17 @@ import java.util.Date;
 /**
  * Represents a Form and all of its data. Supports conversion to datastore Entity objects
  * and back.
+ * Forms are direct children entities of the Advertiser entity that they belong to. They are not
+ * directly linked to their leads. Instead, leads are linked to their respective form with the form
+ * id instance variable.
  */
 public final class Form implements DatastoreObject{
 
   public static final String KIND_NAME = "Form";
 
+  /**
+   * The entity Key of the advertiser entity that this form belongs to.
+   */
   private transient Key advertiserKey;
   private Date date;
   private long formId;

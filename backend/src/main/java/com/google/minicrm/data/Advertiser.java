@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
  * Represents an Advertiser using our web application. Consists of a Google User object and other
  * data relevant to the Advertiser (i.e. their googleKey). Supports conversion to datastore entities
  * and back.
+ * Advertiser entities are the only root level entity in the datastore. Every data that belongs to
+ * an advertiser (their leads, forms, etc.) are children of their advertiser entity.
  */
 public class Advertiser implements DatastoreObject {
   public static final String KIND_NAME = "Advertiser";

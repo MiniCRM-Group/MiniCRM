@@ -29,6 +29,9 @@ import java.util.Map;
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
  * objects.
+ * Leads are direct children of the Advertiser entity that they belong to. The form and campaign
+ * that each lead belongs to can be obtained from the formId and campaignId respectively by
+ * generating a datastore key from them.
  */
 public final class Lead implements DatastoreObject {
 
