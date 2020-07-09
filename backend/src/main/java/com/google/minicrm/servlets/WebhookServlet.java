@@ -90,6 +90,7 @@ public final class WebhookServlet extends HttpServlet {
    *
    * HTTP Response Status Codes:
    * - 200 OK: success
+   * - 401 Unauthorized: if the advertiser's google key and the lead's google key do not match
    * - 404 Not Found: if the id parameter is not specified or blank or if the id specified is not
    *                  valid
    *
@@ -116,7 +117,14 @@ public final class WebhookServlet extends HttpServlet {
     }
     Lead newLead = Lead.fromReader(request.getReader(), advertiserKey);
 
-    //verify the lead
+    //verify the lead - has correct google key for this advertiser
+    if (!newLead.getGoogleKey().equals(advertiser.getGoogleKey())) {
+      response.sendError(401, "The provided Google Key and webhook do not match.");
+      return;
+    }
+
+    //de-duplicate the lead
+
 
 
     //check if this lead belongs to a new form, if it does make a new form entity
