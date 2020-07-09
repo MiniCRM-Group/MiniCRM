@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.servlets;
+package com.google.minicrm.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -23,10 +23,12 @@ import com.google.appengine.api.users.User;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.step.data.Lead;
-import com.google.step.utils.AdvertiserUtil;
-import com.google.step.utils.EmailUtil;
+import com.google.minicrm.data.Lead;
+import com.google.minicrm.utils.AdvertiserUtil;
+import com.google.minicrm.utils.EmailUtil;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,8 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet to act as the webhook to receive lead data from the Google Ads server Responds to GET
- * requests with JSON with lead data.
+ * Handles POST requests to /api/webhook to receive lead data from the Google Ads server.
  */
 @WebServlet("/api/webhook")
 public final class WebhookServlet extends HttpServlet {
@@ -48,6 +49,12 @@ public final class WebhookServlet extends HttpServlet {
 
   /**
    * Accepts a POST request containing JSON in the body describing a lead from Google Ads server.
+   * Expects an url parameter "id" with the advertiserKeyString.
+   *
+   * HTTP Response Status Codes:
+   * - 200 OK: success
+   * - 404 Not Found: if the id parameter is not specified or blank or if the id specified is not
+   *                  valid
    *
    * @param request  the HTTP Request
    * @param response the HTTP Response
@@ -57,6 +64,7 @@ public final class WebhookServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String advertiserKeyString = request.getParameter(ID_URL_PARAM);
     if (advertiserKeyString == null || advertiserKeyString.equals("")) {
+      response.sendError(404, "Invalid webhook url. Need to specify id parameter.");
       return; //stop execution, we expect an id param in the url
     }
     Key advertiserKey = KeyFactory.stringToKey(advertiserKeyString);
@@ -70,10 +78,13 @@ public final class WebhookServlet extends HttpServlet {
     }
     myLead = Lead.fromReader(request.getReader());
     //TODO: Add additional verification steps
+
     try {
       EmailUtil.sendNewLeadEmail(user);
     } catch (MessagingException e) {
-      System.out.println(e);
+      Logger logger = Logger.getLogger("com.google.step.servlets.WebhookServlet");
+      logger.log(Level.SEVERE, "Failed to send new lead email notification.", e);
+      //TODO: Determine what happens when the email fails
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(myLead.asEntity(advertiserKey));

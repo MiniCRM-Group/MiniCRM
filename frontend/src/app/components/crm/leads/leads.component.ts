@@ -1,43 +1,59 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {BehaviorSubject} from 'rxjs';
+import {first} from 'rxjs/operators';
 
-import { LeadService } from '../../../services/lead.service';
-
-import { Lead } from '../../../models/server_responses/lead.model';
-
-//Material imports
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import {Lead} from '../../../models/server_responses/lead.model';
+import {LeadService} from '../../../services/lead.service';
 
 @Component({
   selector: 'app-leads',
   templateUrl: './leads.component.html',
   styleUrls: ['./leads.component.css']
 })
-export class LeadsComponent implements OnInit {
-    //Creates an array of Leads
-   leads : Lead[];
+export class LeadsComponent implements AfterViewInit {
+  leads: Lead[];
 
-    //Initiating dataSource for tabulating the fetched JSON
-   displayedColumns = ['lead_id','name', 'phone_number', 'campaign_id', 'date'];
-   dataSource : MatTableDataSource<Lead>;
+  readonly isLoading$ = new BehaviorSubject<boolean>(true);
+  readonly dataSource: MatTableDataSource<Lead>;
+  readonly displayedColumns: string[] = [
+    'lead_id',
+    'name',
+    'phone_number',
+    'campaign_id',
+    'date',
+  ];
 
-   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-   constructor(private leadService : LeadService) { }
+  constructor(private readonly leadService: LeadService) {
+    this.dataSource = new MatTableDataSource();
 
-   ngOnInit() : void {
-      this.getAllLeads();
-   }
+    this.loadAllLeads();
+  }
 
-   getAllLeads(): void {
-     this.leadService.getAllLeads()
-     .subscribe((leads) => {
-       this.dataSource = new MatTableDataSource(leads);
-       this.dataSource.paginator = this.paginator;
-       this.dataSource.sort = this.sort;
-      });
-   }
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  loadAllLeads(): void {
+    this.isLoading$.next(true);
+    this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
+      this.dataSource.data = leads;
+      this.isLoading$.next(false);
+    });
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator != null) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
 
 }

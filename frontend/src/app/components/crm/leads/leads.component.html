@@ -1,43 +1,68 @@
+<div class="container">
+  <div class="mat-elevation-z8">
 
-<p>leads works!</p>
-<li *ngFor="let lead of leads">
-  <p>{{lead.date}}, {{lead.lead_id}}, {{lead.campaign_id}}, {{lead.gcl_id}}, {{lead.api_version}}, {{lead.form_id}}, {{lead.google_key}}, {{lead.column_data.FULL_NAME}}, {{lead.column_data.PHONE_NUMBER}}, {{lead.is_test}}, {{lead.adgroup_id}}, {{lead.creative_id}}</p>
-</li>
+    <mat-form-field>
+      <mat-label>Filter your leads</mat-label>
+      <input matInput
+             (change)="applyFilter($event)"
+             placeholder="Type specific area codes, lead-ID, ..."
+             #input>
+    </mat-form-field>
 
-<div class="mat-elevation-z8">
-  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    
-    <!-- Lead Id Column -->
-    <ng-container matColumnDef="lead_id">
-      <mat-header-cell *matHeaderCellDef > ID </mat-header-cell>
-      <mat-cell *matCellDef="let lead"> {{lead.lead_id}} </mat-cell>
-    </ng-container>
+    <mat-table [dataSource]="dataSource"
+               matSort
+               cdkFocusInitial
+               class="mat-elevation-z8">
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef > Name </mat-header-cell>
-      <mat-cell *matCellDef="let lead"> {{lead.column_data.FULL_NAME}} </mat-cell>
-    </ng-container>
+      <!-- Lead Id Column -->
+      <ng-container matColumnDef="lead_id">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> Lead ID </mat-header-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.lead_id}} </mat-cell>
+      </ng-container>
 
-    <!-- Phone Number Column -->
-    <ng-container matColumnDef="phone_number">
-      <mat-header-cell *matHeaderCellDef > Phone Number </mat-header-cell>
-      <mat-cell *matCellDef="let lead"> {{lead.column_data.PHONE_NUMBER}} </mat-cell>
-    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> Lead Name </mat-header-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.column_data.FULL_NAME}} </mat-cell>
+      </ng-container>
 
-    <!-- Campaign Id Column -->
-    <ng-container matColumnDef="campaign_id">
-      <mat-header-cell *matHeaderCellDef > Campaign Id </mat-header-cell>
-      <mat-cell *matCellDef="let lead"> {{lead.campaign_id}} </mat-cell>
-    </ng-container>
+      <!-- Phone Number Column -->
+      <ng-container matColumnDef="phone_number">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> Phone Number </mat-header-cell>
 
-    <!-- Date Column -->
-    <ng-container matColumnDef="date">
-      <mat-header-cell *matHeaderCellDef > Date </mat-header-cell>
-      <mat-cell *matCellDef="let lead"> {{lead.date}} </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-cell *matCellDef="let lead"> {{lead.column_data.PHONE_NUMBER}} </mat-cell>
+      </ng-container>
+
+      <!-- Campaign Id Column -->
+      <ng-container matColumnDef="campaign_id">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> Campaign Id </mat-header-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.campaign_id}} </mat-cell>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> Date </mat-header-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.date}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <!-- Row shown when there is no matching data. -->
+      <mat-header-row class="mat-row"
+                      *matNoDataRow>
+        <mat-row class="mat-cell"
+                 colspan="4">No data matching the filter "{{input.value}}"</mat-row>
+      </mat-header-row>
+    </mat-table>
+
+    <!-- TODO: Switch this to use a class instead of setting styles -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                   showFirstLastButtons></mat-paginator>
+  </div>
+
 </div>

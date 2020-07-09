@@ -4,7 +4,9 @@ import { Lead } from '../models/server_responses/lead.model';
 import { Observable } from 'rxjs';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LeadService {
     private url = '/api/leads';
 
@@ -13,5 +15,4 @@ export class LeadService {
       getAllLeads(): Observable<Lead[]> {
       return this.http.get<Lead[]>(this.url);
     }
-
 }

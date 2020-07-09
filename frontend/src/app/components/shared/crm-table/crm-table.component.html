@@ -1,27 +1,27 @@
-<div *ngIf="!isEmpty; else emptyMessage">
-    <table mat-table [dataSource]="tableData.dataSource" class="mat-elevation-z8">
+<div *ngIf="dataSource.data.length > 0; else emptyMessage">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>
                 <mat-checkbox 
                     (change)="$event ? masterToggle() : null"
-                    [checked]="tableData.selection.hasValue() && isAllSelected()"
-                    [indeterminate]="tableData.selection.hasValue() && !isAllSelected()">
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
                 </mat-checkbox>
             </th>
             <td mat-cell *matCellDef="let element">
                 <mat-checkbox 
                     (click)="$event.stopPropagation()"
-                    (change)="$event ? tableData.selection.toggle(element) : null"
-                    [checked]="tableData.selection.isSelected(element)">
+                    (change)="$event ? selection.toggle(element) : null"
+                    [checked]="selection.isSelected(element)">
                 </mat-checkbox>
             </td>
         </ng-container>
-        <ng-container *ngFor="let map of tableData.keyDisplayedNameOrdering" [matColumnDef]="map.key">
+        <ng-container *ngFor="let map of keyDisplayedNameOrdering" [matColumnDef]="map.key">
             <th mat-header-cell *matHeaderCellDef>{{ map.displayedName }}</th>
             <td mat-cell *matCellDef="let element"> {{ element[map.key] }}</td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="tableData.keyOrdering"></tr>
-        <tr mat-row *matRowDef="let row; columns: tableData.keyOrdering;"></tr>
+        <tr mat-header-row *matHeaderRowDef="keyOrdering"></tr>
+        <tr mat-row *matRowDef="let row; columns: keyOrdering;"></tr>
     </table>
 </div>
 <ng-template #emptyMessage>

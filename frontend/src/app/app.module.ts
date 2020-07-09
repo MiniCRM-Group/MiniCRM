@@ -14,12 +14,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatCardModule } from '@angular/material/card';
+
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -68,11 +71,14 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatInputModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
     ClipboardModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

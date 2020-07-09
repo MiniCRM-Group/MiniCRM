@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.step.utils;
+package com.google.minicrm.utils;
 
 import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -25,13 +25,13 @@ import com.google.appengine.api.users.User;
 
 
 /**
- * This class is designed to be the single point of responsibility for storing and reading
- * Advertiser entities from the datastore. Advertiser refers to the entity in the datastore,
- * representing a User provided by Google Authentication using our application.
+ * Handles storing and reading Advertiser entities from the datastore.
+ * Advertiser refers to the entity in the datastore, representing a User provided by
+ * Google Authentication using our application.
  */
 public final class AdvertiserUtil {
 
-  public static final String ADVERTISER_ENTITY_NAME = "Advertiser";
+  public static final String ADVERTISER_KIND_NAME = "Advertiser";
 
   /**
    * Checks whether the user object passed in exists in datastore as an advertiser
@@ -41,9 +41,9 @@ public final class AdvertiserUtil {
    * @throws DatastoreFailureException if a datastore error occurs
    */
   public static boolean advertiserExistsInDatastore(User user) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Key advertiserKey = createAdvertiserKey(user);
     try {
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      Key advertiserKey = createAdvertiserKey(user);
       datastore.get(advertiserKey);
       return true;
     } catch (EntityNotFoundException e) {
@@ -97,7 +97,7 @@ public final class AdvertiserUtil {
   /**
    * Converts an Advertiser Entity into a Google User Object with the same data
    *
-   * @param entity the advertiser entity represeting the Google User
+   * @param entity the advertiser entity representing the Google User
    * @return a Google User object with the same data as the given advertiser Entity
    */
   private static User advertiserEntityToUser(Entity entity) {
@@ -110,12 +110,12 @@ public final class AdvertiserUtil {
   }
 
   /**
-   * /** Creates a Key based on the User Id
+   * Creates an Advertiser Key based on the User Id of the User object passed in
    *
    * @param user the user object to create a key for
    * @return the key unique to the user's id
    */
   public static Key createAdvertiserKey(User user) {
-    return KeyFactory.createKey(ADVERTISER_ENTITY_NAME, user.getUserId());
+    return KeyFactory.createKey(ADVERTISER_KIND_NAME, user.getUserId());
   }
 }
