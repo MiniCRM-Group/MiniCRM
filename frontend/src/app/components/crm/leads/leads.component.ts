@@ -22,8 +22,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { Lead } from '../../models/lead.model';
-import { LeadService } from '../../services/lead.service';
+import { Lead } from '../../../models/server_responses/lead.model';
+import { LeadService } from '../../../services/lead.service';
 
 @Component({
   selector: 'app-leads',

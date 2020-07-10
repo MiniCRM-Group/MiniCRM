@@ -34,6 +34,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Handles requests to /api/forms regarding anything related to the advertiser's forms.
@@ -72,6 +73,14 @@ public final class FormsServlet extends HttpServlet {
     response.getWriter().println(new FormsResponse(forms).toJson());
   }
 
+  private long[] convertLongArrToStringArr(String[] numbers) {
+    Long[] result = new Long[numbers.length];
+    for (int i = 0; i < numbers.length; i++) {
+      result[i] = Long.parseLong(numbers[i]);
+    }
+    return ArrayUtils.toPrimitive(result);
+  }
+
   /**
    * Deletes the form owned by the current user specified by the form_id specified in the request
    * headers or a url parameter.
@@ -95,11 +104,11 @@ public final class FormsServlet extends HttpServlet {
       return;
     }
 
-    long formId = Long.parseLong(request.getParameter("form_id"));
+    long[] formIds = convertLongArrToStringArr(request.getParameterValues("formIds[]"));
     User user = UserAuthenticationUtil.getCurrentUser();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.delete(Form.generateKey(Advertiser.generateKey(user), formId));
+    datastore.delete(Form.generateKeys(Advertiser.generateKey(user),formIds));
 
     response.setStatus(204); //Success - 204 No Content
   }
