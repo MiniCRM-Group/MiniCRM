@@ -56,6 +56,8 @@ public final class WebhookServlet extends HttpServlet {
    * Authentication required.
    *
    * HTTP Response Status Codes:
+   * - 200 OK: success
+   * - 401 Unauthorized: if not logged in with Google
    *
    * @param request
    * @param response
