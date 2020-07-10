@@ -112,14 +112,15 @@ public final class LeadsServlet extends HttpServlet {
     }
 
     //read the content body
+    String contentType = request.getContentType();
     String leadId;
     String status;
     String notes;
-    if (request.getContentType().contains("application/x-www-form-urlencoded")) {
+    if (contentType.contains("application/x-www-form-urlencoded")) {
       leadId = request.getParameter("leadId");
       status = request.getParameter("form_id");
       notes = request.getParameter("form_name");
-    } else if (request.getContentType().contains("application/json")) {
+    } else if (contentType.contains("application/json")) {
       Gson gson = new Gson();
       Map<String, String> jsonMap = gson.fromJson(request.getReader(), Map.class);
       leadId = jsonMap.get("leadId");
