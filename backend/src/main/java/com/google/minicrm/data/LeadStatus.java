@@ -18,9 +18,22 @@ package com.google.minicrm.data;
  * Represents all the possible statuses a lead can have throughout its lifecycle.
  */
 public enum LeadStatus {
-  NEW,
-  OPEN,
-  WORKING,
-  CLOSED_CONVERTED,
-  CLOSED_NOT_CONVERTED
+  NEW(0),
+  OPEN(1),
+  WORKING(2),
+  CLOSED_CONVERTED(3),
+  CLOSED_NOT_CONVERTED(4);
+
+  private final int index;
+
+  LeadStatus(int index) {
+    this.index = index;
+  }
+
+  /**
+   * @return the index of this lead status
+   */
+  public int getIndex() {
+    return index;
+  }
 }

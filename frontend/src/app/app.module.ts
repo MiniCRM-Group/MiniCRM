@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 // Flex + Grid Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -13,12 +14,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from '@angular/material/card';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -26,29 +30,34 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 // Component imports
 import { AppComponent } from './app.component';
-import { CrmComponent } from './crm/crm.component';
-import { LeadsComponent } from './crm/leads/leads.component';
-import { CampaignsComponent } from './crm/campaigns/campaigns.component';
-import { GuideComponent } from './crm/guide/guide.component';
-import { AnalyticsComponent } from './crm/analytics/analytics.component';
-import { LandingComponent } from './landing/landing.component';
-
-// Service imports
-import { LeadService } from './services/lead.service';
+import { CrmComponent } from './components/crm/crm.component';
+import { LeadsComponent } from './components/crm/leads/leads.component';
+import { FormsComponent } from './components/crm/forms/forms.component';
+import { CampaignsComponent } from './components/crm/campaigns/campaigns.component';
+import { GuideComponent } from './components/crm/guide/guide.component';
+import { AnalyticsComponent } from './components/crm/analytics/analytics.component';
+import { LandingComponent } from './components/landing/landing.component';
+import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
+import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LeadsComponent,
+    FormsComponent,
     CampaignsComponent,
     GuideComponent,
     AnalyticsComponent,
     CrmComponent,
-    LandingComponent
+    LandingComponent,
+    FormsComponent,
+    CrmTableComponent,
+    LinkFormDialogComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     FlexLayoutModule,
@@ -64,10 +73,17 @@ import { LeadService } from './services/lead.service';
     MatSortModule,
     MatInputModule,
     MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ClipboardModule,
+    MatDialogModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatListModule
    ],
-  providers: [LeadService,
+  providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
   bootstrap: [AppComponent]

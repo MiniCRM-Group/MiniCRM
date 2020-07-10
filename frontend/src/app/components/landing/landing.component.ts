@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LoginService } from '../services/login.service';
-import { LoginResponse } from '../models/login-response.model';
+import { LoginService } from '../../services/login.service';
+import { LoginResponse } from '../../models/server_responses/login-response.model';
 
 interface Feature {
   icon: string,
@@ -46,7 +46,7 @@ export class LandingComponent {
     });
   }
 
-  linkToLoginPage() {
+  login() {
     location.href = this.loginUrl;
   }
 }

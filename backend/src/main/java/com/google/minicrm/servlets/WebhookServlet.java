@@ -134,7 +134,6 @@ public final class WebhookServlet extends HttpServlet {
       return;
     }
 
-
     //check if this lead belongs to a new form, if it does make a new form entity
     Key formKey = Form.generateKey(advertiserKey, newLead.getFormId());
     try {
