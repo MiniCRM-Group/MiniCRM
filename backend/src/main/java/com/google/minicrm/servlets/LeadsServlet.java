@@ -84,11 +84,11 @@ public final class LeadsServlet extends HttpServlet {
   }
 
   /**
-   * Updates the advertiser-modifiable fields (status and notes) of a lead specified by lead_id.
+   * Updates the advertiser-modifiable fields (status and notes) of a lead specified by leadId.
    * Authentication required.
    *
    * Required parameters in the content body:
-   *  - lead_id : String uniquely identifying a lead
+   *  - leadId : String uniquely identifying a lead
    * Optional parameters to be updated:
    *  - status : the status of the lead represented as a String
    *  - notes : the notes of the lead represented as a String
@@ -120,8 +120,8 @@ public final class LeadsServlet extends HttpServlet {
     String notes;
     if (request.getContentType().contains("application/x-www-form-urlencoded")) {
       leadId = request.getParameter("leadId");
-      status = request.getParameter("form_id");
-      notes = request.getParameter("form_name");
+      status = request.getParameter("status");
+      notes = request.getParameter("notes");
     } else if (request.getContentType().contains("application/json")) {
       Gson gson = new Gson();
       Map<String, String> jsonMap = gson.fromJson(request.getReader(), Map.class);
@@ -136,7 +136,7 @@ public final class LeadsServlet extends HttpServlet {
 
     //check that the required parameters are provided
     if (leadId == null || leadId.isEmpty()) {
-      response.sendError(400, "Lead_id is not specified.");
+      response.sendError(400, "leadId is not specified.");
       return;
     }
 
