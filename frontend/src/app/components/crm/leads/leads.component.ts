@@ -170,7 +170,7 @@ export class LeadsComponent implements AfterViewInit {
 
   sendEmail() {
               window.open(
-                "https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=jason.park@gatech.edu,amanueltesfaye44@gmail.com&su=Greetings", "_blank");
+                "https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&su=Greetings", "_blank");
   }
 
 }
