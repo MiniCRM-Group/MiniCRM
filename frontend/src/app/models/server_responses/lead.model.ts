@@ -16,4 +16,10 @@ export interface Lead {
    is_test: boolean;
    adgroup_id: number;
    creative_id: number;
+   status: string;
+   notes: string;
+}
+
+export interface LeadsResponse {
+  leads: Lead[];
 }
