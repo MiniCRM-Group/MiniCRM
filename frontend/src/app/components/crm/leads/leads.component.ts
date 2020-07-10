@@ -90,40 +90,30 @@ export class LeadsComponent implements AfterViewInit {
        * @param filter The value that the user searches transformedFilter.
        */
       this.dataSource.filterPredicate = (data, filter: string)  => {
-        const accumulator = (currentTerm, key) => {
-          //Using the recusrsive method here becuase using an if/else condition will increase space complexity n times.
-          return this.nestedPropertyFilterCheck(currentTerm, data, key);
+        let cleanString = (str: string): string => str.trim().toLowerCase();
+        let hasFilter = (data: object | number | string | boolean, filter: string): boolean => {
+          // traverse through JSON's tree like structure
+          if(typeof data === 'object') {
+            let keys = Object.keys(data);
+            for(let key in keys) {
+              if(hasFilter(data[key], filter)) {
+                return true;
+              }
+            }
+          } else {
+            // if you hit a key-value pair where the value is 
+            // a primitve type compare and return only if filter found
+            let value = cleanString(data.toString());
+            if(value.indexOf(filter) !== -1) {
+              return true;
+            }
+          }
+          return false;
         };
-        const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
-
-        /**
-         * Transform the filter by converting it to lowercase and removing whitespace.
-         */
-        const transformedFilter = filter.trim().toLowerCase();
-        return dataStr.indexOf(transformedFilter) !== -1;
+        return hasFilter(data, cleanString(filter));
       };
       this.isLoading$.next(false);
       });
-  }
-
-  /**
-   * A Recursive function to check for each data in the nested JSON
-   * @param leadString A lead that exists in the JSON
-   * @param data The whole data we have in the JSON
-   * @param key The property of the lead at is nested if it exists
-   * @return leadString
-   */
-  nestedPropertyFilterCheck(leadString, data, key) {
-    if (typeof data[key] === 'object') {
-      for (const k in data[key]) {
-        if (data[key][k] !== null) {
-            leadString = this.nestedPropertyFilterCheck(leadString, data[key], k);
-          }
-        }
-    } else {
-        leadString += data[key];
-    }
-      return leadString;
   }
 
  /**
