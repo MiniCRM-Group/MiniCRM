@@ -45,7 +45,9 @@ export class LeadsComponent implements AfterViewInit {
     'lead_id',
     'name',
     'phone_number',
+    'email',
     'campaign_id',
+    'status',
     'date',
     'details'
   ];
@@ -68,6 +70,8 @@ export class LeadsComponent implements AfterViewInit {
       switch(property) {
         case 'name': return lead.column_data.FULL_NAME;
         case 'phone_number': return lead.column_data.PHONE_NUMBER;
+        case 'email': return lead.column_data.EMAIL;
+        case 'date': return new Date(lead.date).getTime();
         default: return lead[property];
       }
     };
@@ -162,6 +166,11 @@ export class LeadsComponent implements AfterViewInit {
 
       dialogRef.afterClosed().subscribe(result => {
       });
+  }
+
+  sendEmail() {
+              window.open(
+                "https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=jason.park@gatech.edu,amanueltesfaye44@gmail.com&su=Greetings", "_blank");
   }
 
 }
