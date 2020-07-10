@@ -6,6 +6,8 @@ import { FormService } from '../../../services/form.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { WebhookService } from 'src/app/services/webhook.service';
+import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
 
 @Component({
   selector: 'app-forms',
@@ -17,13 +19,19 @@ export class FormsComponent implements OnInit {
   forms: Observable<Form[]> = this.formService.getForms().pipe(
     map(res => res.forms)
   );
-  keyOrdering: string[] = ['formId', 'formName', 'googleKey', 'verified', 'date'];
-  webhook: string = "";
+  keyOrdering: string[] = ['formId', 'formName', 'date'];
+  webhookUrl: string = '';
+  googlekey: string = '';
 
-  constructor(public dialog: MatDialog, private formService: FormService) {
+  constructor(public dialog: MatDialog, private formService: FormService,
+    private webhookService: WebhookService) {
   }
 
   ngOnInit(): void {
+    this.webhookService.getWebhook().subscribe((res: WebHookResponse) => {
+      this.webhookUrl = res.webhookUrl;
+      this.googlekey = res.googleKey;
+    });
   }
 
   openLinkFormDialog() {

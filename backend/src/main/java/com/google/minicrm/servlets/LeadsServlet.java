@@ -21,8 +21,8 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.minicrm.data.Advertiser;
 import com.google.minicrm.data.Lead;
-import com.google.minicrm.utils.AdvertiserUtil;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
 import java.util.List;
@@ -63,7 +63,7 @@ public final class LeadsServlet extends HttpServlet {
     }
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query(Lead.KIND_NAME)
-        .setAncestor(AdvertiserUtil.createAdvertiserKey(UserAuthenticationUtil.getCurrentUser()))
+        .setAncestor(Advertiser.generateKey(UserAuthenticationUtil.getCurrentUser()))
         .addSort("date", Query.SortDirection.DESCENDING);
     PreparedQuery preparedQuery = datastore.prepare(query);
 

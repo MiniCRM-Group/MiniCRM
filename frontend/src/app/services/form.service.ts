@@ -25,10 +25,7 @@ export class FormService {
       retry(3),
       catchError((_error: HttpErrorResponse) => {
         // return no forms and empty webhook url
-        return of<FormsResponse>({
-          webhookUrl: '',
-          forms: []
-        });
+        return of<FormsResponse>({ forms: [] });
       })
     )
   }

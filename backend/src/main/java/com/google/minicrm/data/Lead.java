@@ -16,6 +16,7 @@ package com.google.minicrm.data;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,12 +30,16 @@ import java.util.Map;
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
  * objects.
+ * Leads are direct children of the Advertiser entity that they belong to. The form and campaign
+ * that each lead belongs to can be obtained from the formId and campaignId respectively by
+ * generating a datastore key from them.
  */
-public final class Lead {
+public final class Lead implements DatastoreObject {
 
   public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+  private transient Key advertiserKey;
   private Date date;
   private String leadId;
   private long campaignId;
@@ -64,6 +69,7 @@ public final class Lead {
     if (!entity.getKind().equals(KIND_NAME)) {
       throw new IllegalArgumentException("Entity is not of kind Lead.");
     }
+    this.advertiserKey = entity.getParent();
     this.date = (Date) entity.getProperty("date");
     this.leadId = (String) entity.getProperty("leadId");
     this.campaignId = (Long) entity.getProperty("campaignId");
@@ -92,14 +98,16 @@ public final class Lead {
   }
 
   /**
-   * Creates a lead based off of JSON representing the Lead
+   * Creates a lead based off of JSON representing the Lead with the parent advertiserKey specified.
    *
    * @param reader a reader object containing a JSON describing a lead object
+   * @param advertiserKey the Key of the advertiser that this lead belongs to
    * @return a lead object created by the JSON
    */
-  public static Lead fromReader(Reader reader) {
+  public static Lead fromReader(Reader reader, Key advertiserKey) {
     Lead thisLead = gson.fromJson(reader, Lead.class);
     thisLead.generateDataMap();
+    thisLead.advertiserKey = advertiserKey;
     return thisLead;
   }
 
@@ -115,11 +123,10 @@ public final class Lead {
    * All Entity properties have the same name as their respective instance variables.
    * The key value pairs in the columnData map are stored separately.
    *
-   * @param parentKey the key of the parent entity of this entity. Should be an Advertiser key.
    * @return this lead object represented as an Entity
    */
-  public Entity asEntity(Key parentKey) {
-    Entity leadEntity = new Entity(KIND_NAME, parentKey);
+  public Entity asEntity() {
+    Entity leadEntity = new Entity(generateKey(advertiserKey, leadId));
     leadEntity.setProperty("date", date);
     leadEntity.setProperty("leadId", leadId);
     leadEntity.setProperty("campaignId", campaignId);
@@ -134,6 +141,16 @@ public final class Lead {
       leadEntity.setProperty(key, columnData.get(key));
     }
     return leadEntity;
+  }
+
+  /**
+   * Generates a datastore key for the lead specified by the parent advertiser key and lead id given
+   * @param parentKey the key for the advertiser entity that owns this lead
+   * @param leadId    the id of the lead
+   * @return          a key for thelead specified by the parentKey and leadId given
+   */
+  public static Key generateKey(Key parentKey, String leadId) {
+    return KeyFactory.createKey(parentKey, KIND_NAME, leadId);
   }
 
   /**
