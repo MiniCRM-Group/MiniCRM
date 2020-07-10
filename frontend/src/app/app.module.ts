@@ -22,7 +22,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { MatListModule } from '@angular/material/list';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -80,7 +80,8 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     MatProgressSpinnerModule,
     MatCardModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
+    MatListModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
