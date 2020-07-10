@@ -101,11 +101,11 @@ public final class Form implements DatastoreObject{
    * @param formIds the ids of the forms
    * @return        the keys for the form entitied with the specified formIds and user.
    */
-  public static Key[] generateKeys(Key parentKey, long[] formIds) {
+  public static List<Key> generateKeys(Key parentKey, long[] formIds) {
     List<Key> keys = new ArrayList<>();
     for(long formId : formIds) {
       keys.add(generateKey(parentKey, formId));
     }
-    return keys.toArray(new Key[0]);
+    return keys;
   }
 }
