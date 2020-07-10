@@ -1,0 +1,24 @@
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav">
+    <button color="primary" mat-button routerLink="guide">Guide</button>
+    <button color="primary" mat-button routerLink="forms">Forms</button>
+    <button color="primary" mat-button routerLink="campaigns">Campaigns</button>
+    <button color="primary" mat-button routerLink="leads">Leads</button>
+    <button color="primary" mat-button routerLink="analytics">Analytics</button>
+  </mat-drawer>
+  <div class="sidenav-content">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>miniCRM</span>
+        <span class="spacer"></span>
+        <button>
+          LOGOUT
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>
