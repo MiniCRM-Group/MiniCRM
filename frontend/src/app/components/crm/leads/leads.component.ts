@@ -24,6 +24,7 @@ import { first } from 'rxjs/operators';
 
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-leads',
@@ -53,7 +54,9 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog) {
+  constructor(private readonly leadService: LeadService, public dialog: MatDialog,
+    private titleService: Title) {
+    this.titleService.setTitle('Leads');
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
   }

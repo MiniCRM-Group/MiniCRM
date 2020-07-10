@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { WebhookService } from 'src/app/services/webhook.service';
 import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-forms',
@@ -24,7 +25,8 @@ export class FormsComponent implements OnInit {
   googlekey: string = '';
 
   constructor(public dialog: MatDialog, private formService: FormService,
-    private webhookService: WebhookService) {
+    private webhookService: WebhookService, private titleService: Title) {
+      this.titleService.setTitle('Forms');
   }
 
   ngOnInit(): void {
