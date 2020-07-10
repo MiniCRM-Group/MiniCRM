@@ -25,11 +25,14 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.minicrm.data.Advertiser;
+import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.data.LeadStatus;
+import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.DatastoreUtil;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -77,7 +80,7 @@ public final class LeadsServlet extends HttpServlet {
         .map(Lead::new).collect(Collectors.toList());
 
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(leads));
+    response.getWriter().println(new LeadsResponse(leads).toJson());
   }
 
   /**
@@ -169,5 +172,31 @@ public final class LeadsServlet extends HttpServlet {
 
     //store the updated lead
     DatastoreUtil.put(lead);
+  }
+
+  /**
+   * Response object providing all of an advertiser's leads
+   */
+  private final class LeadsResponse implements ClientResponse {
+
+    /**
+     * List of the User's forms
+     */
+    private final List<Lead> leads;
+
+    /**
+     * Constructor for response to send back to user containing the webhook
+     *
+     * @param leads     list of all the user's leads
+     */
+    LeadsResponse(List<Lead> leads) {
+      this.leads = new ArrayList<>(leads);
+    }
+
+    @Override
+    public String toJson() {
+      Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+      return gson.toJson(this);
+    }
   }
 }
