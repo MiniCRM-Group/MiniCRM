@@ -16,12 +16,8 @@ export class LeadService {
       const options = {
         responseType: 'json' as const
       };
-      let leadsResponse : Observable<LeadsResponse> = this.http.get<LeadsResponse>(this.url, options);
-      console.log(leadsResponse);
-      let leads : Observable<Lead[]> = leadsResponse.pipe(
+      return this.http.get<LeadsResponse>(this.url, options).pipe(
         map(res => res.leads)
       );
-      console.log(leads);
-      return leads;
     }
 }
