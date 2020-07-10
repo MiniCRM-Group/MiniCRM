@@ -17,7 +17,9 @@ package com.google.minicrm.data;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Represents a Form and all of its data. Supports conversion to datastore Entity objects
@@ -91,5 +93,19 @@ public final class Form implements DatastoreObject{
    */
   public static Key generateKey(Key parentKey, long formId) {
     return KeyFactory.createKey(parentKey, KIND_NAME, formId);
+  }
+
+  /**
+   * Same as {@link com.google.minicrm.data.Form#generateKey(Key, long)} but for multiple formIds.
+   * @param user    the user owning the forms
+   * @param formIds the ids of the forms
+   * @return        the keys for the form entitied with the specified formIds and user.
+   */
+  public static List<Key> generateKeys(Key parentKey, long[] formIds) {
+    List<Key> keys = new ArrayList<>();
+    for(long formId : formIds) {
+      keys.add(generateKey(parentKey, formId));
+    }
+    return keys;
   }
 }
