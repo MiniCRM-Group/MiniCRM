@@ -116,11 +116,11 @@ public final class FormsServlet extends HttpServlet {
    * @return        array of Longs
    */
   private long[] convertLongArrToStringArr(String[] numbers) {
-    Long[] result = new Long[numbers.length];
+    long[] result = new long[numbers.length];
     for (int i = 0; i < numbers.length; i++) {
       result[i] = Long.parseLong(numbers[i]);
     }
-    return ArrayUtils.toPrimitive(result);
+    return result;
   }
 
   /**
