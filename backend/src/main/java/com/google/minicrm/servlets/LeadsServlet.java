@@ -25,11 +25,14 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.minicrm.data.Advertiser;
+import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.data.LeadStatus;
+import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.DatastoreUtil;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -77,15 +80,15 @@ public final class LeadsServlet extends HttpServlet {
         .map(Lead::new).collect(Collectors.toList());
 
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(leads));
+    response.getWriter().println(new LeadsResponse(leads).toJson());
   }
 
   /**
-   * Updates the advertiser-modifiable fields (status and notes) of a lead specified by lead_id.
+   * Updates the advertiser-modifiable fields (status and notes) of a lead specified by leadId.
    * Authentication required.
    *
    * Required parameters in the content body:
-   *  - lead_id : String uniquely identifying a lead
+   *  - leadId : String uniquely identifying a lead
    * Optional parameters to be updated:
    *  - status : the status of the lead represented as a String
    *  - notes : the notes of the lead represented as a String
@@ -118,8 +121,8 @@ public final class LeadsServlet extends HttpServlet {
     String notes;
     if (contentType.contains("application/x-www-form-urlencoded")) {
       leadId = request.getParameter("leadId");
-      status = request.getParameter("form_id");
-      notes = request.getParameter("form_name");
+      status = request.getParameter("status");
+      notes = request.getParameter("notes");
     } else if (contentType.contains("application/json")) {
       Gson gson = new Gson();
       Map<String, String> jsonMap = gson.fromJson(request.getReader(), Map.class);
@@ -134,7 +137,7 @@ public final class LeadsServlet extends HttpServlet {
 
     //check that the required parameters are provided
     if (leadId == null || leadId.isEmpty()) {
-      response.sendError(400, "Lead_id is not specified.");
+      response.sendError(400, "leadId is not specified.");
       return;
     }
 
@@ -170,5 +173,31 @@ public final class LeadsServlet extends HttpServlet {
 
     //store the updated lead
     DatastoreUtil.put(lead);
+  }
+
+  /**
+   * Response object providing all of an advertiser's leads
+   */
+  private final class LeadsResponse implements ClientResponse {
+
+    /**
+     * List of the User's forms
+     */
+    private final List<Lead> leads;
+
+    /**
+     * Constructor for response to send back to user containing the webhook
+     *
+     * @param leads     list of all the user's leads
+     */
+    LeadsResponse(List<Lead> leads) {
+      this.leads = new ArrayList<>(leads);
+    }
+
+    @Override
+    public String toJson() {
+      Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+      return gson.toJson(this);
+    }
   }
 }

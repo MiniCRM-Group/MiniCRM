@@ -66,12 +66,12 @@ export class LeadsComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
 
     /**
-     * This will let the dataSource sort feature to access nested properties in the JSON such as column_data.
+     * This will let the dataSource sort feature to access nested properties in the JSON such as columnData.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
       switch(property) {
-        case 'name': return lead.column_data.FULL_NAME;
-        case 'phone_number': return lead.column_data.PHONE_NUMBER;
+        case 'name': return lead.columnData.FULL_NAME;
+        case 'phone_number': return lead.columnData.PHONE_NUMBER;
         default: return lead[property];
       }
     };
@@ -148,7 +148,7 @@ export class LeadsComponent implements AfterViewInit {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.lead_id + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.leadId + 1}`;
   }
 
   openDialog() {
