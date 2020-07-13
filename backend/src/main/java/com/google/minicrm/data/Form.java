@@ -86,7 +86,6 @@ public final class Form implements DatastoreObject{
   }
 
   //GETTERS AND SETTERS
-
   /**
    * @return the key of the advertiser entity that owns this form
    */
@@ -122,7 +121,7 @@ public final class Form implements DatastoreObject{
     this.formName = formName;
   }
 
-
+  //STATIC METHODS
   /**
    * Generates a datastore key for the form specified by the parent advertiser key and form id given
    * @param parentKey the key for the advertiser entity that owns this form
