@@ -90,13 +90,13 @@ export class LeadsComponent implements AfterViewInit {
        * @param data The whole data we have in the JSON.
        * @param filter The value that the user searches for.
        */
-      this.dataSource.filterPredicate = (data: any, filter: string)  => {
+      this.dataSource.filterPredicate = (data: any, filter: string): boolean  => {
         const cleanString = (str: string): string => str.trim().toLowerCase();
         const hasFilter = (data: any, filter: string): boolean => {
           // traverse through JSON's tree like structure
           if(typeof data === 'object') {
             const keys = Object.keys(data);
-            for(let key in keys) {
+            for(let key of keys) {
               if(hasFilter(data[key], filter)) {
                 return true;
               }
