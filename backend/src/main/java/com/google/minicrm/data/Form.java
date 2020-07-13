@@ -135,9 +135,9 @@ public final class Form implements DatastoreObject{
 
   /**
    * Same as {@link com.google.minicrm.data.Form#generateKey(Key, long)} but for multiple formIds.
-   * @param user    the user owning the forms
+   * @param parentKey the key for the advertiser entity that owns this form
    * @param formIds the ids of the forms
-   * @return        the keys for the form entitied with the specified formIds and user.
+   * @return        the keys for the form specified with the given parentKey and formIds.
    */
   public static List<Key> generateKeys(Key parentKey, long[] formIds) {
     List<Key> keys = new ArrayList<>();
