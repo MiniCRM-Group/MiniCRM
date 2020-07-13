@@ -27,6 +27,7 @@ import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -73,23 +74,16 @@ public final class FormsServlet extends HttpServlet {
     response.getWriter().println(new FormsResponse(forms).toJson());
   }
 
-  private long[] convertLongArrToStringArr(String[] numbers) {
-    Long[] result = new Long[numbers.length];
-    for (int i = 0; i < numbers.length; i++) {
-      result[i] = Long.parseLong(numbers[i]);
-    }
-    return ArrayUtils.toPrimitive(result);
-  }
-
   /**
-   * Deletes the form owned by the current user specified by the form_id specified in the request
-   * headers or a url parameter.
+   * Deletes the forms owned by the current user specified by the formIds array specified in
+   * the request headers or as a url parameter.
    * Authentication required.
    *
    * HTTP Response Status Codes:
    * - 204 No Content: on successful deletion.
    * Note: returns 204 No Content even if the form to be deleted never existed in the first place.
    * Instead, guarantees that it doesn't exist anymore in the datastore.
+   * - 400 Bad Request: if the request does not contain the required fields
    * - 401 Unauthorized: if not logged in with Google
    *
    * @param request  the HTTP Request
@@ -103,8 +97,12 @@ public final class FormsServlet extends HttpServlet {
       response.sendError(401, "Log in with Google to continue."); //401 Unauthorized
       return;
     }
-
-    long[] formIds = convertLongArrToStringArr(request.getParameterValues("formIds[]"));
+    String[] strFormIds = request.getParameterValues("formIds[]");
+    if (strFormIds == null || strFormIds.length == 0) {
+      response.sendError(400, "formIds[] not specified or is empty.");
+      return;
+    }
+    long[] formIds = Arrays.stream(strFormIds).mapToLong(Long::parseLong).toArray();
     User user = UserAuthenticationUtil.getCurrentUser();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();

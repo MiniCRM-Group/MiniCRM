@@ -89,7 +89,7 @@ public final class Lead implements DatastoreObject {
     this.isTest = (Boolean) entity.getProperty("isTest");
     this.adgroupId = (Long) entity.getProperty("adgroupId");
     this.creativeId = (Long) entity.getProperty("creativeId");
-    this.status = LeadStatus.values()[(int) entity.getProperty("status")];
+    this.status = LeadStatus.values()[((Long) entity.getProperty("status")).intValue()];
     this.notes = (String) entity.getProperty("notes");
 
 
