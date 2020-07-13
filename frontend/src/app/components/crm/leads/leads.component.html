@@ -1,7 +1,9 @@
 <div class="container">
   <br/>
   <br/>
-  <button mat-raised-button color="primary" (click)="sendEmail()">Contact Leads</button>
+  <form [formGroup]="form" (ngSubmit)="submitForm()" novalidate>
+    <!-- Form elements goes here -->
+    <input type="submit" value="Submit">
   <br/>
   <br/>
   <div class="mat-elevation-z1">
@@ -30,6 +32,7 @@
         <mat-cell *matCellDef="let lead">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? selection.toggle(lead) : null"
+                        (change)="onCheckboxChange($event)"
                         [checked]="selection.isSelected(lead)"
                         [aria-label]="checkboxLabel(lead)">
           </mat-checkbox>
@@ -125,5 +128,6 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                    showFirstLastButtons></mat-paginator>
   </div>
-
+  </form>
+    <br>
 </div>

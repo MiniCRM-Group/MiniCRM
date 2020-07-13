@@ -14,6 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 
 /**
@@ -33,7 +34,7 @@ import { LeadService } from '../../../services/lead.service';
 
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
-
+  form: FormGroup;
   readonly isLoading$ = new BehaviorSubject<boolean>(true);
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
@@ -55,9 +56,14 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog) {
+  constructor(private readonly leadService: LeadService, public dialog: MatDialog, private fb: FormBuilder) {
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
+      this.form = this.fb.group({
+          checkArray: this.fb.array([], [Validators.required])
+
+        })
+        console.log(this.form);
   }
 
   ngAfterViewInit(): void {
@@ -118,6 +124,7 @@ export class LeadsComponent implements AfterViewInit {
     if (typeof data[key] === 'object') {
       for (const k in data[key]) {
         if (data[key][k] !== null) {
+        console.log(data[key][k]);
             leadString = this.nestedPropertyFilterCheck(leadString, data[key], k);
           }
         }
@@ -160,17 +167,31 @@ export class LeadsComponent implements AfterViewInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.lead_id + 1}`;
   }
+ onCheckboxChange(e) {
+    const checkArray: FormArray = this.form.get('checkArray') as FormArray;
 
+    if (e.target.checked) {
+      checkArray.push(new FormControl(e.target.value));
+    } else {
+      let i: number = 0;
+      checkArray.controls.forEach((item: FormControl) => {
+        if (item.value == e.target.value) {
+          checkArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+  }
+
+  submitForm() {
+    console.log(this.form.value)
+  }
   openDialog() {
       const dialogRef = this.dialog.open(DetailsDialog);
 
       dialogRef.afterClosed().subscribe(result => {
       });
-  }
-
-  sendEmail() {
-              window.open(
-                "https://mail.google.com/mail/u/0/?view=cm&fs=1&tf=1&source=mailto&to=jason.park@gatech.edu,amanueltesfaye44@gmail.com&su=Greetings", "_blank");
   }
 
 }
