@@ -85,6 +85,29 @@ public final class Form implements DatastoreObject{
     return formEntity;
   }
 
+  /**
+   * Checks whether another object o is a Form object that is either the same exact object or has
+   * all the same values for all instance variables.
+   * @param o the object to compare to this form
+   * @return true if the given object is a Form instance with all instance variables equivalent.
+   *         false otherwise
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof Form)) {
+      return false;
+    }
+
+    Form other = (Form) o;
+    return this.date.equals(other.date) &&
+        this.advertiserKey.equals(other.advertiserKey) &&
+        this.formId == other.formId &&
+        this.formName.equals(other.formName);
+  }
+
   //GETTERS AND SETTERS
   /**
    * @return the key of the advertiser entity that owns this form
