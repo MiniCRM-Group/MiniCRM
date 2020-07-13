@@ -126,7 +126,7 @@ public final class FormsServlet extends HttpServlet {
 
     //request validation
     //check that the required parameters are provided
-    if (strFormId == null || formId.isEmpty()) {
+    if (strFormId == null || strFormId.isEmpty()) {
       response.sendError(400, "formId is not specified.");
       return;
     }
