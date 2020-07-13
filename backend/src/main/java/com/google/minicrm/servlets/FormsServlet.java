@@ -27,6 +27,7 @@ import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.UserAuthenticationUtil;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -101,26 +102,13 @@ public final class FormsServlet extends HttpServlet {
       response.sendError(400, "formIds[] not specified or is empty.");
       return;
     }
-    long[] formIds = convertLongArrToStringArr(strFormIds);
+    long[] formIds = Arrays.stream(strFormIds).mapToLong(Long::parseLong).toArray();
     User user = UserAuthenticationUtil.getCurrentUser();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.delete(Form.generateKeys(Advertiser.generateKey(user),formIds));
 
     response.setStatus(204); //Success - 204 No Content
-  }
-
-  /**
-   * Converts an array of Strings to their Long representation
-   * @param numbers array of Strings representing numbers
-   * @return        array of Longs
-   */
-  private long[] convertLongArrToStringArr(String[] numbers) {
-    long[] result = new long[numbers.length];
-    for (int i = 0; i < numbers.length; i++) {
-      result[i] = Long.parseLong(numbers[i]);
-    }
-    return result;
   }
 
   /**
