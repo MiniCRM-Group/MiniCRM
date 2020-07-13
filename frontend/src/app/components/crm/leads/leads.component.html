@@ -35,14 +35,14 @@
       <ng-container matColumnDef="lead_id">
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> Lead ID </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> {{lead.lead_id}} </mat-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.leadId}} </mat-cell>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> Lead Name </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> {{lead.column_data.FULL_NAME}} </mat-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.columnData.FULL_NAME}} </mat-cell>
       </ng-container>
 
       <!-- Phone Number Column -->
@@ -50,14 +50,14 @@
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> Phone Number </mat-header-cell>
 
-        <mat-cell *matCellDef="let lead"> {{lead.column_data.PHONE_NUMBER}} </mat-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.columnData.PHONE_NUMBER}} </mat-cell>
       </ng-container>
 
       <!-- Campaign Id Column -->
       <ng-container matColumnDef="campaign_id">
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> Campaign Id </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> {{lead.campaign_id}} </mat-cell>
+        <mat-cell *matCellDef="let lead"> {{lead.campaignId}} </mat-cell>
       </ng-container>
 
       <!-- Date Column -->
