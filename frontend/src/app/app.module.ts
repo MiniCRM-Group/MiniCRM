@@ -38,7 +38,6 @@ import { GuideComponent } from './components/crm/guide/guide.component';
 import { AnalyticsComponent } from './components/crm/analytics/analytics.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
-import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,8 +50,7 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     CrmComponent,
     LandingComponent,
     FormsComponent,
-    CrmTableComponent,
-    LinkFormDialogComponent
+    CrmTableComponent
   ],
   imports: [
     HttpClientModule,

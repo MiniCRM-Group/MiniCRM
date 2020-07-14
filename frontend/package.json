@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot",
-    "build": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
+    "build": "ng build",
+    "buildprod": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "builddev": "ng build --configuration=developer && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "test": "ng test",
     "lint": "ng lint",

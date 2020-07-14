@@ -1,0 +1,13 @@
+steps:
+
+  # Install node packages
+  - name: 'gcr.io/cloud-builders/npm'
+    args: [ 'install' ]
+
+  # Build
+  - name: 'gcr.io/cloud-builders/npm'
+    args: [ 'run', 'build' ]
+
+  # Test
+  - name: 'gcr.io/cloud-builders/npm'
+    args: [ 'run', 'test']
