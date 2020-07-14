@@ -87,10 +87,10 @@ public final class Form implements DatastoreObject{
 
   /**
    * Checks whether another object o is a Form object that is either the same exact object or has
-   * all the same values for all instance variables.
+   * all the same values for all instance variables except the advertiser key
    * @param o the object to compare to this form
-   * @return true if the given object is a Form instance with all instance variables equivalent.
-   *         false otherwise
+   * @return true if the given object is a Form instance with all instance variables equivalent
+   *         except for the advertiser key. false otherwise
    */
   @Override
   public boolean equals(Object o) {
@@ -103,7 +103,6 @@ public final class Form implements DatastoreObject{
 
     Form other = (Form) o;
     return this.date.equals(other.date) &&
-        this.advertiserKey.equals(other.advertiserKey) &&
         this.formId == other.formId &&
         this.formName.equals(other.formName);
   }
