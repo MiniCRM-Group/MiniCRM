@@ -95,8 +95,7 @@ export class LeadsComponent implements AfterViewInit {
         const hasFilter = (data: any, filter: string): boolean => {
           // traverse through JSON's tree like structure
           if(typeof data === 'object') {
-            const keys = Object.keys(data);
-            for(let key of keys) {
+            for(const key of Object.keys(data)) {
               if(hasFilter(data[key], filter)) {
                 return true;
               }
