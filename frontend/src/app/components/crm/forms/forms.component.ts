@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Form } from '../../../models/server_responses/forms-response.model';
 import { MatDialog } from '@angular/material/dialog';
-import { LinkFormDialogComponent } from './link-form-dialog/link-form-dialog.component';
 import { FormService } from '../../../services/form.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 import { map } from 'rxjs/operators';
@@ -33,19 +32,6 @@ export class FormsComponent implements OnInit {
     this.webhookService.getWebhook().subscribe((res: WebHookResponse) => {
       this.webhookUrl = res.webhookUrl;
       this.googlekey = res.googleKey;
-    });
-  }
-
-  openLinkFormDialog() {
-    const dialogRef = this.dialog.open(LinkFormDialogComponent, {
-      data: {
-        form_name: '',
-        form_id: ''
-      }
-    });
-    dialogRef.afterClosed().subscribe((_any: any) => {
-      // refresh because we added a form row
-      this.formsTable.refreshDataSource();
     });
   }
 

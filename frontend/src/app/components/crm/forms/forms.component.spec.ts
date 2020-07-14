@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { FormsResponse, Form } from 'src/app/models/server_responses/forms-response.model';
 import { LinkFormRequest } from 'src/app/models/server_requests/link-form-request.model';
 import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('FormsComponent', () => {
   let component: FormsComponent;
@@ -20,7 +21,7 @@ describe('FormsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FormsComponent ],
-      imports: [ MatDialogModule ],
+      imports: [ MatDialogModule, HttpClientModule ],
       providers: [ { provide: FormService, useValue: formServiceStub } ]
     })
     .compileComponents();
