@@ -14,6 +14,62 @@
 
 package com.google.minicrm.data;
 
-public class FormTest {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.User;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+/**
+ * Provides Unit tests for the Form data object.
+ */
+@RunWith(JUnit4.class)
+public final class FormTest {
+
+  private static final String TEST_USER_ID = "testUserId";
+
+  @Before
+  public void setUp() {
+
+  }
+
+  @Test
+  public void form_convertToEntityAndBack() throws Exception {
+    User testUser = new User("email", "authDomain", TEST_USER_ID);
+    Key advertiserKey = Advertiser.generateKey(testUser);
+    Form form = new Form(advertiserKey, 1, "form1");
+    Entity formEntity = form.asEntity();
+    Form convertedForm = new Form(formEntity);
+    assertEquals(form, convertedForm);
+  }
+
+  @Test
+  public void form_generateKey_generatesDifferentKey_withDifferentParentAndSameId()
+      throws Exception {
+    Key advertiserKey1 = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
+    Key advertiserKey2 = KeyFactory.createKey(Advertiser.KIND_NAME, "key2");
+    long formId = 12345;
+    Key formKey1 = Form.generateKey(advertiserKey1, formId);
+    Key formKey2 = Form.generateKey(advertiserKey2, formId);
+    assertNotEquals(formKey1, formKey2);
+  }
+
+  @Test
+  public void form_generateKey_generatesDifferentKey_withSameParentAndDifferentId()
+    throws Exception {
+    Key advertiserKey = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
+    long formId1 = 1;
+    long formId2 = 2;
+    Key formKey1 = Form.generateKey(advertiserKey, formId1);
+    Key formKey2 = Form.generateKey(advertiserKey, formId2);
+    assertNotEquals(formKey1, formKey2);
+
+  }
 
 }
