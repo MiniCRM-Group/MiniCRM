@@ -1,4 +1,4 @@
-# MiniCRM 
+# miniCRM 
 [![Build status](https://circleci.com/gh/MiniCRM-Group/MiniCRM.svg?style=svg)](https://circleci.com/gh/MiniCRM-Group/MiniCRM)
 
 This is the repository for our miniCRM website!
@@ -14,6 +14,9 @@ To run our project locally, you should run the frontend and backend separately,
 
 To run the frontend, you want to do the following
 ```
+# Navigate to frontend folder
+cd frontend
+
 # Install dependencies
 npm install
 
@@ -22,6 +25,13 @@ npm run start
 ```
 To run the backend, you want to do the following
 ```
+# Navigate to backend folder
+cd backend
+
+# Populate `webapp` with necessary files to run local server.
+# Only needs to be done ONCE.
+cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp
+
 # Run backend (works only with Java 8)
 mvn package appengine:run
 ```
@@ -38,4 +48,5 @@ mvn package appengine:deploy
 ```
 
 
-From the contributors: Alex, Amanuel, Roddy, Rodrigo, Anthoney
+## Contributors
+Alex, Amanuel, Roddy, Rodrigo, Anthoney
