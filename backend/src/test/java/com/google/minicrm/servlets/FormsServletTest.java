@@ -17,6 +17,8 @@ package com.google.minicrm.servlets;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.appengine.api.datastore.Key;
@@ -49,6 +51,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import com.google.appengine.tools.development.testing.LocalServiceTestConfig;
+import org.mockito.Mockito;
 
 /**
  * Provides Unit Tests for the FormsServlet servlet at endpoint api/forms.
@@ -121,6 +124,11 @@ public final class FormsServletTest {
     form2.setFormName("newName");
     Form[] expectedForms = {form3, form2, form1};
     assertArrayEquals(expectedForms, returnedForms);
+
+    //verify response codes
+    verify(response).setStatus(204);
+    verify(response, never()).sendError(Mockito.any(), Mockito.any());
+    verify(response, never()).sendError(Mockito.any());
   }
 
   /**
