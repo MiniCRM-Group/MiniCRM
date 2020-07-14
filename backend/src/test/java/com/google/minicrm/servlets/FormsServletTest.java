@@ -56,12 +56,11 @@ import com.google.appengine.tools.development.testing.LocalServiceTestConfig;
 @RunWith(JUnit4.class)
 public final class FormsServletTest {
 
-  private static final String TEST_FORM_KIND_NAME = "TestForm";
   private static final String TEST_USER_ID = "testUserId";
   private static final FormsServlet formsServlet = new FormsServlet();
   private static Map<String, Object> envAttributes;
   static {
-    envAttributes = new HashMap<String, Object>();
+    envAttributes = new HashMap<>();
     envAttributes.put("com.google.appengine.api.users.UserService.user_id_key", TEST_USER_ID);
   }
   private static final LocalServiceTestHelper helper =
