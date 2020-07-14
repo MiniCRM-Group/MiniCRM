@@ -12,9 +12,11 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
+
 import { MatDialog } from '@angular/material/dialog';
 
+import {SelectionModel} from '@angular/cdk/collections';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 
 /**
  * Imports from the RxJS library
@@ -24,8 +26,6 @@ import { first } from 'rxjs/operators';
 
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
-import { Title } from '@angular/platform-browser';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-leads',
@@ -39,6 +39,7 @@ export class LeadsComponent implements AfterViewInit {
   readonly isLoading$ = new BehaviorSubject<boolean>(true);
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
+  group: FormGroup;
   /**
    * Column IDs that we plan to show on the table are stored here
    */
@@ -57,18 +58,17 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog,
-    private titleService: Title) {
-    this.titleService.setTitle('Leads');
+  constructor(private readonly leadService: LeadService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
+
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
     /**
-     * This will let the dataSource sort feature to access nested properties in the JSON such as columnData.
+     * This will let the dataSource sort feature to access nested properties in the JSON such as column_data.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
       switch(property) {
@@ -92,32 +92,44 @@ export class LeadsComponent implements AfterViewInit {
 
       /**
        * @param data The whole data we have in the JSON.
-       * @param filter The value that the user searches for.
+       * @param filter The value that the user searches transformedFilter.
        */
-      this.dataSource.filterPredicate = (data: any, filter: string): boolean  => {
-        const cleanString = (str: string): string => str.trim().toLowerCase();
-        const hasFilter = (data: any, filter: string): boolean => {
-          // traverse through JSON's tree like structure
-          if(typeof data === 'object') {
-            for(const key of Object.keys(data)) {
-              if(hasFilter(data[key], filter)) {
-                return true;
-              }
-            }
-          } else {
-            // if you hit a key-value pair where the value is
-            // a primitve type compare and return only if filter found
-            const value = cleanString(_.toString(data));
-            if(value.indexOf(filter) !== -1) {
-              return true;
-            }
-          }
-          return false;
+      this.dataSource.filterPredicate = (data, filter: string)  => {
+        const accumulator = (currentTerm, key) => {
+          //Using the recusrsive method here becuase using an if/else condition will increase space complexity n times.
+          return this.nestedPropertyFilterCheck(currentTerm, data, key);
         };
-        return hasFilter(data, cleanString(filter));
+        const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+
+        /**
+         * Transform the filter by converting it to lowercase and removing whitespace.
+         */
+        const transformedFilter = filter.trim().toLowerCase();
+        return dataStr.indexOf(transformedFilter) !== -1;
       };
       this.isLoading$.next(false);
       });
+  }
+
+  /**
+   * A Recursive function to check for each data in the nested JSON
+   * @param leadString A lead that exists in the JSON
+   * @param data The whole data we have in the JSON
+   * @param key The property of the lead at is nested if it exists
+   * @return leadString
+   */
+  nestedPropertyFilterCheck(leadString, data, key) {
+    if (typeof data[key] === 'object') {
+      for (const k in data[key]) {
+        if (data[key][k] !== null) {
+        console.log(data[key][k]);
+            leadString = this.nestedPropertyFilterCheck(leadString, data[key], k);
+          }
+        }
+    } else {
+        leadString += data[key];
+    }
+      return leadString;
   }
 
  /**
@@ -134,6 +146,7 @@ export class LeadsComponent implements AfterViewInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
+
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -152,6 +165,43 @@ export class LeadsComponent implements AfterViewInit {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.leadId + 1}`;
+  }
+  /*
+   * This method listens to the contact leads button
+   */
+  contactLead(){
+    let recepientsString : string = "";
+
+    // when no leads are selected
+    if(this.selection.selected.length == 0){
+      alert("Please select at least one lead.");
+      return;
+    }
+
+    let recepients: Array<string> = [];
+
+    for (let i = 0; i < this.selection.selected.length; i++) {
+      if(this.selection.selected[i].columnData.EMAIL == null ){
+         //do nothing
+      }else{
+        recepients.push(this.selection.selected[i].columnData.EMAIL.toString());
+      }
+    }
+
+    // incase all the selected leads do not have email address
+    if(recepients.length == 0){
+    alert("Please select at least one lead with an email address.");
+          return;
+    }
+
+    for(let j = 0; j < recepients.length; j++){
+      recepientsString += recepients[j];
+      recepientsString += ",";
+    }
+
+    let emailUrl : string  = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to="+recepientsString+"&su=Greetings";
+    window.open(emailUrl, "_blank");
+    console.log(this.selection.selected[0]);
   }
 
   openDialog() {
