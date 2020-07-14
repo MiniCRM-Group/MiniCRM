@@ -131,7 +131,7 @@ public final class FormsServlet extends HttpServlet {
       return;
     }
     if (formName == null || formName.isEmpty()) {
-      response.sendError(400, "formId is not specified.");
+      response.sendError(400, "formName is not specified.");
       return;
     }
     //check form id is a long
