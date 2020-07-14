@@ -27,10 +27,14 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.minicrm.data.Advertiser;
 import com.google.minicrm.data.Form;
 import com.google.minicrm.utils.DatastoreUtil;
+import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -82,7 +86,7 @@ public final class FormsServletTest {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     parentKey = Advertiser.generateKey(testUser);
     form1 = new Form(parentKey, 1, "form1" );
-    TimeUnit.SECONDS.sleep(1); //timestamp only has 1 second precision
+    TimeUnit.SECONDS.sleep(1); //datastore timestamp only has 1 second precision
     form2 = new Form(parentKey, 2, "form2");
     TimeUnit.SECONDS.sleep(1);
     form3 = new Form(parentKey, 3, "form3");
@@ -98,7 +102,34 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void forms_getRequest_returnsAllFormsInTimeOrder() throws Exception {
+  public void formsServlet_getRequest_returnsAllFormsInTimeOrder() throws Exception {
+    Form[] returnedForms = getForms();
+    Form[] expectedForms = {form3, form2, form1};
+    assertArrayEquals(expectedForms, returnedForms);
+  }
+
+  @Test
+  public void formsServlet_putRequest_json_successfullyRenamesAndReturns204() throws Exception{
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    when(request.getContentType()).thenReturn("application/json");
+    Reader reader = new StringReader(new FormsPutRequest("2", "newName").toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+    formsServlet.doPut(request, response);
+
+    //get the new forms
+    Form[] returnedForms = getForms();
+    form2.setFormName("newName");
+    Form[] expectedForms = {form3, form2, form1};
+    assertArrayEquals(expectedForms, returnedForms);
+  }
+
+  /**
+   * Gets the forms using the FormsServlet GET method
+   * @return the forms currently in the datastore
+   * @throws Exception if any error occurs
+   */
+  private Form[] getForms() throws Exception {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -111,10 +142,22 @@ public final class FormsServletTest {
     writer.flush();
 
     Type mapStrToFormArrType = new TypeToken<Map<String, Form[]>>(){}.getType();
-    System.out.println(stringWriter.toString());
     Map<String, Form[]> getResponse = gson.fromJson(stringWriter.toString(), mapStrToFormArrType);
-    Form[] returnedForms = getResponse.get("forms");
-    Form[] expectedForms = {form3, form2, form1};
-    assertArrayEquals(expectedForms, returnedForms);
+    return getResponse.get("forms");
+  }
+
+  private class FormsPutRequest {
+    private String formId;
+    private String formName;
+
+    FormsPutRequest(String formId, String formName) {
+      this.formId = formId;
+      this.formName = formName;
+    }
+
+    public String toJson() {
+      Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+      return gson.toJson(this);
+    }
   }
 }
