@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { FormsResponse } from '../models/server_responses/forms-response.model';
-import { LinkFormResponse } from '../models/server_responses/link-form-response.model';
+import { LinkFormRequest } from '../models/server_requests/link-form-request.model';
 import { WebHookResponse } from '../models/server_responses/webhook-response.model';
 import { retry, catchError } from 'rxjs/operators';
 import { Form } from '../models/server_responses/forms-response.model';
@@ -30,11 +30,11 @@ export class FormService {
     )
   }
 
-  linkForm(linkFormResponse: LinkFormResponse): Observable<WebHookResponse> {
+  linkForm(linkFormRequest: LinkFormRequest): Observable<WebHookResponse> {
     const options = {
       responseType: 'json' as const
     };
-    return this.http.post<WebHookResponse>(this.formEndpoint, linkFormResponse, options)
+    return this.http.post<WebHookResponse>(this.formEndpoint, linkFormRequest, options)
     .pipe(
       retry(3),
       catchError((error: HttpErrorResponse) => {
