@@ -3,7 +3,7 @@
 steps: 
 
   # Install node packages
-  - name: 'gcr.io/cloud-builders/npm:node-14.4.0'
+  - name: 'gcr.io/cloud-builders/npm:node-10.10.0'
     args: [ 'install' ]
     dir: 'frontend'
     id: install

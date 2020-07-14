@@ -1,14 +1,14 @@
 steps:
 
   # Install node packages
-  - name: 'gcr.io/cloud-builders/npm:node-14.4.0'
+  - name: 'gcr.io/cloud-builders/npm:current'
     args: [ 'install' ]
     dir: 'frontend'
     id: install
     waitFor: [ '-' ]
 
   # Build
-  - name: 'gcr.io/cloud-builders/npm:node-14.4.0'
+  - name: 'gcr.io/cloud-builders/npm:current'
     args: [ 'run', 'build' ]
     dir: 'frontend'
     id: build
@@ -16,7 +16,7 @@ steps:
       - install
 
   # Test
-  - name: 'gcr.io/cloud-builders/npm:node-14.4.0'
+  - name: 'gcr.io/cloud-builders/npm:current'
     args: [ 'run', 'test']
     dir: 'frontend'
     id: test
