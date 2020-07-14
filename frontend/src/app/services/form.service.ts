@@ -14,7 +14,7 @@ export class FormService {
 
   constructor(private http: HttpClient) { }
 
-  formEndpoint = 'api/forms';
+  formEndpoint = '/api/forms';
 
   getForms(): Observable<FormsResponse> {
     const options = {

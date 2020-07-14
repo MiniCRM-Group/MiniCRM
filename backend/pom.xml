@@ -58,48 +58,7 @@
                 <configuration>
                     <deploy.projectId>form-ads-leads</deploy.projectId>
                     <deploy.version>1</deploy.version>
-                </configuration>
-            </plugin>
-            <!-- Builds Angular app in src/main/webapp.-->
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <!-- Use the latest released version:
-                https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-                <version>1.10.0</version>
-                <executions>
-                    <!-- Installs a local copy of node and npm -->
-                    <execution>
-                        <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                    </execution>
-                    <!-- Installs npm packages -->
-                    <execution>
-                        <id>install node packages</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                    </execution>
-                    <!-- Executes npm build script which runs ng builddev -->
-                    <execution>
-                        <id>build angular app</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <!-- Change to run build for prod-->
-                        <configuration>
-                            <arguments>run builddev</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <nodeVersion>v14.4.0</nodeVersion>
-                    <workingDirectory>../frontend</workingDirectory>
-                    <installDirectory>../frontend</installDirectory>
+                    <automaticRestart>true</automaticRestart>
                 </configuration>
             </plugin>
         </plugins>
