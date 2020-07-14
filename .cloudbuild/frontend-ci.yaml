@@ -3,11 +3,14 @@ steps:
   # Install node packages
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'install' ]
+    dir: 'frontend'
 
   # Build
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'run', 'build' ]
+    dir: 'frontend'
 
   # Test
   - name: 'gcr.io/cloud-builders/npm'
     args: [ 'run', 'test']
+    dir: 'frontend'
