@@ -14,7 +14,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 
 /**
@@ -25,6 +24,8 @@ import { first } from 'rxjs/operators';
 
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
+import { Title } from '@angular/platform-browser';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-leads',
@@ -34,7 +35,7 @@ import { LeadService } from '../../../services/lead.service';
 
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
-  form: FormGroup;
+
   readonly isLoading$ = new BehaviorSubject<boolean>(true);
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
@@ -56,27 +57,24 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog, private fb: FormBuilder) {
+  constructor(private readonly leadService: LeadService, public dialog: MatDialog,
+    private titleService: Title) {
+    this.titleService.setTitle('Leads');
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
-      this.form = this.fb.group({
-          checkArray: this.fb.array([], [Validators.required])
-
-        })
-        console.log(this.form);
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
     /**
-     * This will let the dataSource sort feature to access nested properties in the JSON such as column_data.
+     * This will let the dataSource sort feature to access nested properties in the JSON such as columnData.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
       switch(property) {
-        case 'name': return lead.column_data.FULL_NAME;
-        case 'phone_number': return lead.column_data.PHONE_NUMBER;
-        case 'email': return lead.column_data.EMAIL;
+        case 'name': return lead.columnData.FULL_NAME;
+        case 'phone_number': return lead.columnData.PHONE_NUMBER;
+        case 'email': return lead.columnData.EMAIL;
         case 'date': return new Date(lead.date).getTime();
         default: return lead[property];
       }
@@ -94,44 +92,32 @@ export class LeadsComponent implements AfterViewInit {
 
       /**
        * @param data The whole data we have in the JSON.
-       * @param filter The value that the user searches transformedFilter.
+       * @param filter The value that the user searches for.
        */
-      this.dataSource.filterPredicate = (data, filter: string)  => {
-        const accumulator = (currentTerm, key) => {
-          //Using the recusrsive method here becuase using an if/else condition will increase space complexity n times.
-          return this.nestedPropertyFilterCheck(currentTerm, data, key);
+      this.dataSource.filterPredicate = (data: any, filter: string): boolean  => {
+        const cleanString = (str: string): string => str.trim().toLowerCase();
+        const hasFilter = (data: any, filter: string): boolean => {
+          // traverse through JSON's tree like structure
+          if(typeof data === 'object') {
+            for(const key of Object.keys(data)) {
+              if(hasFilter(data[key], filter)) {
+                return true;
+              }
+            }
+          } else {
+            // if you hit a key-value pair where the value is
+            // a primitve type compare and return only if filter found
+            const value = cleanString(_.toString(data));
+            if(value.indexOf(filter) !== -1) {
+              return true;
+            }
+          }
+          return false;
         };
-        const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
-
-        /**
-         * Transform the filter by converting it to lowercase and removing whitespace.
-         */
-        const transformedFilter = filter.trim().toLowerCase();
-        return dataStr.indexOf(transformedFilter) !== -1;
+        return hasFilter(data, cleanString(filter));
       };
       this.isLoading$.next(false);
       });
-  }
-
-  /**
-   * A Recursive function to check for each data in the nested JSON
-   * @param leadString A lead that exists in the JSON
-   * @param data The whole data we have in the JSON
-   * @param key The property of the lead at is nested if it exists
-   * @return leadString
-   */
-  nestedPropertyFilterCheck(leadString, data, key) {
-    if (typeof data[key] === 'object') {
-      for (const k in data[key]) {
-        if (data[key][k] !== null) {
-        console.log(data[key][k]);
-            leadString = this.nestedPropertyFilterCheck(leadString, data[key], k);
-          }
-        }
-    } else {
-        leadString += data[key];
-    }
-      return leadString;
   }
 
  /**
@@ -165,28 +151,9 @@ export class LeadsComponent implements AfterViewInit {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.lead_id + 1}`;
-  }
- onCheckboxChange(e) {
-    const checkArray: FormArray = this.form.get('checkArray') as FormArray;
-
-    if (e.target.checked) {
-      checkArray.push(new FormControl(e.target.value));
-    } else {
-      let i: number = 0;
-      checkArray.controls.forEach((item: FormControl) => {
-        if (item.value == e.target.value) {
-          checkArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.leadId + 1}`;
   }
 
-  submitForm() {
-    console.log(this.form.value)
-  }
   openDialog() {
       const dialogRef = this.dialog.open(DetailsDialog);
 

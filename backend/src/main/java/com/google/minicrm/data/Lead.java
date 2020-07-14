@@ -54,10 +54,19 @@ public final class Lead implements DatastoreObject {
   private long creativeId;
 
   /**
-   * Blank constructor that sets the time when this lead was created
+   * Advertiser defined and edited fields.
+   */
+  private LeadStatus status;
+  private String notes;
+
+  /**
+   * Blank constructor that sets the time when this lead was created and sets defaults for values
+   * that are not provided by Google Ads server.
    */
   public Lead() {
     this.date = new Date(System.currentTimeMillis());
+    this.notes = "";
+    this.status = LeadStatus.NEW;
   }
 
   /**
@@ -80,6 +89,9 @@ public final class Lead implements DatastoreObject {
     this.isTest = (Boolean) entity.getProperty("isTest");
     this.adgroupId = (Long) entity.getProperty("adgroupId");
     this.creativeId = (Long) entity.getProperty("creativeId");
+    this.status = LeadStatus.values()[((Long) entity.getProperty("status")).intValue()];
+    this.notes = (String) entity.getProperty("notes");
+
 
     entity.removeProperty("date");
     entity.removeProperty("leadId");
@@ -91,6 +103,8 @@ public final class Lead implements DatastoreObject {
     entity.removeProperty("isTest");
     entity.removeProperty("adgroupId");
     entity.removeProperty("creativeId");
+    entity.removeProperty("status");
+    entity.removeProperty("notes");
     this.columnData = new HashMap<>();
     for (String key : entity.getProperties().keySet()) {
       columnData.put(key, (String) entity.getProperty(key));
@@ -137,6 +151,8 @@ public final class Lead implements DatastoreObject {
     leadEntity.setProperty("isTest", isTest);
     leadEntity.setProperty("adgroupId", adgroupId);
     leadEntity.setProperty("creativeId", creativeId);
+    leadEntity.setProperty("notes", notes);
+    leadEntity.setProperty("status", status.ordinal());
     for (String key : columnData.keySet()) {
       leadEntity.setProperty(key, columnData.get(key));
     }
@@ -259,6 +275,35 @@ public final class Lead implements DatastoreObject {
   public long getCreativeId() {
     return creativeId;
   }
+
+  /**
+   * @return the String representation of this lead's notes
+   */
+  public String getNotes() {
+    return notes;
+  }
+
+  /**
+   * @param notes the new notes for this lead
+   */
+  public void setNotes(String notes) {
+    this.notes = notes;
+  }
+
+  /**
+   * @return the status of this lead
+   */
+  public LeadStatus getStatus() {
+    return status;
+  }
+
+  /**
+   * @param status the new status of this lead
+   */
+  public void setStatus(LeadStatus status) {
+    this.status = status;
+  }
+
 
   /**
    * This class represents column data for a lead.

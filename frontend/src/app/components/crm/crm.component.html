@@ -1,20 +1,39 @@
 <mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav">
-    <button color="primary" mat-button routerLink="guide">Guide</button>
-    <button color="primary" mat-button routerLink="forms">Forms</button>
-    <button color="primary" mat-button routerLink="campaigns">Campaigns</button>
-    <button color="primary" mat-button routerLink="leads">Leads</button>
-    <button color="primary" mat-button routerLink="analytics">Analytics</button>
+  <mat-drawer #drawer opened="true" disableClose="true" mode="side">
+    <mat-divider></mat-divider>
+    <mat-nav-list>
+      <!-- Sidebar title to let user know this is miniCRM -->
+      <mat-list-item>
+        <!-- Using button to keep spacing consistent -->
+        <button mat-button>
+          <mat-icon mat-list-icon>layers</mat-icon>
+          <span *ngIf="isExpanded" class="mat-h2">miniCRM</span>
+        </button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <!-- All the buttons that lead to different pages of the CRM -->
+      <mat-list-item *ngFor="let datum of navigationData">
+        <button color="primary" mat-button [routerLink]="datum.link">
+          <mat-icon mat-list-icon color="primary">{{ datum.icon }}</mat-icon>
+          <span *ngIf="isExpanded" class="mat-h4">{{ datum.displayedName }}</span>
+        </button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <!-- Button to toggle text in sidebar. -->
+      <mat-list-item (click)="isExpanded = !isExpanded" >
+        <button color="primary" mat-button>
+          <mat-icon mat-list-icon color="primary">{{ isExpanded ? "chevron_left" : "chevron_right" }}</mat-icon>
+          <span *ngIf="isExpanded" class="mat-h4">Hide</span>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
   </mat-drawer>
   <div class="sidenav-content">
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <button mat-icon-button (click)="drawer.toggle()">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span>miniCRM</span>
+        <span>{{ titleService.getTitle() }}</span>
         <span class="spacer"></span>
-        <button>
+        <button mat-flat-button (click)="logout()">
           LOGOUT
         </button>
       </mat-toolbar-row>

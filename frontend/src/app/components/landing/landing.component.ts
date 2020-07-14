@@ -46,7 +46,7 @@ export class LandingComponent {
     });
   }
 
-  linkToLoginPage() {
+  login() {
     location.href = this.loginUrl;
   }
 }

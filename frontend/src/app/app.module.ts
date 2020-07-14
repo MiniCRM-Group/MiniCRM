@@ -22,8 +22,8 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +40,7 @@ import { AnalyticsComponent } from './components/crm/analytics/analytics.compone
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatListModule,
     MatSelectModule
    ],
   providers: [

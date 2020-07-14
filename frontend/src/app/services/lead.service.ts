@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Lead } from '../models/server_responses/lead.model';
+import { Lead, LeadsResponse } from '../models/server_responses/lead.model';
 import { Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,14 @@ import { Observable } from 'rxjs';
 export class LeadService {
     private url = '/api/leads';
 
-    constructor(
-      private http: HttpClient) { }
-      getAllLeads(): Observable<Lead[]> {
-      return this.http.get<Lead[]>(this.url);
+    constructor(private http: HttpClient) { }
+
+    getAllLeads(): Observable<Lead[]> {
+      const options = {
+        responseType: 'json' as const
+      };
+      return this.http.get<LeadsResponse>(this.url, options).pipe(
+        map(res => res.leads)
+      );
     }
 }
