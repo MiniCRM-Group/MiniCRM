@@ -3,17 +3,25 @@
 steps: 
 
   # Install node packages
-  - name: 'gcr.io/cloud-builders/npm'
+  - name: 'gcr.io/cloud-builders/npm:node-14.4.0'
     args: [ 'install' ]
     dir: 'frontend'
+    id: install
+    waitFor: [ '-' ]
 
   # Build webapp
-  - name: 'gcr.io/cloud-builders/npm'
+  - name: 'gcr.io/cloud-builders/npm:node-14.4.0'
     args: [ 'run', 'buildprod' ]
     dir: 'frontend'
+    id: build
+    waitFor:
+      - install
 
   # Deploy WAR
   - name: maven:3-jdk-8
     entrypoint: mvn
     args: ['package', 'appengine:deploy']
     dir: 'backend'
+    id: deploy
+    waitFor:
+      - build
