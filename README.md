@@ -3,6 +3,7 @@
 
 This is the repository for our miniCRM website!
 
+![miniCRM Landing Page](screenshots/landingpagescreenshot.png?raw=true "miniCRM Landing Page")
 
 ## Getting Started
 
@@ -30,7 +31,7 @@ cd backend
 
 # Populate `webapp` with necessary files to run local server.
 # Only needs to be done ONCE.
-cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp
+cp -R ./src/main/WEB-INF ./src/main/webapp
 
 # Run backend (works only with Java 8)
 mvn package appengine:run
@@ -46,7 +47,6 @@ npm run build
 # Then, run prod build of backend
 mvn package appengine:deploy
 ```
-
 
 ## Contributors
 Alex, Amanuel, Roddy, Rodrigo, Anthoney
