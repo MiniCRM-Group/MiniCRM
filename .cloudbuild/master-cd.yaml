@@ -1,0 +1,19 @@
+# Note: Going to hold back on creating a trigger for CD for now.
+
+steps: 
+
+  # Install node packages
+  - name: 'gcr.io/cloud-builders/npm'
+    args: [ 'install' ]
+    dir: 'frontend'
+
+  # Build webapp
+  - name: 'gcr.io/cloud-builders/npm'
+    args: [ 'run', 'buildprod' ]
+    dir: 'frontend'
+
+  # Deploy WAR
+  - name: maven:3-jdk-8
+    entrypoint: mvn
+    args: ['package', 'appengine:deploy']
+    dir: 'backend'
