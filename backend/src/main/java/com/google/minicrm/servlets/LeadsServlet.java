@@ -97,7 +97,7 @@ public final class LeadsServlet extends HttpServlet {
    *  - application/json
    *
    * HTTP Response Status Codes:
-   * - 200 OK: lead edited successfully
+   * - 204 No Content: lead edited successfully
    * - 400 Bad Request: if the request does not contain the required fields or has an invalid status
    * - 401 Unauthorized: if not logged in with Google
    * - 404 Not Found: if the lead with the specified lead_id is not found
@@ -173,6 +173,7 @@ public final class LeadsServlet extends HttpServlet {
 
     //store the updated lead
     DatastoreUtil.put(lead);
+    response.setStatus(204);
   }
 
   /**

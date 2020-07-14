@@ -85,6 +85,43 @@ public final class Form implements DatastoreObject{
     return formEntity;
   }
 
+  //GETTERS AND SETTERS
+  /**
+   * @return the key of the advertiser entity that owns this form
+   */
+  public Key getAdvertiserKey() {
+    return advertiserKey;
+  }
+
+  /**
+   * @return the time when this form was created
+   */
+  public Date getDate() {
+    return date;
+  }
+
+  /**
+   * @return the id of this form
+   */
+  public long getFormId() {
+    return formId;
+  }
+
+  /**
+   * @return the name of this form
+   */
+  public String getFormName() {
+    return formName;
+  }
+
+  /**
+   * @param formName the new name of this form
+   */
+  public void setFormName(String formName) {
+    this.formName = formName;
+  }
+
+  //STATIC METHODS
   /**
    * Generates a datastore key for the form specified by the parent advertiser key and form id given
    * @param parentKey the key for the advertiser entity that owns this form
@@ -97,9 +134,9 @@ public final class Form implements DatastoreObject{
 
   /**
    * Same as {@link com.google.minicrm.data.Form#generateKey(Key, long)} but for multiple formIds.
-   * @param user    the user owning the forms
+   * @param parentKey the key for the advertiser entity that owns this form
    * @param formIds the ids of the forms
-   * @return        the keys for the form entitied with the specified formIds and user.
+   * @return        the keys for the form specified with the given parentKey and formIds.
    */
   public static List<Key> generateKeys(Key parentKey, long[] formIds) {
     List<Key> keys = new ArrayList<>();
