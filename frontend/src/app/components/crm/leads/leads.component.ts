@@ -25,6 +25,7 @@ import { first } from 'rxjs/operators';
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
 import { Title } from '@angular/platform-browser';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-leads',
@@ -87,15 +88,15 @@ export class LeadsComponent implements AfterViewInit {
 
       /**
        * @param data The whole data we have in the JSON.
-       * @param filter The value that the user searches transformedFilter.
+       * @param filter The value that the user searches for.
        */
-      this.dataSource.filterPredicate = (data, filter: string)  => {
-        let cleanString = (str: string): string => str.trim().toLowerCase();
-        let hasFilter = (data: object | number | string | boolean, filter: string): boolean => {
+      this.dataSource.filterPredicate = (data: any, filter: string): boolean  => {
+        const cleanString = (str: string): string => str.trim().toLowerCase();
+        const hasFilter = (data: any, filter: string): boolean => {
           // traverse through JSON's tree like structure
           if(typeof data === 'object') {
-            let keys = Object.keys(data);
-            for(let key in keys) {
+            const keys = Object.keys(data);
+            for(let key of keys) {
               if(hasFilter(data[key], filter)) {
                 return true;
               }
@@ -103,7 +104,7 @@ export class LeadsComponent implements AfterViewInit {
           } else {
             // if you hit a key-value pair where the value is 
             // a primitve type compare and return only if filter found
-            let value = cleanString(data.toString());
+            const value = cleanString(_.toString(data));
             if(value.indexOf(filter) !== -1) {
               return true;
             }
