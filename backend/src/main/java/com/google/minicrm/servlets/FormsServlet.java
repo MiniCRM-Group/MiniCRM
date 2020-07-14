@@ -202,7 +202,7 @@ public final class FormsServlet extends HttpServlet {
   }
 
   /**
-   * Response object providing a user's webhook and all their forms to a GET request
+   * Response object providing an advertiser's forms to a GET request
    */
   private final class FormsResponse implements ClientResponse {
 
