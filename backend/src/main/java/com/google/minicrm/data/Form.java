@@ -28,7 +28,7 @@ import java.util.List;
  * directly linked to their leads. Instead, leads are linked to their respective form with the form
  * id instance variable.
  */
-public final class Form implements DatastoreObject{
+public final class Form implements DatastoreObject {
 
   public static final String KIND_NAME = "Form";
 
