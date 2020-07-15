@@ -14,6 +14,7 @@
 
 package com.google.minicrm.servlets;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -64,7 +65,7 @@ public final class UnauthenticatedRequestsTest {
     formsServlet.doGet(request, response);
 
     //verify error code
-    verify(response).sendError(eq(401), Mockito.anyString());
+    verify(response).sendError(eq(401), anyString());
   }
 
   @Test
@@ -72,7 +73,7 @@ public final class UnauthenticatedRequestsTest {
     formsServlet.doPut(request, response);
 
     //verify error code
-    verify(response).sendError(eq(401), Mockito.anyString());
+    verify(response).sendError(eq(401), anyString());
   }
 
   @Test
@@ -80,7 +81,7 @@ public final class UnauthenticatedRequestsTest {
     leadsServlet.doGet(request, response);
 
     //verify error code
-    verify(response).sendError(eq(401), Mockito.anyString());
+    verify(response).sendError(eq(401), anyString());
   }
 
   @Test
@@ -88,7 +89,7 @@ public final class UnauthenticatedRequestsTest {
     leadsServlet.doGet(request, response);
 
     //verify error code
-    verify(response).sendError(eq(401), Mockito.anyString());
+    verify(response).sendError(eq(401), anyString());
   }
 
   @Test
@@ -96,7 +97,7 @@ public final class UnauthenticatedRequestsTest {
     webhookServlet.doGet(request, response);
 
     //verify error code
-    verify(response).sendError(eq(401), Mockito.anyString());
+    verify(response).sendError(eq(401), anyString());
   }
 
 }
