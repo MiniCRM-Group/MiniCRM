@@ -17,6 +17,7 @@ package com.google.minicrm.servlets;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -100,68 +101,68 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void formsServlet_getRequest_returnsAllFormsInTimeOrder() throws Exception {
-    slowSeedForms();
-    Form[] returnedForms = getForms();
-    Form[] expectedForms = {form3, form2, form1};
-    assertArrayEquals(expectedForms, returnedForms);
+  public void formsServletGetRequest_returnsAllForms() throws Exception {
+    seedForms();
+
+    List<Form> returnedForms = getForms();
+
+    List<Form> expectedForms = Arrays.asList(form1, form2, form3);
+    assertListEqualsIgnoreOrder(expectedForms, returnedForms);
   }
 
   @Test
-  public void formsServlet_putRequest_json_successfullyRenamesAndReturns204() throws Exception {
+  public void formsServletPutRequest_validJsonRequest_successfullyRenamesAndReturns204()
+      throws Exception {
+
     seedForms();
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new FormsPutRequest("2", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
+
     formsServlet.doPut(request, response);
 
-    //get the new forms
-    List<Form> returnedForms = Arrays.asList(getForms());
+    List<Form> returnedForms = getForms();
     form2.setFormName("newName");
-    List<Form> expectedForms = new ArrayList<>();
-    expectedForms.add(form1);
-    expectedForms.add(form2);
-    expectedForms.add(form3);
-    //assert all forms are the same regardless of order in list
-    assertTrue(expectedForms.size() == returnedForms.size());
-    assertTrue(expectedForms.containsAll(returnedForms) && expectedForms.containsAll(returnedForms));
+    List<Form> expectedForms = Arrays.asList(form1, form2, form3);
+    assertListEqualsIgnoreOrder(expectedForms, returnedForms);
 
     //verify response codes
     verify(response).setStatus(204);
-    verify(response, never()).sendError(Mockito.anyInt(), anyString());
-    verify(response, never()).sendError(Mockito.anyInt());
+    verify(response, never()).sendError(anyInt(), anyString());
+    verify(response, never()).sendError(anyInt());
   }
 
   @Test
-  public void formsServlet_putRequest_urlEncoded_successfullyRenamesAndReturns204()
+  public void formsServletPutRequest_validUrlEncodedRequest_successfullyRenamesAndReturns204()
       throws Exception {
+
     seedForms();
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("formId")).thenReturn("2");
     when(request.getParameter("formName")).thenReturn("newName");
+
     formsServlet.doPut(request, response);
 
     //get the new forms
-    List<Form> returnedForms = Arrays.asList(getForms());
+    List<Form> returnedForms = getForms();
     form2.setFormName("newName");
     List<Form> expectedForms = new ArrayList<>();
     expectedForms.add(form1);
     expectedForms.add(form2);
     expectedForms.add(form3);
     //assert all forms are the same regardless of order in list
-    assertTrue(expectedForms.size() == returnedForms.size());
-    assertTrue(expectedForms.containsAll(returnedForms) && expectedForms.containsAll(returnedForms));
-
+    assertListEqualsIgnoreOrder(expectedForms, returnedForms);
 
     //verify response codes
     verify(response).setStatus(204);
-    verify(response, never()).sendError(Mockito.anyInt(), anyString());
-    verify(response, never()).sendError(Mockito.anyInt());
+    verify(response, never()).sendError(anyInt(), anyString());
+    verify(response, never()).sendError(anyInt());
   }
 
   @Test
-  public void formsServlet_putRequest_urlEncoded_throws400WithNoFields() throws Exception {
+  public void formsServletPutRequest_urlEncodedWithNoFields_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+
     formsServlet.doPut(request, response);
 
     //verify the response has an error
@@ -169,10 +170,11 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void formsServlet_putRequest_urlEncoded_throws400WithNoBody() throws Exception {
+  public void formsServletPutRequest_jsonWithNoBody_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
     BufferedReader br = new BufferedReader(new StringReader(""));
     when(request.getReader()).thenReturn(br);
+
     formsServlet.doPut(request, response);
 
     //verify the response has an error
@@ -180,10 +182,11 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void formsServlet_putRequest_urlEncoded_throws400BlankParameter() throws Exception {
+  public void formsServletPutRequest_urlEncodedWithBlankId_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("formId")).thenReturn("");
     when(request.getParameter("formName")).thenReturn("name");
+
     formsServlet.doPut(request, response);
 
     //verify the response has an error
@@ -191,10 +194,11 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void formsServlet_putRequest_json_throws400BlankParameter() throws Exception {
+  public void formsServletPutRequest_jsonWithBlankId_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new FormsPutRequest("", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
+
     formsServlet.doPut(request, response);
 
     //verify the response has an error
@@ -202,8 +206,9 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void formsServlet_putRequest_throws415OnInvalidContentType() throws Exception {
+  public void formsServletPutRequest_withInvalidContentType_throws415() throws Exception {
     when(request.getContentType()).thenReturn("multipart/form-data;");
+
     formsServlet.doPut(request, response);
 
     //verify the error with a message
@@ -211,22 +216,15 @@ public final class FormsServletTest {
   }
 
   /**
-   * Seeds forms but with one second delays inbetween because datastore only has a 1 second
-   * resolution for date objects
-   * @throws Exception
+   * Asserts that two lists are equal while ignoring order. Assumes no duplicates exist.
+   * @param expectedList the expect list values
+   * @param actualList   the actual list to compare to the expectedList
+   * @param <T>          the type of the lists
    */
-  private void slowSeedForms() throws Exception {
-    User testUser = new User("email", "authDomain", TEST_USER_ID);
-    Key parentKey = Advertiser.generateKey(testUser);
-    form1 = new Form(parentKey, 1, "form1");
-    TimeUnit.SECONDS.sleep(1); //datastore timestamp only has 1 second precision
-    form2 = new Form(parentKey, 2, "form2");
-    TimeUnit.SECONDS.sleep(1);
-    form3 = new Form(parentKey, 3, "form3");
-    TimeUnit.SECONDS.sleep(1);
-    DatastoreUtil.put(form1);
-    DatastoreUtil.put(form2);
-    DatastoreUtil.put(form3);
+  private <T> void assertListEqualsIgnoreOrder(List<T> expectedList, List<T> actualList) {
+    assertTrue(expectedList.size() == actualList.size());
+    assertTrue(expectedList.containsAll(actualList) &&
+        actualList.containsAll(expectedList));
   }
 
   /**
@@ -242,13 +240,14 @@ public final class FormsServletTest {
     DatastoreUtil.put(form2);
     DatastoreUtil.put(form3);
   }
+
   /**
    * Gets the forms using the FormsServlet GET method
    *
    * @return the forms currently in the datastore
    * @throws Exception if any error occurs
    */
-  private Form[] getForms() throws Exception {
+  private List<Form> getForms() throws Exception {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -263,7 +262,7 @@ public final class FormsServletTest {
     Type mapStrToFormArrType = new TypeToken<Map<String, Form[]>>() {
     }.getType();
     Map<String, Form[]> getResponse = gson.fromJson(stringWriter.toString(), mapStrToFormArrType);
-    return getResponse.get("forms");
+    return Arrays.asList(getResponse.get("forms"));
   }
 
   private class FormsPutRequest {
