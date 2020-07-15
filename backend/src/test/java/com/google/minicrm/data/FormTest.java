@@ -51,36 +51,40 @@ public final class FormTest {
   }
 
   @Test
-  public void form_convertToEntityAndBack() throws Exception {
+  public void newForm_fromValidFormAsEntity_producesEquivalentValidForm() throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
     Form form = new Form(advertiserKey, 1, "form1");
-    Entity formEntity = form.asEntity();
-    Form convertedForm = new Form(formEntity);
+
+    Form convertedForm = new Form(form.asEntity());
+
     assertEquals(form, convertedForm);
   }
 
   @Test
-  public void form_generateKey_generatesDifferentKey_withDifferentParentAndSameId()
+  public void formGenerateKey_withDifferentParent_generatesDifferentKey()
       throws Exception {
     Key advertiserKey1 = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
     Key advertiserKey2 = KeyFactory.createKey(Advertiser.KIND_NAME, "key2");
     long formId = 12345;
+
     Key formKey1 = Form.generateKey(advertiserKey1, formId);
     Key formKey2 = Form.generateKey(advertiserKey2, formId);
+
     assertNotEquals(formKey1, formKey2);
   }
 
   @Test
-  public void form_generateKey_generatesDifferentKey_withSameParentAndDifferentId()
+  public void form_generateKey_withDifferentId_generatesDifferentKey()
     throws Exception {
     Key advertiserKey = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
     long formId1 = 1;
     long formId2 = 2;
+
     Key formKey1 = Form.generateKey(advertiserKey, formId1);
     Key formKey2 = Form.generateKey(advertiserKey, formId2);
-    assertNotEquals(formKey1, formKey2);
 
+    assertNotEquals(formKey1, formKey2);
   }
 
 }
