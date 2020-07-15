@@ -174,7 +174,7 @@ export class LeadsComponent implements AfterViewInit {
                                             .map(candidate => candidate.columnData.EMAIL);
 
     // incase all the selected leads do not have email address
-    if(recepients.length == 0){
+    if(recepients.length == 0) {
     alert("Please select at least one lead with an email address.");
           return;
     }
@@ -191,7 +191,7 @@ export class LeadsComponent implements AfterViewInit {
    */
   smsLead(){
     // when no leads are selected
-    if(this.selection.selected.length == 0){
+    if(this.selection.selected.length == 0) {
       alert("Please select at least one lead.");
       return;
     }
@@ -202,7 +202,7 @@ export class LeadsComponent implements AfterViewInit {
                                                .map(candidate => candidate.columnData.PHONE_NUMBER);
 
     // incase all the selected leads do not have email address
-    if(smsRecepients.length == 0){
+    if(smsRecepients.length == 0) {
     alert("Please select at least one lead with a Phone Number.");
           return;
     }
