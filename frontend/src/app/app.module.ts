@@ -23,8 +23,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -41,6 +41,7 @@ import { AnalyticsComponent } from './components/crm/analytics/analytics.compone
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
+import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     LandingComponent,
     FormsComponent,
     CrmTableComponent,
-    LinkFormDialogComponent
+    LinkFormDialogComponent,
+    CopyableFormFieldComponent
   ],
   imports: [
     HttpClientModule,
@@ -84,7 +86,8 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     MatCheckboxModule,
     MatDialogModule,
     MatListModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

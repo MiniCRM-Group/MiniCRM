@@ -1,0 +1,10 @@
+<mat-form-field appearance="outline" floatLabel="always">
+<mat-label>{{ label }}</mat-label>
+    <input matInput readonly="true" type="url" [value]="copyableValue">
+    <button mat-icon-button matSuffix
+        (click)="showTooltip()"
+        [cdkCopyToClipboard]="copyableValue">
+        <mat-icon>content_copy</mat-icon>
+        <div id="tooltip" #tooltip="matTooltip" matTooltip="Copied"></div>
+    </button>
+</mat-form-field>
