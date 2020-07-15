@@ -1,42 +1,44 @@
 steps:
 
-  # Install node packages
-  - name: node:14.4.0
-    entrypoint: npm
-    args: [ 'install' ]
-    dir: 'frontend'
-    id: install
-    waitFor: [ '-' ]
+  # # Install node packages
+  # - name: node:14.4.0
+  #   entrypoint: npm
+  #   args: [ 'install' ]
+  #   dir: 'frontend'
+  #   id: install
+  #   waitFor: [ '-' ]
 
-  # Lint
-  - name: node:14.4.0
-    entrypoint: npm
-    args: [ 'run', 'lint' ]
-    dir: 'frontend'
-    id: lint
-    waitFor:
-      - install
+  # # Lint
+  # - name: node:14.4.0
+  #   entrypoint: npm
+  #   args: [ 'run', 'lint' ]
+  #   dir: 'frontend'
+  #   id: lint
+  #   waitFor:
+  #     - install
 
-  # Build
-  - name: node:14.4.0
-    entrypoint: npm
-    args: [ 'run', 'build' ]
-    dir: 'frontend'
-    id: build
-    waitFor: 
-      - install
+  # # Build
+  # - name: node:14.4.0
+  #   entrypoint: npm
+  #   args: [ 'run', 'build' ]
+  #   dir: 'frontend'
+  #   id: build
+  #   waitFor: 
+  #     - install
 
-  # Install Chromium
-  - name: markadams/chromium-xvfb:latest
-    id: build-chrome
-    waitFor: [ '-' ]
-
-  # Test
-  - name: node:14.4.0
-    entrypoint: npm
-    args: [ 'run', 'test']
-    dir: 'frontend'
+  # Install Chromium and test
+  - name: markadams/chromium-xvfb-js:latest
     id: test
+    dir: 'frontend'
     waitFor:
-      - build-chrome
       - build
+
+  # # Test
+  # - name: node:14.4.0
+  #   entrypoint: npm
+  #   args: [ 'run', 'test']
+  #   dir: 'frontend'
+  #   id: test
+  #   waitFor:
+  #     - build-chrome
+  #     - build
