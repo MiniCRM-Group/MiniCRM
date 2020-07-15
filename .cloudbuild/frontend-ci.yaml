@@ -10,6 +10,7 @@ steps:
   # Lint
   - name: 'gcr.io/cloud-builders/npm:latest'
     args: [ 'run', 'lint' ]
+    dir: 'frontend'
     id: lint
     waitFor:
       - install
