@@ -14,15 +14,14 @@
 
 package com.google.minicrm.servlets;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.repackaged.com.google.gson.reflect.TypeToken;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -39,10 +38,12 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.After;
@@ -50,7 +51,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import com.google.appengine.tools.development.testing.LocalServiceTestConfig;
 import org.mockito.Mockito;
 
 /**
@@ -62,32 +62,156 @@ public final class FormsServletTest {
   private static final String TEST_USER_ID = "testUserId";
   private static final FormsServlet formsServlet = new FormsServlet();
   private static Map<String, Object> envAttributes;
+
   static {
     envAttributes = new HashMap<>();
     envAttributes.put("com.google.appengine.api.users.UserService.user_id_key", TEST_USER_ID);
   }
+
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(
           new LocalDatastoreServiceTestConfig(),
           new LocalUserServiceTestConfig())
-      .setEnvIsLoggedIn(true)
-      .setEnvEmail("test@test.com")
-      .setEnvAuthDomain("testAuthDomain")
-      .setEnvAttributes(envAttributes);
+          .setEnvIsLoggedIn(true)
+          .setEnvEmail("test@test.com")
+          .setEnvAuthDomain("testAuthDomain")
+          .setEnvAttributes(envAttributes);
   private final Gson gson = new Gson();
 
   private Key parentKey;
   private Form form1;
   private Form form2;
   private Form form3;
+  private HttpServletRequest request;
+  private HttpServletResponse response;
 
   @Before
   public void setUp() throws Exception {
     helper.setUp();
-    //seed initial data
+    request = mock(HttpServletRequest.class);
+    response = mock(HttpServletResponse.class);
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     parentKey = Advertiser.generateKey(testUser);
-    form1 = new Form(parentKey, 1, "form1" );
+  }
+
+  @After
+  public void tearDown() {
+    helper.tearDown();
+  }
+
+  @Test
+  public void formsServlet_getRequest_returnsAllFormsInTimeOrder() throws Exception {
+    slowSeedForms();
+    Form[] returnedForms = getForms();
+    Form[] expectedForms = {form3, form2, form1};
+    assertArrayEquals(expectedForms, returnedForms);
+  }
+
+  @Test
+  public void formsServlet_putRequest_json_successfullyRenamesAndReturns204() throws Exception {
+    seedForms();
+    when(request.getContentType()).thenReturn("application/json;");
+    Reader reader = new StringReader(new FormsPutRequest("2", "newName").toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+    formsServlet.doPut(request, response);
+
+    //get the new forms
+    Set<Form> returnedForms = new HashSet<>(Arrays.asList(getForms()));
+    form2.setFormName("newName");
+    Set<Form> expectedForms = new HashSet<>();
+    expectedForms.add(form1);
+    expectedForms.add(form2);
+    expectedForms.add(form3);
+    assertEquals(expectedForms, returnedForms);
+
+    //verify response codes
+    verify(response).setStatus(204);
+    verify(response, never()).sendError(Mockito.anyInt(), Mockito.anyString());
+    verify(response, never()).sendError(Mockito.anyInt());
+  }
+
+  @Test
+  public void formsServlet_putRequest_urlEncoded_successfullyRenamesAndReturns204()
+      throws Exception {
+
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    when(request.getParameter("formId")).thenReturn("2");
+    when(request.getParameter("formName")).thenReturn("newName");
+    formsServlet.doPut(request, response);
+
+    //get the new forms
+    Set<Form> returnedForms = new HashSet<>(Arrays.asList(getForms()));
+    form2.setFormName("newName");
+    Set<Form> expectedForms = new HashSet<>();
+    expectedForms.add(form1);
+    expectedForms.add(form2);
+    expectedForms.add(form3);
+    assertEquals(expectedForms, returnedForms);
+
+    //verify response codes
+    verify(response).setStatus(204);
+    verify(response, never()).sendError(Mockito.anyInt(), Mockito.anyString());
+    verify(response, never()).sendError(Mockito.anyInt());
+  }
+
+  @Test
+  public void formsServlet_putRequest_urlEncoded_throws400WithNoFields() throws Exception {
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServlet_putRequest_urlEncoded_throws400WithNoBody() throws Exception {
+    when(request.getContentType()).thenReturn("application/json;");
+    BufferedReader br = new BufferedReader(new StringReader(""));
+    when(request.getReader()).thenReturn(br);
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServlet_putRequest_urlEncoded_throws400BlankParameter() throws Exception {
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    when(request.getParameter("formId")).thenReturn("");
+    when(request.getParameter("formName")).thenReturn("name");
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServlet_putRequest_json_throws400BlankParameter() throws Exception {
+    when(request.getContentType()).thenReturn("application/json;");
+    Reader reader = new StringReader(new FormsPutRequest("", "newName").toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServlet_putRequest_throws415OnInvalidContentType() throws Exception {
+    when(request.getContentType()).thenReturn("multipart/form-data;");
+    formsServlet.doPut(request, response);
+
+    //verify the error with a message
+    verify(response).sendError(415, Mockito.anyString());
+  }
+
+  /**
+   * Seeds forms but with one second delays inbetween because datastore only has a 1 second
+   * resolution for date objects
+   * @throws Exception
+   */
+  private void slowSeedForms() throws Exception {
+    form1 = new Form(parentKey, 1, "form1");
     TimeUnit.SECONDS.sleep(1); //datastore timestamp only has 1 second precision
     form2 = new Form(parentKey, 2, "form2");
     TimeUnit.SECONDS.sleep(1);
@@ -98,41 +222,20 @@ public final class FormsServletTest {
     DatastoreUtil.put(form3);
   }
 
-  @After
-  public void tearDown() {
-    helper.tearDown();
+  /**
+   * Initializes instance variables form1, form2, and form3 and stores them in datastore.
+   */
+  private void seedForms() {
+    form1 = new Form(parentKey, 1, "form1");
+    form2 = new Form(parentKey, 2, "form2");
+    form3 = new Form(parentKey, 3, "form3");
+    DatastoreUtil.put(form1);
+    DatastoreUtil.put(form2);
+    DatastoreUtil.put(form3);
   }
-
-  @Test
-  public void formsServlet_getRequest_returnsAllFormsInTimeOrder() throws Exception {
-    Form[] returnedForms = getForms();
-    Form[] expectedForms = {form3, form2, form1};
-    assertArrayEquals(expectedForms, returnedForms);
-  }
-
-  @Test
-  public void formsServlet_putRequest_json_successfullyRenamesAndReturns204() throws Exception{
-    HttpServletRequest request = mock(HttpServletRequest.class);
-    HttpServletResponse response = mock(HttpServletResponse.class);
-    when(request.getContentType()).thenReturn("application/json");
-    Reader reader = new StringReader(new FormsPutRequest("2", "newName").toJson());
-    when(request.getReader()).thenReturn(new BufferedReader(reader));
-    formsServlet.doPut(request, response);
-
-    //get the new forms
-    Form[] returnedForms = getForms();
-    form2.setFormName("newName");
-    Form[] expectedForms = {form3, form2, form1};
-    assertArrayEquals(expectedForms, returnedForms);
-
-    //verify response codes
-    verify(response).setStatus(204);
-    verify(response, never()).sendError(Mockito.any(), Mockito.any());
-    verify(response, never()).sendError(Mockito.any());
-  }
-
   /**
    * Gets the forms using the FormsServlet GET method
+   *
    * @return the forms currently in the datastore
    * @throws Exception if any error occurs
    */
@@ -148,12 +251,14 @@ public final class FormsServletTest {
 
     writer.flush();
 
-    Type mapStrToFormArrType = new TypeToken<Map<String, Form[]>>(){}.getType();
+    Type mapStrToFormArrType = new TypeToken<Map<String, Form[]>>() {
+    }.getType();
     Map<String, Form[]> getResponse = gson.fromJson(stringWriter.toString(), mapStrToFormArrType);
     return getResponse.get("forms");
   }
 
   private class FormsPutRequest {
+
     private String formId;
     private String formName;
 
