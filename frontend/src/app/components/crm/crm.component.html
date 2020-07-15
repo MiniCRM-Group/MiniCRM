@@ -37,21 +37,23 @@
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
-          <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Your Webhook</mat-label>
-              <input matInput readonly="true" type="url" [value]="webhookUrl">
-              <button mat-icon-button matSuffix [cdkCopyToClipboard]="webhookUrl" matTooltip="Copied">
-                <mat-icon>content_copy</mat-icon>
-              </button>
-          </mat-form-field>
-          <mat-form-field appearance="outline" floatLabel="always">
-              <mat-label>Your Google Key</mat-label>
-              <input matInput readonly="true" type="url" [value]="googleKey">
-              <button mat-icon-button matSuffix [cdkCopyToClipboard]="googleKey" matTooltip="Copied">
+          <div id="menuContainer" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" (click)="$event.stopPropagation();">
+            <mat-form-field appearance="outline" floatLabel="always">
+              <mat-label>Your Webhook</mat-label>
+                <input matInput readonly="true" type="url" [value]="webhookUrl">
+                <button mat-icon-button matSuffix [cdkCopyToClipboard]="webhookUrl" matTooltip="Copied">
                   <mat-icon>content_copy</mat-icon>
-              </button>
-          </mat-form-field>
-          <button mat-flat-button color="primary" (click)="logout()">LOGOUT</button>
+                </button>
+            </mat-form-field>
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Your Google Key</mat-label>
+                <input matInput readonly="true" type="url" [value]="googleKey">
+                <button mat-icon-button matSuffix [cdkCopyToClipboard]="googleKey" matTooltip="Copied">
+                    <mat-icon>content_copy</mat-icon>
+                </button>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="logout()">LOGOUT</button>
+          </div>
         </mat-menu>
       </mat-toolbar-row>
     </mat-toolbar>
