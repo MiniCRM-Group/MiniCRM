@@ -7,6 +7,13 @@ steps:
     id: install
     waitFor: [ '-' ]
 
+  # Lint
+  - name: 'gcr.io/cloud-builders/npm:latest'
+    args: [ 'run', 'lint' ]
+    id: lint
+    waitFor:
+      - install
+
   # Build
   - name: 'gcr.io/cloud-builders/npm:latest'
     args: [ 'run', 'build' ]
