@@ -12,9 +12,11 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { SelectionModel } from '@angular/cdk/collections';
+
 import { MatDialog } from '@angular/material/dialog';
 
+import { SelectionModel } from '@angular/cdk/collections';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 
 /**
  * Imports from the RxJS library
@@ -24,6 +26,7 @@ import { first } from 'rxjs/operators';
 
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
+
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
@@ -39,6 +42,7 @@ export class LeadsComponent implements AfterViewInit {
   readonly isLoading$ = new BehaviorSubject<boolean>(true);
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
+  group: FormGroup;
   /**
    * Column IDs that we plan to show on the table are stored here
    */
@@ -47,7 +51,9 @@ export class LeadsComponent implements AfterViewInit {
     'lead_id',
     'name',
     'phone_number',
+    'email',
     'campaign_id',
+    'status',
     'date',
     'details'
   ];
@@ -55,23 +61,25 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog,
-    private titleService: Title) {
+  constructor(private readonly leadService: LeadService, public dialog: MatDialog, private titleService: Title) {
     this.titleService.setTitle('Leads');
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
+
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
     /**
-     * This will let the dataSource sort feature to access nested properties in the JSON such as columnData.
+     * This will let the dataSource sort feature to access nested properties in the JSON such as column_data.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
       switch(property) {
         case 'name': return lead.columnData.FULL_NAME;
         case 'phone_number': return lead.columnData.PHONE_NUMBER;
+        case 'email': return lead.columnData.EMAIL;
+        case 'date': return new Date(lead.date).getTime();
         default: return lead[property];
       }
     };
@@ -101,7 +109,7 @@ export class LeadsComponent implements AfterViewInit {
               }
             }
           } else {
-            // if you hit a key-value pair where the value is 
+            // if you hit a key-value pair where the value is
             // a primitve type compare and return only if filter found
             const value = cleanString(_.toString(data));
             if(value.indexOf(filter) !== -1) {
@@ -148,6 +156,54 @@ export class LeadsComponent implements AfterViewInit {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.leadId + 1}`;
+  }
+
+  /*
+   * This method listens to the email leads button
+   */
+  emailLead(){
+                                               //filter leads with no email
+    const recepients = this.selection.selected.filter(withEmail => withEmail.columnData.EMAIL != undefined)
+                                               //collect emails
+                                              .map(candidate => candidate.columnData.EMAIL);
+
+    // incase all the selected leads do not have email address
+    if(recepients.length == 0) {
+    alert("Please select at least one lead with an email address.");
+          return;
+    }
+
+    //make the recepients ready for url use
+    var recepientsString = recepients.join(",");
+    let emailUrl : string  = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to="+recepientsString+"&su=Greetings";
+
+    window.open(emailUrl, "_blank");
+  }
+
+  /*
+   * This method listens to the message leads button
+   */
+  smsLead(){
+                                                  //filter leads with no email
+    const smsRecepients = this.selection.selected.filter(withPhone => withPhone.columnData.PHONE_NUMBER != undefined)
+                                                  //collect emails
+                                                 .map(candidate => candidate.columnData.PHONE_NUMBER);
+
+    // incase all the selected leads do not have email address
+    if(smsRecepients.length == 0) {
+    alert("Please select at least one lead with a Phone Number.");
+          return;
+    }
+
+    //make the recepients ready for url use
+    var smsRecepientsString= smsRecepients.join(";");
+    let smsUrl : string  = "sms://" + smsRecepientsString;
+
+    window.open(smsUrl, "_blank");
+  }
+
+  checkSelection(){
+    return this.selection.selected.length > 0;
   }
 
   openDialog() {

@@ -23,6 +23,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -42,6 +43,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
 import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
+
 
 @NgModule({
   declarations: [
@@ -86,6 +88,7 @@ import { CopyableFormFieldComponent } from './components/shared/copyable-form-fi
     MatCheckboxModule,
     MatDialogModule,
     MatListModule,
+    MatSelectModule,
     MatMenuModule,
     MatTooltipModule
    ],
