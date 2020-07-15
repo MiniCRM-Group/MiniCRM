@@ -16,6 +16,7 @@ package com.google.minicrm.servlets;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -39,9 +40,11 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -112,13 +115,15 @@ public final class FormsServletTest {
     formsServlet.doPut(request, response);
 
     //get the new forms
-    Set<Form> returnedForms = new HashSet<>(Arrays.asList(getForms()));
+    List<Form> returnedForms = Arrays.asList(getForms());
     form2.setFormName("newName");
-    Set<Form> expectedForms = new HashSet<>();
+    List<Form> expectedForms = new ArrayList<>(3);
     expectedForms.add(form1);
     expectedForms.add(form2);
     expectedForms.add(form3);
-    assertEquals(expectedForms, returnedForms);
+    //assert all forms are the same regardless of order in list
+    assertTrue(expectedForms.size() == returnedForms.size());
+    assertTrue(expectedForms.containsAll(returnedForms) && expectedForms.containsAll(returnedForms));
 
     //verify response codes
     verify(response).setStatus(204);
@@ -136,13 +141,16 @@ public final class FormsServletTest {
     formsServlet.doPut(request, response);
 
     //get the new forms
-    Set<Form> returnedForms = new HashSet<>(Arrays.asList(getForms()));
+    List<Form> returnedForms = Arrays.asList(getForms());
     form2.setFormName("newName");
-    Set<Form> expectedForms = new HashSet<>();
+    List<Form> expectedForms = new ArrayList<>(3);
     expectedForms.add(form1);
     expectedForms.add(form2);
     expectedForms.add(form3);
-    assertEquals(expectedForms, returnedForms);
+    //assert all forms are the same regardless of order in list
+    assertTrue(expectedForms.size() == returnedForms.size());
+    assertTrue(expectedForms.containsAll(returnedForms) && expectedForms.containsAll(returnedForms));
+
 
     //verify response codes
     verify(response).setStatus(204);
