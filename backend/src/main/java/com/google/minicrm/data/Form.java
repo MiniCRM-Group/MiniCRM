@@ -28,7 +28,7 @@ import java.util.List;
  * directly linked to their leads. Instead, leads are linked to their respective form with the form
  * id instance variable.
  */
-public final class Form implements DatastoreObject{
+public final class Form implements DatastoreObject {
 
   public static final String KIND_NAME = "Form";
 
@@ -136,7 +136,7 @@ public final class Form implements DatastoreObject{
    * Same as {@link com.google.minicrm.data.Form#generateKey(Key, long)} but for multiple formIds.
    * @param parentKey the key for the advertiser entity that owns this form
    * @param formIds the ids of the forms
-   * @return        the keys for the form specified with the given parentKey and formIds.
+   * @return        the keys for the forms specified with the given parentKey and formIds.
    */
   public static List<Key> generateKeys(Key parentKey, long[] formIds) {
     List<Key> keys = new ArrayList<>();
