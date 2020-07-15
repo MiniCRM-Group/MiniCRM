@@ -193,6 +193,10 @@ export class LeadsComponent implements AfterViewInit {
     console.log(this.selection.selected[0]);
   }
 
+  checkSelection(){
+    return this.selection.selected.length > 0;
+  }
+
   openDialog() {
       const dialogRef = this.dialog.open(DetailsDialog);
 

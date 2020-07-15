@@ -1,7 +1,7 @@
 <div class="container">
   <br/>
   <br/>
-  <button mat-flat-button color="primary" (click)="contactLead()">Contact Leads <mat-icon>send</mat-icon></button>
+  <button mat-flat-button color="primary" [disabled]="! checkSelection()" (click)="contactLead()">Contact Leads <mat-icon>send</mat-icon></button>
   <br/>
   <br/>
   <div class="mat-elevation-z1">
