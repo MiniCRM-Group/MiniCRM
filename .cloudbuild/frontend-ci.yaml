@@ -8,7 +8,7 @@ steps:
     waitFor: [ '-' ]
 
   # Lint
-  - name: 'gcr.io/cloud-builders/npm:latest'
+  - name: 'gcr.io/cloud-builders/npm:current'
     args: [ 'run', 'lint' ]
     dir: 'frontend'
     id: lint
@@ -16,7 +16,7 @@ steps:
       - install
 
   # Build
-  - name: 'gcr.io/cloud-builders/npm:latest'
+  - name: 'gcr.io/cloud-builders/npm:current'
     args: [ 'run', 'build' ]
     dir: 'frontend'
     id: build
@@ -24,7 +24,7 @@ steps:
       - install
 
   # Test
-  - name: 'gcr.io/cloud-builders/npm:latest'
+  - name: 'gcr.io/cloud-builders/npm:current'
     args: [ 'run', 'test']
     dir: 'frontend'
     id: test
