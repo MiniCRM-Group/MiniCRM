@@ -157,10 +157,11 @@ export class LeadsComponent implements AfterViewInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.leadId + 1}`;
   }
+
   /*
-   * This method listens to the contact leads button
+   * This method listens to the email leads button
    */
-  contactLead(){
+  emailLead(){
     // when no leads are selected
     if(this.selection.selected.length == 0){
       alert("Please select at least one lead.");
@@ -168,7 +169,7 @@ export class LeadsComponent implements AfterViewInit {
     }
 
                                              //filter leads with no email
-    var recepients = this.selection.selected.filter(withEmail => withEmail.columnData.EMAIL != null)
+    var recepients = this.selection.selected.filter(withEmail => withEmail.columnData.EMAIL != undefined)
                                              //collect emails
                                             .map(candidate => candidate.columnData.EMAIL);
 
@@ -183,6 +184,34 @@ export class LeadsComponent implements AfterViewInit {
     let emailUrl : string  = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to="+recepientsString+"&su=Greetings";
 
     window.open(emailUrl, "_blank");
+  }
+
+  /*
+   * This method listens to the message leads button
+   */
+  smsLead(){
+    // when no leads are selected
+    if(this.selection.selected.length == 0){
+      alert("Please select at least one lead.");
+      return;
+    }
+
+                                             //filter leads with no email
+    var smsRecepients = this.selection.selected.filter(withPhone => withPhone.columnData.PHONE_NUMBER != undefined)
+                                             //collect emails
+                                            .map(candidate => candidate.columnData.PHONE_NUMBER);
+
+    // incase all the selected leads do not have email address
+    if(smsRecepients.length == 0){
+    alert("Please select at least one lead with a Phone Number.");
+          return;
+    }
+
+    //make the recepients ready for url use
+    var smsRecepientsString= smsRecepients.join(";");
+    let smsUrl : string  = "sms://" + smsRecepientsString;
+
+    window.open(smsUrl, "_blank");
   }
 
   checkSelection(){

@@ -1,6 +1,8 @@
 <div class="container">
-
-  <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="contactLead()">Contact Leads <mat-icon>send</mat-icon></button>
+  <div class="button-row">
+    <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="emailLead()">Email Leads <mat-icon>email</mat-icon></button>
+    <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="smsLead()">Message Leads <mat-icon>send</mat-icon></button>
+  </div>
   <div class="mat-elevation-z1">
 
     <mat-form-field>
