@@ -62,12 +62,10 @@ public final class FormsServletTest {
   private static final String TEST_USER_ID = "testUserId";
   private static final FormsServlet formsServlet = new FormsServlet();
   private static Map<String, Object> envAttributes;
-
   static {
     envAttributes = new HashMap<>();
     envAttributes.put("com.google.appengine.api.users.UserService.user_id_key", TEST_USER_ID);
   }
-
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(
           new LocalDatastoreServiceTestConfig(),
@@ -78,7 +76,6 @@ public final class FormsServletTest {
           .setEnvAttributes(envAttributes);
   private final Gson gson = new Gson();
 
-  private Key parentKey;
   private Form form1;
   private Form form2;
   private Form form3;
@@ -90,8 +87,6 @@ public final class FormsServletTest {
     helper.setUp();
     request = mock(HttpServletRequest.class);
     response = mock(HttpServletResponse.class);
-    User testUser = new User("email", "authDomain", TEST_USER_ID);
-    parentKey = Advertiser.generateKey(testUser);
   }
 
   @After
@@ -211,6 +206,8 @@ public final class FormsServletTest {
    * @throws Exception
    */
   private void slowSeedForms() throws Exception {
+    User testUser = new User("email", "authDomain", TEST_USER_ID);
+    Key parentKey = Advertiser.generateKey(testUser);
     form1 = new Form(parentKey, 1, "form1");
     TimeUnit.SECONDS.sleep(1); //datastore timestamp only has 1 second precision
     form2 = new Form(parentKey, 2, "form2");
@@ -226,6 +223,8 @@ public final class FormsServletTest {
    * Initializes instance variables form1, form2, and form3 and stores them in datastore.
    */
   private void seedForms() {
+    User testUser = new User("email", "authDomain", TEST_USER_ID);
+    Key parentKey = Advertiser.generateKey(testUser);
     form1 = new Form(parentKey, 1, "form1");
     form2 = new Form(parentKey, 2, "form2");
     form3 = new Form(parentKey, 3, "form3");
