@@ -162,16 +162,10 @@ export class LeadsComponent implements AfterViewInit {
    * This method listens to the email leads button
    */
   emailLead(){
-    // when no leads are selected
-    if(this.selection.selected.length == 0) {
-      alert("Please select at least one lead.");
-      return;
-    }
-
-                                             //filter leads with no email
+                                               //filter leads with no email
     const recepients = this.selection.selected.filter(withEmail => withEmail.columnData.EMAIL != undefined)
-                                             //collect emails
-                                            .map(candidate => candidate.columnData.EMAIL);
+                                               //collect emails
+                                              .map(candidate => candidate.columnData.EMAIL);
 
     // incase all the selected leads do not have email address
     if(recepients.length == 0) {
@@ -190,16 +184,10 @@ export class LeadsComponent implements AfterViewInit {
    * This method listens to the message leads button
    */
   smsLead(){
-    // when no leads are selected
-    if(this.selection.selected.length == 0) {
-      alert("Please select at least one lead.");
-      return;
-    }
-
-                                               //filter leads with no email
+                                                  //filter leads with no email
     const smsRecepients = this.selection.selected.filter(withPhone => withPhone.columnData.PHONE_NUMBER != undefined)
-                                               //collect emails
-                                               .map(candidate => candidate.columnData.PHONE_NUMBER);
+                                                  //collect emails
+                                                 .map(candidate => candidate.columnData.PHONE_NUMBER);
 
     // incase all the selected leads do not have email address
     if(smsRecepients.length == 0) {
