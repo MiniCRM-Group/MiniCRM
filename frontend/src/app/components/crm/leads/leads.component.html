@@ -1,11 +1,7 @@
 <div class="container">
-  <br/>
-  <br/>
-  <button mat-flat-button color="primary" [disabled]="! checkSelection()" (click)="contactLead()">Contact Leads <mat-icon>send</mat-icon></button>
-  <br/>
-  <br/>
-  <div class="mat-elevation-z1">
 
+  <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="contactLead()">Contact Leads <mat-icon>send</mat-icon></button>
+  <div class="mat-elevation-z1">
 
     <mat-form-field>
       <mat-label>Filter your leads</mat-label>
@@ -30,7 +26,6 @@
         <mat-cell *matCellDef="let lead">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? selection.toggle(lead) : null"
-
                         [checked]="selection.isSelected(lead)"
                         [aria-label]="checkboxLabel(lead)">
           </mat-checkbox>
@@ -88,13 +83,13 @@
         <mat-cell *matCellDef="let lead">
           <mat-form-field appearance="fill">
             <mat-select>
-              <mat-option >
+              <mat-option>
                 Opened
               </mat-option>
-              <mat-option >
+              <mat-option>
                 Closed
               </mat-option>
-              <mat-option >
+              <mat-option>
                 Not Opened
               </mat-option>
             </mat-select>

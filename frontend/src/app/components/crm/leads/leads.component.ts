@@ -15,7 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import {SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 
 /**
@@ -26,6 +26,9 @@ import { first } from 'rxjs/operators';
 
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
+
+import { Title } from '@angular/platform-browser';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-leads',
@@ -58,7 +61,8 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog) {
+  constructor(private readonly leadService: LeadService, public dialog: MatDialog, private titleService: Title) {
+    this.titleService.setTitle('Leads');
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
 
@@ -120,7 +124,6 @@ export class LeadsComponent implements AfterViewInit {
       });
   }
 
-
  /**
   * This method will listen to the filter field in the html and update the value of dataSource
   * @param event an input from the filter field
@@ -135,7 +138,6 @@ export class LeadsComponent implements AfterViewInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -159,23 +161,16 @@ export class LeadsComponent implements AfterViewInit {
    * This method listens to the contact leads button
    */
   contactLead(){
-    let recepientsString : string = "";
-
     // when no leads are selected
     if(this.selection.selected.length == 0){
       alert("Please select at least one lead.");
       return;
     }
 
-    let recepients: Array<string> = [];
-
-    for (let i = 0; i < this.selection.selected.length; i++) {
-      if(this.selection.selected[i].columnData.EMAIL == null ){
-         //do nothing
-      }else{
-        recepients.push(this.selection.selected[i].columnData.EMAIL.toString());
-      }
-    }
+                                             //filter leads with no email
+    var recepients = this.selection.selected.filter(withEmail => withEmail.columnData.EMAIL != null)
+                                             //collect emails
+                                            .map(candidate => candidate.columnData.EMAIL);
 
     // incase all the selected leads do not have email address
     if(recepients.length == 0){
@@ -183,14 +178,11 @@ export class LeadsComponent implements AfterViewInit {
           return;
     }
 
-    for(let j = 0; j < recepients.length; j++){
-      recepientsString += recepients[j];
-      recepientsString += ",";
-    }
-
+    //make the recepients ready for url use
+    var recepientsString= recepients.join(",");
     let emailUrl : string  = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to="+recepientsString+"&su=Greetings";
+
     window.open(emailUrl, "_blank");
-    console.log(this.selection.selected[0]);
   }
 
   checkSelection(){

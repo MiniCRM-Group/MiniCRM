@@ -3,18 +3,22 @@
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   .mat-form-field {
     font-size: 14px;
     width: 100%;
   }
-  
+
   .mat-column-select {
       flex: 0 0 2%;
   }
-  
+
   .mat-column-details {
       flex: 0 0 4%;
   }
-  
-  
+
+  .margined {
+    margin-bottom: 15px;
+    margin-top: 15px;
+  }
+
