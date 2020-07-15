@@ -19,9 +19,9 @@ export class CopyableFormFieldComponent implements OnInit {
 
   showTooltip(): void {
     this.tooltip.show();
-    setTimeout(() => {
-      this.tooltip.hide();
-    }, 500);
+    // setTimeout(() => {
+    //   this.tooltip.hide();
+    // }, 500);
   }
 
 }
