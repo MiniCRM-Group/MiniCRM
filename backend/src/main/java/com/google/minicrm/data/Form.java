@@ -106,6 +106,18 @@ public final class Form implements DatastoreObject{
         this.formName.equals(other.formName);
   }
 
+  /**
+   * Returns a String representation of this form with its formId and formName
+   * @return a String representation of this form
+   */
+  @Override
+  public String toString() {
+    String str = "Form:{";
+    str += "formId=" + formId + ", ";
+    str += "formName=\"" + formName + "\",";
+    return str;
+  }
+
   //GETTERS AND SETTERS
   /**
    * @return the key of the advertiser entity that owns this form
