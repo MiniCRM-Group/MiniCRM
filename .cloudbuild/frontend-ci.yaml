@@ -26,6 +26,11 @@ steps:
     waitFor: 
       - install
 
+  # Install Chromium
+  - name: markadams/chromium-xvfb:latest
+    id: build-chrome
+    waitFor: [ '-' ]
+
   # Test
   - name: node:14.4.0
     entrypoint: npm
@@ -33,4 +38,5 @@ steps:
     dir: 'frontend'
     id: test
     waitFor:
+      - build-chrome
       - build
