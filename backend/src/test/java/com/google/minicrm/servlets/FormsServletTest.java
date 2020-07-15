@@ -200,6 +200,76 @@ public final class FormsServletTest {
   }
 
   @Test
+  public void formsServletPutRequest_urlEncodedWithMissingId_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    when(request.getParameter("formName")).thenReturn("name");
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_jsonWithMissingId_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/json;");
+    Reader reader = new StringReader(new FormsPutRequest(null, "newName").toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_urlEncodedWithBlankName_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    when(request.getParameter("formId")).thenReturn("1234");
+    when(request.getParameter("formName")).thenReturn("");
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_jsonWithBlankName_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/json;");
+    Reader reader = new StringReader(new FormsPutRequest("1234", "").toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_urlEncodedWithMissingName_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    when(request.getParameter("formId")).thenReturn("1234");
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_jsonWithMissingName_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/json;");
+    Reader reader = new StringReader(new FormsPutRequest("1234", null).toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
   public void formsServletPutRequest_withInvalidContentType_throws415() throws Exception {
     when(request.getContentType()).thenReturn("multipart/form-data;");
 
