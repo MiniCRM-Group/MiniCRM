@@ -8,20 +8,6 @@
                 <mat-icon>search</mat-icon>
             </button>
         </mat-form-field>
-        <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Your Webhook</mat-label>
-            <input matInput readonly="true" type="url" [value]="webhookUrl">
-            <button mat-icon-button matSuffix [cdkCopyToClipboard]="webhookUrl">
-                <mat-icon>content_copy</mat-icon>
-            </button>
-        </mat-form-field>
-        <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Your Google Key</mat-label>
-            <input matInput readonly="true" type="url" [value]="googlekey">
-            <button mat-icon-button matSuffix [cdkCopyToClipboard]="googlekey">
-                <mat-icon>content_copy</mat-icon>
-            </button>
-        </mat-form-field>
     </div>
     <app-crm-table #formsCrmTable [data]="forms" [keyOrdering]="keyOrdering"></app-crm-table>
 </div>

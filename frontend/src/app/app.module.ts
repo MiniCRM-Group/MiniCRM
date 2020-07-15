@@ -18,11 +18,13 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -81,7 +83,8 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

@@ -23,11 +23,11 @@ export class FormService {
     return this.http.get<FormsResponse>(this.formEndpoint, options)
     .pipe(
       retry(3),
-      catchError((_error: HttpErrorResponse) => {
+      catchError((error: HttpErrorResponse) => {
         // return no forms and empty webhook url
         return of<FormsResponse>({ forms: [] });
       })
-    )
+    );
   }
 
   linkForm(linkFormResponse: LinkFormResponse): Observable<WebHookResponse> {
