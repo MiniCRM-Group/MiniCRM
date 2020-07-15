@@ -118,7 +118,7 @@ public final class FormsServletTest {
     //get the new forms
     List<Form> returnedForms = Arrays.asList(getForms());
     form2.setFormName("newName");
-    List<Form> expectedForms = new ArrayList<>(3);
+    List<Form> expectedForms = new ArrayList<>();
     expectedForms.add(form1);
     expectedForms.add(form2);
     expectedForms.add(form3);
@@ -144,7 +144,7 @@ public final class FormsServletTest {
     //get the new forms
     List<Form> returnedForms = Arrays.asList(getForms());
     form2.setFormName("newName");
-    List<Form> expectedForms = new ArrayList<>(3);
+    List<Form> expectedForms = new ArrayList<>();
     expectedForms.add(form1);
     expectedForms.add(form2);
     expectedForms.add(form3);
