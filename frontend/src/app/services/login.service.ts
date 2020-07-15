@@ -11,10 +11,10 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  loginEndpoint = 'api/login';
+  loginEndpoint = '/api/login';
 
-  private handleError(_error: HttpErrorResponse) {
-    console.log("Login Service failed!")
+  private handleError(error: HttpErrorResponse) {
+    console.log('Login Service failed!');
     return of<LoginResponse>({
       url: '/',
       loggedIn: false

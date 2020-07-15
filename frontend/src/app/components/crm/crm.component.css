@@ -8,3 +8,8 @@
 .spacer {
     flex: 1 1 auto;
 }
+
+#menuContainer {
+    padding: 16px;
+    padding-bottom: 8px;
+}

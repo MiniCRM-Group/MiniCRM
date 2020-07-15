@@ -24,6 +24,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.minicrm.data.Advertiser;
+import com.google.minicrm.data.Campaign;
 import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.interfaces.ClientResponse;
@@ -136,11 +137,18 @@ public final class WebhookServlet extends HttpServlet {
 
     //check if this lead belongs to a new form, if it does make a new form entity
     Key formKey = Form.generateKey(advertiserKey, newLead.getFormId());
-    try {
-      datastore.get(formKey);
-    } catch (EntityNotFoundException e) { //the form does not exist, make a new one
-      Form newForm = new Form(advertiserKey, newLead.getFormId(), Long.toString(newLead.getFormId()));
-      datastore.put(newForm.asEntity());
+    if (!DatastoreUtil.exists(formKey)) { //form does not exist
+      long formId = newLead.getFormId();
+      Form newForm = new Form(advertiserKey, formId, Long.toString(formId));
+      DatastoreUtil.put(newForm);
+    }
+
+    //check if this lead belongs to a new campaign, if it does make a new campaign entity
+    Key campaignKey = Campaign.generateKey(advertiserKey, newLead.getCampaignId());
+    if (!DatastoreUtil.exists(campaignKey)) {
+      long campaignId = newLead.getCampaignId();
+      Campaign newCampaign = new Campaign(advertiserKey, campaignId, Long.toString(campaignId));
+      DatastoreUtil.put(newCampaign);
     }
 
     //send an email notification to the advertiser that they have a new lead

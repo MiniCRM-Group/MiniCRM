@@ -18,11 +18,14 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +42,8 @@ import { AnalyticsComponent } from './components/crm/analytics/analytics.compone
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
+import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
+
 
 @NgModule({
   declarations: [
@@ -52,7 +57,8 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     LandingComponent,
     FormsComponent,
     CrmTableComponent,
-    LinkFormDialogComponent
+    LinkFormDialogComponent,
+    CopyableFormFieldComponent
   ],
   imports: [
     HttpClientModule,
@@ -81,7 +87,10 @@ import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule,
+    MatMenuModule,
+    MatTooltipModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
