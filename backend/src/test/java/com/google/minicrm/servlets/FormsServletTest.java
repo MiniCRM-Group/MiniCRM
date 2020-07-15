@@ -16,6 +16,7 @@ package com.google.minicrm.servlets;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -128,7 +129,7 @@ public final class FormsServletTest {
   @Test
   public void formsServlet_putRequest_urlEncoded_successfullyRenamesAndReturns204()
       throws Exception {
-
+    seedForms();
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("formId")).thenReturn("2");
     when(request.getParameter("formName")).thenReturn("newName");
@@ -155,7 +156,7 @@ public final class FormsServletTest {
     formsServlet.doPut(request, response);
 
     //verify the response has an error
-    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+    verify(response).sendError(eq(400), Mockito.anyString()); //we want an error msg
   }
 
   @Test
@@ -166,7 +167,7 @@ public final class FormsServletTest {
     formsServlet.doPut(request, response);
 
     //verify the response has an error
-    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+    verify(response).sendError(eq(400), Mockito.anyString()); //we want an error msg
   }
 
   @Test
@@ -177,7 +178,7 @@ public final class FormsServletTest {
     formsServlet.doPut(request, response);
 
     //verify the response has an error
-    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+    verify(response).sendError(eq(400), Mockito.anyString()); //we want an error msg
   }
 
   @Test
@@ -188,7 +189,7 @@ public final class FormsServletTest {
     formsServlet.doPut(request, response);
 
     //verify the response has an error
-    verify(response).sendError(400, Mockito.anyString()); //we want an error msg
+    verify(response).sendError(eq(400), Mockito.anyString()); //we want an error msg
   }
 
   @Test
@@ -197,7 +198,7 @@ public final class FormsServletTest {
     formsServlet.doPut(request, response);
 
     //verify the error with a message
-    verify(response).sendError(415, Mockito.anyString());
+    verify(response).sendError(eq(415), Mockito.anyString());
   }
 
   /**
