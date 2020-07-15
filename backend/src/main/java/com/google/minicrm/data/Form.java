@@ -114,7 +114,7 @@ public final class Form implements DatastoreObject{
   public String toString() {
     String str = "Form:{";
     str += "formId=" + formId + ", ";
-    str += "formName=\"" + formName + "\",";
+    str += "formName=\"" + formName + "\"}";
     return str;
   }
 
