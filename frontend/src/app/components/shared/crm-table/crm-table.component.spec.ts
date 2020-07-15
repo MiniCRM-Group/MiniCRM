@@ -28,12 +28,12 @@ describe('CrmTableComponent', () => {
 });
 
 @Component({
-  selector: 'test--crm-table',
+  selector: 'app-test-crm-table',
   template: `
-    <app-crm-table 
-    #testCrmTable  
-      [data]="data" 
-      [keyOrdering]="keyOrdering" 
+    <app-crm-table
+    #testCrmTable
+      [data]="data"
+      [keyOrdering]="keyOrdering"
       [selectionEnabled]="selectionEnabled">
     </app-crm-table>
   `
@@ -48,7 +48,7 @@ class TestCrmTableComponent {
     }
   ]);
   private keyOrdering: string[] = ['name', 'age', 'hasPet'];
-  private selectionEnabled: boolean = false;
+  private selectionEnabled = false;
   public setData(newData: Observable<TestTabularData[]>) {
     this.data = newData;
   }

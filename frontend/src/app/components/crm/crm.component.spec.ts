@@ -11,7 +11,7 @@ describe('CrmComponent', () => {
   let fixture: ComponentFixture<CrmComponent>;
 
   beforeEach(async(() => {
-    let loginResponse: LoginResponse = {
+    const loginResponse: LoginResponse = {
       url: '/',
       loggedIn: true
     };

@@ -55,7 +55,8 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog,
+  constructor(
+    private readonly leadService: LeadService, public dialog: MatDialog,
     private titleService: Title) {
     this.titleService.setTitle('Leads');
     this.dataSource = new MatTableDataSource();
@@ -69,7 +70,7 @@ export class LeadsComponent implements AfterViewInit {
      * This will let the dataSource sort feature to access nested properties in the JSON such as columnData.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
-      switch(property) {
+      switch (property) {
         case 'name': return lead.columnData.FULL_NAME;
         case 'phone_number': return lead.columnData.PHONE_NUMBER;
         default: return lead[property];
@@ -90,27 +91,27 @@ export class LeadsComponent implements AfterViewInit {
        * @param data The whole data we have in the JSON.
        * @param filter The value that the user searches for.
        */
-      this.dataSource.filterPredicate = (data: any, filter: string): boolean  => {
+      this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
         const cleanString = (str: string): string => str.trim().toLowerCase();
         const hasFilter = (data: any, filter: string): boolean => {
           // traverse through JSON's tree like structure
-          if(typeof data === 'object') {
-            for(const key of Object.keys(data)) {
-              if(hasFilter(data[key], filter)) {
+          if (typeof data === 'object') {
+            for (const key of Object.keys(data)) {
+              if (hasFilter(data[key], filter)) {
                 return true;
               }
             }
           } else {
-            // if you hit a key-value pair where the value is 
+            // if you hit a key-value pair where the value is
             // a primitve type compare and return only if filter found
             const value = cleanString(_.toString(data));
-            if(value.indexOf(filter) !== -1) {
+            if (value.indexOf(filter) !== -1) {
               return true;
             }
           }
           return false;
         };
-        return hasFilter(data, cleanString(filter));
+        return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
       };
       this.isLoading$.next(false);
       });
@@ -151,16 +152,16 @@ export class LeadsComponent implements AfterViewInit {
   }
 
   openDialog() {
-      const dialogRef = this.dialog.open(DetailsDialog);
+      const dialogRef = this.dialog.open(DetailsDialogComponent);
 
       dialogRef.afterClosed().subscribe(result => {
       });
   }
 
 }
-  @Component({
-    selector: 'DetailsDialog',
-    templateUrl: './leads-details.component.html',
-    styleUrls: ['./leads.component.css']
-  })
-export class DetailsDialog {}
+@Component({
+  selector: 'app-details-dialog',
+  templateUrl: './leads-details.component.html',
+  styleUrls: ['./leads.component.css']
+})
+export class DetailsDialogComponent {}

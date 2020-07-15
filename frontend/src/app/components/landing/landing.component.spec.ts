@@ -11,12 +11,12 @@ describe('LandingComponent', () => {
   let fixture: ComponentFixture<LandingComponent>;
 
   beforeEach(async(() => {
-    let loginResponse: LoginResponse = {
+    const loginResponse: LoginResponse = {
       url: '/crm/guide',
       loggedIn: false
     };
     const loginService = jasmine.createSpyObj('LoginService', ['getLoginResponse']);
-    const getLoginResponseSpy = loginService.getLoginResponse.and.returnValue( of(loginResponse) )
+    const getLoginResponseSpy = loginService.getLoginResponse.and.returnValue( of(loginResponse) );
     TestBed.configureTestingModule({
       imports: [ MatIconModule ],
       declarations: [ LandingComponent ],

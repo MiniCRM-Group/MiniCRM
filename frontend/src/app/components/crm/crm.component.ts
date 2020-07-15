@@ -9,7 +9,7 @@ import { LoginResponse } from 'src/app/models/server_responses/login-response.mo
   styleUrls: ['./crm.component.css']
 })
 export class CrmComponent implements OnInit {
-  isExpanded: boolean = true;
+  isExpanded = true;
   navigationData: NavigationDatum[] = [
     {
       displayedName: 'Guide',
@@ -42,11 +42,11 @@ export class CrmComponent implements OnInit {
       icon: 'settings'
     }
   ];
-  logoutUrl: string = '/';
+  logoutUrl = '/';
 
   constructor(public titleService: Title, private loginService: LoginService) {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
-      if(!res.loggedIn) {
+      if (!res.loggedIn) {
         location.href = this.logoutUrl;
       } else {
         this.logoutUrl = res.url;

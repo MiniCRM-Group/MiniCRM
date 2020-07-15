@@ -8,7 +8,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class GuideComponent implements OnInit {
 
-  constructor(private titleService: Title) { 
+  constructor(private titleService: Title) {
     this.titleService.setTitle('Guide');
   }
 

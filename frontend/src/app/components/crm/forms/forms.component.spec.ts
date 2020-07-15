@@ -11,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 describe('FormsComponent', () => {
   let component: FormsComponent;
-  let formServiceStub: Partial<FormService> = {
+  const formServiceStub: Partial<FormService> = {
     getForms: () => of<FormsResponse>({ forms: [] }),
     linkForm: (req: LinkFormRequest) => of<WebHookResponse>({ webhookUrl: '', googleKey: '' }),
     unlinkForms: (req: Form[]) => 'ok'

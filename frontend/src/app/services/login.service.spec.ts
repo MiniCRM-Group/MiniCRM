@@ -12,7 +12,7 @@ describe('LoginService', () => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ],
       providers: [ LoginService ]
-    });    
+    });
     service = TestBed.inject(LoginService);
     httpMock = TestBed.inject(HttpTestingController);
   });

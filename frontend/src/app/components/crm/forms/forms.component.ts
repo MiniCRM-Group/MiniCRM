@@ -20,10 +20,11 @@ export class FormsComponent implements OnInit {
     map(res => res.forms)
   );
   keyOrdering: string[] = ['formId', 'formName', 'date'];
-  webhookUrl: string = '';
-  googlekey: string = '';
+  webhookUrl = '';
+  googlekey = '';
 
-  constructor(public dialog: MatDialog, private formService: FormService,
+  constructor(
+    public dialog: MatDialog, private formService: FormService,
     private webhookService: WebhookService, private titleService: Title) {
       this.titleService.setTitle('Forms');
   }
@@ -37,8 +38,8 @@ export class FormsComponent implements OnInit {
 
   deleteForms(): void {
     this.formService.unlinkForms(this.formsTable.selection.selected)
-    .subscribe((_any: any) => {
-      if(this.formsTable !== undefined) {
+    .subscribe((_: any) => {
+      if (this.formsTable !== undefined) {
         // refresh because we deleted some form rows
         this.formsTable.refreshDataSource();
       }

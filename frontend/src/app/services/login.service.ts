@@ -13,8 +13,8 @@ export class LoginService {
 
   loginEndpoint = '/api/login';
 
-  private handleError(_error: HttpErrorResponse) {
-    console.log("Login Service failed!")
+  private handleError(_: HttpErrorResponse) {
+    console.log('Login Service failed!');
     return of<LoginResponse>({
       url: '/',
       loggedIn: false

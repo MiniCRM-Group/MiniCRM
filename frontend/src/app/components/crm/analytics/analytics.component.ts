@@ -9,7 +9,7 @@ import { Title } from '@angular/platform-browser';
 export class AnalyticsComponent implements OnInit {
 
   constructor(private titleService: Title) {
-    this.titleService.setTitle('Analytics')
+    this.titleService.setTitle('Analytics');
   }
 
   ngOnInit(): void {
