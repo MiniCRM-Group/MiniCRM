@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { LoginService } from 'src/app/services/login.service';
 import { LoginResponse } from 'src/app/models/server_responses/login-response.model';
-
+import { WebhookService } from 'src/app/services/webhook.service';
+import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
 @Component({
   selector: 'app-crm',
   templateUrl: './crm.component.html',
   styleUrls: ['./crm.component.css']
 })
 export class CrmComponent implements OnInit {
-  isExpanded: boolean = true;
+  isExpanded = true;
   navigationData: NavigationDatum[] = [
     {
       displayedName: 'Guide',
@@ -42,15 +43,21 @@ export class CrmComponent implements OnInit {
       icon: 'settings'
     }
   ];
-  logoutUrl: string = '/';
+  logoutUrl = '/';
+  webhookUrl = '';
+  googleKey = '';
 
-  constructor(public titleService: Title, private loginService: LoginService) {
+  constructor(public titleService: Title, private loginService: LoginService, private webhookService: WebhookService) {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
-      if(!res.loggedIn) {
+      if (!res.loggedIn) {
         location.href = this.logoutUrl;
       } else {
         this.logoutUrl = res.url;
       }
+    });
+    this.webhookService.getWebhook().subscribe((res: WebHookResponse) => {
+      this.webhookUrl = res.webhookUrl;
+      this.googleKey = res.googleKey;
     });
   }
 
