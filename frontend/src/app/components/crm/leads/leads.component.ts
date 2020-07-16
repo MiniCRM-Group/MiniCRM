@@ -207,12 +207,11 @@ export class LeadsComponent implements AfterViewInit {
     return this.selection.selected.length > 0;
   }
 
-  openDialog(leadIdCheck) {
-   const toBeDisplayed = this.dataSource.data.filter(toOpen => toOpen.leadId == leadIdCheck);
-   let dialogRef = this.dialog.open(LeadDetailsComponent, {
-        width: '750px',
-        data: { details: toBeDisplayed }
-      });
+  openDialog(toBeDisplayed) {
+    let dialogRef = this.dialog.open(LeadDetailsComponent, {
+      width: '750px',
+      data: { details: toBeDisplayed }
+    });
   }
 
 }
