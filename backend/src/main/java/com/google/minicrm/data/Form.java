@@ -85,6 +85,39 @@ public final class Form implements DatastoreObject {
     return formEntity;
   }
 
+  /**
+   * Checks whether another object o is a Form object that is either the same exact object or the
+   * same formId and formName.
+   * @param o the object to compare to this form
+   * @return true if the given object is a Form instance with the same formId and formName as this
+   *         form. Otherwise, false.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof Form)) {
+      return false;
+    }
+
+    Form other = (Form) o;
+    return this.formId == other.formId &&
+        this.formName.equals(other.formName);
+  }
+
+  /**
+   * Returns a String representation of this form with its formId and formName
+   * @return a String representation of this form
+   */
+  @Override
+  public String toString() {
+    String str = "Form:{";
+    str += "formId=" + formId + ", ";
+    str += "formName=\"" + formName + "\"}";
+    return str;
+  }
+
   //GETTERS AND SETTERS
   /**
    * @return the key of the advertiser entity that owns this form
