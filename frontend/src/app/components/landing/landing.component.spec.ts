@@ -8,15 +8,12 @@ import { MatIconModule } from '@angular/material/icon';
 
 describe('LandingComponent', () => {
   let component: LandingComponent;
+  const loginService: Partial<LoginService> = {
+    getLoginResponse: () => of<LoginResponse>({ loggedIn: false, url: '/' })
+  };
   let fixture: ComponentFixture<LandingComponent>;
 
   beforeEach(async(() => {
-    const loginResponse: LoginResponse = {
-      url: '/crm/guide',
-      loggedIn: false
-    };
-    const loginService = jasmine.createSpyObj('LoginService', ['getLoginResponse']);
-    const getLoginResponseSpy = loginService.getLoginResponse.and.returnValue( of(loginResponse) );
     TestBed.configureTestingModule({
       imports: [ MatIconModule ],
       declarations: [ LandingComponent ],

@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 describe('FormsComponent', () => {
   let component: FormsComponent;
-  const formServiceStub: Partial<FormService> = {
+  const formService: Partial<FormService> = {
     getForms: () => of<FormsResponse>({ forms: [] }),
     unlinkForms: (req: Form[]) => 'ok'
   };
@@ -19,7 +19,7 @@ describe('FormsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ FormsComponent ],
       imports: [ MatDialogModule, HttpClientModule ],
-      providers: [ { provide: FormService, useValue: formServiceStub } ]
+      providers: [ { provide: FormService, useValue: formService } ]
     })
     .compileComponents();
   }));

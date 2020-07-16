@@ -3,12 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LeadsComponent } from './leads.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { LeadService } from 'src/app/services/lead.service';
-import { Observable, of } from 'rxjs';
-import { LeadsResponse } from 'src/app/models/server_responses/lead.model';
+import { of } from 'rxjs';
+import { Lead } from 'src/app/models/server_responses/lead.model';
 
 describe('LeadsComponent', () => {
   let component: LeadsComponent;
-  let leadService: LeadService;
+  const leadService: Partial<LeadService> = {
+    getAllLeads: () => of<Lead[]>([])
+  };
   let fixture: ComponentFixture<LeadsComponent>;
 
   beforeEach(async(() => {
@@ -16,14 +18,7 @@ describe('LeadsComponent', () => {
       imports: [ MatDialogModule ],
       declarations: [ LeadsComponent ],
       providers: [
-        {
-          provide: LeadService,
-          useValue: {
-            getAllLeads: (): Observable<LeadsResponse> => of({
-              leads: []
-            })
-          }
-        }
+        { provide: LeadService, useValue: leadService }
       ]
     })
     .compileComponents();
@@ -32,7 +27,6 @@ describe('LeadsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LeadsComponent);
     component = fixture.componentInstance;
-    leadService = TestBed.get(LeadService);
     fixture.detectChanges();
   });
 
