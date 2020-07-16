@@ -27,7 +27,7 @@ steps:
   #     - install
 
   # Install puppeteer dependencies
-  - name: ubuntu
+  - name: ubuntu:18.04
     args: 
       - 'apt'
       - 'install'
