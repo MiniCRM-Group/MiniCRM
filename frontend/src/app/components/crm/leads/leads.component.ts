@@ -160,34 +160,6 @@ export class LeadsComponent implements AfterViewInit {
   }
 
   /*
-   * This method listens to the email leads button
-   */
-  emailLead(){
-    // when no leads are selected
-    if(this.selection.selected.length == 0){
-      alert("Please select at least one lead.");
-      return;
-    }
-
-                                             //filter leads with no email
-    var recepients = this.selection.selected.filter(withEmail => withEmail.columnData.EMAIL != undefined)
-                                             //collect emails
-                                            .map(candidate => candidate.columnData.EMAIL);
-
-    // incase all the selected leads do not have email address
-    if(recepients.length == 0){
-    alert("Please select at least one lead with an email address.");
-          return;
-    }
-
-    //make the recepients ready for url use
-    var recepientsString= recepients.join(",");
-    let emailUrl : string  = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to="+recepientsString+"&su=Greetings";
-
-    window.open(emailUrl, "_blank");
-  }
-
-  /*
    * This method listens to the message leads button
    */
   emailLead(){
