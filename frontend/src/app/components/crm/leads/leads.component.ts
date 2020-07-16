@@ -26,6 +26,7 @@ import { first } from 'rxjs/operators';
 
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
+import { LeadDetailsComponent } from './lead-details/lead-details.component';
 
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
@@ -159,7 +160,7 @@ export class LeadsComponent implements AfterViewInit {
   }
 
   /*
-   * This method listens to the email leads button
+   * This method listens to the message leads button
    */
   emailLead(){
                                                //filter leads with no email
@@ -206,17 +207,11 @@ export class LeadsComponent implements AfterViewInit {
     return this.selection.selected.length > 0;
   }
 
-  openDialog() {
-      const dialogRef = this.dialog.open(DetailsDialog);
-
-      dialogRef.afterClosed().subscribe(result => {
-      });
+  openDialog(toBeDisplayed) {
+    let dialogRef = this.dialog.open(LeadDetailsComponent, {
+      width: '750px',
+      data: { details: toBeDisplayed }
+    });
   }
 
 }
-  @Component({
-    selector: 'DetailsDialog',
-    templateUrl: './leads-details.component.html',
-    styleUrls: ['./leads.component.css']
-  })
-export class DetailsDialog {}

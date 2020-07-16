@@ -104,7 +104,8 @@
       <ng-container matColumnDef="details">
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> More Info </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> <button mat-icon-button color="primary" (click)="openDialog()">
+        <mat-cell *matCellDef="let lead"> <button mat-icon-button color="primary" (click)="openDialog(lead)">
+          <script>console.log(lead)</script>
           <mat-icon class="material-icons">info_outline</mat-icon>
         </button></mat-cell>
       </ng-container>
