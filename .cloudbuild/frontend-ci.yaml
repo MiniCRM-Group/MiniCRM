@@ -26,19 +26,11 @@ steps:
     waitFor: 
       - install
 
-  # Install Chromium and test
-  - name: markadams/chromium-xvfb-js:latest
-    id: test
+  # Test without need for a browser (headless)
+  - name: node:14.4.0
+    entrypoint: npm
+    args: [ 'run', 'test-headless']
     dir: 'frontend'
+    id: test
     waitFor:
       - build
-
-  # # Test
-  # - name: node:14.4.0
-  #   entrypoint: npm
-  #   args: [ 'run', 'test']
-  #   dir: 'frontend'
-  #   id: test
-  #   waitFor:
-  #     - build-chrome
-  #     - build
