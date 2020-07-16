@@ -27,7 +27,7 @@ steps:
   #     - install
 
   # Install puppeteer dependencies
-  - name: ubuntu:18.04
+  - name: ubuntu:eoan
     args: 
       - 'apt'
       - 'install'
