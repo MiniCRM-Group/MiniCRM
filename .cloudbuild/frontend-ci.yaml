@@ -1,12 +1,12 @@
 steps:
 
   # Install node packages
-  - name: node:lts
-    entrypoint: npm
-    args: [ 'install' ]
-    dir: 'frontend'
-    id: install
-    waitFor: [ '-' ]
+  # - name: node:lts
+  #   entrypoint: npm
+  #   args: [ 'install' ]
+  #   dir: 'frontend'
+  #   id: install
+  #   waitFor: [ '-' ]
 
   # # Lint
   # - name: node:14.4.0
@@ -26,31 +26,41 @@ steps:
   #   waitFor: 
   #     - install
 
-  # Install puppeteer dependencies
-  - name: ubuntu:eoan
-    args: 
-      - 'apt-get'
-      - 'update'
-    dir: 'frontend'
-    id: update
-    waitFor:
-      - install
+  # # Install puppeteer dependencies
+  # - name: ubuntu:eoan
+  #   args: 
+  #     - 'apt-get'
+  #     - 'update'
+  #   dir: 'frontend'
+  #   id: update
+  #   waitFor:
+  #     - install
+
+  # - name: ubuntu:eoan
+  #   args: 
+  #     - 'apt-get'
+  #     - 'install'
+  #     - 'libgbm-dev'
+  #   dir: 'frontend'
+  #   id: install-test-dependencies
+  #   waitFor:
+  #     - update
+
+  # # Test with out need for a browser (headless)
+  # - name: node:lts
+  #   entrypoint: npm
+  #   args: [ 'run', 'test-headless']
+  #   dir: 'frontend'
+  #   id: test
+  #   waitFor:
+  #     - install-test-dependencies
 
   - name: ubuntu:eoan
-    args: 
-      - 'apt-get'
-      - 'install'
-      - 'libgbm-dev'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        apt-get update \
+        && apt-get install libgm-dev \
+        && npm run test
     dir: 'frontend'
-    id: install-test-dependencies
-    waitFor:
-      - update
-
-  # Test with out need for a browser (headless)
-  - name: node:lts
-    entrypoint: npm
-    args: [ 'run', 'test-headless']
-    dir: 'frontend'
-    id: test
-    waitFor:
-      - install-test-dependencies
