@@ -31,14 +31,20 @@ steps:
     args: 
       - 'apt-get'
       - 'update'
-      - '&&'
+    dir: 'frontend'
+    id: update
+    waitFor:
+      - install
+
+  - name: ubuntu:eoan
+    args: 
       - 'apt-get'
       - 'install'
       - 'libgbm-dev'
     dir: 'frontend'
     id: install-test-dependencies
     waitFor:
-      - install
+      - update
 
   # Test with out need for a browser (headless)
   - name: node:lts
