@@ -17,14 +17,14 @@ describe('FormsComponent', () => {
   };
   const webhookService: Partial<WebhookService> = {
     getWebhook: () => of<WebHookResponse>({ webhookUrl: '/', googleKey: 'abc' })
-  }
+  };
   let fixture: ComponentFixture<FormsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FormsComponent ],
       imports: [ MatDialogModule, HttpClientModule ],
-      providers: [ 
+      providers: [
         { provide: FormService, useValue: formService },
         { provide: WebhookService, useValue: webhookService }
       ]

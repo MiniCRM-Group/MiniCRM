@@ -4,7 +4,10 @@
 # https://help.github.com/en/articles/workflow-syntax-for-github-actions
 name: frontend-ci
 
-on: [pull_request, push]
+on:
+  push:
+    paths:
+      - 'frontend/**'
 
 jobs:
   build:
