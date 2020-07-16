@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Lead Info</h1>
+<div mat-dialog-content>
+  <mat-list>
+    <mat-list-item>Date: {{data.details[0].date}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Lead Id: {{data.details[0].leadId}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Campaign Id: {{data.details[0].campaignId}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Google Click Id: {{data.details[0].gclId}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>API Version: {{data.details[0].apiVersion}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Form Id: {{data.details[0].formId}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Google Key: {{data.details[0].googlekey}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Name: {{data.details[0].columnData.FULL_NAME}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Phone Number: {{data.details[0].columnData.PHONE_NUMBER}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Email: {{data.details[0].columnData.EMAIL}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Test: {{data.details[0].isTest}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Ad Group Id: {{data.details[0].adgroupId}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Creative Id: {{data.details[0].creativeId}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Status: {{data.details[0].status}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Notes: {{data.details[0].notes}}</mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

@@ -43,6 +43,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
 import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
+import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { CopyableFormFieldComponent } from './components/shared/copyable-form-fi
     FormsComponent,
     CrmTableComponent,
     LinkFormDialogComponent,
-    CopyableFormFieldComponent
+    CopyableFormFieldComponent,
+    LeadDetailsComponent
   ],
   imports: [
     HttpClientModule,
@@ -95,6 +97,7 @@ import { CopyableFormFieldComponent } from './components/shared/copyable-form-fi
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
+  entryComponents: [LeadDetailsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
