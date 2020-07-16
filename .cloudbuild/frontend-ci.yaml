@@ -8,23 +8,23 @@ steps:
     id: install
     waitFor: [ '-' ]
 
-  # Lint
-  - name: node:14.4.0
-    entrypoint: npm
-    args: [ 'run', 'lint' ]
-    dir: 'frontend'
-    id: lint
-    waitFor:
-      - install
+  # # Lint
+  # - name: node:14.4.0
+  #   entrypoint: npm
+  #   args: [ 'run', 'lint' ]
+  #   dir: 'frontend'
+  #   id: lint
+  #   waitFor:
+  #     - install
 
-  # Build
-  - name: node:14.4.0
-    entrypoint: npm
-    args: [ 'run', 'build' ]
-    dir: 'frontend'
-    id: build
-    waitFor: 
-      - install
+  # # Build
+  # - name: node:14.4.0
+  #   entrypoint: npm
+  #   args: [ 'run', 'build' ]
+  #   dir: 'frontend'
+  #   id: build
+  #   waitFor: 
+  #     - install
 
   # Test without need for a browser (headless)
   - name: node:14.4.0
@@ -33,4 +33,5 @@ steps:
     dir: 'frontend'
     id: test
     waitFor:
-      - build
+      - install
+      # - build
