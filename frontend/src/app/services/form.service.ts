@@ -30,19 +30,6 @@ export class FormService {
     );
   }
 
-  linkForm(linkFormRequest: LinkFormRequest): Observable<WebHookResponse> {
-    const options = {
-      responseType: 'json' as const
-    };
-    return this.http.post<WebHookResponse>(this.formEndpoint, linkFormRequest, options)
-    .pipe(
-      retry(3),
-      catchError((error: HttpErrorResponse) => {
-        throw error.message;
-      })
-    );
-  }
-
   unlinkForms(formsToUnlink: Form[]): any {
     const formIds = formsToUnlink.map((form: Form) => form.formId);
     let httpParams: HttpParams = new HttpParams();

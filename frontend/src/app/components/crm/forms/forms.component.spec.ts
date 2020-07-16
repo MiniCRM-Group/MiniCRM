@@ -5,15 +5,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormService } from 'src/app/services/form.service';
 import { of } from 'rxjs';
 import { FormsResponse, Form } from 'src/app/models/server_responses/forms-response.model';
-import { LinkFormRequest } from 'src/app/models/server_requests/link-form-request.model';
-import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('FormsComponent', () => {
   let component: FormsComponent;
   const formServiceStub: Partial<FormService> = {
     getForms: () => of<FormsResponse>({ forms: [] }),
-    linkForm: (req: LinkFormRequest) => of<WebHookResponse>({ webhookUrl: '', googleKey: '' }),
     unlinkForms: (req: Form[]) => 'ok'
   };
   let fixture: ComponentFixture<FormsComponent>;
