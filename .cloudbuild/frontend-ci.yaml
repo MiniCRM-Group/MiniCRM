@@ -29,7 +29,10 @@ steps:
   # Install puppeteer dependencies
   - name: ubuntu:eoan
     args: 
-      - 'apt'
+      - 'apt-get'
+      - 'update'
+      - '&&'
+      - 'apt-get'
       - 'install'
       - 'libgbm-dev'
     dir: 'frontend'
