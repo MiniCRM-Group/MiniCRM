@@ -37,7 +37,7 @@ jobs:
       working-directory: ${{env.working-directory}}
 
     - name: Test
-      run: npm test-headless
+      run: npm run test-headless
       working-directory: ${{env.working-directory}}
     # - name: E2E
     #   run: npm run e2e -- --configuration=ci
