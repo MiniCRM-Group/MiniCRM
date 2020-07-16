@@ -1,7 +1,7 @@
 steps:
 
   # Install node packages
-  - name: node:14.4.0
+  - name: node:lts
     entrypoint: npm
     args: [ 'install' ]
     dir: 'frontend'
@@ -27,7 +27,7 @@ steps:
   #     - install
 
   # Test without need for a browser (headless)
-  - name: node:14.4.0
+  - name: node:lts
     entrypoint: npm
     args: [ 'run', 'test-headless']
     dir: 'frontend'
