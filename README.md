@@ -48,5 +48,31 @@ npm run build
 mvn package appengine:deploy
 ```
 
+## Dev Workflow
+
+1. The dev workflow starts off by creating a branch for a specific issue.
+Use the following name convention for branch naming:
+`<nickname>/<issue-name>`
+
+2. Create pull request for your issue and fill out the PR template as you see fit.
+3. Merge any conflicts.
+4. Ensure your PR successfully passes all applicable CI pipelines. You can test and debug this locally by running the following commands:
+
+    ```
+    # Installs npm dependencies
+    npm run install
+
+    # Lints your Typescript files
+    npm run lint
+
+    # Builds the app
+    npm run build
+
+    # Runs unit tests
+    npm run test
+    ```
+5. Get at least one intern (Roddy, Alex, Amanuel) to review and approve your PR and at least one host (Rodrigo and Anthoney) to review and approve your PR. (Note: This can be done concurrently with step 3)
+6. Once at least one intern and at least one host has approved your PR, you can merge into `master`.
+
 ## Contributors
 Alex, Amanuel, Roddy, Rodrigo, Anthoney
