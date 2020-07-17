@@ -8,7 +8,11 @@ on:
   push:
     paths:
       - 'frontend/**'
-
+      - '.github/workflow/frontend-ci.yml'
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - '.github/workflow/frontend-ci.yml'
 jobs:
   build:
 
