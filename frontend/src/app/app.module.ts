@@ -23,6 +23,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +41,9 @@ import { GuideComponent } from './components/crm/guide/guide.component';
 import { AnalyticsComponent } from './components/crm/analytics/analytics.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
+import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
+import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +56,9 @@ import { CrmTableComponent } from './components/shared/crm-table/crm-table.compo
     CrmComponent,
     LandingComponent,
     FormsComponent,
-    CrmTableComponent
+    CrmTableComponent,
+    CopyableFormFieldComponent,
+    LeadDetailsComponent
   ],
   imports: [
     HttpClientModule,
@@ -79,11 +87,15 @@ import { CrmTableComponent } from './components/shared/crm-table/crm-table.compo
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule,
+    MatMenuModule,
+    MatTooltipModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
+  entryComponents: [LeadDetailsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

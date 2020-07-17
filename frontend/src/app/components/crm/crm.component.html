@@ -33,9 +33,16 @@
       <mat-toolbar-row>
         <span>{{ titleService.getTitle() }}</span>
         <span class="spacer"></span>
-        <button mat-flat-button (click)="logout()">
-          LOGOUT
+        <button mat-icon-button [matMenuTriggerFor]="beforeMenu">
+          <mat-icon>account_circle</mat-icon>
         </button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+          <div id="menuContainer" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" (click)="$event.stopPropagation();">
+            <app-copyable-form-field label="Your Webhook" [copyableValue]="webhookUrl"></app-copyable-form-field>
+            <app-copyable-form-field label="Your Google Key" [copyableValue]="googleKey"></app-copyable-form-field>
+            <button mat-flat-button color="primary" (click)="logout()">LOGOUT</button>
+          </div>
+        </mat-menu>
       </mat-toolbar-row>
     </mat-toolbar>
     <router-outlet></router-outlet>

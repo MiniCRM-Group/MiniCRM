@@ -28,7 +28,7 @@ import java.util.List;
  * directly linked to their leads. Instead, leads are linked to their respective form with the form
  * id instance variable.
  */
-public final class Form implements DatastoreObject{
+public final class Form implements DatastoreObject {
 
   public static final String KIND_NAME = "Form";
 
@@ -85,6 +85,39 @@ public final class Form implements DatastoreObject{
     return formEntity;
   }
 
+  /**
+   * Checks whether another object o is a Form object that is either the same exact object or the
+   * same formId and formName.
+   * @param o the object to compare to this form
+   * @return true if the given object is a Form instance with the same formId and formName as this
+   *         form. Otherwise, false.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof Form)) {
+      return false;
+    }
+
+    Form other = (Form) o;
+    return this.formId == other.formId &&
+        this.formName.equals(other.formName);
+  }
+
+  /**
+   * Returns a String representation of this form with its formId and formName
+   * @return a String representation of this form
+   */
+  @Override
+  public String toString() {
+    String str = "Form:{";
+    str += "formId=" + formId + ", ";
+    str += "formName=\"" + formName + "\"}";
+    return str;
+  }
+
   //GETTERS AND SETTERS
   /**
    * @return the key of the advertiser entity that owns this form
@@ -136,7 +169,7 @@ public final class Form implements DatastoreObject{
    * Same as {@link com.google.minicrm.data.Form#generateKey(Key, long)} but for multiple formIds.
    * @param parentKey the key for the advertiser entity that owns this form
    * @param formIds the ids of the forms
-   * @return        the keys for the form specified with the given parentKey and formIds.
+   * @return        the keys for the forms specified with the given parentKey and formIds.
    */
   public static List<Key> generateKeys(Key parentKey, long[] formIds) {
     List<Key> keys = new ArrayList<>();

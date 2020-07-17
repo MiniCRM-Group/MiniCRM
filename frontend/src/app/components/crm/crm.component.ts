@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { LoginService } from 'src/app/services/login.service';
 import { LoginResponse } from 'src/app/models/server_responses/login-response.model';
-
+import { WebhookService } from 'src/app/services/webhook.service';
+import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
 @Component({
   selector: 'app-crm',
   templateUrl: './crm.component.html',
@@ -43,12 +44,18 @@ export class CrmComponent implements OnInit {
     }
   ];
   logoutUrl = '/';
+  webhookUrl = '';
+  googleKey = '';
 
-  constructor(public titleService: Title, private loginService: LoginService) {
+  constructor(public titleService: Title, private loginService: LoginService, private webhookService: WebhookService) {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
       if (res.loggedIn) {
         this.logoutUrl = res.url;
       }
+    });
+    this.webhookService.getWebhook().subscribe((res: WebHookResponse) => {
+      this.webhookUrl = res.webhookUrl;
+      this.googleKey = res.googleKey;
     });
   }
 

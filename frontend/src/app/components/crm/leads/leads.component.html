@@ -1,6 +1,9 @@
 <div class="container">
+  <div class="button-row">
+    <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="emailLead()">Email Leads <mat-icon>email</mat-icon></button>
+    <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="smsLead()">Message Leads <mat-icon>send</mat-icon></button>
+  </div>
   <div class="mat-elevation-z1">
-
 
     <mat-form-field>
       <mat-label>Filter your leads</mat-label>
@@ -53,6 +56,14 @@
         <mat-cell *matCellDef="let lead"> {{lead.columnData.PHONE_NUMBER}} </mat-cell>
       </ng-container>
 
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> Email </mat-header-cell>
+
+        <mat-cell *matCellDef="let lead"> {{lead.columnData.EMAIL}} </mat-cell>
+      </ng-container>
+
       <!-- Campaign Id Column -->
       <ng-container matColumnDef="campaign_id">
         <mat-header-cell *matHeaderCellDef
@@ -67,11 +78,34 @@
         <mat-cell *matCellDef="let lead"> {{lead.date}} </mat-cell>
       </ng-container>
 
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef
+                         mat-sort-header> Lead Status </mat-header-cell>
+        <mat-cell *matCellDef="let lead">
+          <mat-form-field appearance="fill">
+            <mat-select>
+              <mat-option>
+                Opened
+              </mat-option>
+              <mat-option>
+                Closed
+              </mat-option>
+              <mat-option>
+                Not Opened
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </mat-cell>
+      </ng-container>
+
       <!-- More-info Column -->
       <ng-container matColumnDef="details">
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> More Info </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> <button mat-icon-button color="primary" (click)="openDialog()">
+        <mat-cell *matCellDef="let lead"> <button mat-icon-button color="primary" (click)="openDialog(lead)">
+          <script>console.log(lead)</script>
           <mat-icon class="material-icons">info_outline</mat-icon>
         </button></mat-cell>
       </ng-container>
@@ -91,4 +125,5 @@
                    showFirstLastButtons></mat-paginator>
   </div>
 
+  <br>
 </div>
