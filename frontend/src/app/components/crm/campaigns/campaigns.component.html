@@ -1,1 +1,42 @@
-<p>campaigns works!</p>
+<div id="content" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="23px">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+        <button mat-raised-button color="primary" (click)="deleteForms()">UNLINK FORM</button>
+        <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Find Campaign</mat-label>
+            <input matInput placeholder="Campaign">
+            <button mat-icon-button matSuffix>
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+    <app-crm-table #formsCrmTable [data]="forms" [keyOrdering]="keyOrdering"></app-crm-table>
+    <div *ngIf="dataSource.data.length > 0; else emptyMessage">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox 
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-checkbox 
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(element) : null"
+                        [checked]="selection.isSelected(element)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container *ngFor="let map of keyDisplayedNameOrdering" [matColumnDef]="map.key">
+                <th mat-header-cell *matHeaderCellDef>{{ map.displayedName }}</th>
+                <td mat-cell *matCellDef="let element"> {{ element[map.key] }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="keyOrdering"></tr>
+            <tr mat-row *matRowDef="let row; columns: keyOrdering;"></tr>
+        </table>
+    </div>
+</div>
+<ng-template #emptyMessage>
+    <p>Nothing to display here.</p>
+</ng-template>
