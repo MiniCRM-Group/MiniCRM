@@ -49,11 +49,11 @@ export class LeadsComponent implements AfterViewInit {
    */
   readonly displayedColumns: string[] = [
     'select',
-    'lead_id',
+    'leadId',
     'name',
     'phone_number',
     'email',
-    'campaign_id',
+    'campaignId',
     'status',
     'date',
     'details'
