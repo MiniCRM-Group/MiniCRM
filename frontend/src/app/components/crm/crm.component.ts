@@ -46,9 +46,7 @@ export class CrmComponent implements OnInit {
 
   constructor(public titleService: Title, private loginService: LoginService) {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
-      if (!res.loggedIn) {
-        location.href = this.logoutUrl;
-      } else {
+      if (res.loggedIn) {
         this.logoutUrl = res.url;
       }
     });

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { FormsResponse } from '../models/server_responses/forms-response.model';
 import { LinkFormRequest } from '../models/server_requests/link-form-request.model';
 import { WebHookResponse } from '../models/server_responses/webhook-response.model';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, first } from 'rxjs/operators';
 import { Form } from '../models/server_responses/forms-response.model';
 
 @Injectable({
@@ -22,6 +22,7 @@ export class FormService {
     };
     return this.http.get<FormsResponse>(this.formEndpoint, options)
     .pipe(
+      first(),
       retry(3),
       catchError((_: HttpErrorResponse) => {
         // return no forms and empty webhook url
@@ -40,6 +41,6 @@ export class FormService {
       responseType: 'json' as const,
       params: httpParams
     };
-    return this.http.delete<any>(this.formEndpoint, options);
+    return this.http.delete<any>(this.formEndpoint, options).pipe(first());
   }
 }

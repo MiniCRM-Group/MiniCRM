@@ -8,7 +8,7 @@
     "buildprod": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "builddev": "ng build --configuration=developer && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "test": "ng test --watch=false --browsers=Chrome --source-map=false --code-coverage",
-    "ci-test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
+    "ci-test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI --source-map=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

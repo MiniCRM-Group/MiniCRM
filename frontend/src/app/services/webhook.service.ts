@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { WebHookResponse } from '../models/server_responses/webhook-response.model';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,6 @@ export class WebhookService {
   webhookEndpoint = '/api/webhook';
 
   getWebhook(): Observable<WebHookResponse> {
-    return this.http.get<WebHookResponse>(this.webhookEndpoint);
+    return this.http.get<WebHookResponse>(this.webhookEndpoint).pipe(first());
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Lead, LeadsResponse } from '../models/server_responses/lead.model';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,7 @@ export class LeadService {
         responseType: 'json' as const
       };
       return this.http.get<LeadsResponse>(this.url, options).pipe(
+        first(),
         map(res => res.leads)
       );
     }
