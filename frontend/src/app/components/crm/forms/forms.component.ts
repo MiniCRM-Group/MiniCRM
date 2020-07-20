@@ -20,7 +20,7 @@ export class FormsComponent implements OnInit {
   keyOrdering: string[] = ['formId', 'formName', 'date'];
 
   constructor(
-    public dialog: MatDialog, private formService: FormService, 
+    public dialog: MatDialog, private formService: FormService,
     private titleService: Title) {
       this.titleService.setTitle('Forms');
   }
