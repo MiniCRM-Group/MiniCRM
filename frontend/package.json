@@ -4,9 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot",
-    "build": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
+    "ci-build": "ng build --prod",
+    "buildprod": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "builddev": "ng build --configuration=developer && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
-    "test": "ng test",
+    "test": "ng test --watch=false --browsers=Chrome --source-map=false --code-coverage",
+    "ci-test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI --source-map=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -14,7 +16,6 @@
   "dependencies": {
     "@angular/animations": "^9.1.11",
     "@angular/cdk": "^9.2.4",
-    "@angular/cli": "^9.1.9",
     "@angular/common": "~9.1.11",
     "@angular/compiler": "~9.1.11",
     "@angular/core": "~9.1.11",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.901.9",
+    "@angular/cli": "~9.1.9",
     "@angular/compiler-cli": "~9.1.11",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
@@ -40,11 +42,12 @@
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~5.0.0",
-    "karma-chrome-launcher": "~3.1.0",
+    "karma-chrome-launcher": "^3.1.0",
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~3.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
     "protractor": "~7.0.0",
+    "puppeteer": "^5.1.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.8.3"

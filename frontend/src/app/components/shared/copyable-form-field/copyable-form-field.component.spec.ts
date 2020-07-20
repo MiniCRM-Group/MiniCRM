@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CopyableFormFieldComponent } from './copyable-form-field.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('CopyableFormFieldComponent', () => {
   let component: CopyableFormFieldComponent;
@@ -8,7 +9,10 @@ describe('CopyableFormFieldComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CopyableFormFieldComponent ]
+      declarations: [ CopyableFormFieldComponent ],
+      imports: [
+        MatTooltipModule
+      ]
     })
     .compileComponents();
   }));

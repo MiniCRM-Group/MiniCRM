@@ -9,8 +9,8 @@ import { MatTooltip } from '@angular/material/tooltip';
 export class CopyableFormFieldComponent implements OnInit {
   @Input() label: string;
   @Input() copyableValue: string;
-  tooltipMessage: string = 'Copied';
-  @ViewChild('tooltip') tooltip: MatTooltip; 
+  tooltipMessage = 'Copied';
+  @ViewChild('tooltip') tooltip: MatTooltip;
 
   constructor() { }
 
