@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Campaign, CampaignsResponse} from '../models/server_responses/campaign.model';
+import { map, retry } from 'rxjs/operators';
+import { Campaign, CampaignsResponse } from '../models/server_responses/campaign.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +18,12 @@ export class CampaignService {
     return this.http.get<CampaignsResponse>(this.url, options).pipe(
       map(res => res.campaigns)
     );
+  }
+
+  renameCampaign(campaign: Campaign): any {
+    const body = {'campaignId': campaign.campaignId.toString(), 'campaignName': campaign.campaignName};
+    return this.http.put<any>(this.url, body).pipe(
+      retry(3)
+    );;
   }
 }

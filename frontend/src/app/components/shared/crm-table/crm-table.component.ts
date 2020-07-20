@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, AfterContentChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, AfterContentChecked, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
 import { TableData, KeyDisplayedNameMap } from '../../../models/component_states/table-data.model';
 import * as _ from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,6 +14,7 @@ export class CrmTableComponent<T> implements OnInit {
   @Input() data: Observable<T[]>;
   @Input() keyOrdering: string[] = [];
   @Input() selectionEnabled = true;
+  @Output() rename: EventEmitter<T> = new EventEmitter();
   dataSource: MatTableDataSource<T> = new MatTableDataSource<T>();
   keyDisplayedNameOrdering: KeyDisplayedNameMap[];
   public selection: SelectionModel<T> = new SelectionModel<T>(/*allow mulitselect=*/true);
@@ -39,6 +40,14 @@ export class CrmTableComponent<T> implements OnInit {
       this.dataSource.data = res;
       this.changeDectectorRef.detectChanges();
     });
+  }
+
+  /**
+   * Emits a rename change for the parent component to handle and rename the corresponding form or campaign
+   * @param renamedEntry the element that is being renamed
+   */
+  emitRename(renamedEntry: T) {
+    this.rename.emit(renamedEntry);
   }
 
 
