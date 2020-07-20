@@ -41,6 +41,19 @@ export class CrmTableComponent<T> implements OnInit {
     });
   }
 
+
+  /**
+   * This method will listen to the filter field in the html and update the value of dataSource
+   * @param event an input from the filter field
+   */
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator != null) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;

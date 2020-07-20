@@ -1,12 +1,3 @@
 <div id="content" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="23px">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
-        <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Find Campaign</mat-label>
-            <input matInput placeholder="Campaign">
-            <button mat-icon-button matSuffix>
-                <mat-icon>search</mat-icon>
-            </button>
-        </mat-form-field>
-    </div>
     <app-crm-table #campaignsCrmTable [data]="campaigns" [keyOrdering]="keyOrdering"></app-crm-table>
 </div>

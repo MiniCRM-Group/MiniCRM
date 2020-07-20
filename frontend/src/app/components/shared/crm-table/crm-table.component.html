@@ -1,3 +1,14 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Search</mat-label>
+        <input matInput
+                (change)="applyFilter($event)"
+                placeholder="Search">
+        <button mat-icon-button matSuffix>
+            <mat-icon>search</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
 <div *ngIf="dataSource.data.length > 0; else emptyMessage">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <ng-container matColumnDef="select">
