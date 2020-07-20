@@ -44,6 +44,7 @@ import { CrmTableComponent } from './components/shared/crm-table/crm-table.compo
 import { LinkFormDialogComponent } from './components/crm/forms/link-form-dialog/link-form-dialog.component';
 import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
 import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
+import { SettingsComponent } from './components/crm/settings/settings.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-d
     CrmTableComponent,
     LinkFormDialogComponent,
     CopyableFormFieldComponent,
-    LeadDetailsComponent
+    LeadDetailsComponent,
+    SettingsComponent
   ],
   imports: [
     HttpClientModule,

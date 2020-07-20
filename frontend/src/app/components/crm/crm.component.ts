@@ -39,7 +39,7 @@ export class CrmComponent implements OnInit {
     },
     {
       displayedName: 'Settings',
-      link: 'guide', // temporary link
+      link: 'settings',
       icon: 'settings'
     }
   ];

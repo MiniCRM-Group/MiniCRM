@@ -8,6 +8,7 @@ import { FormsComponent } from './components/crm/forms/forms.component';
 import { CampaignsComponent }   from './components/crm/campaigns/campaigns.component';
 import { GuideComponent }   from './components/crm/guide/guide.component';
 import { AnalyticsComponent }   from './components/crm/analytics/analytics.component';
+import { SettingsComponent } from './components/crm/settings/settings.component';
 
 const routes: Routes = [
     { path: '', component: LandingComponent },
@@ -20,7 +21,8 @@ const routes: Routes = [
             { path: 'forms', component: FormsComponent },
             { path: 'campaigns', component: CampaignsComponent },
             { path: 'analytics', component: AnalyticsComponent },
-            { path: 'guide', component: GuideComponent }
+            { path: 'guide', component: GuideComponent },
+            { path: 'settings', component: SettingsComponent }
         ] 
     }
 ];
