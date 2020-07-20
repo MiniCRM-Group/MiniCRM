@@ -87,9 +87,9 @@ export class LeadsComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
- /**
-  * This will access the leads from the leadService and handle the filterPredicate and the isLoading boolean value.
-  */
+  /**
+   * This will access the leads from the leadService and handle the filterPredicate and the isLoading boolean value.
+   */
   loadAllLeads(): void {
     this.isLoading$.next(true);
     this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {

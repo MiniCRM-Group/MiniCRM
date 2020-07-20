@@ -5,8 +5,6 @@ import { FormService } from '../../../services/form.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { WebhookService } from 'src/app/services/webhook.service';
-import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -20,20 +18,14 @@ export class FormsComponent implements OnInit {
     map(res => res.forms)
   );
   keyOrdering: string[] = ['formId', 'formName', 'date'];
-  webhookUrl = '';
-  googlekey = '';
 
   constructor(
-    public dialog: MatDialog, private formService: FormService,
-    private webhookService: WebhookService, private titleService: Title) {
+    public dialog: MatDialog, private formService: FormService, 
+    private titleService: Title) {
       this.titleService.setTitle('Forms');
   }
 
   ngOnInit(): void {
-    this.webhookService.getWebhook().subscribe((res: WebHookResponse) => {
-      this.webhookUrl = res.webhookUrl;
-      this.googlekey = res.googleKey;
-    });
   }
 
   deleteForms(): void {
