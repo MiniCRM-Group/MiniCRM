@@ -62,7 +62,7 @@ public final class FormTest {
   }
 
   @Test
-  public void formGenerateKey_withDifferentParent_generatesDifferentKey()
+  public void form_generateKey_withDifferentParent_generatesDifferentKey()
       throws Exception {
     Key advertiserKey1 = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
     Key advertiserKey2 = KeyFactory.createKey(Advertiser.KIND_NAME, "key2");
