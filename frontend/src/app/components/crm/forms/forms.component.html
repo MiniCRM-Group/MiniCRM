@@ -2,5 +2,5 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
         <button mat-raised-button color="primary" (click)="deleteForms()">UNLINK FORM</button>
     </div>
-    <app-crm-table #formsCrmTable [data]="forms" [keyOrdering]="keyOrdering"></app-crm-table>
+    <app-crm-table #formsCrmTable [data]="forms" [keyOrdering]="keyOrdering" (rename)="renameForm($event)"></app-crm-table>
 </div>

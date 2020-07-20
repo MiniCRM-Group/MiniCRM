@@ -31,6 +31,11 @@ export class FormService {
     );
   }
 
+  renameForm(form :Form): any {
+    const body = {'formId': form.formId.toString(), 'formName': form.formName};
+    return this.http.put<any>(this.formEndpoint, body).pipe(retry(3));
+  }
+
   unlinkForms(formsToUnlink: Form[]): any {
     const formIds = formsToUnlink.map((form: Form) => form.formId);
     let httpParams: HttpParams = new HttpParams();

@@ -28,6 +28,15 @@ export class FormsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Renames the given form based on the id to the current name in the form object.
+   * Called by the rename event from app-crm-table
+   * @param form the form to be renamed
+   */
+  renameForm(form: Form) {
+    this.formService.renameForm(form).subscribe();
+  }
+
   deleteForms(): void {
     this.formService.unlinkForms(this.formsTable.selection.selected)
     .subscribe((_: any) => {
