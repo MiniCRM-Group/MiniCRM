@@ -11,12 +11,12 @@ import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
   styleUrls: ['./campaigns.component.css']
 })
 export class CampaignsComponent implements OnInit {
-  @ViewChild('campaignsCrmTable') campaignsTable : CrmTableComponent<Campaign>;
+  @ViewChild('campaignsCrmTable') campaignsTable: CrmTableComponent<Campaign>;
   campaigns: Observable<Campaign[]> = this.campaignService.getAllCampaigns();
   keyOrdering: string[] = ['campaignId', 'campaignName', 'date'];
-  
-  constructor(private campaignService : CampaignService, 
-    private titleService: Title) {
+
+  constructor(private campaignService: CampaignService,
+              private titleService: Title) {
     this.titleService.setTitle('Campaigns');
   }
 

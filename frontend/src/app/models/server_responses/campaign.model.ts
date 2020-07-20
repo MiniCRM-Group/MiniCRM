@@ -1,5 +1,5 @@
 export interface Campaign {
-    campaignId: number,
+    campaignId: number;
     campaignName: string;
     date: string;
 }
