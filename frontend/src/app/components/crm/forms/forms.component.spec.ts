@@ -12,8 +12,7 @@ import { WebHookResponse } from 'src/app/models/server_responses/webhook-respons
 describe('FormsComponent', () => {
   let component: FormsComponent;
   const formService: Partial<FormService> = {
-    getForms: () => of<FormsResponse>({ forms: [] }),
-    unlinkForms: (req: Form[]) => 'ok'
+    getForms: () => of<FormsResponse>({ forms: [] })
   };
   const webhookService: Partial<WebhookService> = {
     getWebhook: () => of<WebHookResponse>({ webhookUrl: '/', googleKey: 'abc' })
