@@ -29,8 +29,8 @@ export class FormService {
     );
   }
 
-  renameForm(form :Form): any {
-    const body = {'formId': form.formId.toString(), 'formName': form.formName};
+  renameForm(form: Form): any {
+    const body = {formId: form.formId.toString(), formName: form.formName};
     return this.http.put<any>(this.formEndpoint, body).pipe(retry(3));
   }
 }

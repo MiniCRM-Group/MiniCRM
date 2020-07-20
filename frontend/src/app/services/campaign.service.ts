@@ -21,7 +21,7 @@ export class CampaignService {
   }
 
   renameCampaign(campaign: Campaign): any {
-    const body = {'campaignId': campaign.campaignId.toString(), 'campaignName': campaign.campaignName};
+    const body = {campaignId: campaign.campaignId.toString(), campaignName: campaign.campaignName};
     return this.http.put<any>(this.url, body).pipe(retry(3));
   }
 }
