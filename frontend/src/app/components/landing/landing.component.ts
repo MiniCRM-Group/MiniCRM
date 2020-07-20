@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { LoginResponse } from '../../models/server_responses/login-response.model';
 
 interface Feature {
-  icon: string,
-  name: string,
-  description: string
+  icon: string;
+  name: string;
+  description: string;
 }
 
 @Component({
@@ -13,12 +13,12 @@ interface Feature {
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css']
 })
-export class LandingComponent {
+export class LandingComponent implements OnInit {
   features: Feature[] = [
     {
-      icon: "list_all",
-      name: "Lead Forms Compatible",
-      description: ""
+      icon: 'list_all',
+      name: 'Lead Forms Compatible',
+      description: ''
     },
     {
       icon: 'table_chart',

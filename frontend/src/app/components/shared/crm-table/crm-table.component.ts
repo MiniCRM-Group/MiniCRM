@@ -13,7 +13,7 @@ import { Observable, of } from 'rxjs';
 export class CrmTableComponent<T> implements OnInit {
   @Input() data: Observable<T[]>;
   @Input() keyOrdering: string[] = [];
-  @Input() selectionEnabled: boolean = true;
+  @Input() selectionEnabled = true;
   dataSource: MatTableDataSource<T> = new MatTableDataSource<T>();
   keyDisplayedNameOrdering: KeyDisplayedNameMap[];
   public selection: SelectionModel<T> = new SelectionModel<T>(/*allow mulitselect=*/true);
@@ -23,13 +23,13 @@ export class CrmTableComponent<T> implements OnInit {
 
 
   ngOnInit(): void {
-    // we can expect inputs here but not in constructor 
+    // we can expect inputs here but not in constructor
     this.keyDisplayedNameOrdering = this.keyOrdering.map((key: string) => {
-      return { key: key, displayedName: _.startCase(key) } as KeyDisplayedNameMap;
+      return { key, displayedName: _.startCase(key) } as KeyDisplayedNameMap;
     });
-    if(this,this.selectionEnabled) {
+    if (this.selectionEnabled) {
       // adds selection column
-      this.keyOrdering.unshift('select'); 
+      this.keyOrdering.unshift('select');
     }
     this.refreshDataSource();
   }
@@ -45,7 +45,7 @@ export class CrmTableComponent<T> implements OnInit {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected == numRows;
+    return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */

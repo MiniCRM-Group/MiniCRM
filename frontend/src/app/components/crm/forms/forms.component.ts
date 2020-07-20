@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Form } from '../../../models/server_responses/forms-response.model';
 import { MatDialog } from '@angular/material/dialog';
-import { LinkFormDialogComponent } from './link-form-dialog/link-form-dialog.component';
 import { FormService } from '../../../services/form.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 import { map } from 'rxjs/operators';
@@ -37,22 +36,9 @@ export class FormsComponent implements OnInit {
     });
   }
 
-  openLinkFormDialog() {
-    const dialogRef = this.dialog.open(LinkFormDialogComponent, {
-      data: {
-        form_name: '',
-        form_id: ''
-      }
-    });
-    dialogRef.afterClosed().subscribe((_any: any) => {
-      // refresh because we added a form row
-      this.formsTable.refreshDataSource();
-    });
-  }
-
   deleteForms(): void {
     this.formService.unlinkForms(this.formsTable.selection.selected)
-    .subscribe((_any: any) => {
+    .subscribe((_: any) => {
       if (this.formsTable !== undefined) {
         // refresh because we deleted some form rows
         this.formsTable.refreshDataSource();
