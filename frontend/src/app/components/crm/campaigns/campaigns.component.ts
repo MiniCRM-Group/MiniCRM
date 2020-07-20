@@ -26,13 +26,10 @@ export class CampaignsComponent implements OnInit {
   /**
    * Renames the given campaign based on the id to the current name in the campaign object.
    * Called by the rename event from app-crm-table
-   * @param renamedCampaign the campaign to be renamed
+   * @param campaign the campaign to be renamed
    */
-  renameCampaign(renamedCampaign: Campaign) {
-    console.log(renamedCampaign);
-    this.campaignService.renameCampaign(renamedCampaign).subscribe(response => {
-      console.log(response);
-    });
+  renameCampaign(campaign: Campaign) {
+    this.campaignService.renameCampaign(campaign).subscribe();
   }
 
 }
