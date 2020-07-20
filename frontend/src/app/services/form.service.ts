@@ -35,17 +35,4 @@ export class FormService {
     const body = {'formId': form.formId.toString(), 'formName': form.formName};
     return this.http.put<any>(this.formEndpoint, body).pipe(retry(3));
   }
-
-  unlinkForms(formsToUnlink: Form[]): any {
-    const formIds = formsToUnlink.map((form: Form) => form.formId);
-    let httpParams: HttpParams = new HttpParams();
-    formIds.forEach((formId: number) => {
-      httpParams = httpParams.append('formIds[]', formId.toString());
-    });
-    const options = {
-      responseType: 'json' as const,
-      params: httpParams
-    };
-    return this.http.delete<any>(this.formEndpoint, options).pipe(first());
-  }
 }

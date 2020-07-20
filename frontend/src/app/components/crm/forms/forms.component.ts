@@ -36,14 +36,4 @@ export class FormsComponent implements OnInit {
   renameForm(form: Form) {
     this.formService.renameForm(form).subscribe();
   }
-
-  deleteForms(): void {
-    this.formService.unlinkForms(this.formsTable.selection.selected)
-    .subscribe((_: any) => {
-      if (this.formsTable !== undefined) {
-        // refresh because we deleted some form rows
-        this.formsTable.refreshDataSource();
-      }
-    });
-  }
 }
