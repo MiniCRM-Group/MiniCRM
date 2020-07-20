@@ -3,15 +3,16 @@
     <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="emailLead()">Email Leads <mat-icon>email</mat-icon></button>
     <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="smsLead()">Message Leads <mat-icon>send</mat-icon></button>
   </div>
+  <mat-form-field>
+    <mat-label>Filter your leads</mat-label>
+    <input matInput
+           (change)="applyFilter($event)"
+           placeholder="Type specific area codes, lead-ID, ..."
+           #input>
+  </mat-form-field>
   <div class="mat-elevation-z1">
 
-    <mat-form-field>
-      <mat-label>Filter your leads</mat-label>
-      <input matInput
-             (change)="applyFilter($event)"
-             placeholder="Type specific area codes, lead-ID, ..."
-             #input>
-    </mat-form-field>
+
 
     <mat-table [dataSource]="dataSource"
                matSort
@@ -35,7 +36,7 @@
       </ng-container>
 
       <!-- Lead Id Column -->
-      <ng-container matColumnDef="lead_id">
+      <ng-container matColumnDef="leadId">
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> Lead ID </mat-header-cell>
         <mat-cell *matCellDef="let lead"> {{lead.leadId}} </mat-cell>
@@ -65,7 +66,7 @@
       </ng-container>
 
       <!-- Campaign Id Column -->
-      <ng-container matColumnDef="campaign_id">
+      <ng-container matColumnDef="campaignId">
         <mat-header-cell *matHeaderCellDef
                          mat-sort-header> Campaign Id </mat-header-cell>
         <mat-cell *matCellDef="let lead"> {{lead.campaignId}} </mat-cell>
@@ -119,7 +120,13 @@
                  colspan="4">No data matching the filter "{{input.value}}"</mat-row>
       </mat-header-row>
     </mat-table>
-
+    <mat-card *ngIf="isLoading"
+              style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
     <!-- TODO: Switch this to use a class instead of setting styles -->
     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                    showFirstLastButtons></mat-paginator>

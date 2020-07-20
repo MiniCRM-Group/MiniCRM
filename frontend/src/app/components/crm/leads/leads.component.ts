@@ -31,6 +31,9 @@ import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
+import {delay} from 'rxjs/operators';
+
+
 @Component({
   selector: 'app-leads',
   templateUrl: './leads.component.html',
@@ -40,7 +43,7 @@ import * as _ from 'lodash';
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
 
-  readonly isLoading$ = new BehaviorSubject<boolean>(true);
+   isLoading = true;
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
   group: FormGroup;
@@ -49,11 +52,11 @@ export class LeadsComponent implements AfterViewInit {
    */
   readonly displayedColumns: string[] = [
     'select',
-    'lead_id',
+    'leadId',
     'name',
     'phone_number',
     'email',
-    'campaign_id',
+    'campaignId',
     'status',
     'date',
     'details'
@@ -91,8 +94,8 @@ export class LeadsComponent implements AfterViewInit {
   * This will access the leads from the leadService and handle the filterPredicate and the isLoading boolean value.
   */
   loadAllLeads(): void {
-    this.isLoading$.next(true);
-    this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
+    this.isLoading = true;
+    this.leadService.getAllLeads().pipe(first()).pipe(delay(10000)).subscribe((leads) => {
       this.dataSource.data = leads;
 
       /**
@@ -100,29 +103,33 @@ export class LeadsComponent implements AfterViewInit {
        * @param filter The value that the user searches for.
        */
       this.dataSource.filterPredicate = (data: any, filter: string): boolean  => {
-        const cleanString = (str: string): string => str.trim().toLowerCase();
-        const hasFilter = (data: any, filter: string): boolean => {
-          // traverse through JSON's tree like structure
+
+
+        return this.hasFilter(data, this.cleanString(filter));
+      };
+      this.isLoading = false;
+      });
+  }
+  cleanString(str:string){
+    return str.trim().toLowerCase();
+  }
+  hasFilter(data: any, filter: string){
+           // traverse through JSON's tree like structure
           if(typeof data === 'object') {
             for(const key of Object.keys(data)) {
-              if(hasFilter(data[key], filter)) {
+              if(this.hasFilter(data[key], filter)) {
                 return true;
               }
             }
           } else {
             // if you hit a key-value pair where the value is
             // a primitve type compare and return only if filter found
-            const value = cleanString(_.toString(data));
+            const value = this.cleanString(_.toString(data));
             if(value.indexOf(filter) !== -1) {
               return true;
             }
           }
           return false;
-        };
-        return hasFilter(data, cleanString(filter));
-      };
-      this.isLoading$.next(false);
-      });
   }
 
  /**

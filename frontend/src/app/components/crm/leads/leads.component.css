@@ -16,7 +16,10 @@
   .mat-column-details {
       flex: 0 0 4%;
   }
-
+  .mat-column-status {
+      flex: 0 0 10%;
+      margin-right: 10px;
+  }
   .margined {
     margin-bottom: 15px;
     margin-top: 15px;
