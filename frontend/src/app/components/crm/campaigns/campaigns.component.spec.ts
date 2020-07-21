@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CampaignsComponent } from './campaigns.component';
+import { CampaignsModule } from './campaigns.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CampaignsComponent', () => {
   let component: CampaignsComponent;
@@ -8,7 +10,7 @@ describe('CampaignsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CampaignsComponent ]
+      imports: [ CampaignsModule, NoopAnimationsModule],
     })
     .compileComponents();
   }));

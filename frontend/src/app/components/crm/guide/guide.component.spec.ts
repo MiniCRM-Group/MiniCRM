@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GuideComponent } from './guide.component';
+import { GuideModule } from './guide.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GuideComponent', () => {
   let component: GuideComponent;
@@ -8,7 +10,7 @@ describe('GuideComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GuideComponent ]
+      imports: [ GuideModule, NoopAnimationsModule],
     })
     .compileComponents();
   }));
