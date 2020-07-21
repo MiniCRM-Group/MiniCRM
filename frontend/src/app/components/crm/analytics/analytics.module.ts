@@ -5,13 +5,10 @@ import { AnalyticsComponent } from './analytics.component';
 import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   declarations: [AnalyticsComponent],
-  exports: [AnalyticsComponent],
+  exports: [AnalyticsComponent, MatTabsModule],
   imports: [
     CommonModule,
     MatTabsModule
-  ]
-  exports: [
-  MatTabsModule
   ]
 })
 export class AnalyticsModule { }
