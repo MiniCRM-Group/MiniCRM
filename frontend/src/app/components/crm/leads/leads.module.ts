@@ -19,7 +19,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 
 
-
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 @NgModule({
@@ -60,6 +60,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     MatListModule,
     MatSelectModule,
+    MatTableExporterModule,
     CommonModule
   ]
 })

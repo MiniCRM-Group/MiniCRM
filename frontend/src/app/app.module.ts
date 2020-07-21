@@ -27,6 +27,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableExporterModule } from 'mat-table-exporter';
+
+import { GoogleMapsModule } from '@angular/google-maps';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -94,7 +97,9 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     MatSelectModule,
     MatMenuModule,
     MatTooltipModule,
-    MatTabsModule
+    MatTabsModule,
+    GoogleMapsModule,
+    MatTableExporterModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

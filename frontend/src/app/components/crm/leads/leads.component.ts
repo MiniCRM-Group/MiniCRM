@@ -29,6 +29,8 @@ import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 
+import { MatTableExporterModule } from 'mat-table-exporter';
+
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
