@@ -62,7 +62,18 @@ public final class FormTest {
   }
 
   @Test
-  public void form_generateKey_withDifferentParent_generatesDifferentKey()
+  public void formGenerateKey_withValidFormParams_producesCorrespondingKey() {
+    User testUser = new User("email", "authDomain", TEST_USER_ID);
+    Key advertiserKey = Advertiser.generateKey(testUser);
+    Form form = new Form(advertiserKey, 1, "form1");
+
+    Key generatedKey = Form.generateKey(form.getAdvertiserKey(), form.getFormId());
+
+    assertEquals(form.asEntity().getKey(), generatedKey);
+  }
+
+  @Test
+  public void formGenerateKey_withDifferentParent_generatesDifferentKey()
       throws Exception {
     Key advertiserKey1 = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
     Key advertiserKey2 = KeyFactory.createKey(Advertiser.KIND_NAME, "key2");
@@ -75,7 +86,7 @@ public final class FormTest {
   }
 
   @Test
-  public void form_generateKey_withDifferentId_generatesDifferentKey()
+  public void formGenerateKey_withDifferentId_generatesDifferentKey()
     throws Exception {
     Key advertiserKey = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
     long formId1 = 1;
