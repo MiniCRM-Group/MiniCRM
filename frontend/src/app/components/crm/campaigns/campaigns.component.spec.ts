@@ -8,7 +8,7 @@ import { Campaign } from 'src/app/models/server_responses/campaign.model';
 describe('CampaignsComponent', () => {
   const campaignService: Partial<CampaignService> = {
     getAllCampaigns: () => of<Campaign[]>([])
-  }
+  };
   let component: CampaignsComponent;
   let fixture: ComponentFixture<CampaignsComponent>;
 
