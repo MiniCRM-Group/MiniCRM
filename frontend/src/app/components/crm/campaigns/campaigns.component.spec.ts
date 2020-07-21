@@ -1,9 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CampaignsComponent } from './campaigns.component';
-import { CampaignService } from 'src/app/services/campaign.service';
-import { of } from 'rxjs';
-import { Campaign } from 'src/app/models/server_responses/campaign.model';
+import { CampaignsModule } from './campaigns.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CampaignsComponent', () => {
   const campaignService: Partial<CampaignService> = {
@@ -14,10 +13,7 @@ describe('CampaignsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CampaignsComponent ],
-      providers: [
-        { provide: CampaignService, useValue: campaignService }
-      ]
+      imports: [ CampaignsModule, NoopAnimationsModule],
     })
     .compileComponents();
   }));

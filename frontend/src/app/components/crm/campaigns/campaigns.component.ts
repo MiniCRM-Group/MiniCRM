@@ -5,6 +5,7 @@ import { Campaign } from 'src/app/models/server_responses/campaign.model';
 import { CampaignService } from 'src/app/services/campaign.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 
+
 @Component({
   selector: 'app-campaigns',
   templateUrl: './campaigns.component.html',

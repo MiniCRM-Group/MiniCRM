@@ -1,3 +1,4 @@
+
 /**
  * This typescript file is reponsible for all the features on the leads component. It is dependent on:
  *  - The lead model/interface
@@ -28,6 +29,8 @@ import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 
+import { MatTableExporterModule } from 'mat-table-exporter';
+
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
@@ -40,7 +43,7 @@ import * as _ from 'lodash';
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
 
-  readonly isLoading$ = new BehaviorSubject<boolean>(true);
+  isLoading = true;
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
   group: FormGroup;
@@ -91,7 +94,7 @@ export class LeadsComponent implements AfterViewInit {
    * This will access the leads from the leadService and handle the filterPredicate and the isLoading boolean value.
    */
   loadAllLeads(): void {
-    this.isLoading$.next(true);
+    this.isLoading = true;
     this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
       this.dataSource.data = leads;
 
@@ -121,7 +124,7 @@ export class LeadsComponent implements AfterViewInit {
         };
         return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
       };
-      this.isLoading$.next(false);
+      this.isLoading = false;
       });
   }
 

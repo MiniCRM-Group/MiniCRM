@@ -8,7 +8,7 @@ import { map, first } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LeadService {
-    private url = '/api/leads';
+    public url = '/api/leads';
 
     constructor(private http: HttpClient) { }
 

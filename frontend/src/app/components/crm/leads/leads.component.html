@@ -3,17 +3,20 @@
     <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="emailLead()">Email Leads <mat-icon>email</mat-icon></button>
     <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="smsLead()">Message Leads <mat-icon>send</mat-icon></button>
   </div>
+  <mat-form-field>
+    <mat-label>Filter your leads</mat-label>
+    <input matInput
+           (change)="applyFilter($event)"
+           placeholder="Type specific area codes, lead-ID, ..."
+           #input>
+  </mat-form-field>
   <div class="mat-elevation-z1">
 
-    <mat-form-field>
-      <mat-label>Filter your leads</mat-label>
-      <input matInput
-             (change)="applyFilter($event)"
-             placeholder="Type specific area codes, lead-ID, ..."
-             #input>
-    </mat-form-field>
 
-    <mat-table [dataSource]="dataSource"
+
+    <mat-table matTableExporter
+               [dataSource]="dataSource"
+               #exporter="matTableExporter"
                matSort
                class="mat-elevation-z8">
       <!-- Checkbox Column -->
@@ -119,11 +122,17 @@
                  colspan="4">No data matching the filter "{{input.value}}"</mat-row>
       </mat-header-row>
     </mat-table>
-
+    <mat-card *ngIf="isLoading"
+              style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
     <!-- TODO: Switch this to use a class instead of setting styles -->
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    <mat-paginator [pageSizeOptions]="[25, 10, 50, 100]"
                    showFirstLastButtons></mat-paginator>
   </div>
-
+  <button mat-raised-button color="primary" class="margined" (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'MiniCRM'}})">Download CSV <mat-icon>table_chart</mat-icon></button>
   <br>
 </div>
