@@ -44,11 +44,12 @@ import { CrmTableComponent } from './components/shared/crm-table/crm-table.compo
 import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
 import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
 
+import { LeadsModule } from './components/crm/leads/leads.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LeadsComponent,
     FormsComponent,
     CampaignsComponent,
     GuideComponent,
@@ -64,6 +65,7 @@ import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-d
     HttpClientModule,
     BrowserModule,
     FormsModule,
+    LeadsModule,
     AppRoutingModule,
     HttpClientModule,
     FlexLayoutModule,
