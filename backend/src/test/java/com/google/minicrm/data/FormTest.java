@@ -23,7 +23,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +59,7 @@ public final class FormTest {
 
     assertEquals(form, convertedForm);
   }
+
   @Test(expected = IllegalArgumentException.class)
   public void newForm_fromInvalidEntityKind_throwsIllegalArgumentException() {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
@@ -68,6 +68,7 @@ public final class FormTest {
 
     new Form(invalidEntity);
   }
+
   @Test
   public void formGenerateKey_withValidFormParams_producesCorrespondingKey() {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
