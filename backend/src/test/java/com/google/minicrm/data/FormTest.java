@@ -60,7 +60,14 @@ public final class FormTest {
 
     assertEquals(form, convertedForm);
   }
+  @Test(expected = IllegalArgumentException.class)
+  public void newForm_fromInvalidEntityKind_throwsIllegalArgumentException() {
+    User testUser = new User("email", "authDomain", TEST_USER_ID);
+    Key advertiserKey = Advertiser.generateKey(testUser);
+    Entity invalidEntity = new Entity("Lead", advertiserKey);
 
+    new Form(invalidEntity);
+  }
   @Test
   public void formGenerateKey_withValidFormParams_producesCorrespondingKey() {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
