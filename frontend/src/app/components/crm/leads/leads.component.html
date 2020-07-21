@@ -130,7 +130,7 @@
       </mat-progress-spinner>
     </mat-card>
     <!-- TODO: Switch this to use a class instead of setting styles -->
-    <mat-paginator [pageSizeOptions]="[10, 5, 20, 30]"
+    <mat-paginator [pageSizeOptions]="[25, 10, 50, 100]"
                    showFirstLastButtons></mat-paginator>
   </div>
   <button mat-raised-button color="primary" class="margined" (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'MiniCRM'}})">Download CSV <mat-icon>table_chart</mat-icon></button>
