@@ -76,7 +76,7 @@ export class LeadsComponent implements AfterViewInit {
      * This will let the dataSource sort feature to access nested properties in the JSON such as column_data.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
-      switch(property) {
+      switch (property) {
         case 'name': return lead.columnData.FULL_NAME;
         case 'phone_number': return lead.columnData.PHONE_NUMBER;
         case 'email': return lead.columnData.EMAIL;
@@ -99,13 +99,13 @@ export class LeadsComponent implements AfterViewInit {
        * @param data The whole data we have in the JSON.
        * @param filter The value that the user searches for.
        */
-      this.dataSource.filterPredicate = (data: any, filter: string): boolean  => {
+      this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
         const cleanString = (str: string): string => str.trim().toLowerCase();
         const hasFilter = (data: any, filter: string): boolean => {
           // traverse through JSON's tree like structure
-          if(typeof data === 'object') {
-            for(const key of Object.keys(data)) {
-              if(hasFilter(data[key], filter)) {
+          if (typeof data === 'object') {
+            for (const key of Object.keys(data)) {
+              if (hasFilter(data[key], filter)) {
                 return true;
               }
             }
@@ -113,13 +113,13 @@ export class LeadsComponent implements AfterViewInit {
             // if you hit a key-value pair where the value is
             // a primitve type compare and return only if filter found
             const value = cleanString(_.toString(data));
-            if(value.indexOf(filter) !== -1) {
+            if (value.indexOf(filter) !== -1) {
               return true;
             }
           }
           return false;
         };
-        return hasFilter(data, cleanString(filter));
+        return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
       };
       this.isLoading$.next(false);
       });
@@ -163,44 +163,43 @@ export class LeadsComponent implements AfterViewInit {
    * This method listens to the message leads button
    */
   emailLead(){
-                                               //filter leads with no email
-    const recepients = this.selection.selected.filter(withEmail => withEmail.columnData.EMAIL != undefined)
-                                               //collect emails
-                                              .map(candidate => candidate.columnData.EMAIL);
-
+    // filter leads with no email and get only their emails
+    const emailRecipients =
+      this.selection.selected
+      .filter(lead => lead.columnData.EMAIL !== undefined)
+      .map(leadWithEmail => leadWithEmail.columnData.EMAIL);
     // incase all the selected leads do not have email address
-    if(recepients.length == 0) {
-    alert("Please select at least one lead with an email address.");
-          return;
+    if (emailRecipients.length === 0) {
+      alert('Please select at least one lead with an email address.');
+      return;
     }
-
-    //make the recepients ready for url use
-    var recepientsString = recepients.join(",");
-    let emailUrl : string  = "https://mail.google.com/mail/u/0/?view=cm&fs=1&to="+recepientsString+"&su=Greetings";
-
-    window.open(emailUrl, "_blank");
+    // make the recepients ready for url use
+    const emailRecipientsString = emailRecipients.join(',');
+    const emailUrl: string =
+      'https://mail.google.com/mail/u/0/?view=cm&fs=1&to='
+      + emailRecipientsString
+      + '&su=Greetings';
+    window.open(emailUrl, '_blank');
   }
 
   /*
    * This method listens to the message leads button
    */
   smsLead(){
-                                                  //filter leads with no email
-    const smsRecepients = this.selection.selected.filter(withPhone => withPhone.columnData.PHONE_NUMBER != undefined)
-                                                  //collect emails
-                                                 .map(candidate => candidate.columnData.PHONE_NUMBER);
-
+    // filter leads with no email and get only their phone numbers
+    const smsRecipients =
+      this.selection.selected
+      .filter(lead => lead.columnData.PHONE_NUMBER !== undefined)
+      .map(leadWithPhone => leadWithPhone.columnData.PHONE_NUMBER);
     // incase all the selected leads do not have email address
-    if(smsRecepients.length == 0) {
-    alert("Please select at least one lead with a Phone Number.");
-          return;
+    if (smsRecipients.length === 0) {
+      alert('Please select at least one lead with a Phone Number.');
+      return;
     }
-
-    //make the recepients ready for url use
-    var smsRecepientsString= smsRecepients.join(";");
-    let smsUrl : string  = "sms://" + smsRecepientsString;
-
-    window.open(smsUrl, "_blank");
+    // make the recepients ready for url use
+    const smsRecipientsString = smsRecipients.join(';');
+    const smsUrl: string = 'sms://' + smsRecipientsString;
+    window.open(smsUrl, '_blank');
   }
 
   checkSelection(){
@@ -208,7 +207,7 @@ export class LeadsComponent implements AfterViewInit {
   }
 
   openDialog(toBeDisplayed) {
-    let dialogRef = this.dialog.open(LeadDetailsComponent, {
+    this.dialog.open(LeadDetailsComponent, {
       width: '750px',
       data: { details: toBeDisplayed }
     });

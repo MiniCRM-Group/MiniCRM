@@ -1,7 +1,7 @@
 export interface ColumnData {
-  FULL_NAME: String;
-  PHONE_NUMBER: String;
-  EMAIL: String;
+  FULL_NAME: string;
+  PHONE_NUMBER: string;
+  EMAIL: string;
 }
 
 // An interface to handle fetching a lead's property

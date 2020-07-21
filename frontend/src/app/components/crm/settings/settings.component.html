@@ -1,1 +1,39 @@
-<p>settings works!</p>
+<!-- settings form
+
+viewable version with edit icon button
+
+editable version
+send email?
+send phone number?
+if so provide phone number?
+select language
+
+cancel save -->
+
+<div>
+    <mat-list>
+    <div mat-subheader>Notifications</div>
+        <mat-list-item>
+            <mat-icon mat-list-icon>email</mat-icon>
+            <div mat-line>Email</div>
+            <div mat-line>{{settings.email}}</div>
+        </mat-list-item>
+        <mat-list-item>
+            <mat-icon mat-list-icon>phone</mat-icon>
+            <div mat-line>Phone Number</div>
+            <div mat-line>{{settings.phone}}</div>
+        </mat-list-item>
+    <mat-divider></mat-divider>
+    <div mat-subheader>Language & Currency</div>
+        <mat-list-item>
+            <mat-icon mat-list-icon>language</mat-icon>
+            <div mat-line>Language</div>
+            <div mat-line>{{settings.language}}</div>
+        </mat-list-item>
+        <mat-list-item>
+            <mat-icon mat-list-icon>attach_money</mat-icon>
+            <div mat-line>Currency</div>
+            <div mat-line>{{settings.currency}}</div>
+        </mat-list-item>
+    </mat-list>
+</div>

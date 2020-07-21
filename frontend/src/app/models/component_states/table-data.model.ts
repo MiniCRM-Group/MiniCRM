@@ -1,11 +1,11 @@
-import { MatTableDataSource } from'@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 
 export interface KeyDisplayedNameMap {
     /** Used in table data source objects. */
-    key: string,
+    key: string;
     /** Displayed in table header. */
-    displayedName: string
+    displayedName: string;
 }
 
 /** Represents a collection of selectable objects of type T in a table. */

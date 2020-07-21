@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { FormsResponse } from '../models/server_responses/forms-response.model';
-import { LinkFormResponse } from '../models/server_responses/link-form-response.model';
+import { LinkFormRequest } from '../models/server_requests/link-form-request.model';
 import { WebHookResponse } from '../models/server_responses/webhook-response.model';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, first } from 'rxjs/operators';
 import { Form } from '../models/server_responses/forms-response.model';
 
 @Injectable({
@@ -22,23 +22,11 @@ export class FormService {
     };
     return this.http.get<FormsResponse>(this.formEndpoint, options)
     .pipe(
+      first(),
       retry(3),
-      catchError((error: HttpErrorResponse) => {
+      catchError((_: HttpErrorResponse) => {
         // return no forms and empty webhook url
         return of<FormsResponse>({ forms: [] });
-      })
-    );
-  }
-
-  linkForm(linkFormResponse: LinkFormResponse): Observable<WebHookResponse> {
-    const options = {
-      responseType: 'json' as const
-    };
-    return this.http.post<WebHookResponse>(this.formEndpoint, linkFormResponse, options)
-    .pipe(
-      retry(3),
-      catchError((error: HttpErrorResponse) => {
-        throw error.message;
       })
     );
   }
@@ -53,6 +41,6 @@ export class FormService {
       responseType: 'json' as const,
       params: httpParams
     };
-    return this.http.delete<any>(this.formEndpoint, options);
+    return this.http.delete<any>(this.formEndpoint, options).pipe(first());
   }
 }
