@@ -26,6 +26,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -92,7 +93,8 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     MatListModule,
     MatSelectModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
