@@ -20,7 +20,7 @@ export class FormsComponent implements OnInit {
   keyOrdering: string[] = ['formId', 'formName', 'date'];
 
   constructor(
-    public dialog: MatDialog, private formService: FormService, 
+    public dialog: MatDialog, private formService: FormService,
     private titleService: Title) {
       this.titleService.setTitle('Forms');
   }
@@ -28,13 +28,12 @@ export class FormsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  deleteForms(): void {
-    this.formService.unlinkForms(this.formsTable.selection.selected)
-    .subscribe((_: any) => {
-      if (this.formsTable !== undefined) {
-        // refresh because we deleted some form rows
-        this.formsTable.refreshDataSource();
-      }
-    });
+  /**
+   * Renames the given form based on the id to the current name in the form object.
+   * Called by the rename event from app-crm-table
+   * @param form the form to be renamed
+   */
+  renameForm(form: Form) {
+    this.formService.renameForm(form).subscribe();
   }
 }

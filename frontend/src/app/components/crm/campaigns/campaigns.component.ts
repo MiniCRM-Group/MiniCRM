@@ -24,4 +24,13 @@ export class CampaignsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Renames the given campaign based on the id to the current name in the campaign object.
+   * Called by the rename event from app-crm-table
+   * @param campaign the campaign to be renamed
+   */
+  renameCampaign(campaign: Campaign) {
+    this.campaignService.renameCampaign(campaign).subscribe();
+  }
+
 }
