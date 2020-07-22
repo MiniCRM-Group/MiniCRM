@@ -42,7 +42,7 @@ import * as _ from 'lodash';
 
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
-  filterPlaceholder = $localize `Type specific area codes, lead-ID, ...`;
+  filterPlaceholder = $localize`Type specific area codes, lead-ID, ...`;
 
   isLoading = true;
   readonly dataSource: MatTableDataSource<Lead>;
@@ -67,7 +67,7 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private readonly leadService: LeadService, public dialog: MatDialog, private titleService: Title) {
-    this.titleService.setTitle($localize `Leads`);
+    this.titleService.setTitle($localize`Leads`);
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
 

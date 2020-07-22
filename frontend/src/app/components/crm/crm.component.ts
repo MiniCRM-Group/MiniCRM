@@ -11,36 +11,36 @@ import { WebHookResponse } from 'src/app/models/server_responses/webhook-respons
 })
 export class CrmComponent implements OnInit {
   isExpanded = true;
-  webhookUrlLabel = $localize `Your Webhook URL`;
-  googleKeyLabel = $localize `Your Google Key`;
+  webhookUrlLabel = $localize`Your Webhook URL`;
+  googleKeyLabel = $localize`Your Google Key`;
   navigationData: NavigationDatum[] = [
     {
-      displayedName: $localize `Guide`,
+      displayedName: $localize`Guide`,
       link: 'guide',
       icon: 'info'
     },
     {
-      displayedName: $localize `Forms`,
+      displayedName: $localize`Forms`,
       link: 'forms',
       icon: 'ballot'
     },
     {
-      displayedName: $localize `Campaigns`,
+      displayedName: $localize`Campaigns`,
       link: 'campaigns',
       icon: 'monetization_on'
     },
     {
-      displayedName: $localize `Leads`,
+      displayedName: $localize`Leads`,
       link: 'leads',
       icon: 'group'
     },
     {
-      displayedName: $localize `Analytics`,
+      displayedName: $localize`Analytics`,
       link: 'analytics',
       icon: 'bar_chart'
     },
     {
-      displayedName: $localize `Settings`,
+      displayedName: $localize`Settings`,
       link: 'settings',
       icon: 'settings'
     }

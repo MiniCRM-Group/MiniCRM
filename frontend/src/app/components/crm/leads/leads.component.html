@@ -1,13 +1,19 @@
 <div class="container">
   <div class="button-row">
-    <button i18n mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="emailLead()">Email Leads <mat-icon>email</mat-icon></button>
-    <button i18n mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="smsLead()">Message Leads <mat-icon>send</mat-icon></button>
+    <button mat-flat-button color="primary" class="margined" [disabled]="!checkSelection()" (click)="emailLead()">
+      <span i18n>Email Leads</span>
+      <mat-icon>email</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" class="margined" [disabled]="!checkSelection()" (click)="smsLead()">
+      <span i18n>Leads</span>
+      <mat-icon>send</mat-icon>
+    </button>
   </div>
   <mat-form-field>
-    <mat-label>Filter your leads</mat-label>
+    <mat-label i18n>Filter your leads</mat-label>
     <input matInput
            (change)="applyFilter($event)"
-           placeholder="Type specific area codes, lead-ID, ..."
+           [placeholder]="filterPlaceholder"
            #input>
   </mat-form-field>
   <div class="mat-elevation-z1">
@@ -85,13 +91,13 @@
         <mat-cell *matCellDef="let lead">
           <mat-form-field appearance="fill">
             <mat-select>
-              <mat-option>
+              <mat-option i18n>
                 Opened
               </mat-option>
-              <mat-option>
+              <mat-option i18n>
                 Closed
               </mat-option>
-              <mat-option>
+              <mat-option i18n>
                 Not Opened
               </mat-option>
             </mat-select>
@@ -105,7 +111,6 @@
         <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> More Info </mat-header-cell>
         <mat-cell *matCellDef="let lead"> <button mat-icon-button color="primary" (click)="openDialog(lead)">
-          <script>console.log(lead)</script>
           <mat-icon class="material-icons">info_outline</mat-icon>
         </button></mat-cell>
       </ng-container>
@@ -113,10 +118,10 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       <!-- Row shown when there is no matching data. -->
-      <mat-header-row i18n class="mat-row"
+      <mat-header-row class="mat-row"
                       *matNoDataRow>
         <mat-row class="mat-cell"
-                 colspan="4">No data matching the filter "{{input.value}}"</mat-row>
+                 colspan="4"><span i18n>No data matching the filter</span> "{{input.value}}"</mat-row>
       </mat-header-row>
     </mat-table>
     <mat-card *ngIf="isLoading"

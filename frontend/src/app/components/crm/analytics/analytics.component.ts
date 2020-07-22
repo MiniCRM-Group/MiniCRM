@@ -7,9 +7,11 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./analytics.component.css']
 })
 export class AnalyticsComponent implements OnInit {
+  chartsTabLabel = $localize`Charts`;
+  mapTabLabel = $localize`Map`;
 
   constructor(private titleService: Title) {
-    this.titleService.setTitle($localize `Analytics`);
+    this.titleService.setTitle($localize`Analytics`);
   }
 
   ngOnInit(): void {

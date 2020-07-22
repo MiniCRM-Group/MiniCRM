@@ -1,3 +1,3 @@
 <div id="content" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="23px">
-    <app-crm-table #campaignsCrmTable [data]="campaigns" [keyOrdering]="keyOrdering" (rename)=renameCampaign($event)></app-crm-table>
+    <app-crm-table #campaignsCrmTable [data]="campaigns" [keyDisplayedNameMaps]="keyDisplayNameMaps" (rename)=renameCampaign($event)></app-crm-table>
 </div>

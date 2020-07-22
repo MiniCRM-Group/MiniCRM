@@ -11,9 +11,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class CrmTableComponent<T> implements OnInit {
   @Input() data: T[];
-  @Input() keyOrdering: string[] = [];
   @Input() selectionEnabled = true;
+  @Input() keyDisplayedNameMaps: KeyDisplayedNameMap[] = [];
   @Output() rename: EventEmitter<T> = new EventEmitter();
+  keyOrdering: string[] = [];
   dataSource: MatTableDataSource<T> = new MatTableDataSource<T>();
   keyDisplayedNameOrdering: KeyDisplayedNameMap[];
   public selection: SelectionModel<T> = new SelectionModel<T>(/*allow mulitselect=*/true);
@@ -24,9 +25,8 @@ export class CrmTableComponent<T> implements OnInit {
 
   ngOnInit(): void {
     // we can expect inputs here but not in constructor
-    this.keyDisplayedNameOrdering = this.keyOrdering.map((key: string) => {
-      return { key, displayedName: _.startCase(key) } as KeyDisplayedNameMap;
-    });
+    this.keyDisplayedNameOrdering = this.keyDisplayedNameMaps;
+    this.keyOrdering = this.keyDisplayedNameOrdering.map(mapping => mapping.key);
     if (this.selectionEnabled) {
       // adds selection column
       this.keyOrdering.unshift('select');

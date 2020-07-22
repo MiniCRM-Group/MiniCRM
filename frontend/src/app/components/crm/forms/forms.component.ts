@@ -6,6 +6,7 @@ import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { KeyDisplayedNameMap } from 'src/app/models/component_states/table-data.model';
 
 @Component({
   selector: 'app-forms',
@@ -15,11 +16,25 @@ import { Title } from '@angular/platform-browser';
 export class FormsComponent implements OnInit, AfterViewInit {
   @ViewChild('formsCrmTable') formsTable: CrmTableComponent<Form>;
   keyOrdering: string[] = ['formId', 'formName', 'date'];
+  keyDisplayedNameMaps: KeyDisplayedNameMap[] = [
+    {
+      key: 'formId',
+      displayedName: $localize`Form Id`
+    },
+    {
+      key: 'formName',
+      displayedName: $localize`Form Name`
+    },
+    {
+      key: 'date',
+      displayedName: $localize`Date`
+    }
+  ];
 
   constructor(
     public dialog: MatDialog, private formService: FormService,
     private titleService: Title) {
-      this.titleService.setTitle($localize `Forms`);
+      this.titleService.setTitle($localize`Forms`);
   }
 
   ngOnInit(): void {
