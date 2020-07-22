@@ -13,7 +13,7 @@ export class SettingsComponent implements OnInit {
   settings: Settings;
 
   constructor(private titleService: Title, private settingsService: SettingsService) {
-    this.titleService.setTitle('Settings');
+    this.titleService.setTitle($localize `Settings`);
     this.settingsService.getSettings().pipe(first()).subscribe((settings) => {
       this.settings = settings;
     });

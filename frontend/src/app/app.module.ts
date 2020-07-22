@@ -26,6 +26,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableExporterModule } from 'mat-table-exporter';
+
+import { GoogleMapsModule } from '@angular/google-maps';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -45,11 +49,12 @@ import { CopyableFormFieldComponent } from './components/shared/copyable-form-fi
 import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
 import { SettingsComponent } from './components/crm/settings/settings.component';
 
+import { LeadsModule } from './components/crm/leads/leads.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LeadsComponent,
     FormsComponent,
     CampaignsComponent,
     GuideComponent,
@@ -66,6 +71,7 @@ import { SettingsComponent } from './components/crm/settings/settings.component'
     HttpClientModule,
     BrowserModule,
     FormsModule,
+    LeadsModule,
     AppRoutingModule,
     HttpClientModule,
     FlexLayoutModule,
@@ -92,7 +98,10 @@ import { SettingsComponent } from './components/crm/settings/settings.component'
     MatListModule,
     MatSelectModule,
     MatMenuModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule,
+    GoogleMapsModule,
+    MatTableExporterModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }

@@ -6,11 +6,14 @@
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="183px">
         <div fxLayout="column" fxLayoutAlign="center center">
             <span i18n class="mat-display-4">
-            A simple, <br> 
+            A simple, <br>
             lightweight <br>
             CRM app. <br>
             </span>
-            <button i18n (click)="login()" mat-raised-button color="primary">LOGIN</button>
+            <button (click)="login()" mat-flat-button color="primary">
+                <span i18n id="login">LOGIN</span>
+                <mat-icon> login</mat-icon>
+            </button>
         </div>
         <div>
         <img id="screenshot" src="assets/imgs/leadsView.png">

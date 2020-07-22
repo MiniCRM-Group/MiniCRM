@@ -5,7 +5,9 @@ import { of } from 'rxjs';
 import { WebhookService } from 'src/app/services/webhook.service';
 import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
 import { LoginResponse } from 'src/app/models/server_responses/login-response.model';
-import { MatMenuModule } from '@angular/material/menu';
+
+import { CrmModule } from './crm.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CrmComponent', () => {
   let component: CrmComponent;
@@ -21,8 +23,8 @@ describe('CrmComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ CrmComponent ],
       imports: [
-        MatMenuModule
-      ],
+        CrmModule, NoopAnimationsModule
+       ],
       providers: [
         { provide: LoginService, useValue: loginService },
         { provide: WebhookService, useValue: webhookService }
