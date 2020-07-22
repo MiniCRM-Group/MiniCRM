@@ -24,28 +24,16 @@ public class Settings {
         this.language = language;
         this.currency = currency;
     }
-}
 
-public class Notifications {
-    private String sendEmail;
-    private boolean areEnabled;
-    private Set<NotificationFrequency> notificationFrequencies;
-
-    public Notifications(NotificationType notificationType) {
-        this.notificationType  = notificationType;
-        this.areEnabled = false;
-        this.notificationFrequencies = new HashSet<>();
-    }
-}
-
-public class NotificationFrequencyOptions {
-    private boolean onEveryLead;
-    private boolean daily;
-    private boolean weekly;
-
-    public NotificationFrequencyOptions(boolean onEveryLead, boolean daily, boolean weekly) {
-        this.onEveryLead = onEveryLead;
-        this.daily = daily;
-        this.weekly = weekly;
+    private class NotificationFrequencyOptions {
+        private boolean onEveryLead;
+        private boolean daily;
+        private boolean weekly;
+    
+        public NotificationFrequencyOptions(boolean onEveryLead, boolean daily, boolean weekly) {
+            this.onEveryLead = onEveryLead;
+            this.daily = daily;
+            this.weekly = weekly;
+        }
     }
 }

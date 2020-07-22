@@ -17,22 +17,22 @@ export class LandingComponent implements OnInit {
   features: Feature[] = [
     {
       icon: 'list_all',
-      name: 'Lead Forms Compatible',
+      name: $localize `Lead Forms Compatible`,
       description: ''
     },
     {
       icon: 'table_chart',
-      name: 'Qualify Leads',
+      name: $localize `Qualify Leads`,
       description: ''
     },
     {
       icon: 'email',
-      name: 'Contact Leads',
+      name: $localize `Contact Leads`,
       description: ''
     },
     {
       icon: 'bar_chart',
-      name: 'Analyze Leads',
+      name: $localize `Analyze Leads`,
       description: ''
     }
   ];

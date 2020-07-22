@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="2c82d2490c5116ea85676aa6ec22fe26c9b9b6a1" datatype="html">
+        <source>
+                Setting Up:
+            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5dadb8dc44b014fd4f3ad7ea96d12f83ebbef6ca" datatype="html">
+        <source>At the top right of the page, click on the User icon.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f3d70044fe5d234054114fbb4e146eddacaed0a8" datatype="html">
+        <source>Your unique webhook url and Google key should appear, copy them to the Google Form Ad(s) that you wish to link to miniCRM.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ece40b93e9e2e2c7296ccad7def9a60f948000c5" datatype="html">
+        <source>On the Google Ads site, this can be found while editing a form in the section &quot;Lead Delivery Option&quot; &gt; &quot;Manage your leads with a webhook&quot;</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cf874764145fa9718ddcef078ef937b14b5c14f6" datatype="html">
+        <source>Copy and paste your webhook url and Google key from miniCRM into the respective fields in your form.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a2736e106cb03480b6e1b9b3a553c175ad0556c9" datatype="html">
+        <source>Click save at the bottom of the Form page.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f37c02b362d5aa128460aaf8ff4f8a6abd81d6a7" datatype="html">
+        <source>Congratulations! Your form is ready to delivery leads for you to view here! As soon as you receive a new lead, you will be able to view it on the &quot;Leads&quot; page!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

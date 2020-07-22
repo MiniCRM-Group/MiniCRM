@@ -1,13 +1,13 @@
 <div id="content" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="23px">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="30px">
-        <button mat-raised-button color="primary" (click)="deleteForms()">UNLINK FORM</button>
+        <button i18n mat-raised-button color="primary" (click)="deleteForms()">UNLINK FORM</button>
         <mat-form-field appearance="outline" floatLabel="always">
-            <mat-label>Find Form</mat-label>
+            <mat-label i18n>Find Form</mat-label>
             <input matInput placeholder="Form 1">
             <button mat-icon-button matSuffix>
                 <mat-icon>search</mat-icon>
             </button>
         </mat-form-field>
     </div>
-    <app-crm-table #formsCrmTable [data]="forms" [keyOrdering]="keyOrdering"></app-crm-table>
+    <app-crm-table #formsCrmTable [data]="[]" [keyOrdering]="keyOrdering"></app-crm-table>
 </div>

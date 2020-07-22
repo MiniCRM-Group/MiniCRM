@@ -39,6 +39,7 @@ import * as _ from 'lodash';
 
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
+  filterPlaceholder = $localize `Type specific area codes, lead-ID, ...`;
 
   readonly isLoading$ = new BehaviorSubject<boolean>(true);
   readonly dataSource: MatTableDataSource<Lead>;

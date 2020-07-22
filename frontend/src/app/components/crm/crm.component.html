@@ -23,7 +23,7 @@
       <mat-list-item (click)="isExpanded = !isExpanded" >
         <button color="primary" mat-button>
           <mat-icon mat-list-icon color="primary">{{ isExpanded ? "chevron_left" : "chevron_right" }}</mat-icon>
-          <span *ngIf="isExpanded" class="mat-h4">Hide</span>
+          <span i18n *ngIf="isExpanded" class="mat-h4">Hide</span>
         </button>
       </mat-list-item>
     </mat-nav-list>
@@ -38,9 +38,9 @@
         </button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
           <div id="menuContainer" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px" (click)="$event.stopPropagation();">
-            <app-copyable-form-field label="Your Webhook" [copyableValue]="webhookUrl"></app-copyable-form-field>
-            <app-copyable-form-field label="Your Google Key" [copyableValue]="googleKey"></app-copyable-form-field>
-            <button mat-flat-button color="primary" (click)="logout()">LOGOUT</button>
+            <app-copyable-form-field [label]="webhookUrlLabel" [copyableValue]="webhookUrl"></app-copyable-form-field>
+            <app-copyable-form-field [label]="googleKeyLabel" [copyableValue]="googleKey"></app-copyable-form-field>
+            <button i18n mat-flat-button color="primary" (click)="logout()">LOGOUT</button>
           </div>
         </mat-menu>
       </mat-toolbar-row>

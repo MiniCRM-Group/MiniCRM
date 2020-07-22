@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./crm-table.component.css']
 })
 export class CrmTableComponent<T> implements OnInit {
-  @Input() data: Observable<T[]>;
+  @Input() data: T[];
   @Input() keyOrdering: string[] = [];
   @Input() selectionEnabled = true;
   dataSource: MatTableDataSource<T> = new MatTableDataSource<T>();
@@ -35,10 +35,8 @@ export class CrmTableComponent<T> implements OnInit {
   }
 
   public refreshDataSource(): void {
-    this.data.subscribe((res: T[]) => {
-      this.dataSource.data = res;
-      this.changeDectectorRef.detectChanges();
-    });
+    this.dataSource.data = this.data;
+    this.changeDectectorRef.detectChanges();
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

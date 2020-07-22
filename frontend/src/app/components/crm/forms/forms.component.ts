@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Form } from '../../../models/server_responses/forms-response.model';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Form, FormsResponse } from '../../../models/server_responses/forms-response.model';
 import { MatDialog } from '@angular/material/dialog';
 import { FormService } from '../../../services/form.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
@@ -14,11 +14,8 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './forms.component.html',
   styleUrls: ['./forms.component.css']
 })
-export class FormsComponent implements OnInit {
+export class FormsComponent implements OnInit, AfterViewInit {
   @ViewChild('formsCrmTable') formsTable: CrmTableComponent<Form>;
-  forms: Observable<Form[]> = this.formService.getForms().pipe(
-    map(res => res.forms)
-  );
   keyOrdering: string[] = ['formId', 'formName', 'date'];
   webhookUrl = '';
   googlekey = '';
@@ -26,13 +23,20 @@ export class FormsComponent implements OnInit {
   constructor(
     public dialog: MatDialog, private formService: FormService,
     private webhookService: WebhookService, private titleService: Title) {
-      this.titleService.setTitle('Forms');
+      this.titleService.setTitle($localize `Forms`);
   }
 
   ngOnInit(): void {
     this.webhookService.getWebhook().subscribe((res: WebHookResponse) => {
       this.webhookUrl = res.webhookUrl;
       this.googlekey = res.googleKey;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.formService.getForms().subscribe((res: FormsResponse) => {
+      this.formsTable.data = res.forms;
+      this.formsTable.refreshDataSource();
     });
   }
 
