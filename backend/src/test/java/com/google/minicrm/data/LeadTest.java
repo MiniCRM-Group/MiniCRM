@@ -38,6 +38,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class LeadTest {
 
+  private static final File leadFile = new File("src/test/resources/lead1.txt");
   private static final String TEST_USER_ID = "testUserId";
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
@@ -56,7 +57,6 @@ public final class LeadTest {
   public void leadFromReader_fromValidLeadJson_producesEquivalentValidLead() throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
-    File leadFile = new File("lead1.txt");
     Reader reader = new FileReader(leadFile);
 
     Lead lead = Lead.fromReader(reader, advertiserKey);
@@ -84,7 +84,6 @@ public final class LeadTest {
       throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
-    File leadFile = new File("lead1.txt");
     Reader reader = new FileReader(leadFile);
 
     Lead lead = Lead.fromReader(reader, advertiserKey);
@@ -98,11 +97,13 @@ public final class LeadTest {
   public void newLead_fromValidLeadAsEntity_producesEquivalentValidLead() throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
-    File leadFile = new File("lead1.txt");
     Reader reader = new FileReader(leadFile);
     Lead lead = Lead.fromReader(reader, advertiserKey);
+    Entity leadEntity = lead.asEntity();
+    //mimic datastore (integers converted to long)
+    leadEntity.setProperty("status", Long.valueOf(lead.getStatus().ordinal()));
 
-    Lead convertedLead = new Lead(lead.asEntity());
+    Lead convertedLead = new Lead(leadEntity);
 
     assertEquals(lead, convertedLead);
   }
@@ -120,7 +121,7 @@ public final class LeadTest {
   public void leadGenerateKey_withValidLeadParams_producesCorrespondingKey() throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
-    Reader reader = new FileReader(new File("lead1.txt"));
+    Reader reader = new FileReader(leadFile);
     Lead lead = Lead.fromReader(reader, advertiserKey);
 
     Key generatedKey = Lead.generateKey(lead.getAdvertiserKey(), lead.getLeadId());
