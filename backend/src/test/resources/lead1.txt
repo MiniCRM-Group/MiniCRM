@@ -33,7 +33,7 @@
   "api_version": "1.0",
   "form_id": 100,
   "campaign_id": 200,
-  "google_key": "{{google_key}}",
+  "google_key": "aSecretKey",
   "is_test": true,
   "gcl_id": "123abc456def",
   "adgroup_id": 300,
