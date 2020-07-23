@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve --aot",
     "start:es": "ng serve --aot --configuration=es",
+    "start:hi": "ng serve --aot --configuration=hi",
+    "start:pt": "ng serve --aot --configuration=pt",
     "ci-build": "ng build --prod",
     "buildprod": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "builddev": "ng build --configuration=developer && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",

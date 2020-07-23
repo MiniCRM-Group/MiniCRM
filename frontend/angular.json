@@ -12,7 +12,9 @@
       "i18n": {
         "sourceLocale": "en-US",
         "locales": {
-          "es": "src/locales/messages.es.xlf"
+          "es": "src/locales/messages/messages.es.xlf",
+          "hi": "src/locales/messages/messages.hi.xlf",
+          "pt": "src/locales/messages/messages.pt.xlf"
         }
       },
       "architect": {
@@ -85,6 +87,22 @@
               "i18nLocale": "es",
               "i18nMissingTranslation": "error"
             },
+            "hi": {
+              "aot": true,
+              "outputPath": "dist/",
+              "i18nFile": "src/locales/messages/messages.hi.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "hi",
+              "i18nMissingTranslation": "error"
+            },
+            "pt": {
+              "aot": true,
+              "outputPath": "dist/",
+              "i18nFile": "src/locales/messages/messages.pt.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "pt",
+              "i18nMissingTranslation": "error"
+            },
             "production-es": {
               "fileReplacements": [
                 {
@@ -133,6 +151,12 @@
             },
             "es": {
               "browserTarget": "frontend:build:es"
+            },
+            "hi": {
+              "browserTarget": "frontend:build:hi"
+            },
+            "pt": {
+              "browserTarget": "frontend:build:pt"
             }
           }
         },
