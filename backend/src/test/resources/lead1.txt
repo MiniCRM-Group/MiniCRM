@@ -1,0 +1,41 @@
+{
+  "lead_id": "1",
+  "user_column_data": [
+    {
+      "column_name": "FullName",
+      "string_value": "Alex Kim",
+      "column_id": "FULL_NAME"
+    },
+    {
+      "column_name": "UserPhone",
+      "string_value": "+16505550123",
+      "column_id": "PHONE_NUMBER"
+    },
+    {
+      "column_name": "User Email",
+      "string_value": "alex@example.com",
+      "column_id": "EMAIL"
+    },
+    {
+      "column_name": "Country",
+      "string_value": "UnitedStates",
+      "column_id": "COUNTRY"
+    },
+    {
+      "string_value": "123.456.789-00",
+      "column_id": "NATIONAL_ID_CPF_BR"
+    },
+    {
+      "string_value": "Nissan",
+      "column_id": "VEHICLE_TYPE"
+    }
+  ],
+  "api_version": "1.0",
+  "form_id": 100,
+  "campaign_id": 200,
+  "google_key": "{{google_key}}",
+  "is_test": true,
+  "gcl_id": "123abc456def",
+  "adgroup_id": 300,
+  "creative_id": 400
+}
