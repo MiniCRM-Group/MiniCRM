@@ -186,7 +186,9 @@ public final class Lead implements DatastoreObject {
         this.columnData.equals(other.columnData) &&
         this.isTest == other.isTest &&
         this.adgroupId == other.adgroupId &&
-        this.creativeId == other.creativeId;
+        this.creativeId == other.creativeId &&
+        this.status == other.status &&
+        this.notes.equals(other.notes);
   }
 
   /**
