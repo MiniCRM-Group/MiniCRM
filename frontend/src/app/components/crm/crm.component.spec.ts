@@ -8,6 +8,8 @@ import { LoginResponse } from 'src/app/models/server_responses/login-response.mo
 
 import { CrmModule } from './crm.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, ROUTES } from '@angular/router';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 describe('CrmComponent', () => {
   let component: CrmComponent;
@@ -23,7 +25,9 @@ describe('CrmComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ CrmComponent ],
       imports: [
-        CrmModule, NoopAnimationsModule
+        CrmModule,
+        NoopAnimationsModule,
+        AppRoutingModule
        ],
       providers: [
         { provide: LoginService, useValue: loginService },

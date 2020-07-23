@@ -12,10 +12,10 @@ import { first } from 'rxjs/operators';
 export class SettingsComponent implements OnInit {
   settings: Settings;
   displayedSettings: DisplayedSettings = {
-    email: "",
-    phone: "",
-    language: "",
-    currency: ""
+    email: '',
+    phone: '',
+    language: '',
+    currency: ''
   };
 
   constructor(private titleService: Title, private settingsService: SettingsService) {
@@ -30,25 +30,25 @@ export class SettingsComponent implements OnInit {
   }
 
   createDisplayedSettings() {
-    let emailString = 
-    this.settings.emailNotificationsEnabled ? 
+    let emailString =
+    this.settings.emailNotificationsEnabled ?
       (this.settings.email.length > 0 ?
-        this.settings.email : 
-        "Please Provide an Email") :
-      "Email Notifications Disabled";
-    if(this.settings.emailNotificationsEnabled && this.settings.email.length > 0) {
-      emailString += 
-      `(${displayNotificationFrequencies(this.settings.emailNotificationsFrequency)})`
+        this.settings.email :
+        'Please Provide an Email') :
+      'Email Notifications Disabled';
+    if (this.settings.emailNotificationsEnabled && this.settings.email.length > 0) {
+      emailString +=
+      `(${displayNotificationFrequencies(this.settings.emailNotificationsFrequency)})`;
     }
-    let phoneString = 
-      this.settings.phoneNotificationsEnabled ? 
+    let phoneString =
+      this.settings.phoneNotificationsEnabled ?
         (this.settings.phone.length > 0 ?
-          this.settings.phone : 
-          "Please Provide a Phone Number") :
-        "Phone Notifications Disabled";
-    if(this.settings.emailNotificationsEnabled) {
-      emailString += 
-      `(${displayNotificationFrequencies(this.settings.phoneNotificationsFrequency)})`
+          this.settings.phone :
+          'Please Provide a Phone Number') :
+        'Phone Notifications Disabled';
+    if (this.settings.emailNotificationsEnabled) {
+      phoneString +=
+      `(${displayNotificationFrequencies(this.settings.phoneNotificationsFrequency)})`;
     }
     this.displayedSettings = {
       email: emailString,

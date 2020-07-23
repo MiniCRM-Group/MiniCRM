@@ -33,15 +33,15 @@ export interface Language {
 }
 
 export function displayNotificationFrequencies(notifFreq: NotificationsFrequency): string {
-    let freqs = [];
-    if(notifFreq.onEveryLead) {
-        freqs.push("On Every Lead");
+    const freqs = [];
+    if (notifFreq.onEveryLead) {
+        freqs.push('On Every Lead');
     }
-    if(notifFreq.daily) {
-        freqs.push("Daily");
+    if (notifFreq.daily) {
+        freqs.push('Daily');
     }
-    if(notifFreq.weekly) {
-        freqs.push("Weekly");
+    if (notifFreq.weekly) {
+        freqs.push('Weekly');
     }
-    return freqs.join(", ");
+    return freqs.join(', ');
 }
