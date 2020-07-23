@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import {} from 'googlemaps';
 
 @Component({
   selector: 'app-analytics',
@@ -13,6 +14,14 @@ export class AnalyticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let map: google.maps.Map;
+
+    function initMap(): void {
+      map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+        center: { lat: -34.397, lng: 150.644 },
+        zoom: 8
+      });
+    }
   }
 
 }

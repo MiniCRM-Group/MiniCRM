@@ -29,6 +29,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableExporterModule } from 'mat-table-exporter';
 
+import {} from 'googlemaps';
+
+
 import { GoogleMapsModule } from '@angular/google-maps';
 
 // Routing
