@@ -13,7 +13,7 @@ import { SettingsComponent } from './components/crm/settings/settings.component'
 const routes: Routes = [
     { path: '', component: LandingComponent },
     {
-        path: 'crm',
+        path: ':lang-code/crm',
         component: CrmComponent,
         children: [
             { path: '', component: GuideComponent },
