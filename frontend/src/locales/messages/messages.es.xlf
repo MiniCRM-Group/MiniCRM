@@ -274,10 +274,6 @@
         <target>Formas</target>
         <source>Forms</source>
       </trans-unit>
-      <trans-unit id="8864658120410603626">
-        <target>Campañas</target>
-        <source>Campaigns</source>
-      </trans-unit>
       <trans-unit id="8386425551175504853">
         <target>Líder en ventas</target>
         <source>Sales Leads</source>
@@ -302,10 +298,6 @@
         <target>Fecha</target>
         <source>Date</source>
       </trans-unit>
-      <trans-unit id="2078785402028999261">
-        <target>Formas</target>
-        <source>Forms</source>
-      </trans-unit>
       <trans-unit id="7748433738933524310">
         <target>ID de campaña</target>
         <source>Campaign Id</source>
@@ -314,17 +306,9 @@
         <target>Nombre de campaña</target>
         <source>Campaign Name</source>
       </trans-unit>
-      <trans-unit id="3973931101896534797">
-        <target>Fecha</target>
-        <source>Date</source>
-      </trans-unit>
       <trans-unit id="8864658120410603626">
         <target>Campañas</target>
         <source>Campaigns</source>
-      </trans-unit>
-      <trans-unit id="3798070165070620146">
-        <target>Guía</target>
-        <source>Guide</source>
       </trans-unit>
       <trans-unit id="4960524097614109439">
         <target>Gráficos</target>
@@ -333,10 +317,6 @@
       <trans-unit id="5813867925497374051">
         <target>Mapa</target>
         <source>Map</source>
-      </trans-unit>
-      <trans-unit id="7861389751355579174">
-        <target>Analítica</target>
-        <source>Analytics</source>
       </trans-unit>
       <trans-unit id="4170220674745968279">
         <target>Compatible con formularios de ventas</target>
@@ -354,17 +334,9 @@
         <target>Analizar leads de ventas</target>
         <source>Analyze Sales Leads</source>
       </trans-unit>
-      <trans-unit id="4930506384627295710">
-        <target>Configuraciones</target>
-        <source>Settings</source>
-      </trans-unit>
       <trans-unit id="8253765269174553442">
         <target>Escriba códigos de área específicos, ID de plomo, ...</target>
         <source>Type specific area codes, lead-ID, ...</source>
-      </trans-unit>
-      <trans-unit id="8386425551175504853">
-        <target>Guías</target>
-        <source>Leads</source>
       </trans-unit>
     </body>
   </file>

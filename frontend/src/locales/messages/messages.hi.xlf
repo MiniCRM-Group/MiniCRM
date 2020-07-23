@@ -274,10 +274,6 @@
         <target>फार्म</target>
         <source>Forms</source>
       </trans-unit>
-      <trans-unit id="8864658120410603626">
-        <target>अभियान</target>
-        <source>Campaigns</source>
-      </trans-unit>
       <trans-unit id="8386425551175504853">
         <target>बिक्री के अवसर</target>
         <source>Sales Leads</source>
@@ -302,10 +298,6 @@
         <target>तारीख</target>
         <source>Date</source>
       </trans-unit>
-      <trans-unit id="2078785402028999261">
-        <target>फार्म</target>
-        <source>Forms</source>
-      </trans-unit>
       <trans-unit id="7748433738933524310">
         <target>अभियान क्रमांक</target>
         <source>Campaign Id</source>
@@ -314,17 +306,9 @@
         <target>अभियान का नाम</target>
         <source>Campaign Name</source>
       </trans-unit>
-      <trans-unit id="3973931101896534797">
-        <target>तारीख</target>
-        <source>Date</source>
-      </trans-unit>
       <trans-unit id="8864658120410603626">
         <target>अभियान</target>
         <source>Campaigns</source>
-      </trans-unit>
-      <trans-unit id="3798070165070620146">
-        <target>मार्गदर्शक</target>
-        <source>Guide</source>
       </trans-unit>
       <trans-unit id="4960524097614109439">
         <target>चार्ट</target>
@@ -333,10 +317,6 @@
       <trans-unit id="5813867925497374051">
         <target>नक्शा</target>
         <source>Map</source>
-      </trans-unit>
-      <trans-unit id="7861389751355579174">
-        <target>एनालिटिक्स</target>
-        <source>Analytics</source>
       </trans-unit>
       <trans-unit id="4170220674745968279">
         <target>बिक्री लीड फार्म संगत</target>
@@ -354,17 +334,9 @@
         <target>बिक्रीसूत्र का विश्लेषण करें</target>
         <source>Analyze Sales Leads</source>
       </trans-unit>
-      <trans-unit id="4930506384627295710">
-        <target>समायोजन</target>
-        <source>Settings</source>
-      </trans-unit>
       <trans-unit id="8253765269174553442">
         <target>विशिष्ट क्षेत्र कोड, लीड-आईडी टाइप करें ...</target>
         <source>Type specific area codes, lead-ID, ...</source>
-      </trans-unit>
-      <trans-unit id="8386425551175504853">
-        <target>सुराग</target>
-        <source>Leads</source>
       </trans-unit>
     </body>
   </file>
