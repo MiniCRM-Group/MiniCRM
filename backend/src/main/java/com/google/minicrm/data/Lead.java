@@ -171,7 +171,7 @@ public final class Lead implements DatastoreObject {
     if (o == this) {
       return true;
     }
-    if (!(o instanceof Form)) {
+    if (!(o instanceof Lead)) {
       return false;
     }
 
@@ -189,6 +189,15 @@ public final class Lead implements DatastoreObject {
         this.creativeId == other.creativeId &&
         this.status == other.status &&
         this.notes.equals(other.notes);
+  }
+
+  /**
+   * Returns a JSON representation of this object as a String
+   * @return a String representation of this lead
+   */
+  @Override
+  public String toString() {
+    return this.asJson();
   }
 
   /**
