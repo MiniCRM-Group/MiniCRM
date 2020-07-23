@@ -1,10 +1,12 @@
 package com.google.minicrm.data;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum Currency {
-    INDIAN_RUPEE("INR"),
-    BRAZILIAN_REAL("BRL"),
-    MEXICAN_PESO("MXN"),
-    US_DOLLAR("USD");
+    @SerializedName("INR ₹") INDIAN_RUPEE("INR"),
+    @SerializedName("BRL R$") BRAZILIAN_REAL("BRL"),
+    @SerializedName("MXN $") MEXICAN_PESO("MXN"),
+    @SerializedName("USD $") US_DOLLAR("USD");
 
     private String isoCode;
 
