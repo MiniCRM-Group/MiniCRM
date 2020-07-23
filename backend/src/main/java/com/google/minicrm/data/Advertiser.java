@@ -19,6 +19,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import java.security.SecureRandom;
+import java.util.Objects;
 import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
@@ -79,16 +80,6 @@ public class Advertiser implements DatastoreObject {
   }
 
   /**
-   * Creates an Advertiser Key based on the User Id of the User object passed in
-   *
-   * @param user the user object to create a key for
-   * @return the key unique to the user's id
-   */
-  public static Key generateKey(User user) {
-    return KeyFactory.createKey(KIND_NAME, user.getUserId());
-  }
-
-  /**
    * Generates the webhook for this user based on the HttpRequest and the advertiser key
    * @return the webhook for this user with a URL-Safe Key String uniquely identifying the user
    */
@@ -99,6 +90,36 @@ public class Advertiser implements DatastoreObject {
         request.getServerName() + ":" +
         request.getServerPort() + "/api/webhook?" + ID_URL_PARAM + "=" +
         advertiserKeyString;
+  }
+
+  /**
+   * Checks whether another object o is an Advertiser object that is either the same exact object or
+   * has the same instance variables.
+   * @param o the object to compare to this advertiser.
+   * @return true if the given object is an Advertiser with the same instance variables. False
+   * otherwise.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Advertiser)) {
+      return false;
+    }
+
+    Advertiser other = (Advertiser) o;
+    return user.equals(other.user) &&
+        googleKey.equals(other.googleKey);
+  }
+
+  /**
+   * Generates the hashcode of this object based on all instance variables
+   * @return the hashcode of this form
+   */
+  @Override
+  public int hashCode() {
+    return Objects.hash(user, googleKey);
   }
 
   //GETTERS AND SETTERS
@@ -124,6 +145,15 @@ public class Advertiser implements DatastoreObject {
     this.googleKey = googleKey;
   }
 
+  /**
+   * Creates an Advertiser Key based on the User Id of the User object passed in
+   *
+   * @param user the user object to create a key for
+   * @return the key unique to the user's id
+   */
+  public static Key generateKey(User user) {
+    return KeyFactory.createKey(KIND_NAME, user.getUserId());
+  }
 
   /**
    * Converts an Advertiser Entity into a Google User Object with the same data.
