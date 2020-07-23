@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --aot",
+    "start:es": "ng serve --aot --configuration=es",
     "ci-build": "ng build --prod",
     "buildprod": "ng build --configuration=production && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
     "builddev": "ng build --configuration=developer && cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
@@ -21,8 +22,8 @@
     "@angular/core": "~9.1.11",
     "@angular/flex-layout": "^9.0.0-beta.31",
     "@angular/forms": "~9.1.11",
-    "@angular/localize": "^9.1.12",
     "@angular/google-maps": "^10.1.0",
+    "@angular/localize": "^9.1.12",
     "@angular/material": "^9.2.4",
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
@@ -31,6 +32,7 @@
     "mat-table-exporter": "^9.0.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "xlf-translator": "^1.0.30",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

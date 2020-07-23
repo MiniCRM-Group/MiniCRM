@@ -80,7 +80,7 @@
             "es": {
               "aot": true,
               "outputPath": "dist/",
-              "i18nFile": "src/locales/messages.es.xlf",
+              "i18nFile": "src/locales/messages/messages.es.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "es",
               "i18nMissingTranslation": "error"
@@ -112,7 +112,7 @@
                   "maximumError": "10kb"
                 }
               ],
-              "i18nFile": "src/locales/messages.es.xlf",
+              "i18nFile": "src/locales/messages/messages.es.xlf",
               "i18nFormat": "xlf",
               "i18nLocale": "es",
               "i18nMissingTranslation": "error",

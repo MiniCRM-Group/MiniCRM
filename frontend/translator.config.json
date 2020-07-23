@@ -1,0 +1,11 @@
+{
+    "source": "/src/locales/messages.xlf",
+    "outputPath": "/src/locales",
+    "fromLanguage": "en",
+    "toLanguage": [
+      "es",
+      "hi",
+      "pt"
+    ]
+  }
+  

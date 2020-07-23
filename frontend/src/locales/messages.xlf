@@ -176,32 +176,18 @@
           <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f30471eb2df0ce68c6b9d1bc19fc25622e638b98" datatype="html">
-        <source>A simple,</source>
+      <trans-unit id="1bb53afa384534cd9242637a54f1144837139d8b" datatype="html">
+        <source>A simple, lightweight CRM app.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/landing/landing.component.html</context>
           <context context-type="linenumber">9</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="efd4834e5fc5624e97fc9edc6c82b368275c94d6" datatype="html">
-        <source>lightweight</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/landing/landing.component.html</context>
-          <context context-type="linenumber">10</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ae0cc37d31f482cf32f535853d705ca41c8399d9" datatype="html">
-        <source>CRM app.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/components/landing/landing.component.html</context>
-          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9e58dfa6c0a452d8333674cd6aa497d392b1c633" datatype="html">
         <source>LOGIN</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/landing/landing.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8bcabdf6b16cad0313a86c7e940c5e3ad7f9f8ab" datatype="html">
@@ -245,6 +231,87 @@
           <context context-type="sourcefile">src/app/components/crm/settings/settings.component.html</context>
           <context context-type="linenumber">23</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="4291226389369114110">
+        <source>Your Webhook URL</source>
+      </trans-unit>
+      <trans-unit id="6022884682723429596">
+        <source>Your Google Key</source>
+      </trans-unit>
+      <trans-unit id="3798070165070620146">
+        <source>Guide</source>
+      </trans-unit>
+      <trans-unit id="2078785402028999261">
+        <source>Forms</source>
+      </trans-unit>
+      <trans-unit id="8864658120410603626">
+        <source>Campaigns</source>
+      </trans-unit>
+      <trans-unit id="8386425551175504853">
+        <source>Sales Leads</source>
+      </trans-unit>
+      <trans-unit id="7861389751355579174">
+        <source>Analytics</source>
+      </trans-unit>
+      <trans-unit id="4930506384627295710">
+        <source>Settings</source>
+      </trans-unit>
+      <trans-unit id="4413073540348568610">
+        <source>Form Id</source>
+      </trans-unit>
+      <trans-unit id="9064602092259352900">
+        <source>Form Name</source>
+      </trans-unit>
+      <trans-unit id="3973931101896534797">
+        <source>Date</source>
+      </trans-unit>
+      <trans-unit id="2078785402028999261">
+        <source>Forms</source>
+      </trans-unit>
+      <trans-unit id="7748433738933524310">
+        <source>Campaign Id</source>
+      </trans-unit>
+      <trans-unit id="2737049849212181404">
+        <source>Campaign Name</source>
+      </trans-unit>
+      <trans-unit id="3973931101896534797">
+        <source>Date</source>
+      </trans-unit>
+      <trans-unit id="8864658120410603626">
+        <source>Campaigns</source>
+      </trans-unit>
+      <trans-unit id="3798070165070620146">
+        <source>Guide</source>
+      </trans-unit>
+      <trans-unit id="4960524097614109439">
+        <source>Charts</source>
+      </trans-unit>
+      <trans-unit id="5813867925497374051">
+        <source>Map</source>
+      </trans-unit>
+      <trans-unit id="7861389751355579174">
+        <source>Analytics</source>
+      </trans-unit>
+      <trans-unit id="4170220674745968279">
+        <source>Sales Lead Forms Compatible</source>
+      </trans-unit>
+      <trans-unit id="1578917307173231888">
+        <source>Qualify Sales Leads</source>
+      </trans-unit>
+      <trans-unit id="670772380795585906">
+        <source>Contact Sales Leads</source>
+      </trans-unit>
+      <trans-unit id="1837840580513999417">
+        <source>Analyze Sales Leads</source>
+      </trans-unit>
+      <trans-unit id="4930506384627295710">
+        <source>Settings</source>
+      </trans-unit>
+      <trans-unit id="8253765269174553442">
+        <source>Type specific area codes, lead-ID, ...</source>
+      </trans-unit>
+      <trans-unit id="8386425551175504853">
+        <source>Leads</source>
       </trans-unit>
     </body>
   </file>
