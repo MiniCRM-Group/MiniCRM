@@ -214,6 +214,12 @@ public final class Lead implements DatastoreObject {
   //Getters and Setters
 
   /**
+   * @return the Key for the advertiser entity that owns this lead
+   */
+  public Key getAdvertiserKey() {
+    return advertiserKey;
+  }
+  /**
    * @return the Date this lead was received
    */
   public Date getDate() {
