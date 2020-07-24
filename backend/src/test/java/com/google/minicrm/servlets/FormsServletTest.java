@@ -270,6 +270,54 @@ public final class FormsServletTest {
   }
 
   @Test
+  public void formsServletPutRequest_urlEncodedWithNonIntegerFormId_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    when(request.getParameter("formId")).thenReturn("1234.5");
+    when(request.getParameter("formName")).thenReturn("newNAme");
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_jsonWithNonIntegerFormId_throws400() throws Exception {
+    when(request.getContentType()).thenReturn("application/json;");
+    Reader reader = new StringReader(new FormsPutRequest("1234.5", "newName").toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(400), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_urlEncodedWithNonexistentFormId_throws404() throws Exception {
+    when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
+    when(request.getParameter("formId")).thenReturn("1234");
+    when(request.getParameter("formName")).thenReturn("newNAme");
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(404), anyString()); //we want an error msg
+  }
+
+  @Test
+  public void formsServletPutRequest_jsonWithNonexistentFormId_throws404() throws Exception {
+    when(request.getContentType()).thenReturn("application/json;");
+    Reader reader = new StringReader(new FormsPutRequest("1234", "newName").toJson());
+    when(request.getReader()).thenReturn(new BufferedReader(reader));
+
+    formsServlet.doPut(request, response);
+
+    //verify the response has an error
+    verify(response).sendError(eq(404), anyString()); //we want an error msg
+  }
+
+  @Test
   public void formsServletPutRequest_withInvalidContentType_throws415() throws Exception {
     when(request.getContentType()).thenReturn("multipart/form-data;");
 
