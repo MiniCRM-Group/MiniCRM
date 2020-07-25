@@ -3,7 +3,7 @@
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="d74cb464916a4e46487efc2bffb1fdf791cdb260" datatype="html">
-        <target>Email Leads</target>
+        <target>Enviar correo a clientes</target>
         <source>Email Leads</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -11,7 +11,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="d8a5bfa02b3ae5db52836e6533beaee4ff7bb0dc" datatype="html">
-        <target>Guías</target>
+        <target>Clientes potenciales</target>
         <source>Leads</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -19,7 +19,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="07adc5e7f57be16d2c4ee85e4be5b072c94b3084" datatype="html">
-        <target>Filtra tus leads</target>
+        <target>Filtra tus clientes</target>
         <source>Filter your leads</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -27,7 +27,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="af60d91713cc4c0a7855d7513b13e22dfad47741" datatype="html">
-        <target>Id de plomo</target>
+        <target>Identificación del cliente</target>
         <source>Lead Id</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -35,7 +35,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="f32d2abdab4fa16674d1f3a3af8f1679d27a51a1" datatype="html">
-        <target>Nombre principal</target>
+        <target>Nombre</target>
         <source>Lead Name</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -75,7 +75,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2c9c5281ba09174db28a40bd620d2f692b9250b3" datatype="html">
-        <target>Estado de plomo</target>
+        <target>Estado del cliente</target>
         <source>Lead Status</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -83,7 +83,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="5e90fb1a8c8da8e1d58cf5155c8a523ba77fd061" datatype="html">
-        <target>Abrió</target>
+        <target>Abierto</target>
         <source>Opened</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -99,7 +99,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="46e90dc4d9d189ce02b6beb05667d0ca14c7e1b0" datatype="html">
-        <target>No abierto</target>
+        <target>Sin revisar</target>
         <source>Not Opened</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/leads/leads.component.html</context>
@@ -139,7 +139,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="f3d70044fe5d234054114fbb4e146eddacaed0a8" datatype="html">
-        <target>Debería aparecer su URL de webhook única y la clave de Google, cópielas en los anuncios de formulario de Google que desea vincular a miniCRM.</target>
+        <target>La url del webhook y su clave de Google deberá aparecer, use estos datos en la configuración de su formulario en Google Ads para vincularlo con el miniCRM.</target>
         <source>Your unique webhook url and Google key should appear, copy them to the Google Form Ad(s) that you wish to link to miniCRM.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
@@ -147,7 +147,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="ece40b93e9e2e2c7296ccad7def9a60f948000c5" datatype="html">
-        <target>En el sitio de Google Ads, esto se puede encontrar al editar un formulario en la sección "Opción de entrega de leads"&gt; "Administre sus leads con un webhook"</target>
+        <target>En el sitio de Google Ads, puede editar su formulario en la sección "Opción para obtener los resultados de los clientes potenciales"> "Administre sus clientes potenciales con un webhook"</target>
         <source>On the Google Ads site, this can be found while editing a form in the section "Lead Delivery Option" &gt; "Manage your leads with a webhook"</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/crm/guide/guide.component.html</context>
@@ -195,7 +195,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="1bb53afa384534cd9242637a54f1144837139d8b" datatype="html">
-        <target>Una aplicación CRM simple y liviana.</target>
+        <target>Una aplicación CRM simple y ligera.</target>
         <source>A simple, lightweight CRM app.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/landing/landing.component.html</context>
@@ -271,11 +271,11 @@
         <source>Guide</source>
       </trans-unit>
       <trans-unit id="2078785402028999261">
-        <target>Formas</target>
+        <target>Formularios</target>
         <source>Forms</source>
       </trans-unit>
       <trans-unit id="8386425551175504853">
-        <target>Líder en ventas</target>
+        <target>Ventas</target>
         <source>Sales Leads</source>
       </trans-unit>
       <trans-unit id="7861389751355579174">
@@ -327,15 +327,15 @@
         <source>Qualify Sales Leads</source>
       </trans-unit>
       <trans-unit id="446834442901718326">
-        <target>Póngase en contacto con los vendedores</target>
+        <target>Póngase en contacto con clientes</target>
         <source>Contact Sales Leads</source>
       </trans-unit>
       <trans-unit id="4970150531407620681">
-        <target>Analizar leads de ventas</target>
+        <target>Análisis de ventas</target>
         <source>Analyze Sales Leads</source>
       </trans-unit>
       <trans-unit id="8253765269174553442">
-        <target>Escriba códigos de área específicos, ID de plomo, ...</target>
+        <target>Escriba códigos de área específicos, ID de cliente, ...</target>
         <source>Type specific area codes, lead-ID, ...</source>
       </trans-unit>
     </body>
