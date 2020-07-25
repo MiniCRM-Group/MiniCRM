@@ -2,46 +2,29 @@ export interface SettingsResponse {
     settings: Settings;
     supportedCurrencies: Currency[];
     supportedLanguages: Language[];
+    supportedNotifsFreqs: NotificationsFrequency[];
 }
 
 export interface Settings {
-    settingsId: number;
     email: string;
-    emailNotificationsEnabled: boolean;
-    emailNotificationsFrequency: NotificationsFrequency;
+    emailNotificationsFrequency: string;
     phone: string;
-    phoneNotificationsEnabled: boolean;
-    phoneNotificationsFrequency: NotificationsFrequency;
+    phoneNotificationsFrequency: string;
     language: string;
     currency: string;
 }
 
 export interface NotificationsFrequency {
-    onEveryLead: boolean;
-    daily: boolean;
-    weekly: boolean;
+    id: string;
+    displayed: string;
 }
 
 export interface Currency {
-    currency: string;
     isoCode: string;
+    displayed: string;
 }
 
 export interface Language {
-    language: string;
     isoCode: string;
-}
-
-export function displayNotificationFrequencies(notifFreq: NotificationsFrequency): string {
-    const freqs = [];
-    if (notifFreq.onEveryLead) {
-        freqs.push('On Every Lead');
-    }
-    if (notifFreq.daily) {
-        freqs.push('Daily');
-    }
-    if (notifFreq.weekly) {
-        freqs.push('Weekly');
-    }
-    return freqs.join(', ');
+    displayed: string;
 }

@@ -10,34 +10,29 @@ describe('SettingsComponent', () => {
   const settingsService: Partial<SettingsService> = {
     getSettings: () => of<SettingsResponse>({
       settings: {
-        settingsId: 1,
         email: 'test@example.com',
-        emailNotificationsEnabled: true,
-        emailNotificationsFrequency: {
-          onEveryLead: true,
-          daily: true,
-          weekly: true
-        },
+        emailNotificationsFrequency: 'Never',
         phone: '101-101-1010',
-        phoneNotificationsEnabled: true,
-        phoneNotificationsFrequency: {
-          onEveryLead: true,
-          daily: true,
-          weekly: false
-        },
+        phoneNotificationsFrequency: 'Never',
         language: 'Spanish',
         currency: 'USD $'
       },
       supportedLanguages: [
         {
-          language: 'Spanish',
+          displayed: 'Spanish',
           isoCode: 'es'
         }
       ],
       supportedCurrencies: [
         {
-          currency: 'USD $',
+          displayed: 'USD $',
           isoCode: 'USD'
+        }
+      ],
+      supportedNotifsFreqs: [
+        {
+          displayed: 'Never',
+          id: 'NEVER'
         }
       ]
     })
