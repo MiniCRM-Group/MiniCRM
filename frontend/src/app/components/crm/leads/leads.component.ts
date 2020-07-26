@@ -69,7 +69,6 @@ export class LeadsComponent implements AfterViewInit {
     this.titleService.setTitle('Leads');
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
-
   }
 
   ngAfterViewInit(): void {
