@@ -126,6 +126,10 @@ public final class LeadsServlet extends HttpServlet {
     } else if (contentType.contains("application/json")) {
       Gson gson = new Gson();
       Map<String, String> jsonMap = gson.fromJson(request.getReader(), Map.class);
+      if (jsonMap == null) {
+        response.sendError(400, "Content body with leadId required.");
+        return;
+      }
       leadId = jsonMap.get("leadId");
       status = jsonMap.get("status");
       notes = jsonMap.get("notes");
