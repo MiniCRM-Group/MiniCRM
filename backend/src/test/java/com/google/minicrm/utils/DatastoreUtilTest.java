@@ -38,7 +38,7 @@ import org.junit.runners.JUnit4;
  * Provides Unit Tests for the DatastoreUtil
  */
 @RunWith(JUnit4.class)
-public class DatastoreUtilTest {
+public final class DatastoreUtilTest {
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TEST_USER_ID = "testUserId";
