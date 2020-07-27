@@ -8,6 +8,7 @@ target/
 .factorypath
 .project
 .settings
+WEB-INF/
 
 # Ignore anything in webapp except for WEB-INF
 src/main/webapp/
