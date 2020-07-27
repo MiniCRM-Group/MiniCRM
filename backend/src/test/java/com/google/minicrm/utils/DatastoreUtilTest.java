@@ -43,11 +43,12 @@ public final class DatastoreUtilTest {
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TEST_USER_ID = "testUserId";
   private static final User testUser = new User("email", "authDomain", TEST_USER_ID);
-  private static final Key advertiserKey = Advertiser.generateKey(testUser);
+  private Key advertiserKey;
 
   @Before
   public void setUp() {
     helper.setUp();
+    advertiserKey = Advertiser.generateKey(testUser);
   }
 
   @After
