@@ -87,6 +87,7 @@ public final class FormsServletTest {
     helper.setUp();
     request = mock(HttpServletRequest.class);
     response = mock(HttpServletResponse.class);
+    seedForms();
   }
 
   @After
@@ -94,10 +95,23 @@ public final class FormsServletTest {
     helper.tearDown();
   }
 
+
+  /**
+   * Initializes instance variables form1, form2, and form3 and stores them in datastore.
+   */
+  private void seedForms() {
+    User testUser = new User("email", "authDomain", TEST_USER_ID);
+    Key parentKey = Advertiser.generateKey(testUser);
+    form1 = new Form(parentKey, 1, "form1");
+    form2 = new Form(parentKey, 2, "form2");
+    form3 = new Form(parentKey, 3, "form3");
+    DatastoreUtil.put(form1);
+    DatastoreUtil.put(form2);
+    DatastoreUtil.put(form3);
+  }
+
   @Test
   public void formsServletGetRequest_returnsAllForms() throws Exception {
-    seedForms();
-
     List<Form> returnedForms = getForms();
 
     List<Form> expectedForms = Arrays.asList(form1, form2, form3);
@@ -108,7 +122,6 @@ public final class FormsServletTest {
   public void formsServletPutRequest_validJsonRequest_successfullyRenamesAndReturns204()
       throws Exception {
 
-    seedForms();
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new FormsPutRequest("2", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
@@ -130,7 +143,6 @@ public final class FormsServletTest {
   public void formsServletPutRequest_validUrlEncodedRequest_successfullyRenamesAndReturns204()
       throws Exception {
 
-    seedForms();
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("formId")).thenReturn("2");
     when(request.getParameter("formName")).thenReturn("newName");
@@ -337,20 +349,6 @@ public final class FormsServletTest {
     assertTrue(expectedList.size() == actualList.size());
     assertTrue(expectedList.containsAll(actualList) &&
         actualList.containsAll(expectedList));
-  }
-
-  /**
-   * Initializes instance variables form1, form2, and form3 and stores them in datastore.
-   */
-  private void seedForms() {
-    User testUser = new User("email", "authDomain", TEST_USER_ID);
-    Key parentKey = Advertiser.generateKey(testUser);
-    form1 = new Form(parentKey, 1, "form1");
-    form2 = new Form(parentKey, 2, "form2");
-    form3 = new Form(parentKey, 3, "form3");
-    DatastoreUtil.put(form1);
-    DatastoreUtil.put(form2);
-    DatastoreUtil.put(form3);
   }
 
   /**
