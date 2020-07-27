@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsComponent } from './forms.component';
+import { FormsModule } from './forms.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormService } from 'src/app/services/form.service';
 import { of } from 'rxjs';
@@ -8,12 +9,12 @@ import { FormsResponse, Form } from 'src/app/models/server_responses/forms-respo
 import { HttpClientModule } from '@angular/common/http';
 import { WebhookService } from 'src/app/services/webhook.service';
 import { WebHookResponse } from 'src/app/models/server_responses/webhook-response.model';
+import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('FormsComponent', () => {
   let component: FormsComponent;
   const formService: Partial<FormService> = {
-    getForms: () => of<FormsResponse>({ forms: [] }),
-    unlinkForms: (req: Form[]) => 'ok'
+    getForms: () => of<FormsResponse>({ forms: [] })
   };
   const webhookService: Partial<WebhookService> = {
     getWebhook: () => of<WebHookResponse>({ webhookUrl: '/', googleKey: 'abc' })
@@ -23,7 +24,7 @@ describe('FormsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FormsComponent ],
-      imports: [ MatDialogModule, HttpClientModule ],
+      imports: [ FormsModule, NoopAnimationsModule, MatDialogModule, HttpClientModule ],
       providers: [
         { provide: FormService, useValue: formService },
         { provide: WebhookService, useValue: webhookService }

@@ -9,10 +9,6 @@ on:
     paths:
       - 'frontend/**'
       - '.github/workflow/frontend-ci.yml'
-  pull_request:
-    paths:
-      - 'frontend/**'
-      - '.github/workflow/frontend-ci.yml'
 jobs:
   build:
 
@@ -40,10 +36,10 @@ jobs:
       working-directory: ${{env.working-directory}}
 
     - name: Build
-      run: npm run ci-build
+      run: npm run build:ci
       working-directory: ${{env.working-directory}}
 
     - name: Test
-      run: npm run ci-test
+      run: npm run test:ci
       working-directory: ${{env.working-directory}}
       

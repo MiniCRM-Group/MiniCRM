@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/server_responses/campaign.model';
 import { CampaignService } from 'src/app/services/campaign.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
+import { KeyDisplayedNameMap } from 'src/app/models/component_states/table-data.model';
+
 
 @Component({
   selector: 'app-campaigns',
@@ -13,14 +15,36 @@ import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 export class CampaignsComponent implements OnInit {
   @ViewChild('campaignsCrmTable') campaignsTable: CrmTableComponent<Campaign>;
   campaigns: Observable<Campaign[]> = this.campaignService.getAllCampaigns();
-  keyOrdering: string[] = ['campaignId', 'campaignName', 'date'];
+  keyDisplayNameMaps: KeyDisplayedNameMap[] = [
+    {
+      key: 'campaignId',
+      displayedName: $localize`Campaign Id`
+    },
+    {
+      key: 'campaignName',
+      displayedName: $localize`Campaign Name`
+    },
+    {
+      key: 'date',
+      displayedName: $localize`Date`
+    }
+  ];
 
   constructor(private campaignService: CampaignService,
               private titleService: Title) {
-    this.titleService.setTitle('Campaigns');
+    this.titleService.setTitle($localize`Campaigns`);
   }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * Renames the given campaign based on the id to the current name in the campaign object.
+   * Called by the rename event from app-crm-table
+   * @param campaign the campaign to be renamed
+   */
+  renameCampaign(campaign: Campaign) {
+    this.campaignService.renameCampaign(campaign).subscribe();
   }
 
 }

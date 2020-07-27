@@ -1,3 +1,10 @@
+* {
+    box-sizing: border-box;
+}
+
+#filterFxBox {
+    padding: 5px 0px;
+}
 table {
     width: 100%;
     margin: 0 auto;

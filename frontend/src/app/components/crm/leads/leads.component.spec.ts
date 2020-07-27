@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LeadsComponent } from './leads.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { LeadsModule } from './leads.module';
 import { LeadService } from 'src/app/services/lead.service';
+import { LeadsComponent } from './leads.component';
 import { of } from 'rxjs';
 import { Lead } from 'src/app/models/server_responses/lead.model';
+import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('LeadsComponent', () => {
   let component: LeadsComponent;
@@ -15,8 +15,8 @@ describe('LeadsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ MatDialogModule ],
-      declarations: [ LeadsComponent ],
+      imports: [ LeadsModule, NoopAnimationsModule],
+     // aotSummaries: LeadsModuleNgSummary,
       providers: [
         { provide: LeadService, useValue: leadService }
       ]

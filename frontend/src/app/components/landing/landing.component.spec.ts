@@ -6,6 +6,8 @@ import { of } from 'rxjs';
 import { LoginResponse } from 'src/app/models/server_responses/login-response.model';
 import { MatIconModule } from '@angular/material/icon';
 
+import { LandingModule } from './landing.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 describe('LandingComponent', () => {
   let component: LandingComponent;
   const loginService: Partial<LoginService> = {
@@ -15,8 +17,7 @@ describe('LandingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ MatIconModule ],
-      declarations: [ LandingComponent ],
+      imports: [ LandingModule, NoopAnimationsModule ],
       providers: [
         { provide: LoginService, useValue: loginService }
       ]
