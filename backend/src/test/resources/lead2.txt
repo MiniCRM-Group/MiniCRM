@@ -1,0 +1,27 @@
+{
+  "lead_id":"2",
+  "campaign_id":201,
+  "gcl_id":"CKbai8W4xN4CFcoFrwkdyHEByw",
+  "user_column_data": [
+    {
+      "column_name":"Full Name",
+      "string_value":"Amanuel Taddesse",
+      "column_id": "FULL_NAME"
+    },
+    {
+      "column_name": "User Phone",
+      "string_value":"+11234567890",
+      "column_id":"PHONE_NUMBER"
+    },
+    {
+      "column_name": "User Email",
+      "string_value": "amanuel@example.com",
+      "column_id": "EMAIL"
+    }
+  ],
+  "api_version":"1.0",
+  "form_id":101,
+  "google_key": "{{google_key}}",
+  "adgroup_id": 301,
+  "creative_id": 401
+}
