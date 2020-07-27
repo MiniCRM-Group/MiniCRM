@@ -41,7 +41,7 @@ export class CampaignsComponent implements OnInit, AfterViewInit {
     this.campaignService.getAllCampaigns().subscribe((res: Campaign[]) => {
       this.campaignsTable.data = res;
       this.campaignsTable.refreshDataSource();
-    })
+    });
   }
 
   /**
