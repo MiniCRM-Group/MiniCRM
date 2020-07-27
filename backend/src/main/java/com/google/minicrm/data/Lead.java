@@ -161,10 +161,10 @@ public final class Lead implements DatastoreObject {
 
   /**
    * Checks whether another object o is a Lead that is either the same object as this lead or has
-   * all the same instance variables expect the date created variable.
+   * all the same instance variables expect the date created variable and advertiserKey.
    * @param o the object to compare to this lead
    * @return true if the given object is a Lead instance with the same instance variables other than
-   *         date created. False, otherwise.
+   *         date created and advertiserKey. False, otherwise.
    */
   @Override
   public boolean equals(Object o) {
@@ -176,8 +176,7 @@ public final class Lead implements DatastoreObject {
     }
 
     Lead other = (Lead) o;
-    return this.advertiserKey.equals(other.advertiserKey) &&
-        this.leadId.equals(other.leadId) &&
+    return this.leadId.equals(other.leadId) &&
         this.campaignId == other.campaignId &&
         this.gclId.equals(other.gclId) &&
         this.apiVersion.equals(other.apiVersion) &&
