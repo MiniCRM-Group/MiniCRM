@@ -12,12 +12,12 @@
       </mat-list-item>
       <mat-divider></mat-divider>
       <!-- All the buttons that lead to different pages of the CRM -->
-      <mat-list-item *ngFor="let datum of navigationData">
-        <button color="primary" mat-button [routerLink]="datum.link">
+      <a mat-list-item *ngFor="let datum of navigationData" [routerLink]="datum.link">
+        <button color="primary" mat-button>
           <mat-icon mat-list-icon color="primary">{{ datum.icon }}</mat-icon>
           <span *ngIf="isExpanded" class="mat-h4">{{ datum.displayedName }}</span>
         </button>
-      </mat-list-item>
+      </a>
       <mat-divider></mat-divider>
       <!-- Button to toggle text in sidebar. -->
       <mat-list-item (click)="isExpanded = !isExpanded" >
