@@ -45,7 +45,7 @@ public final class FormTest {
   }
 
   @After
-  public void tearDown(){
+  public void tearDown() {
     helper.tearDown();
   }
 
@@ -95,7 +95,7 @@ public final class FormTest {
 
   @Test
   public void formGenerateKey_withDifferentId_generatesDifferentKey()
-    throws Exception {
+      throws Exception {
     Key advertiserKey = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
     long formId1 = 1;
     long formId2 = 2;

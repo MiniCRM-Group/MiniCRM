@@ -49,7 +49,7 @@ public final class LeadTest {
   }
 
   @After
-  public void tearDown(){
+  public void tearDown() {
     helper.tearDown();
   }
 
@@ -68,7 +68,7 @@ public final class LeadTest {
     assertEquals(200, lead.getCampaignId());
     assertEquals("aSecretKey", lead.getGoogleKey());
     assertEquals(true, lead.isTest());
-    assertEquals("123abc456def",lead.getGclId());
+    assertEquals("123abc456def", lead.getGclId());
     assertEquals(300, lead.getAdgroupId());
     assertEquals(400, lead.getCreativeId());
     assertEquals("Alex Kim", lead.getColumnData("FULL_NAME"));

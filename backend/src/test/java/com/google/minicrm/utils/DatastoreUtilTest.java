@@ -39,6 +39,7 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public final class DatastoreUtilTest {
+
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig());
   private static final String TEST_USER_ID = "testUserId";
@@ -81,7 +82,8 @@ public final class DatastoreUtilTest {
     Advertiser advertiser = new Advertiser(testUser);
     datastore.put(advertiser.asEntity());
 
-    Advertiser returnedAdvertiser = new Advertiser(DatastoreUtil.get(advertiser.asEntity().getKey()));
+    Advertiser returnedAdvertiser = new Advertiser(
+        DatastoreUtil.get(advertiser.asEntity().getKey()));
 
     assertEquals(advertiser, returnedAdvertiser);
   }

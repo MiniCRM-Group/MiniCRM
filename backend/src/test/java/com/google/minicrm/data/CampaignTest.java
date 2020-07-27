@@ -45,12 +45,13 @@ public final class CampaignTest {
   }
 
   @After
-  public void tearDown(){
+  public void tearDown() {
     helper.tearDown();
   }
 
   @Test
-  public void newCampaign_fromValidCampaignAsEntity_producesEquivalentValidCampaign() throws Exception {
+  public void newCampaign_fromValidCampaignAsEntity_producesEquivalentValidCampaign()
+      throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
     Campaign campaign = new Campaign(advertiserKey, 1, "campaign1");

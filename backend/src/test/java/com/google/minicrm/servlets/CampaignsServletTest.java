@@ -62,10 +62,12 @@ public final class CampaignsServletTest {
   private static final String TEST_USER_ID = "testUserId";
   private static final CampaignsServlet campaignsServlet = new CampaignsServlet();
   private static Map<String, Object> envAttributes;
+
   static {
     envAttributes = new HashMap<>();
     envAttributes.put("com.google.appengine.api.users.UserService.user_id_key", TEST_USER_ID);
   }
+
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(
           new LocalDatastoreServiceTestConfig(),
@@ -270,7 +272,8 @@ public final class CampaignsServletTest {
   }
 
   @Test
-  public void campaignsServletPutRequest_urlEncodedWithNonIntegerCampaignId_throws400() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithNonIntegerCampaignId_throws400()
+      throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("campaignId")).thenReturn("1234.5");
     when(request.getParameter("campaignName")).thenReturn("newNAme");
@@ -294,7 +297,8 @@ public final class CampaignsServletTest {
   }
 
   @Test
-  public void campaignsServletPutRequest_urlEncodedWithNonexistentCampaignId_throws404() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithNonexistentCampaignId_throws404()
+      throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("campaignId")).thenReturn("1234");
     when(request.getParameter("campaignName")).thenReturn("newNAme");
@@ -306,7 +310,8 @@ public final class CampaignsServletTest {
   }
 
   @Test
-  public void campaignsServletPutRequest_jsonWithNonexistentCampaignId_throws404() throws Exception {
+  public void campaignsServletPutRequest_jsonWithNonexistentCampaignId_throws404()
+      throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new CampaignsPutRequest("1234", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
@@ -329,6 +334,7 @@ public final class CampaignsServletTest {
 
   /**
    * Asserts that two lists are equal while ignoring order. Assumes no duplicates exist.
+   *
    * @param expectedList the expect list values
    * @param actualList   the actual list to compare to the expectedList
    * @param <T>          the type of the lists
@@ -340,7 +346,8 @@ public final class CampaignsServletTest {
   }
 
   /**
-   * Initializes instance variables campaign1, campaign2, and campaign3 and stores them in datastore.
+   * Initializes instance variables campaign1, campaign2, and campaign3 and stores them in
+   * datastore.
    */
   private void seedCampaigns() {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
@@ -373,7 +380,8 @@ public final class CampaignsServletTest {
 
     Type mapStrToCampaignArrType = new TypeToken<Map<String, Campaign[]>>() {
     }.getType();
-    Map<String, Campaign[]> getResponse = gson.fromJson(stringWriter.toString(), mapStrToCampaignArrType);
+    Map<String, Campaign[]> getResponse = gson
+        .fromJson(stringWriter.toString(), mapStrToCampaignArrType);
     return Arrays.asList(getResponse.get("campaigns"));
   }
 

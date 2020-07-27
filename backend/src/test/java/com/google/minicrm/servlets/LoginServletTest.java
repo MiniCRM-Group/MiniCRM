@@ -25,7 +25,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +35,7 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public final class LoginServletTest {
+
   private static final LocalServiceTestHelper loggedInHelper =
       new LocalServiceTestHelper(new LocalUserServiceTestConfig()).setEnvIsLoggedIn(true);
   private static final LocalServiceTestHelper loggedOutHelper =
@@ -75,6 +75,7 @@ public final class LoginServletTest {
 
   /**
    * Calls the login servlet's GET method and returns the response object
+   *
    * @return the response object returned by the login servlet
    * @throws Exception
    */
@@ -90,6 +91,7 @@ public final class LoginServletTest {
   }
 
   private class LoginGetResponse {
+
     private String url;
     private boolean loggedIn;
   }

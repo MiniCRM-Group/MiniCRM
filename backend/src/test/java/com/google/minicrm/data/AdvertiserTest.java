@@ -51,12 +51,13 @@ public final class AdvertiserTest {
   }
 
   @After
-  public void tearDown(){
+  public void tearDown() {
     helper.tearDown();
   }
 
   @Test
-  public void newAdvertiser_fromValidAdvertiserAsEntity_producesEquivalentValidAdvertiser() throws Exception {
+  public void newAdvertiser_fromValidAdvertiserAsEntity_producesEquivalentValidAdvertiser()
+      throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Advertiser advertiser = new Advertiser(testUser);
 
@@ -96,7 +97,7 @@ public final class AdvertiserTest {
 
   @Test
   public void advertiserGenerateWebhook_withValidAdvertiser_generatesWebhookWithCorrespondingId()
-    throws Exception {
+      throws Exception {
     HttpServletRequest request = mock(HttpServletRequest.class);
     when(request.getScheme()).thenReturn("https");
     when(request.getServerName()).thenReturn("miniCrm.com");

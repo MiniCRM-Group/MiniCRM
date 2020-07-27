@@ -23,24 +23,26 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 import com.google.minicrm.data.Advertiser;
-import com.google.minicrm.servlets.FormsServlet;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
 
 public final class UserAuthenticationUtilTest {
+
   private static final String TEST_USER_ID = "testUserId";
   private static Map<String, Object> envAttributes;
+
   static {
     envAttributes = new HashMap<>();
     envAttributes.put("com.google.appengine.api.users.UserService.user_id_key", TEST_USER_ID);
   }
+
   private static final LocalServiceTestHelper loggedInHelper =
       new LocalServiceTestHelper(new LocalUserServiceTestConfig())
-      .setEnvIsLoggedIn(true)
-      .setEnvEmail("email")
-      .setEnvAuthDomain("authDomain")
-      .setEnvAttributes(envAttributes);
+          .setEnvIsLoggedIn(true)
+          .setEnvEmail("email")
+          .setEnvAuthDomain("authDomain")
+          .setEnvAttributes(envAttributes);
   private static final LocalServiceTestHelper loggedOutHelper =
       new LocalServiceTestHelper(new LocalUserServiceTestConfig()).setEnvIsLoggedIn(false);
 
