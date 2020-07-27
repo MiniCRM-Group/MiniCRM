@@ -14,15 +14,17 @@ export class AnalyticsComponent implements AfterViewInit {
   @ViewChild('map', {static: true}) mapElement: any;
   map: google.maps.Map;
   marker = new google.maps.Marker;
+    marker2 = new google.maps.Marker;
   infoWindow = new google.maps.InfoWindow;
+ pos = null;
   constructor(private titleService: Title) {
     this.titleService.setTitle('Analytics');
   }
  
   ngAfterViewInit(): void {
     const mapProperties = {
-      center: new google.maps.LatLng(35.2271, -80.8431),
-      zoom: 15,
+      center: new google.maps.LatLng(39.933632, -82.887267),
+      zoom: 11,
       mapTypeId: google.maps.MapTypeId.ROADMAP
  };
  var myLatLng = {lat: 35.2271, lng: -80.8431};
@@ -34,33 +36,24 @@ export class AnalyticsComponent implements AfterViewInit {
   title: 'Hello World!'
 });
 // Try HTML5 geolocation.
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var pos = {
-      lat: position.coords.latitude,
-      lng: position.coords.longitude
-    };
-
-    this.infoWindow.setPosition(pos);
-    this.infoWindow.setContent('Location found.');
-    this.infoWindow.open(this.map);
-    this.map.setCenter(pos);
-  }, function() {
-    handleLocationError(true, this.infoWindow, this.map.getCenter());
-  });
-} else {
-  // Browser doesn't support Geolocation
-  handleLocationError(false, this.infoWindow, this.map.getCenter());
-}
+// Try HTML5 geolocation.
 
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-infoWindow.setPosition(pos);
-infoWindow.setContent(browserHasGeolocation ?
-                      'Error: The Geolocation service failed.' :
-                      'Error: Your browser doesn\'t support geolocation.');
-infoWindow.open(this.map);
-}
+	navigator.geolocation.getCurrentPosition(this.success);
+
   }
+
+ success(pos) {
+  var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : {crd.latitude}`);
+  console.log(`Longitude: {crd.longitude}`);
+  console.log(`More or less {crd.accuracy} meters.`);
+ var myLatLng2 = {lat: crd.latitude, lng: crd.longitude};
+
+}
+
+
 
 }
