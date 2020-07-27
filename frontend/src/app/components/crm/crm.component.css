@@ -13,3 +13,8 @@
     padding: 16px;
     padding-bottom: 8px;
 }
+
+#main {
+    width: 80%;
+    margin: 40px auto;
+}

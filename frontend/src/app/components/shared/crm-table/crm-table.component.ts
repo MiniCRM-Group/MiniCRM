@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, AfterContentChecked, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
 import { TableData, KeyDisplayedNameMap } from '../../../models/component_states/table-data.model';
 import * as _ from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-crm-table',
@@ -11,10 +10,11 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./crm-table.component.css']
 })
 export class CrmTableComponent<T> implements OnInit {
-  @Input() data: Observable<T[]>;
-  @Input() keyOrdering: string[] = [];
+  @Input() data: T[];
   @Input() selectionEnabled = true;
+  @Input() keyDisplayedNameMaps: KeyDisplayedNameMap[] = [];
   @Output() rename: EventEmitter<T> = new EventEmitter();
+  keyOrdering: string[] = [];
   dataSource: MatTableDataSource<T> = new MatTableDataSource<T>();
   keyDisplayedNameOrdering: KeyDisplayedNameMap[];
   public selection: SelectionModel<T> = new SelectionModel<T>(/*allow mulitselect=*/true);
@@ -25,9 +25,8 @@ export class CrmTableComponent<T> implements OnInit {
 
   ngOnInit(): void {
     // we can expect inputs here but not in constructor
-    this.keyDisplayedNameOrdering = this.keyOrdering.map((key: string) => {
-      return { key, displayedName: _.startCase(key) } as KeyDisplayedNameMap;
-    });
+    this.keyDisplayedNameOrdering = this.keyDisplayedNameMaps;
+    this.keyOrdering = this.keyDisplayedNameOrdering.map(mapping => mapping.key);
     if (this.selectionEnabled) {
       // adds selection column
       this.keyOrdering.unshift('select');
@@ -36,10 +35,8 @@ export class CrmTableComponent<T> implements OnInit {
   }
 
   public refreshDataSource(): void {
-    this.data.subscribe((res: T[]) => {
-      this.dataSource.data = res;
-      this.changeDectectorRef.detectChanges();
-    });
+    this.dataSource.data = this.data;
+    this.changeDectectorRef.detectChanges();
   }
 
   /**

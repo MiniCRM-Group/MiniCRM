@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/server_responses/campaign.model';
 import { CampaignService } from 'src/app/services/campaign.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
+import { KeyDisplayedNameMap } from 'src/app/models/component_states/table-data.model';
 
 
 @Component({
@@ -14,11 +15,24 @@ import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 export class CampaignsComponent implements OnInit {
   @ViewChild('campaignsCrmTable') campaignsTable: CrmTableComponent<Campaign>;
   campaigns: Observable<Campaign[]> = this.campaignService.getAllCampaigns();
-  keyOrdering: string[] = ['campaignId', 'campaignName', 'date'];
+  keyDisplayNameMaps: KeyDisplayedNameMap[] = [
+    {
+      key: 'campaignId',
+      displayedName: $localize`Campaign Id`
+    },
+    {
+      key: 'campaignName',
+      displayedName: $localize`Campaign Name`
+    },
+    {
+      key: 'date',
+      displayedName: $localize`Date`
+    }
+  ];
 
   constructor(private campaignService: CampaignService,
               private titleService: Title) {
-    this.titleService.setTitle('Campaigns');
+    this.titleService.setTitle($localize`Campaigns`);
   }
 
   ngOnInit(): void {

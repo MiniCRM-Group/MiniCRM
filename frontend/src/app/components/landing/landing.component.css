@@ -13,22 +13,6 @@
     margin-top: 57px;
 }
 
-   .material-cust-large-button {
-    width: 250px;
-    height: 70px;
-  }
-  mat-iconz{
-  height:48px !important;
-  width:48px !important;
-  font-size:48px !important;
-  }
-.login-display {
-    font-size: 40px;
-    width: 40px;
-  vertical-align: middle;
-  margin-bottom: 10px;
-}
-.icon-text {
-    display: flex;
-    align-items: center;
+#login {
+    margin-right: 4px;
 }

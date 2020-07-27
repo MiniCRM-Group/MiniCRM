@@ -47,6 +47,7 @@ import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
 import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
+import { SettingsComponent } from './components/crm/settings/settings.component';
 
 import { LeadsModule } from './components/crm/leads/leads.module';
 
@@ -63,7 +64,8 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     FormsComponent,
     CrmTableComponent,
     CopyableFormFieldComponent,
-    LeadDetailsComponent
+    LeadDetailsComponent,
+    SettingsComponent
   ],
   imports: [
     HttpClientModule,

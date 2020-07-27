@@ -22,9 +22,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import {CrmComponent } from './crm.component';
+import { CopyableFormFieldComponent } from '../shared/copyable-form-field/copyable-form-field.component';
+import { RouterOutlet } from '@angular/router';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
 @NgModule({
-  declarations: [CrmComponent],
+  declarations: [CrmComponent, CopyableFormFieldComponent],
   exports: [CrmComponent],
   imports: [
     CommonModule,
