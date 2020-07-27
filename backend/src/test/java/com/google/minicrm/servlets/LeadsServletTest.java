@@ -44,7 +44,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -70,10 +69,12 @@ public final class LeadsServletTest {
   private static final String TEST_USER_ID = "testUserId";
   private static final LeadsServlet leadsServlet = new LeadsServlet();
   private static Map<String, Object> envAttributes;
+
   static {
     envAttributes = new HashMap<>();
     envAttributes.put("com.google.appengine.api.users.UserService.user_id_key", TEST_USER_ID);
   }
+
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(
           new LocalDatastoreServiceTestConfig(),
@@ -441,7 +442,8 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_jsonWithInvalidStatus_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new LeadsPutRequest("1", "I am not valid.", "new notes").toJson());
+    Reader reader = new StringReader(
+        new LeadsPutRequest("1", "I am not valid.", "new notes").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
     leadsServlet.doPut(request, response);
@@ -466,7 +468,8 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_jsonWithNonexistentLeadId_throws404() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new LeadsPutRequest("nonexistentLead", "OPEN", "new notes.").toJson());
+    Reader reader = new StringReader(
+        new LeadsPutRequest("nonexistentLead", "OPEN", "new notes.").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
     leadsServlet.doPut(request, response);
@@ -487,6 +490,7 @@ public final class LeadsServletTest {
 
   /**
    * Asserts that two lists are equal while ignoring order. Assumes no duplicates exist.
+   *
    * @param expectedList the expect list values
    * @param actualList   the actual list to compare to the expectedList
    * @param <T>          the type of the lists
