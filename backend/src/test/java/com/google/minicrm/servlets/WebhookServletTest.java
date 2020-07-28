@@ -80,7 +80,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletGetRequest_withExistingAdvertiser_returnsCorrectWebhookAndGoogleKeyResponse()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("aSecretKey");
     //store the advertiser beforehand
@@ -105,7 +104,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletGetRequest_withNewAdvertiser_returnsCorrectWebhookAndGoogleKeyResponse()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     //setup the writer to get the response back
     StringWriter stringWriter = new StringWriter();
@@ -126,7 +124,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletPostRequest_withValidRequest_storesLeadAndFormAndCampaign()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("aSecretKey");
     DatastoreUtil.put(testAdvertiser);
@@ -156,7 +153,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletPostRequest_withValidRequestAndExistingFormAndCampaign_storesLeadWithoutModifyingFormAndCampaign()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("aSecretKey");
     DatastoreUtil.put(testAdvertiser);
@@ -189,7 +185,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletPostRequest_withIncorrectGoogleKey_throws401Unauthorized()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("notASecretKey");
     DatastoreUtil.put(testAdvertiser);
@@ -206,7 +201,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletPostRequest_withNoIdParameter_throws404NotFound()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("aSecretKey");
     DatastoreUtil.put(testAdvertiser);
@@ -222,7 +216,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletPostRequest_withBlankIdParameter_throws404NotFound()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("aSecretKey");
     DatastoreUtil.put(testAdvertiser);
@@ -237,7 +230,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletPostRequest_withIncorrectIdParameter_throws404NotFound()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("aSecretKey");
     DatastoreUtil.put(testAdvertiser);
@@ -255,7 +247,6 @@ public final class WebhookServletTest {
   @Test
   public void webhookServletPostRequest_withRepeatedValidRequests_throws409Conflict()
       throws Exception {
-
     testAdvertiser = new Advertiser(testUser);
     testAdvertiser.setGoogleKey("aSecretKey");
     DatastoreUtil.put(testAdvertiser);
@@ -273,6 +264,4 @@ public final class WebhookServletTest {
 
     verify(response2).sendError(eq(409), anyString());
   }
-
-
 }

@@ -67,7 +67,6 @@ public final class UserAuthenticationUtilTest {
   @Test
   public void userAuthUntilIsAuthenticated_whenLoggedInAsNewUser_createsNewAdvertiserAndReturnsTrue()
       throws Exception {
-
     loggedInHelper.setUp();
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key expectedKey = Advertiser.generateKey(testUser);

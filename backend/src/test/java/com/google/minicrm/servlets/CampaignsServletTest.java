@@ -109,7 +109,6 @@ public final class CampaignsServletTest {
   @Test
   public void campaignsServletPutRequest_validJsonRequest_successfullyRenamesAndReturns204()
       throws Exception {
-
     seedCampaigns();
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new CampaignsPutRequest("2", "newName").toJson());
@@ -131,7 +130,6 @@ public final class CampaignsServletTest {
   @Test
   public void campaignsServletPutRequest_validUrlEncodedRequest_successfullyRenamesAndReturns204()
       throws Exception {
-
     seedCampaigns();
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("campaignId")).thenReturn("2");

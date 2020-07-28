@@ -135,7 +135,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validJsonRequest_successfullyUpdatesAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new LeadsPutRequest("2", "OPEN", "new note.").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
@@ -157,7 +156,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validUrlEncodedRequest_successfullyUpdatesAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("leadId")).thenReturn("2");
     when(request.getParameter("status")).thenReturn("OPEN");
@@ -182,7 +180,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validJsonRequestWithoutStatus_successfullyUpdatesAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new LeadsPutRequest("2", null, "new note.").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
@@ -203,7 +200,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validUrlEncodedRequestWithoutStatus_successfullyUpdatesAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("leadId")).thenReturn("2");
     when(request.getParameter("notes")).thenReturn("new note.");
@@ -226,7 +222,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validJsonRequestWithoutNotes_successfullyUpdatesAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new LeadsPutRequest("2", "OPEN", null).toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
@@ -247,7 +242,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validUrlEncodedRequestWithoutNotes_successfullyUpdatesAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("leadId")).thenReturn("2");
     when(request.getParameter("status")).thenReturn("OPEN");
@@ -292,7 +286,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validUrlEncodedRequestWithBlankNotes_successfullyUpdatesAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("leadId")).thenReturn("2");
     when(request.getParameter("status")).thenReturn("OPEN");
@@ -317,7 +310,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validJsonRequestWithOnlyId_doesNotChangeDataAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/json;");
     Reader reader = new StringReader(new LeadsPutRequest("2", null, null).toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
@@ -337,7 +329,6 @@ public final class LeadsServletTest {
   @Test
   public void leadsServletPutRequest_validUrlEncodedRequestWithOnlyId_doesNotChangeDataAndReturns204()
       throws Exception {
-
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
     when(request.getParameter("leadId")).thenReturn("2");
 
