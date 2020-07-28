@@ -65,7 +65,7 @@ describe('LeadService', () => {
       );
 
       const req = httpTestingController.expectOne(leadService.url);
-      req.flush([]); // Respond with no heroes
+      req.flush([]); // Respond with no leads
   });
 
 
@@ -99,7 +99,7 @@ describe('LeadService', () => {
     const requests = httpTestingController.match(leadService.url);
     expect(requests.length).toEqual(3, 'calls to getHeroes()');
 
-    // Respond to each request with different mock hero results
+    // Respond to each request with different mock lead results
     requests[0].flush([]);
     requests[1].flush([{date: new Date(), leadId: 'dKlwe8W4xN4CFcoFrwkdyHEByt', campaignId: 204256,
                                       gclId: 'uebai8W4xN4CFcoFrwkdyHEByw', apiVersion: '1.0', formId: 9574,

@@ -46,10 +46,13 @@ import { FormsComponent } from './components/crm/forms/forms.component';
 import { CampaignsComponent } from './components/crm/campaigns/campaigns.component';
 import { GuideComponent } from './components/crm/guide/guide.component';
 import { AnalyticsComponent } from './components/crm/analytics/analytics.component';
+import { MapComponent } from './components/crm/analytics/map/map.component';
+import { ChartsComponent } from './components/crm/analytics/charts/charts.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
 import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
+import { SettingsComponent } from './components/crm/settings/settings.component';
 
 import { LeadsModule } from './components/crm/leads/leads.module';
 
@@ -61,12 +64,15 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     CampaignsComponent,
     GuideComponent,
     AnalyticsComponent,
+    MapComponent,
+    ChartsComponent,
     CrmComponent,
     LandingComponent,
     FormsComponent,
     CrmTableComponent,
     CopyableFormFieldComponent,
-    LeadDetailsComponent
+    LeadDetailsComponent,
+    SettingsComponent
   ],
   imports: [
     HttpClientModule,

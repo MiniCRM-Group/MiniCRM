@@ -33,4 +33,22 @@ describe('LeadsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should listen to selectors and be disabled', () => {
+    const rootElement = fixture.nativeElement;
+    const submitButton = rootElement.querySelector('button#emailThem') as HTMLButtonElement;
+    const checkboxes = Array.from<HTMLInputElement>(
+      rootElement.querySelectorAll('input[type=checkbox]'));
+   
+      
+      expect(submitButton.disabled).toBe(true); // disabled
+      fixture.detectChanges(); // angular change detection, sometimes you need more than this for observables
+      checkboxes[1].click();
+       
+      expect(checkboxes.length).toBe(1); // make sure you have checkboxes
+  
+      expect(submitButton.disabled).toBe(false); // enabled
+    
+  
+  });
 });

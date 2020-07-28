@@ -21,9 +21,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { FormsComponent } from './forms.component';
+import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 
 @NgModule({
-  declarations: [FormsComponent],
+  declarations: [FormsComponent, CrmTableComponent],
   exports: [FormsComponent],
   imports: [
     CommonModule,

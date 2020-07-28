@@ -1,19 +1,24 @@
 <div class="container">
   <div class="button-row">
-    <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="emailLead()">Email Leads <mat-icon>email</mat-icon></button>
-    <button mat-flat-button color="primary" class="margined" [disabled]="! checkSelection()" (click)="smsLead()">Message Leads <mat-icon>send</mat-icon></button>
+    <button mat-flat-button color="primary" class="margined" id="emailThem" [disabled]="!checkSelection()" (click)="emailLead()">
+      <span i18n>Email Leads</span>
+      <mat-icon>email</mat-icon>
+    </button>
+    <button mat-flat-button color="primary" class="margined" id="smsThem" [disabled]="!checkSelection()" (click)="smsLead()">
+      <span i18n>Leads</span>
+      <mat-icon>send</mat-icon>
+    </button>
+
+  <button mat-raised-button color="primary" class="margined" (click)="exporter.exportTable('csv', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'MiniCRM'}})">Download CSV <mat-icon>table_chart</mat-icon></button>
   </div>
   <mat-form-field>
-    <mat-label>Filter your leads</mat-label>
+    <mat-label i18n>Filter your leads</mat-label>
     <input matInput
            (change)="applyFilter($event)"
-           placeholder="Type specific area codes, lead-ID, ..."
+           [placeholder]="filterPlaceholder"
            #input>
   </mat-form-field>
   <div class="mat-elevation-z1">
-
-
-
     <mat-table matTableExporter
                [dataSource]="dataSource"
                #exporter="matTableExporter"
@@ -39,21 +44,21 @@
 
       <!-- Lead Id Column -->
       <ng-container matColumnDef="leadId">
-        <mat-header-cell *matHeaderCellDef
-                         mat-sort-header> Lead ID </mat-header-cell>
+        <mat-header-cell i18n *matHeaderCellDef
+                         mat-sort-header> Lead Id </mat-header-cell>
         <mat-cell *matCellDef="let lead"> {{lead.leadId}} </mat-cell>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Lead Name </mat-header-cell>
         <mat-cell *matCellDef="let lead"> {{lead.columnData.FULL_NAME}} </mat-cell>
       </ng-container>
 
       <!-- Phone Number Column -->
       <ng-container matColumnDef="phone_number">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Phone Number </mat-header-cell>
 
         <mat-cell *matCellDef="let lead"> {{lead.columnData.PHONE_NUMBER}} </mat-cell>
@@ -61,7 +66,7 @@
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Email </mat-header-cell>
 
         <mat-cell *matCellDef="let lead"> {{lead.columnData.EMAIL}} </mat-cell>
@@ -69,32 +74,32 @@
 
       <!-- Campaign Id Column -->
       <ng-container matColumnDef="campaignId">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Campaign Id </mat-header-cell>
         <mat-cell *matCellDef="let lead"> {{lead.campaignId}} </mat-cell>
       </ng-container>
 
       <!-- Date Column -->
       <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Date </mat-header-cell>
         <mat-cell *matCellDef="let lead"> {{lead.date}} </mat-cell>
       </ng-container>
 
       <!-- Status Column -->
       <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Lead Status </mat-header-cell>
         <mat-cell *matCellDef="let lead">
           <mat-form-field appearance="fill">
             <mat-select>
-              <mat-option>
+              <mat-option i18n>
                 Opened
               </mat-option>
-              <mat-option>
+              <mat-option i18n>
                 Closed
               </mat-option>
-              <mat-option>
+              <mat-option i18n>
                 Not Opened
               </mat-option>
             </mat-select>
@@ -105,10 +110,9 @@
 
       <!-- More-info Column -->
       <ng-container matColumnDef="details">
-        <mat-header-cell *matHeaderCellDef
+        <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> More Info </mat-header-cell>
         <mat-cell *matCellDef="let lead"> <button mat-icon-button color="primary" (click)="openDialog(lead)">
-          <script>console.log(lead)</script>
           <mat-icon class="material-icons">info_outline</mat-icon>
         </button></mat-cell>
       </ng-container>
@@ -119,7 +123,7 @@
       <mat-header-row class="mat-row"
                       *matNoDataRow>
         <mat-row class="mat-cell"
-                 colspan="4">No data matching the filter "{{input.value}}"</mat-row>
+                 colspan="4"><span i18n>No data matching the filter</span> "{{input.value}}"</mat-row>
       </mat-header-row>
     </mat-table>
     <mat-card *ngIf="isLoading"
@@ -130,9 +134,7 @@
       </mat-progress-spinner>
     </mat-card>
     <!-- TODO: Switch this to use a class instead of setting styles -->
-    <mat-paginator [pageSizeOptions]="[10, 5, 20, 30]"
+    <mat-paginator [pageSizeOptions]="[25, 10, 50, 100]"
                    showFirstLastButtons></mat-paginator>
   </div>
-  <button mat-raised-button color="primary" class="margined" (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'MiniCRM'}})">Download CSV <mat-icon>table_chart</mat-icon></button>
-  <br>
 </div>
