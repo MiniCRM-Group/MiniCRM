@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Lead, LeadsResponse } from '../models/server_responses/lead.model';
 import { Observable } from 'rxjs';
-import { map, first } from 'rxjs/operators';
+import { map, first, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +20,15 @@ export class LeadService {
         first(),
         map(res => res.leads)
       );
+    }
+
+    updateLead(lead: Lead): any {
+      const body = {
+        leadId: lead.leadId, 
+        status: lead.status,
+        notes: lead.notes,
+      };
+      console.log(body);
+      return this.http.put<any>(this.url, body).pipe(retry(3));
     }
 }

@@ -90,7 +90,8 @@
                          mat-sort-header> Lead Status </mat-header-cell>
         <mat-cell *matCellDef="let lead">
           <mat-form-field>
-            <mat-select [(value)]="lead.status">
+            <mat-select [(value)]="lead.status"
+              (selectionChange)="updateLead(lead)">
               <mat-option i18n *ngFor="let key of leadStatusKeys" [value]="key">
                 {{key}}
               </mat-option>

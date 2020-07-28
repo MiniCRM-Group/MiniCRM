@@ -131,6 +131,15 @@ export class LeadsComponent implements AfterViewInit {
       });
   }
 
+  /**
+   * Called when the lead status is changed by the user or new notes are written
+   * @param lead the lead to be updated
+   */
+  updateLead(lead: Lead) {
+    console.log(lead);
+    this.leadService.updateLead(lead).subscribe((res)=> console.log(res));
+  }
+
  /**
   * This method will listen to the filter field in the html and update the value of dataSource
   * @param event an input from the filter field
