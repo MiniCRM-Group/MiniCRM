@@ -5,23 +5,23 @@
       <!-- Sidebar title to let user know this is miniCRM -->
       <mat-list-item>
         <!-- Using button to keep spacing consistent -->
-        <button mat-button>
+        <button mat-button class="no-hover-effect" disableRipple>
           <mat-icon mat-list-icon>layers</mat-icon>
           <span *ngIf="isExpanded" class="mat-h2">miniCRM</span>
         </button>
       </mat-list-item>
       <mat-divider></mat-divider>
       <!-- All the buttons that lead to different pages of the CRM -->
-      <mat-list-item *ngFor="let datum of navigationData">
-        <button color="primary" mat-button [routerLink]="datum.link">
+      <a mat-list-item *ngFor="let datum of navigationData" [routerLink]="datum.link">
+        <button mat-button disableRipple color="primary" class="no-hover-effect">
           <mat-icon mat-list-icon color="primary">{{ datum.icon }}</mat-icon>
           <span *ngIf="isExpanded" class="mat-h4">{{ datum.displayedName }}</span>
         </button>
-      </mat-list-item>
+      </a>
       <mat-divider></mat-divider>
       <!-- Button to toggle text in sidebar. -->
       <mat-list-item (click)="isExpanded = !isExpanded" >
-        <button color="primary" mat-button>
+        <button color="primary" mat-button disableRipple class="no-hover-effect">
           <mat-icon mat-list-icon color="primary">{{ isExpanded ? "chevron_left" : "chevron_right" }}</mat-icon>
           <span i18n *ngIf="isExpanded" class="mat-h4">Hide</span>
         </button>
