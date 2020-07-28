@@ -25,7 +25,7 @@ import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { Lead } from '../../../models/server_responses/lead.model';
+import { Lead, LeadStatus } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 
