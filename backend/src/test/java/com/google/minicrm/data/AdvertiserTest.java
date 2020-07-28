@@ -111,7 +111,7 @@ public final class AdvertiserTest {
     //get the query parameters
     String query = webhook.substring(webhook.indexOf("?") + 1);
     String[] keyValuePairs = query.split("&");
-    Map<String, String> params = new HashMap<String, String>();
+    Map<String, String> params = new HashMap<>();
     for (String keyValuePair : keyValuePairs) {
       String[] pair = keyValuePair.split("=");
       params.put(pair[0], pair[1]);
