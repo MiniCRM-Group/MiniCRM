@@ -105,5 +105,4 @@ public final class FormTest {
 
     assertNotEquals(formKey1, formKey2);
   }
-
 }

@@ -152,5 +152,4 @@ public final class LeadTest {
 
     assertNotEquals(leadKey1, leadKey2);
   }
-
 }

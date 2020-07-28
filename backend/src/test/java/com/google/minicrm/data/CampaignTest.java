@@ -16,6 +16,7 @@ package com.google.minicrm.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThrows;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
@@ -61,13 +62,14 @@ public final class CampaignTest {
     assertEquals(campaign, convertedCampaign);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void newCampaign_fromInvalidEntityKind_throwsIllegalArgumentException() {
+  @Test
+  public void newCampaign_fromInvalidEntityKind_throwsIllegalArgumentException()
+    throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
     Entity invalidEntity = new Entity("Lead", advertiserKey);
 
-    new Campaign(invalidEntity);
+    assertThrows(IllegalArgumentException.class, () -> new Campaign(invalidEntity));
   }
 
   @Test
