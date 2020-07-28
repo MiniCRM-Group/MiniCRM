@@ -17,8 +17,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 
-
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -46,6 +46,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatInputModule,
     MatFormFieldModule,
