@@ -16,6 +16,7 @@ package com.google.minicrm.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -66,11 +67,11 @@ public final class AdvertiserTest {
     assertEquals(advertiser, convertedAdvertiser);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void newAdvertiser_fromInvalidEntityKind_throwsIllegalArgumentException() {
     Entity invalidEntity = new Entity("Lead");
 
-    new Advertiser(invalidEntity);
+    assertThrows(IllegalArgumentException.class, () -> new Advertiser(invalidEntity));
   }
 
   @Test
