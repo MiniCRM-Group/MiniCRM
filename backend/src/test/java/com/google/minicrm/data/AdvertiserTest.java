@@ -16,6 +16,7 @@ package com.google.minicrm.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -66,11 +67,11 @@ public final class AdvertiserTest {
     assertEquals(advertiser, convertedAdvertiser);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void newAdvertiser_fromInvalidEntityKind_throwsIllegalArgumentException() {
     Entity invalidEntity = new Entity("Lead");
 
-    new Advertiser(invalidEntity);
+    assertThrows(IllegalArgumentException.class, () -> new Advertiser(invalidEntity));
   }
 
   @Test
@@ -110,7 +111,7 @@ public final class AdvertiserTest {
     //get the query parameters
     String query = webhook.substring(webhook.indexOf("?") + 1);
     String[] keyValuePairs = query.split("&");
-    Map<String, String> params = new HashMap<String, String>();
+    Map<String, String> params = new HashMap<>();
     for (String keyValuePair : keyValuePairs) {
       String[] pair = keyValuePair.split("=");
       params.put(pair[0], pair[1]);

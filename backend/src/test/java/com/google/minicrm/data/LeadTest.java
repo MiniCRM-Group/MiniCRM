@@ -16,6 +16,7 @@ package com.google.minicrm.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThrows;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
@@ -38,6 +39,9 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class LeadTest {
 
+  /**
+   * File that contains the test lead data represented as JSON
+   */
   private static final File leadFile = new File("src/test/resources/lead1.txt");
   private static final String TEST_USER_ID = "testUserId";
   private static final LocalServiceTestHelper helper =
@@ -57,6 +61,7 @@ public final class LeadTest {
   public void leadFromReader_fromValidLeadJson_producesEquivalentValidLead() throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
+    //Pull the test lead data from the leadFile
     Reader reader = new FileReader(leadFile);
 
     Lead lead = Lead.fromReader(reader, advertiserKey);
@@ -108,13 +113,13 @@ public final class LeadTest {
     assertEquals(lead, convertedLead);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void newLead_fromInvalidEntityKind_throwsIllegalArgumentException() throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
     Entity invalidEntity = new Entity("NotLead", advertiserKey);
 
-    new Lead(invalidEntity);
+    assertThrows(IllegalArgumentException.class, () -> new Lead(invalidEntity));
   }
 
   @Test
@@ -152,5 +157,4 @@ public final class LeadTest {
 
     assertNotEquals(leadKey1, leadKey2);
   }
-
 }
