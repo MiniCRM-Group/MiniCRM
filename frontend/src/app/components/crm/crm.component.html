@@ -21,7 +21,7 @@
       <mat-divider></mat-divider>
       <!-- Button to toggle text in sidebar. -->
       <mat-list-item (click)="isExpanded = !isExpanded" >
-        <button color="primary" mat-button disableRipple>
+        <button color="primary" mat-button disableRipple class="no-hover-effect">
           <mat-icon mat-list-icon color="primary">{{ isExpanded ? "chevron_left" : "chevron_right" }}</mat-icon>
           <span i18n *ngIf="isExpanded" class="mat-h4">Hide</span>
         </button>
