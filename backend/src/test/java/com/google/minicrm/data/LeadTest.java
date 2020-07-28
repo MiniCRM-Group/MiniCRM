@@ -38,6 +38,9 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class LeadTest {
 
+  /**
+   * File that contains the test lead data in JSON.
+   */
   private static final File leadFile = new File("src/test/resources/lead1.txt");
   private static final String TEST_USER_ID = "testUserId";
   private static final LocalServiceTestHelper helper =
@@ -57,6 +60,7 @@ public final class LeadTest {
   public void leadFromReader_fromValidLeadJson_producesEquivalentValidLead() throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
+    //Pull the test lead data from the leadFile
     Reader reader = new FileReader(leadFile);
 
     Lead lead = Lead.fromReader(reader, advertiserKey);
