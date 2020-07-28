@@ -221,9 +221,15 @@ export class LeadsComponent implements AfterViewInit {
   }
 
   openDialog(leadToShow: Lead) {
-    this.dialog.open(LeadDetailsComponent, {
+    const dialogRef = this.dialog.open(LeadDetailsComponent, {
       width: '750px',
       data: {lead: leadToShow}
+    });
+    
+    dialogRef.afterClosed().subscribe(result => {
+      leadToShow.notes = result;
+      //put the new lead
+      this.updateLead(leadToShow);
     });
   }
 
