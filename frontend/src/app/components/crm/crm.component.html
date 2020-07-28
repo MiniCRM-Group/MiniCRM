@@ -13,7 +13,7 @@
       <mat-divider></mat-divider>
       <!-- All the buttons that lead to different pages of the CRM -->
       <a mat-list-item *ngFor="let datum of navigationData" [routerLink]="datum.link">
-        <button color="primary" mat-button>
+        <button mat-button color="primary" class="no-hover-effect">
           <mat-icon mat-list-icon color="primary">{{ datum.icon }}</mat-icon>
           <span *ngIf="isExpanded" class="mat-h4">{{ datum.displayedName }}</span>
         </button>
