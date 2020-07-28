@@ -136,8 +136,7 @@ export class LeadsComponent implements AfterViewInit {
    * @param lead the lead to be updated
    */
   updateLead(lead: Lead) {
-    console.log(lead);
-    this.leadService.updateLead(lead).subscribe((res)=> console.log(res));
+    this.leadService.updateLead(lead).subscribe();
   }
 
  /**

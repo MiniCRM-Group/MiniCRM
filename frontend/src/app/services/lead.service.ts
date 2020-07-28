@@ -28,7 +28,6 @@ export class LeadService {
         status: lead.status,
         notes: lead.notes,
       };
-      console.log(body);
       return this.http.put<any>(this.url, body).pipe(retry(3));
     }
 }
