@@ -220,10 +220,10 @@ export class LeadsComponent implements AfterViewInit {
     return this.selection.selected.length > 0;
   }
 
-  openDialog(toBeDisplayed) {
+  openDialog(leadToShow: Lead) {
     this.dialog.open(LeadDetailsComponent, {
       width: '750px',
-      data: { details: toBeDisplayed }
+      data: {lead: leadToShow}
     });
   }
 
