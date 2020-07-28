@@ -42,6 +42,8 @@ import * as _ from 'lodash';
 
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
+  leadStatus = LeadStatus;
+  leadStatusKeys: Array<string>;
   filterPlaceholder = $localize`Type specific area codes, lead-ID, ...`;
 
   isLoading = true;
@@ -70,7 +72,7 @@ export class LeadsComponent implements AfterViewInit {
     this.titleService.setTitle($localize`Leads`);
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
-
+    this.leadStatusKeys = Object.keys(this.leadStatus);
   }
 
   ngAfterViewInit(): void {

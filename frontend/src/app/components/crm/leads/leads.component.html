@@ -89,16 +89,10 @@
         <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Lead Status </mat-header-cell>
         <mat-cell *matCellDef="let lead">
-          <mat-form-field appearance="fill">
-            <mat-select>
-              <mat-option i18n>
-                Opened
-              </mat-option>
-              <mat-option i18n>
-                Closed
-              </mat-option>
-              <mat-option i18n>
-                Not Opened
+          <mat-form-field>
+            <mat-select [(value)]="lead.status">
+              <mat-option i18n *ngFor="let key of leadStatusKeys" [value]="key">
+                {{key}}
               </mat-option>
             </mat-select>
           </mat-form-field>
