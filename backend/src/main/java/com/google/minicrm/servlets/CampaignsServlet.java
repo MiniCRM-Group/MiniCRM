@@ -116,6 +116,10 @@ public final class CampaignsServlet extends HttpServlet {
     } else if (contentType.contains("application/json")) {
       Gson gson = new Gson();
       Map<String, String> jsonMap = gson.fromJson(request.getReader(), Map.class);
+      if (jsonMap == null) {
+        response.sendError(400, "Content body with formId and formName required.");
+        return;
+      }
       strCampaignId = jsonMap.get("campaignId");
       campaignName = jsonMap.get("campaignName");
     } else {

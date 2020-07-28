@@ -85,6 +85,39 @@ public final class Campaign implements DatastoreObject {
     return campaignEntity;
   }
 
+  /**
+   * Checks whether another object o is a Campaign object that is either the same exact object or
+   * the same campaignId and campaignName.
+   * @param o the object to compare to this campaign
+   * @return true if the given object is a Campaign instance with the same campaignId and
+   *          campaignName as this campaign. Otherwise, false.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof Campaign)) {
+      return false;
+    }
+
+    Campaign other = (Campaign) o;
+    return this.campaignId == other.campaignId &&
+        this.campaignName.equals(other.campaignName);
+  }
+
+  /**
+   * Returns a String representation of this campaign with its campaignId and campaignName
+   * @return a String representation of this campaign
+   */
+  @Override
+  public String toString() {
+    String str = "Campaign:{";
+    str += "campaignId=" + campaignId + ", ";
+    str += "campaignName=\"" + campaignName + "\"}";
+    return str;
+  }
+
   //GETTERS AND SETTERS
 
   /**

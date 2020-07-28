@@ -29,7 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Mockito;
 
 /**
  * Provides testing when the user is not logged in. Verifies that all accesses to user data is
@@ -37,6 +36,7 @@ import org.mockito.Mockito;
  */
 @RunWith(JUnit4.class)
 public final class UnauthenticatedRequestsTest {
+
   private static final LocalServiceTestHelper helper =
       new LocalServiceTestHelper(
           new LocalDatastoreServiceTestConfig(),

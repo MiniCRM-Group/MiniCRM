@@ -32,7 +32,7 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.minicrm.data.Advertiser;
-import com.google.minicrm.data.Form;
+import com.google.minicrm.data.Campaign;
 import com.google.minicrm.utils.DatastoreUtil;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
@@ -54,13 +54,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Provides Unit Tests for the FormsServlet servlet at endpoint api/forms.
+ * Provides Unit Tests for the CampaignsServlet servlet at endpoint api/campaigns.
  */
 @RunWith(JUnit4.class)
-public final class FormsServletTest {
+public final class CampaignsServletTest {
 
   private static final String TEST_USER_ID = "testUserId";
-  private static final FormsServlet formsServlet = new FormsServlet();
+  private static final CampaignsServlet campaignsServlet = new CampaignsServlet();
   private static Map<String, Object> envAttributes;
 
   static {
@@ -78,9 +78,9 @@ public final class FormsServletTest {
           .setEnvAttributes(envAttributes);
   private final Gson gson = new Gson();
 
-  private Form form1;
-  private Form form2;
-  private Form form3;
+  private Campaign campaign1;
+  private Campaign campaign2;
+  private Campaign campaign3;
   private HttpServletRequest request;
   private HttpServletResponse response;
 
@@ -89,7 +89,6 @@ public final class FormsServletTest {
     helper.setUp();
     request = mock(HttpServletRequest.class);
     response = mock(HttpServletResponse.class);
-    seedForms();
   }
 
   @After
@@ -97,43 +96,30 @@ public final class FormsServletTest {
     helper.tearDown();
   }
 
+  @Test
+  public void campaignsServletGetRequest_returnsAllCampaigns() throws Exception {
+    seedCampaigns();
 
-  /**
-   * Initializes instance variables form1, form2, and form3 and stores them in datastore.
-   */
-  private void seedForms() {
-    User testUser = new User("email", "authDomain", TEST_USER_ID);
-    Key parentKey = Advertiser.generateKey(testUser);
-    form1 = new Form(parentKey, 1, "form1");
-    form2 = new Form(parentKey, 2, "form2");
-    form3 = new Form(parentKey, 3, "form3");
-    DatastoreUtil.put(form1);
-    DatastoreUtil.put(form2);
-    DatastoreUtil.put(form3);
+    List<Campaign> returnedCampaigns = getCampaigns();
+
+    List<Campaign> expectedCampaigns = Arrays.asList(campaign1, campaign2, campaign3);
+    assertListEqualsIgnoreOrder(expectedCampaigns, returnedCampaigns);
   }
 
   @Test
-  public void formsServletGetRequest_returnsAllForms() throws Exception {
-    List<Form> returnedForms = getForms();
-
-    List<Form> expectedForms = Arrays.asList(form1, form2, form3);
-    assertListEqualsIgnoreOrder(expectedForms, returnedForms);
-  }
-
-  @Test
-  public void formsServletPutRequest_validJsonRequest_successfullyRenamesAndReturns204()
+  public void campaignsServletPutRequest_validJsonRequest_successfullyRenamesAndReturns204()
       throws Exception {
-
+    seedCampaigns();
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new FormsPutRequest("2", "newName").toJson());
+    Reader reader = new StringReader(new CampaignsPutRequest("2", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
-    List<Form> returnedForms = getForms();
-    form2.setFormName("newName");
-    List<Form> expectedForms = Arrays.asList(form1, form2, form3);
-    assertListEqualsIgnoreOrder(expectedForms, returnedForms);
+    List<Campaign> returnedCampaigns = getCampaigns();
+    campaign2.setCampaignName("newName");
+    List<Campaign> expectedCampaigns = Arrays.asList(campaign1, campaign2, campaign3);
+    assertListEqualsIgnoreOrder(expectedCampaigns, returnedCampaigns);
 
     //verify response codes
     verify(response).setStatus(204);
@@ -142,24 +128,24 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void formsServletPutRequest_validUrlEncodedRequest_successfullyRenamesAndReturns204()
+  public void campaignsServletPutRequest_validUrlEncodedRequest_successfullyRenamesAndReturns204()
       throws Exception {
-
+    seedCampaigns();
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
-    when(request.getParameter("formId")).thenReturn("2");
-    when(request.getParameter("formName")).thenReturn("newName");
+    when(request.getParameter("campaignId")).thenReturn("2");
+    when(request.getParameter("campaignName")).thenReturn("newName");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
-    //get the new forms
-    List<Form> returnedForms = getForms();
-    form2.setFormName("newName");
-    List<Form> expectedForms = new ArrayList<>();
-    expectedForms.add(form1);
-    expectedForms.add(form2);
-    expectedForms.add(form3);
-    //assert all forms are the same regardless of order in list
-    assertListEqualsIgnoreOrder(expectedForms, returnedForms);
+    //get the new campaigns
+    List<Campaign> returnedCampaigns = getCampaigns();
+    campaign2.setCampaignName("newName");
+    List<Campaign> expectedCampaigns = new ArrayList<>();
+    expectedCampaigns.add(campaign1);
+    expectedCampaigns.add(campaign2);
+    expectedCampaigns.add(campaign3);
+    //assert all campaigns are the same regardless of order in list
+    assertListEqualsIgnoreOrder(expectedCampaigns, returnedCampaigns);
 
     //verify response codes
     verify(response).setStatus(204);
@@ -168,174 +154,177 @@ public final class FormsServletTest {
   }
 
   @Test
-  public void formsServletPutRequest_urlEncodedWithNoFields_throws400() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithNoFields_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_jsonWithNoBody_throws400() throws Exception {
+  public void campaignsServletPutRequest_jsonWithNoBody_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
     BufferedReader br = new BufferedReader(new StringReader(""));
     when(request.getReader()).thenReturn(br);
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_urlEncodedWithBlankId_throws400() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithBlankId_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
-    when(request.getParameter("formId")).thenReturn("");
-    when(request.getParameter("formName")).thenReturn("name");
+    when(request.getParameter("campaignId")).thenReturn("");
+    when(request.getParameter("campaignName")).thenReturn("name");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_jsonWithBlankId_throws400() throws Exception {
+  public void campaignsServletPutRequest_jsonWithBlankId_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new FormsPutRequest("", "newName").toJson());
+    Reader reader = new StringReader(new CampaignsPutRequest("", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_urlEncodedWithMissingId_throws400() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithMissingId_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
-    when(request.getParameter("formName")).thenReturn("name");
+    when(request.getParameter("campaignName")).thenReturn("name");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_jsonWithMissingId_throws400() throws Exception {
+  public void campaignsServletPutRequest_jsonWithMissingId_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new FormsPutRequest(null, "newName").toJson());
+    Reader reader = new StringReader(new CampaignsPutRequest(null, "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_urlEncodedWithBlankName_throws400() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithBlankName_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
-    when(request.getParameter("formId")).thenReturn("1234");
-    when(request.getParameter("formName")).thenReturn("");
+    when(request.getParameter("campaignId")).thenReturn("1234");
+    when(request.getParameter("campaignName")).thenReturn("");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_jsonWithBlankName_throws400() throws Exception {
+  public void campaignsServletPutRequest_jsonWithBlankName_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new FormsPutRequest("1234", "").toJson());
+    Reader reader = new StringReader(new CampaignsPutRequest("1234", "").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_urlEncodedWithMissingName_throws400() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithMissingName_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
-    when(request.getParameter("formId")).thenReturn("1234");
+    when(request.getParameter("campaignId")).thenReturn("1234");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_jsonWithMissingName_throws400() throws Exception {
+  public void campaignsServletPutRequest_jsonWithMissingName_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new FormsPutRequest("1234", null).toJson());
+    Reader reader = new StringReader(new CampaignsPutRequest("1234", null).toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_urlEncodedWithNonIntegerFormId_throws400() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithNonIntegerCampaignId_throws400()
+      throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
-    when(request.getParameter("formId")).thenReturn("1234.5");
-    when(request.getParameter("formName")).thenReturn("newNAme");
+    when(request.getParameter("campaignId")).thenReturn("1234.5");
+    when(request.getParameter("campaignName")).thenReturn("newNAme");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_jsonWithNonIntegerFormId_throws400() throws Exception {
+  public void campaignsServletPutRequest_jsonWithNonIntegerCampaignId_throws400() throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new FormsPutRequest("1234.5", "newName").toJson());
+    Reader reader = new StringReader(new CampaignsPutRequest("1234.5", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(400), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_urlEncodedWithNonexistentFormId_throws404() throws Exception {
+  public void campaignsServletPutRequest_urlEncodedWithNonexistentCampaignId_throws404()
+      throws Exception {
     when(request.getContentType()).thenReturn("application/x-www-form-urlencoded;");
-    when(request.getParameter("formId")).thenReturn("1234");
-    when(request.getParameter("formName")).thenReturn("newNAme");
+    when(request.getParameter("campaignId")).thenReturn("1234");
+    when(request.getParameter("campaignName")).thenReturn("newNAme");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(404), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_jsonWithNonexistentFormId_throws404() throws Exception {
+  public void campaignsServletPutRequest_jsonWithNonexistentCampaignId_throws404()
+      throws Exception {
     when(request.getContentType()).thenReturn("application/json;");
-    Reader reader = new StringReader(new FormsPutRequest("1234", "newName").toJson());
+    Reader reader = new StringReader(new CampaignsPutRequest("1234", "newName").toJson());
     when(request.getReader()).thenReturn(new BufferedReader(reader));
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the response has an error
     verify(response).sendError(eq(404), anyString()); //we want an error msg
   }
 
   @Test
-  public void formsServletPutRequest_withInvalidContentType_throws415() throws Exception {
+  public void campaignsServletPutRequest_withInvalidContentType_throws415() throws Exception {
     when(request.getContentType()).thenReturn("multipart/form-data;");
 
-    formsServlet.doPut(request, response);
+    campaignsServlet.doPut(request, response);
 
     //verify the error with a message
     verify(response).sendError(eq(415), anyString());
@@ -355,12 +344,27 @@ public final class FormsServletTest {
   }
 
   /**
-   * Gets the forms using the FormsServlet GET method
+   * Initializes instance variables campaign1, campaign2, and campaign3 and stores them in
+   * datastore.
+   */
+  private void seedCampaigns() {
+    User testUser = new User("email", "authDomain", TEST_USER_ID);
+    Key parentKey = Advertiser.generateKey(testUser);
+    campaign1 = new Campaign(parentKey, 1, "campaign1");
+    campaign2 = new Campaign(parentKey, 2, "campaign2");
+    campaign3 = new Campaign(parentKey, 3, "campaign3");
+    DatastoreUtil.put(campaign1);
+    DatastoreUtil.put(campaign2);
+    DatastoreUtil.put(campaign3);
+  }
+
+  /**
+   * Gets the campaigns using the CampaignsServlet GET method
    *
-   * @return the forms currently in the datastore
+   * @return the campaigns currently in the datastore
    * @throws Exception if any error occurs
    */
-  private List<Form> getForms() throws Exception {
+  private List<Campaign> getCampaigns() throws Exception {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -368,24 +372,25 @@ public final class FormsServletTest {
     PrintWriter writer = new PrintWriter(stringWriter);
     when(response.getWriter()).thenReturn(writer);
 
-    formsServlet.doGet(request, response);
+    campaignsServlet.doGet(request, response);
 
     writer.flush();
 
-    Type mapStrToFormArrType = new TypeToken<Map<String, Form[]>>() {
+    Type mapStrToCampaignArrType = new TypeToken<Map<String, Campaign[]>>() {
     }.getType();
-    Map<String, Form[]> getResponse = gson.fromJson(stringWriter.toString(), mapStrToFormArrType);
-    return Arrays.asList(getResponse.get("forms"));
+    Map<String, Campaign[]> getResponse = gson
+        .fromJson(stringWriter.toString(), mapStrToCampaignArrType);
+    return Arrays.asList(getResponse.get("campaigns"));
   }
 
-  private class FormsPutRequest {
+  private class CampaignsPutRequest {
 
-    private String formId;
-    private String formName;
+    private String campaignId;
+    private String campaignName;
 
-    FormsPutRequest(String formId, String formName) {
-      this.formId = formId;
-      this.formName = formName;
+    CampaignsPutRequest(String campaignId, String campaignName) {
+      this.campaignId = campaignId;
+      this.campaignName = campaignName;
     }
 
     public String toJson() {
