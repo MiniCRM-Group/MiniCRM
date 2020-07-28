@@ -40,7 +40,7 @@ import org.junit.runners.JUnit4;
 public final class LeadTest {
 
   /**
-   * File that contains the test lead data in JSON.
+   * File that contains the test lead data represented as JSON
    */
   private static final File leadFile = new File("src/test/resources/lead1.txt");
   private static final String TEST_USER_ID = "testUserId";
