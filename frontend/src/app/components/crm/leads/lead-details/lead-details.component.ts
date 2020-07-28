@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class LeadDetailsComponent {
   private initialNotes: string;
-  updated: boolean = false;
+  updated = false;
   constructor(
     public dialogRef: MatDialogRef<LeadDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {

@@ -225,12 +225,11 @@ export class LeadsComponent implements AfterViewInit {
       width: '750px',
       data: {lead: leadToShow}
     });
-    
+
     dialogRef.afterClosed().subscribe(result => {
       leadToShow.notes = result;
-      //put the new lead
+      // put the new lead
       this.updateLead(leadToShow);
     });
   }
-
 }

@@ -24,7 +24,7 @@ export class LeadService {
 
     updateLead(lead: Lead): any {
       const body = {
-        leadId: lead.leadId, 
+        leadId: lead.leadId,
         status: lead.status,
         notes: lead.notes,
       };
