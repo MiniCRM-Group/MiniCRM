@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Lead Info</h1>
 <div mat-dialog-content>
-  <mat-list>
+  <mat-list dense>
     <mat-list-item>Date Received: {{data.lead.date}}</mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item>Lead Id: {{data.lead.leadId}}</mat-list-item>
@@ -35,8 +35,35 @@
       </mat-form-field>
     </mat-list-item>
   </mat-list>
+  <div id="details" fxLayout="column" fxLayoutAlign="space-around start">
+    <p class="mat-small">Date Received: {{data.lead.date}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Lead Id: {{data.lead.leadId}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Campaign Id: {{data.lead.campaignId}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Google Click Id: {{data.lead.gclId}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Form Id: {{data.lead.formId}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Name: {{data.lead.columnData.FULL_NAME}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Phone Number: {{data.lead.columnData.PHONE_NUMBER}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Email: {{data.lead.columnData.EMAIL}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Test: {{data.lead.isTest}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Ad Group Id: {{data.lead.adgroupId}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Creative Id: {{data.lead.creativeId}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Status: {{data.lead.status}}</p>
+    <mat-divider></mat-divider>
+    <p class="mat-small">Notes:</p>
+  </div>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
   <button mat-button (click)="onNoClick()">Close</button>
   <button mat-flat-button [mat-dialog-close]="data.lead.notes" color="primary" [disabled]="!updated">Update</button>
 </div>

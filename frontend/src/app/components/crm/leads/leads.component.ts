@@ -5,7 +5,7 @@
  *  - The lead service
  */
 
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 /**
  * Import Material components
@@ -68,7 +68,9 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog, private titleService: Title) {
+  constructor(private readonly leadService: LeadService, 
+      public dialog: MatDialog, private titleService: Title, 
+      private changeDectectorRef: ChangeDetectorRef) {
     this.titleService.setTitle($localize`Leads`);
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
@@ -227,9 +229,14 @@ export class LeadsComponent implements AfterViewInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      leadToShow.notes = result;
-      // put the new lead
-      this.updateLead(leadToShow);
+      if (result != null) {
+        console.log(result);
+        leadToShow.notes = result;
+        console.log(leadToShow);
+        // put the new lead
+        this.updateLead(leadToShow);
+      }
     });
+
   }
 }
