@@ -1,15 +1,13 @@
 <div class="container">
   <div class="button-row">
-    <button mat-flat-button color="primary" class="margined" id="emailThem" [disabled]="!checkSelection()" (click)="emailLead()">
+    <button mat-flat-button color="primary" class="margined" [disabled]="!checkSelection()" (click)="emailLead()">
       <span i18n>Email Leads</span>
       <mat-icon>email</mat-icon>
     </button>
-    <button mat-flat-button color="primary" class="margined" id="smsThem" [disabled]="!checkSelection()" (click)="smsLead()">
+    <button mat-flat-button color="primary" class="margined" [disabled]="!checkSelection()" (click)="smsLead()">
       <span i18n>Leads</span>
       <mat-icon>send</mat-icon>
     </button>
-
-  <button mat-raised-button color="primary" class="margined" (click)="exporter.exportTable('csv', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'MiniCRM'}})">Download CSV <mat-icon>table_chart</mat-icon></button>
   </div>
   <mat-form-field>
     <mat-label i18n>Filter your leads</mat-label>
@@ -63,13 +61,6 @@
 
         <mat-cell *matCellDef="let lead"> {{lead.columnData.PHONE_NUMBER}} </mat-cell>
       </ng-container>
-   <!-- Phone Number Column -->
-   <ng-container matColumnDef="estimatedLatitude">
-    <mat-header-cell i18n *matHeaderCellDef
-                     mat-sort-header> Location </mat-header-cell>
-
-    <mat-cell *matCellDef="let lead"> {{lead.estimatedLocation}}</mat-cell>
-  </ng-container>
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">
@@ -144,4 +135,6 @@
     <mat-paginator [pageSizeOptions]="[25, 10, 50, 100]"
                    showFirstLastButtons></mat-paginator>
   </div>
+  <button mat-raised-button color="primary" class="margined" (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'MiniCRM'}})">Download CSV <mat-icon>table_chart</mat-icon></button>
+  <br>
 </div>
