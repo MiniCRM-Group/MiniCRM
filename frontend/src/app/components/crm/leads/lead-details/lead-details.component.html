@@ -9,7 +9,7 @@
     <mat-divider></mat-divider>
     <mat-list-item>Email: {{data.lead.columnData.EMAIL}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>Status: {{data.lead.status}}</mat-list-item>
+    <mat-list-item>Status: {{data.lead.status | humanizeEnum}}</mat-list-item>
     <mat-divider></mat-divider>
   </mat-list>
   <mat-form-field id="notes">

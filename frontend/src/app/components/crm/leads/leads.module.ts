@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeadsComponent } from './leads.component';
+import { LeadDetailsComponent } from './lead-details/lead-details.component';
+import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +27,7 @@ import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 @NgModule({
   declarations: [
     LeadsComponent,
+    LeadDetailsComponent,
     HumanizeEnumPipe
   ],
   exports: [
@@ -48,6 +51,7 @@ import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
     MatPaginatorModule,
    ],
   imports: [
+    FormsModule,
     MatButtonModule,
     MatIconModule,
     MatTableModule,
@@ -67,6 +71,7 @@ import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
     MatSelectModule,
     MatTableExporterModule,
     CommonModule
-  ]
+  ],
+  entryComponents: [LeadDetailsComponent],
 })
 export class LeadsModule { }
