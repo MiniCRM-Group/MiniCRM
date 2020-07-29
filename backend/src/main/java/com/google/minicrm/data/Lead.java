@@ -26,7 +26,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java. util.*;
 import java.util.Map;
 
 import com.google.maps.GeoApiContext;
@@ -167,11 +166,11 @@ public final class Lead implements DatastoreObject {
     leadEntity.setProperty("creativeId", creativeId);
     leadEntity.setProperty("notes", notes);
     leadEntity.setProperty("status", status.ordinal());
-    List<String> locationInfos = new ArrayList<String>();
+    List<String> locationInfos = new ArrayList<>();
     for (String key : columnData.keySet()) {
       leadEntity.setProperty(key, columnData.get(key));
       // If the column data is related with address add it into locationInfo arraylist
-      if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") || key.equals("CITY") || key.equals("REGION") || key.equals("COUNTRY") || key.equals("COUNTRY") ){
+      if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") || key.equals("CITY") || key.equals("REGION") || key.equals("COUNTRY") || key.equals("COUNTRY")){
         locationInfos.add(columnData.get(key));
       }
     }
@@ -185,9 +184,10 @@ public final class Lead implements DatastoreObject {
     GeoApiContext context = new GeoApiContext.Builder()
     .apiKey("AIzaSyCtwKeQ-lXdDQORu9nzCUE99QmjJHJDsdI")
     .build();
-    GeocodingResult[] results = null;
+    GeocodingResult[] results;
     // Mandatory exception handling by the geocoding api
-    try { results =  GeocodingApi.geocode(context,
+    try { 
+      results =  GeocodingApi.geocode(context,
       addressToBe).await();
     } catch (ApiException | InterruptedException | IOException e) {
       e.printStackTrace();
