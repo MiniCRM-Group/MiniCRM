@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Lead Info</h1>
 <div mat-dialog-content>
-  <mat-list dense>
+  <mat-list>
     <mat-list-item>Date Received: {{data.lead.date}}</mat-list-item>
     <mat-divider></mat-divider>
     <mat-list-item>Name: {{data.lead.columnData.FULL_NAME}}</mat-list-item>
@@ -17,8 +17,10 @@
     <textarea matInput 
       cdkTextareaAutosize 
       (input)="notesUpdated()"
-      [(ngModel)]="data.lead.notes"></textarea>
+      [(ngModel)]="data.lead.notes">
+    </textarea>
   </mat-form-field>
+  <mat-divider></mat-divider>
   <p id="sub-details" class="mat-small">
     Lead Id: {{data.lead.leadId}}
     <br/>
