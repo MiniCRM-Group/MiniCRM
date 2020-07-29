@@ -23,27 +23,29 @@ import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 
 
 @NgModule({
-  declarations: [ LeadsComponent,
+  declarations: [ 
+    LeadsComponent,
     HumanizeEnumPipe
   ],
-  exports: [ LeadsComponent,
+  exports: [ 
+    LeadsComponent,
     MatButtonModule,
-       MatIconModule,
-       MatTableModule,
+    MatIconModule,
+    MatTableModule,
 
-       MatInputModule,
-       MatFormFieldModule,
-       MatInputModule,
-       MatCheckboxModule,
-       ClipboardModule,
-       MatDialogModule,
-       MatProgressSpinnerModule,
-       MatCardModule,
-       MatCheckboxModule,
-       MatDialogModule,
-       MatListModule,
-       MatSelectModule,
-       MatPaginatorModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ClipboardModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatListModule,
+    MatSelectModule,
+    MatPaginatorModule,
    ],
   imports: [
     MatButtonModule,
