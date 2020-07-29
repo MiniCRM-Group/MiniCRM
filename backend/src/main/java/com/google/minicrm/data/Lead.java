@@ -62,7 +62,7 @@ public final class Lead implements DatastoreObject {
   private String estimatedLocation;
   private String estimatedLatitude;
   private String estimatedLongitude;
-  private GeocodingResult[] results;
+  
 
   /**
    * Advertiser defined and edited fields.
@@ -185,6 +185,7 @@ public final class Lead implements DatastoreObject {
     GeoApiContext context = new GeoApiContext.Builder()
     .apiKey("AIzaSyCtwKeQ-lXdDQORu9nzCUE99QmjJHJDsdI")
     .build();
+    GeocodingResult[] results = null;
     // Mandatory exception handling by the geocoding api
     try {
       String addressToBeFinal = addressToBe.toString(); 
@@ -205,46 +206,6 @@ public final class Lead implements DatastoreObject {
   }
 
   /**
-   * Checks whether another object o is a Lead that is either the same object as this lead or has
-   * all the same instance variables expect the date created variable and advertiserKey.
-   * @param o the object to compare to this lead
-   * @return true if the given object is a Lead instance with the same instance variables other than
-   *         date created and advertiserKey. False, otherwise.
-   */
-  @Override
-  public boolean equals(Object o) {
-    if (o == this) {
-      return true;
-    }
-    if (!(o instanceof Lead)) {
-      return false;
-    }
-
-    Lead other = (Lead) o;
-    return this.leadId.equals(other.leadId) &&
-        this.campaignId == other.campaignId &&
-        this.gclId.equals(other.gclId) &&
-        this.apiVersion.equals(other.apiVersion) &&
-        this.formId == other.formId &&
-        this.googleKey.equals(other.googleKey) &&
-        this.columnData.equals(other.columnData) &&
-        this.isTest == other.isTest &&
-        this.adgroupId == other.adgroupId &&
-        this.creativeId == other.creativeId &&
-        this.status == other.status &&
-        this.notes.equals(other.notes);
-  }
-
-  /**
-   * Returns a JSON representation of this object as a String
-   * @return a String representation of this lead
-   */
-  @Override
-  public String toString() {
-    return this.asJson();
-  }
-
-  /**
    * Generates a datastore key for the lead specified by the parent advertiser key and lead id given
    * @param parentKey the key for the advertiser entity that owns this lead
    * @param leadId    the id of the lead
@@ -260,18 +221,13 @@ public final class Lead implements DatastoreObject {
   private void generateDataMap() {
     columnData = new HashMap<>(userColumnData.size());
     for (ColumnData cData : userColumnData) {
+
       columnData.put(cData.getColumnId(), cData.getStringValue());
     }
   }
 
   //Getters and Setters
 
-  /**
-   * @return the Key for the advertiser entity that owns this lead
-   */
-  public Key getAdvertiserKey() {
-    return advertiserKey;
-  }
   /**
    * @return the Date this lead was received
    */
