@@ -44,16 +44,16 @@ describe('LeadService', () => {
         isTest: false, adgroupId : 0, creativeId: 0, status: 'OPEN', notes: ''}
         ] as Lead[]
       };
-  
+
       leadService.getAllLeads().subscribe((res: Lead[]) => {
         expect(res).toEqual(expectedLeads.leads);
       });
-  
+
       const req = httpMock.expectOne(leadService.url);
       expect(req.request.method).toBe('GET');
       req.flush(expectedLeads);
     });
-  
+
     it('should be OK returning no leads', () => {
         const expectedLeads: LeadsResponse = {
         leads: [
@@ -64,12 +64,11 @@ describe('LeadService', () => {
           leads => expect(expectedLeads.leads.length).toEqual(0, 'should have empty leads array'),
           fail
         );
-  
+
         const req = httpTestingController.expectOne(leadService.url);
         req.flush([]); // Respond with no leads
     });
-  
-  
+
     it('should return expected leads (called multiple times)', () => {
       const expectedLeads: LeadsResponse = {
         leads: [
@@ -96,10 +95,10 @@ describe('LeadService', () => {
         leads => expect(leads).toEqual(expectedLeads.leads, 'should return expected heroes'),
         fail
       );
-  
+
       const requests = httpTestingController.match(leadService.url);
       expect(requests.length).toEqual(3, 'calls to getHeroes()');
-  
+
       // Respond to each request with different mock lead results
       requests[0].flush([]);
       requests[1].flush([{date: new Date(), leadId: 'dKlwe8W4xN4CFcoFrwkdyHEByt', campaignId: 204256,
@@ -110,7 +109,6 @@ describe('LeadService', () => {
       requests[2].flush(expectedLeads);
     });
   });
-  
 
   describe('Update Lead', () => {
     it('should do a PUT request with the lead parameters', () => {
@@ -120,9 +118,9 @@ describe('LeadService', () => {
       columnData: {FULL_NAME: 'kali Ali', EMAIL: 'kali@gmail.com', PHONE_NUMBER: '+15334567890'},
       isTest: false, adgroupId : 0, creativeId: 0, status: 'OPEN', notes: 'hello'} as Lead;
 
-      leadService.updateLead(lead).subscribe(/*Don't care about the response*/);
+      leadService.updateLead(lead).subscribe(/* Don't care about the response */);
 
-      //expect a PUT request with all the correct parameters in the body
+      // expect a PUT request with all the correct parameters in the body
       const req = httpMock.expectOne(leadService.url);
       const request = req.request;
       expect(request.method).toBe('PUT');
