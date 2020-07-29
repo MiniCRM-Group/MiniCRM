@@ -10,7 +10,7 @@ describe('LeadDetailsComponent', () => {
     close: jasmine.createSpy('close')
   };
   const data: any = {
-    details: {
+    lead: {
       date: new Date(2020, /*month=*/ 7, /*day=*/ 17),
       leadId: '1',
       campaignId: 1,
