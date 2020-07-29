@@ -62,6 +62,7 @@ public final class Lead implements DatastoreObject {
   private String estimatedLocation;
   private String estimatedLatitude;
   private String estimatedLongitude;
+  private GeocodingResult[] results;
 
   /**
    * Advertiser defined and edited fields.
@@ -176,19 +177,19 @@ public final class Lead implements DatastoreObject {
     }
 
     // Stringfy the list
-    String addressToBe = "";
+    StringBuilder addressToBe = new StringBuilder();
     for (String temp : locationInfos) {
-      addressToBe = addressToBe + temp + " ";
+      addressToBe.append(temp + " ");
     }
   
     GeoApiContext context = new GeoApiContext.Builder()
     .apiKey("AIzaSyCtwKeQ-lXdDQORu9nzCUE99QmjJHJDsdI")
     .build();
-    GeocodingResult[] results;
     // Mandatory exception handling by the geocoding api
-    try { 
+    try {
+      String addressToBeFinal = addressToBe.toString(); 
       results =  GeocodingApi.geocode(context,
-      addressToBe).await();
+      addressToBeFinal).await();
     } catch (ApiException | InterruptedException | IOException e) {
       e.printStackTrace();
     }
@@ -219,7 +220,6 @@ public final class Lead implements DatastoreObject {
   private void generateDataMap() {
     columnData = new HashMap<>(userColumnData.size());
     for (ColumnData cData : userColumnData) {
-
       columnData.put(cData.getColumnId(), cData.getStringValue());
     }
   }
