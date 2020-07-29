@@ -19,10 +19,13 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatSortModule } from '@angular/material/sort';
+import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 
 
 @NgModule({
-  declarations: [ LeadsComponent ],
+  declarations: [ LeadsComponent,
+    HumanizeEnumPipe
+  ],
   exports: [ LeadsComponent,
     MatButtonModule,
        MatIconModule,

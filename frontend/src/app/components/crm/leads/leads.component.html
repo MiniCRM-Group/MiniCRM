@@ -93,7 +93,7 @@
             <mat-select [(value)]="lead.status"
               (selectionChange)="updateLead(lead)">
               <mat-option i18n *ngFor="let key of leadStatusKeys" [value]="key">
-                {{key}}
+                {{key | humanizeEnum}}
               </mat-option>
             </mat-select>
           </mat-form-field>
