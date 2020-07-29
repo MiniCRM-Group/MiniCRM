@@ -23,11 +23,11 @@ import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 
 
 @NgModule({
-  declarations: [ 
+  declarations: [
     LeadsComponent,
     HumanizeEnumPipe
   ],
-  exports: [ 
+  exports: [
     LeadsComponent,
     MatButtonModule,
     MatIconModule,
