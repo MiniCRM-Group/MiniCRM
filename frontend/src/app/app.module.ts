@@ -50,6 +50,7 @@ import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-d
 import { SettingsComponent } from './components/crm/settings/settings.component';
 
 import { LeadsModule } from './components/crm/leads/leads.module';
+import { HumanizeEnumPipe } from './pipes/humanize-enum.pipe';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     CrmTableComponent,
     CopyableFormFieldComponent,
     LeadDetailsComponent,
-    SettingsComponent
+    SettingsComponent,
+    HumanizeEnumPipe
   ],
   imports: [
     HttpClientModule,
