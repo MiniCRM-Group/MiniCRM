@@ -61,6 +61,8 @@ public final class Lead implements DatastoreObject {
   private long adgroupId;
   private long creativeId;
   private String estimatedLocation;
+  private String estimatedLatitude;
+  private String estimatedLongitude;
 
   /**
    * Advertiser defined and edited fields.
@@ -100,8 +102,9 @@ public final class Lead implements DatastoreObject {
     this.creativeId = (Long) entity.getProperty("creativeId");
     this.status = LeadStatus.values()[((Long) entity.getProperty("status")).intValue()];
     this.notes = (String) entity.getProperty("notes");
-
-
+    this.estimatedLatitude = (String) entity.getProperty("estimatedLatitude");
+    this.estimatedLongitude = (String) entity.getProperty("estimatedLongitude");
+ 
     entity.removeProperty("date");
     entity.removeProperty("leadId");
     entity.removeProperty("campaignId");
@@ -114,6 +117,8 @@ public final class Lead implements DatastoreObject {
     entity.removeProperty("creativeId");
     entity.removeProperty("status");
     entity.removeProperty("notes");
+    entity.removeProperty("estimatedLatitude");
+    entity.removeProperty("estimatedLongitude");
     this.columnData = new HashMap<>();
     for (String key : entity.getProperties().keySet()) {
       columnData.put(key, (String) entity.getProperty(key));
@@ -164,49 +169,37 @@ public final class Lead implements DatastoreObject {
     leadEntity.setProperty("status", status.ordinal());
     List<String> locationInfos = new ArrayList<String>();
     for (String key : columnData.keySet()) {
-
       leadEntity.setProperty(key, columnData.get(key));
-    if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") || key.equals("CITY") || key.equals("REGION") || key.equals("COUNTRY") || key.equals("COUNTRY") ){
-
-      locationInfos.add(columnData.get(key));
-      System.out.println("***************");
-      System.out.println("***************");
-      System.out.println("***************");
-      System.out.println(locationInfos.toString());
-      System.out.println("***************");
-      System.out.println("***************");
-      System.out.println("***************");
-
-
-    
-
+      // If the column data is related with address add it into locationInfo arraylist
+      if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") || key.equals("CITY") || key.equals("REGION") || key.equals("COUNTRY") || key.equals("COUNTRY") ){
+        locationInfos.add(columnData.get(key));
+      }
     }
-    }
+
+    // Stringfy the list
     String addressToBe = "";
     for (String temp : locationInfos) {
       addressToBe = addressToBe + temp + " ";
-  }
+    }
   
-  System.out.println("***************");
-  System.out.println("***************");
-  System.out.println("***************");
-  System.out.println(addressToBe);
-  System.out.println("***************");
-  System.out.println("***************");
-  System.out.println("***************");
-  GeoApiContext context = new GeoApiContext.Builder()
-  .apiKey("AIzaSyCtwKeQ-lXdDQORu9nzCUE99QmjJHJDsdI")
-  .build();
-  GeocodingResult[] results = null;
-try { results =  GeocodingApi.geocode(context,
-  addressToBe).await();
-} catch (ApiException | InterruptedException | IOException e) {
-  e.printStackTrace();
-}
-Gson gson = new GsonBuilder().setPrettyPrinting().create();
-estimatedLocation = gson.toJson(results[0].geometry.location);
-System.out.println(estimatedLocation);
-leadEntity.setProperty("estimatedLocation", estimatedLocation);
+    GeoApiContext context = new GeoApiContext.Builder()
+    .apiKey("AIzaSyCtwKeQ-lXdDQORu9nzCUE99QmjJHJDsdI")
+    .build();
+    GeocodingResult[] results = null;
+    // Mandatory exception handling by the geocoding api
+    try { results =  GeocodingApi.geocode(context,
+      addressToBe).await();
+    } catch (ApiException | InterruptedException | IOException e) {
+      e.printStackTrace();
+    }
+
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    // Get latitude and longitude
+    estimatedLatitude = gson.toJson(results[0].geometry.location.lat);
+    estimatedLongitude = gson.toJson(results[0].geometry.location.lng);
+
+    leadEntity.setProperty("estimatedLatitude", estimatedLatitude);
+    leadEntity.setProperty("estimatedLongitude", estimatedLongitude);
     return leadEntity;
   }
 

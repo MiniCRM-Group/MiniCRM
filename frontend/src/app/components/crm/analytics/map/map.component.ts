@@ -2,6 +2,12 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { } from 'googlemaps';
 
+import { LeadService } from '../../../../services/lead.service';
+import { Lead } from '../../../../models/server_responses/lead.model';
+import { LocationData } from '../../../../models/server_responses/lead.model';
+
+import { first } from 'rxjs/operators';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -18,9 +24,10 @@ export class MapComponent implements AfterViewInit {
   infoWindow = new google.maps.InfoWindow;
   heatmap = new google.maps.visualization.HeatmapLayer;
   pos = null;
-
-  constructor(private titleService: Title) {
+  leads: Lead[];
+  constructor(private leadService: LeadService, private titleService: Title) {
     this.titleService.setTitle('Map');
+    this.loadAllLocations();
   }
 
   ngAfterViewInit(): void {
@@ -38,7 +45,7 @@ export class MapComponent implements AfterViewInit {
       title: 'Hello World!'
     });
     this.heatmap = new google.maps.visualization.HeatmapLayer({
-      data: this.getPoints(),
+      data: this.loadAllLocations(),
       map: this.map
     });
     // Try HTML5 geolocation.
@@ -66,7 +73,28 @@ export class MapComponent implements AfterViewInit {
 	    navigator.geolocation.getCurrentPosition(this.success);
 
   }
+ 
+  loadAllLocations() {
+    var points = [];
+    this.leadService.getAllLeads().pipe(first()).subscribe((leads) =>{
+      this.leads = leads;
+      const latitudeCollection = leads.map(lead => lead.estimatedLatitude);
+      const longitudeCollection = leads.map(lead => lead.estimatedLongitude);
+      for(let i = 0; i<latitudeCollection.length; i++){
+        if(latitudeCollection[i] !== undefined){
+          const x = Number(latitudeCollection[i]);
+          const y = Number(longitudeCollection[i]);
+      points.push(new google.maps.LatLng(x,y)); 
+     
+      }
+     }
+    });
+  return points;
+  }
+  
+  //test data
   getPoints() {
+  console.log(new google.maps.LatLng(37.782551, -122.445368));
     return [
       new google.maps.LatLng(37.782551, -122.445368),
       new google.maps.LatLng(37.782745, -122.444586),

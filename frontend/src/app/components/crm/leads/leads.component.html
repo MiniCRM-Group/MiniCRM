@@ -63,6 +63,13 @@
 
         <mat-cell *matCellDef="let lead"> {{lead.columnData.PHONE_NUMBER}} </mat-cell>
       </ng-container>
+   <!-- Phone Number Column -->
+   <ng-container matColumnDef="estimatedLatitude">
+    <mat-header-cell i18n *matHeaderCellDef
+                     mat-sort-header> Location </mat-header-cell>
+
+    <mat-cell *matCellDef="let lead"> {{lead.estimatedLocation}}</mat-cell>
+  </ng-container>
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">

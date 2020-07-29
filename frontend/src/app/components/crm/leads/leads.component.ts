@@ -60,6 +60,7 @@ export class LeadsComponent implements AfterViewInit {
     'campaignId',
     'status',
     'date',
+    'estimatedLatitude',
     'details'
   ];
 
