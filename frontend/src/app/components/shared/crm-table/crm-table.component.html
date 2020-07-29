@@ -28,7 +28,7 @@
             </td>
         </ng-container>
         <ng-container *ngFor="let map of keyDisplayedNameOrdering" [matColumnDef]="map.key">
-            <div *ngIf="map.displayedName.indexOf('Name') > -1; else normalCell">
+            <div *ngIf="map.key.indexOf('Name') > -1; else normalCell">
                 <th mat-header-cell *matHeaderCellDef>{{ map.displayedName }}</th>
                 <td mat-cell *matCellDef="let element">
                     <mat-form-field floatLabel="never">

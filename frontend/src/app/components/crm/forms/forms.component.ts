@@ -15,7 +15,6 @@ import { KeyDisplayedNameMap } from 'src/app/models/component_states/table-data.
 })
 export class FormsComponent implements OnInit, AfterViewInit {
   @ViewChild('formsCrmTable') formsTable: CrmTableComponent<Form>;
-  keyOrdering: string[] = ['formId', 'formName', 'date'];
   keyDisplayedNameMaps: KeyDisplayedNameMap[] = [
     {
       key: 'formId',

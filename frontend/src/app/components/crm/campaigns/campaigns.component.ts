@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { Campaign } from 'src/app/models/server_responses/campaign.model';
@@ -12,9 +12,8 @@ import { KeyDisplayedNameMap } from 'src/app/models/component_states/table-data.
   templateUrl: './campaigns.component.html',
   styleUrls: ['./campaigns.component.css']
 })
-export class CampaignsComponent implements OnInit {
+export class CampaignsComponent implements OnInit, AfterViewInit {
   @ViewChild('campaignsCrmTable') campaignsTable: CrmTableComponent<Campaign>;
-  campaigns: Observable<Campaign[]> = this.campaignService.getAllCampaigns();
   keyDisplayNameMaps: KeyDisplayedNameMap[] = [
     {
       key: 'campaignId',
@@ -36,6 +35,13 @@ export class CampaignsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    this.campaignService.getAllCampaigns().subscribe((res: Campaign[]) => {
+      this.campaignsTable.data = res;
+      this.campaignsTable.refreshDataSource();
+    });
   }
 
   /**
