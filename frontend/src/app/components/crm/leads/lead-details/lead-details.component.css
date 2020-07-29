@@ -3,6 +3,7 @@
 }
 
 textarea {
+    /*box-sizing: border-box makes textarea mat-input show an unecessary scroll bar */
     box-sizing: content-box;
 }
 
