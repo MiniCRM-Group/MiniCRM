@@ -31,10 +31,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Provides Unit tests for the Form data object.
+ * Provides Unit tests for the Campaign data object.
  */
 @RunWith(JUnit4.class)
-public final class FormTest {
+public final class CampaignTest {
 
   private static final String TEST_USER_ID = "testUserId";
   private static final LocalServiceTestHelper helper =
@@ -51,59 +51,61 @@ public final class FormTest {
   }
 
   @Test
-  public void newForm_fromValidFormAsEntity_producesEquivalentValidForm() throws Exception {
+  public void newCampaign_fromValidCampaignAsEntity_producesEquivalentValidCampaign()
+      throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
-    Form form = new Form(advertiserKey, 1, "form1");
+    Campaign campaign = new Campaign(advertiserKey, 1, "campaign1");
 
-    Form convertedForm = new Form(form.asEntity());
+    Campaign convertedCampaign = new Campaign(campaign.asEntity());
 
-    assertEquals(form, convertedForm);
+    assertEquals(campaign, convertedCampaign);
   }
 
   @Test
-  public void newForm_fromInvalidEntityKind_throwsIllegalArgumentException() {
+  public void newCampaign_fromInvalidEntityKind_throwsIllegalArgumentException()
+    throws Exception {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
     Entity invalidEntity = new Entity("Lead", advertiserKey);
 
-    assertThrows(IllegalArgumentException.class, () -> new Form(invalidEntity));
+    assertThrows(IllegalArgumentException.class, () -> new Campaign(invalidEntity));
   }
 
   @Test
-  public void formGenerateKey_withValidFormParams_producesCorrespondingKey() {
+  public void campaignGenerateKey_withValidCampaignParams_producesCorrespondingKey() {
     User testUser = new User("email", "authDomain", TEST_USER_ID);
     Key advertiserKey = Advertiser.generateKey(testUser);
-    Form form = new Form(advertiserKey, 1, "form1");
+    Campaign campaign = new Campaign(advertiserKey, 1, "campaign1");
 
-    Key generatedKey = Form.generateKey(form.getAdvertiserKey(), form.getFormId());
+    Key generatedKey = Campaign.generateKey(campaign.getAdvertiserKey(), campaign.getCampaignId());
 
-    assertEquals(form.asEntity().getKey(), generatedKey);
+    assertEquals(campaign.asEntity().getKey(), generatedKey);
   }
 
   @Test
-  public void formGenerateKey_withDifferentParent_generatesDifferentKey()
+  public void campaignGenerateKey_withDifferentParent_generatesDifferentKey()
       throws Exception {
     Key advertiserKey1 = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
     Key advertiserKey2 = KeyFactory.createKey(Advertiser.KIND_NAME, "key2");
-    long formId = 12345;
+    long campaignId = 12345;
 
-    Key formKey1 = Form.generateKey(advertiserKey1, formId);
-    Key formKey2 = Form.generateKey(advertiserKey2, formId);
+    Key campaignKey1 = Campaign.generateKey(advertiserKey1, campaignId);
+    Key campaignKey2 = Campaign.generateKey(advertiserKey2, campaignId);
 
-    assertNotEquals(formKey1, formKey2);
+    assertNotEquals(campaignKey1, campaignKey2);
   }
 
   @Test
-  public void formGenerateKey_withDifferentId_generatesDifferentKey()
+  public void campaignGenerateKey_withDifferentId_generatesDifferentKey()
       throws Exception {
     Key advertiserKey = KeyFactory.createKey(Advertiser.KIND_NAME, "key1");
-    long formId1 = 1;
-    long formId2 = 2;
+    long campaignId1 = 1;
+    long campaignId2 = 2;
 
-    Key formKey1 = Form.generateKey(advertiserKey, formId1);
-    Key formKey2 = Form.generateKey(advertiserKey, formId2);
+    Key campaignKey1 = Campaign.generateKey(advertiserKey, campaignId1);
+    Key campaignKey2 = Campaign.generateKey(advertiserKey, campaignId2);
 
-    assertNotEquals(formKey1, formKey2);
+    assertNotEquals(campaignKey1, campaignKey2);
   }
 }

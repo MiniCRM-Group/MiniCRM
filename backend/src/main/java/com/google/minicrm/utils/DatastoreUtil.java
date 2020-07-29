@@ -17,6 +17,7 @@ package com.google.minicrm.utils;
 import com.google.appengine.api.datastore.DatastoreFailureException;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.minicrm.data.DatastoreObject;
@@ -39,6 +40,21 @@ public class DatastoreUtil {
       return true;
     } catch (EntityNotFoundException e) {
       return false;
+    }
+  }
+
+  /**
+   * Gets the entity specified by the passed in entityKey. If the entity does not exist, then
+   * null.
+   * @param entityKey the key for the entity to get from the datastore
+   * @return the entity specified by the key. null if the entity does not exist
+   */
+  public static Entity get(Key entityKey) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    try {
+      return datastore.get(entityKey);
+    } catch (EntityNotFoundException e) {
+      return null;
     }
   }
 

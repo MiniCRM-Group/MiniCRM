@@ -1,0 +1,43 @@
+{
+  "lead_id": "3",
+  "user_column_data": [
+    {
+      "column_name": "User Phone",
+      "string_value": "+16505550124",
+      "column_id": "PHONE_NUMBER"
+    },
+    {
+      "column_name": "Full Name",
+      "string_value": "Roddy Taipe",
+      "column_id": "FULL_NAME"
+    },
+    {
+      "column_name": "User Email",
+      "string_value": "roddy@example.com",
+      "column_id": "EMAIL"
+    },
+    {
+      "column_name": "Region",
+      "string_value": "California",
+      "column_id": "REGION"
+    },
+    {
+      "column_name": "Postal Code",
+      "string_value": "94043",
+      "column_id": "POSTAL_CODE"
+    },
+    {
+      "column_name": "Job Title",
+      "string_value": "JobTitle",
+      "column_id": "JOB_TITLE"
+    }
+  ],
+  "api_version": "1.0",
+  "form_id": 101,
+  "campaign_id": 201,
+  "google_key": "{{google_key}}",
+  "is_test": true,
+  "gcl_id": "123abc456def",
+  "adgroup_id": 301,
+  "creative_id": 401
+}
