@@ -9,7 +9,7 @@ export class HumanizeEnumPipe implements PipeTransform {
     if ((typeof value) !== 'string') {
       return value;
     }
-    value = value.split('_').join(' ');
+    value = value.trim().split('_').join(' ');
     value = value.toLowerCase();
     return value.charAt(0).toUpperCase() + value.slice(1);
   }

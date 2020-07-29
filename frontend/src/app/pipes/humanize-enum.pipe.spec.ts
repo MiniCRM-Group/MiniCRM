@@ -34,5 +34,13 @@ describe('HumanizeEnumPipe', () => {
     it('should not change already humanized strings', () => {
       expect(pipe.transform('I am already readable')).toEqual('I am already readable');
     });
+
+    it('should return a blank string when given spaces', () => {
+      expect(pipe.transform(' ')).toEqual('');
+    });
+
+    it('should trim extra whitespace', () => {
+      expect(pipe.transform('   HELLO THERE ')).toEqual('Hello there');
+    });
   });
 });
