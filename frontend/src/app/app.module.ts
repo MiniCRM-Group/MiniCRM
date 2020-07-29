@@ -28,6 +28,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import {} from 'googlemaps';
 
@@ -55,6 +56,7 @@ import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-d
 import { SettingsComponent } from './components/crm/settings/settings.component';
 
 import { LeadsModule } from './components/crm/leads/leads.module';
+
 
 
 @NgModule({
@@ -107,6 +109,7 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     MatMenuModule,
     MatTooltipModule,
     MatTabsModule,
+    MatStepperModule,
     GoogleMapsModule,
     MatTableExporterModule
    ],

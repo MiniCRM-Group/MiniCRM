@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -29,6 +30,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
        MatTableModule,
 
        MatInputModule,
+       MatSortModule,
        MatFormFieldModule,
        MatInputModule,
        MatCheckboxModule,

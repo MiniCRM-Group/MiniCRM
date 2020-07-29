@@ -12,3 +12,7 @@ body {
 .mat-form-field-wrapper {
     padding-bottom: 0;
 }
+
+.no-hover-effect.mat-button .mat-button-focus-overlay {
+    background-color: transparent !important;
+}

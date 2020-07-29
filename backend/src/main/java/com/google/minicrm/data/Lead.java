@@ -25,7 +25,15 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
+import java. util.*;
 import java.util.Map;
+
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import java.io.IOException;
 
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
@@ -52,6 +60,7 @@ public final class Lead implements DatastoreObject {
   private boolean isTest;
   private long adgroupId;
   private long creativeId;
+  private String estimatedLocation;
 
   /**
    * Advertiser defined and edited fields.
@@ -153,9 +162,51 @@ public final class Lead implements DatastoreObject {
     leadEntity.setProperty("creativeId", creativeId);
     leadEntity.setProperty("notes", notes);
     leadEntity.setProperty("status", status.ordinal());
+    List<String> locationInfos = new ArrayList<String>();
     for (String key : columnData.keySet()) {
+
       leadEntity.setProperty(key, columnData.get(key));
+    if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") || key.equals("CITY") || key.equals("REGION") || key.equals("COUNTRY") || key.equals("COUNTRY") ){
+
+      locationInfos.add(columnData.get(key));
+      System.out.println("***************");
+      System.out.println("***************");
+      System.out.println("***************");
+      System.out.println(locationInfos.toString());
+      System.out.println("***************");
+      System.out.println("***************");
+      System.out.println("***************");
+
+
+    
+
     }
+    }
+    String addressToBe = "";
+    for (String temp : locationInfos) {
+      addressToBe = addressToBe + temp + " ";
+  }
+  
+  System.out.println("***************");
+  System.out.println("***************");
+  System.out.println("***************");
+  System.out.println(addressToBe);
+  System.out.println("***************");
+  System.out.println("***************");
+  System.out.println("***************");
+  GeoApiContext context = new GeoApiContext.Builder()
+  .apiKey("AIzaSyCtwKeQ-lXdDQORu9nzCUE99QmjJHJDsdI")
+  .build();
+  GeocodingResult[] results = null;
+try { results =  GeocodingApi.geocode(context,
+  addressToBe).await();
+} catch (ApiException | InterruptedException | IOException e) {
+  e.printStackTrace();
+}
+Gson gson = new GsonBuilder().setPrettyPrinting().create();
+estimatedLocation = gson.toJson(results[0].geometry.location);
+System.out.println(estimatedLocation);
+leadEntity.setProperty("estimatedLocation", estimatedLocation);
     return leadEntity;
   }
 
@@ -175,6 +226,7 @@ public final class Lead implements DatastoreObject {
   private void generateDataMap() {
     columnData = new HashMap<>(userColumnData.size());
     for (ColumnData cData : userColumnData) {
+
       columnData.put(cData.getColumnId(), cData.getStringValue());
     }
   }
