@@ -70,21 +70,21 @@ export class MapComponent implements AfterViewInit {
         }
     });
 
-	    navigator.geolocation.getCurrentPosition(this.success);
+	  navigator.geolocation.getCurrentPosition(this.success);
 
   }
- 
+
   loadAllLocations() {
-    var points = [];
-    this.leadService.getAllLeads().pipe(first()).subscribe((leads) =>{
+    let points = [];
+    this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
       this.leads = leads;
       const latitudeCollection = leads.map(lead => lead.estimatedLatitude);
       const longitudeCollection = leads.map(lead => lead.estimatedLongitude);
-      for(let i = 0; i<latitudeCollection.length; i++){
-        if(latitudeCollection[i] !== undefined){
+      for(let i = 0; i < latitudeCollection.length; i++) {
+        if(latitudeCollection[i] !== undefined) {
           const x = Number(latitudeCollection[i]);
           const y = Number(longitudeCollection[i]);
-      points.push(new google.maps.LatLng(x,y)); 
+          points.push(new google.maps.LatLng(x,y)); 
      
       }
      }
