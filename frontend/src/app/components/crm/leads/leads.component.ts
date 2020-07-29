@@ -230,9 +230,7 @@ export class LeadsComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
-        console.log(result);
         leadToShow.notes = result;
-        console.log(leadToShow);
         // put the new lead
         this.updateLead(leadToShow);
       }
