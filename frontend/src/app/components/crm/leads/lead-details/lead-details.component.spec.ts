@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LeadDetailsComponent } from './lead-details.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Lead } from 'src/app/models/server_responses/lead.model';
+import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
+
 
 describe('LeadDetailsComponent', () => {
   let component: LeadDetailsComponent;
@@ -33,7 +35,7 @@ describe('LeadDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeadDetailsComponent ],
+      declarations: [ LeadDetailsComponent, HumanizeEnumPipe ],
       imports: [
         MatDialogModule
       ],
