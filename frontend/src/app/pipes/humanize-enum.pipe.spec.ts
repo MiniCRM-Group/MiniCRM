@@ -42,5 +42,9 @@ describe('HumanizeEnumPipe', () => {
     it('should trim extra whitespace', () => {
       expect(pipe.transform('   HELLO THERE ')).toEqual('Hello there');
     });
+
+    it('should return empty string when given empty string', () => {
+      expect(pipe.transform('')).toEqual('');
+    });
   });
 });
