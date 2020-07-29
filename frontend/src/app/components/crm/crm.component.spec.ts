@@ -21,8 +21,14 @@ describe('CrmComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ CrmComponent ],
       imports: [
+<<<<<<< Updated upstream
         MatMenuModule
       ],
+=======
+        CrmModule,
+        NoopAnimationsModule
+       ],
+>>>>>>> Stashed changes
       providers: [
         { provide: LoginService, useValue: loginService },
         { provide: WebhookService, useValue: webhookService }
