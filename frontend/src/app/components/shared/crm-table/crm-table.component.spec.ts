@@ -11,7 +11,7 @@ describe('CrmTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrmTableComponent, TestCrmTableComponent ]
+      declarations: [ CrmTableComponent, TestCrmTableComponent ],
     })
     .compileComponents();
   }));
