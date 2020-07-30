@@ -8,7 +8,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 describe('SettingsComponent', () => {
-  let settings: Settings = {
+  const settings: Settings = {
     email: 'test@example.com',
     emailNotificationsFrequency: 'Never',
     phone: '101-101-1010',
@@ -72,19 +72,19 @@ describe('SettingsComponent', () => {
   it('should display settings', async () => {
     const settingsList = await loader.getHarness(MatListHarness);
     const [notifications, langAndCurrency] = await settingsList.getItemsGroupedByDividers();
-    
+
     const [emailNotifications, phoneNotifications] = notifications;
-    
-    const [emailLabel, email] = await emailNotifications.getLinesText(); 
+
+    const [emailLabel, email] = await emailNotifications.getLinesText();
     expect(emailLabel).toEqual('Email');
     expect(email).toEqual(settings.emailNotificationsFrequency);
 
     const [phoneLabel, phone] = await phoneNotifications.getLinesText();
     expect(phoneLabel).toEqual('Phone Number');
-    expect(phone).toEqual(`${settings.phone} (${settings.phoneNotificationsFrequency})`)
+    expect(phone).toEqual(`${settings.phone} (${settings.phoneNotificationsFrequency})`);
 
     const [language, currency] = langAndCurrency;
-    
+
     const [langLabel, lang] = await language.getLinesText();
     expect(langLabel).toEqual('Language');
     expect(lang).toEqual(settings.language);

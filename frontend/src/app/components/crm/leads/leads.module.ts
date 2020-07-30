@@ -19,11 +19,11 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [ 
+  declarations: [
     LeadsComponent,
     LeadDetailsComponent
   ],
-  exports: [ 
+  exports: [
     LeadsComponent,
   ],
   imports: [

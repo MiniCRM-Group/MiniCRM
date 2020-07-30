@@ -12,7 +12,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 describe('LeadsComponent', () => {
   let loader: HarnessLoader;
   let component: LeadsComponent;
-  let leads: Lead[] = [
+  const leads: Lead[] = [
     {
       date: new Date(2020, 7, 30, 12, 40, 1, 0),
       leadId: '1',
@@ -30,7 +30,7 @@ describe('LeadsComponent', () => {
       adgroupId: 1,
       creativeId: 1,
       status: 'CLOSED',
-      notes: 'Linked us with more potential clients'   
+      notes: 'Linked us with more potential clients'
     },
     {
       date: new Date(2021, 7, 30, 12, 40, 1, 0),
@@ -49,7 +49,7 @@ describe('LeadsComponent', () => {
       adgroupId: 1,
       creativeId: 1,
       status: 'OPEN',
-      notes: 'Awesome returns'   
+      notes: 'Awesome returns'
     },
     {
       date: new Date(2022, 7, 30, 12, 40, 1, 0),
@@ -68,7 +68,7 @@ describe('LeadsComponent', () => {
       adgroupId: 1,
       creativeId: 1,
       status: 'CLOSED',
-      notes: 'Great lead'   
+      notes: 'Great lead'
     }
   ];
   const leadService: Partial<LeadService> = {
@@ -102,8 +102,8 @@ describe('LeadsComponent', () => {
     const leadsTable = await loader.getHarness(MatTableHarness);
     const displayedLeads = await leadsTable.getRows();
     displayedLeads.forEach(async (displayedLead, index) => {
-      const [selectCell, leadIdCell, nameCell, 
-      phoneNumberCell, emailCell, campaignIdCell, 
+      const [selectCell, leadIdCell, nameCell,
+      phoneNumberCell, emailCell, campaignIdCell,
       dateCell, statusCell, moreInfoCell] = await displayedLead.getCells();
       const leadId = await leadIdCell.getText();
       expect(leadId).toEqual(leads[index].leadId);
@@ -115,7 +115,7 @@ describe('LeadsComponent', () => {
       expect(email).toEqual(leads[index].columnData.EMAIL);
       const campaignId = await campaignIdCell.getText();
       expect(campaignId).toEqual(leads[index].campaignId.toString());
-      //dates are failing for some reason
+      // dates are failing for some reason
       const date = await dateCell.getText();
     });
   });

@@ -34,9 +34,9 @@ describe('CampaignsComponent', () => {
   const campaignService: Partial<CampaignService> = {
     getAllCampaigns: () => of<CampaignsResponse>({ campaigns }),
     renameCampaign: (campaign: Campaign) => {
-      let campaignsCopy = Array.from(campaigns);
+      const campaignsCopy = Array.from(campaigns);
       campaignsCopy.forEach(c => {
-        if(c.campaignId === campaign.campaignId) {
+        if (c.campaignId === campaign.campaignId) {
           c.campaignName = campaign.campaignName;
         }
       });

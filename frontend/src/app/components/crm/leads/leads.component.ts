@@ -71,7 +71,7 @@ export class LeadsComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
 
     /**
-     * This will let the dataSource sort feature to access nested properties 
+     * This will let the dataSource sort feature to access nested properties
      * in the JSON such as column_data.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
@@ -84,33 +84,33 @@ export class LeadsComponent implements AfterViewInit {
       }
     };
     this.dataSource.sort = this.sort;
-    
+
     /**
-       * @param data The whole data we have in the JSON.
-       * @param filter The value that the user searches for.
-       */
-      this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
-        const cleanString = (str: string): string => str.trim().toLowerCase();
-        const hasFilter = (data: any, filter: string): boolean => {
-          // traverse through JSON's tree like structure
-          if (typeof data === 'object') {
-            for (const key of Object.keys(data)) {
-              if (hasFilter(data[key], filter)) {
-                return true;
-              }
-            }
-          } else {
-            // if you hit a key-value pair where the value is
-            // a primitve type compare and return only if filter found
-            const value = cleanString(_.toString(data));
-            if (value.indexOf(filter) !== -1) {
+     * @param data The whole data we have in the JSON.
+     * @param filter The value that the user searches for.
+     */
+    this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
+      const cleanString = (str: string): string => str.trim().toLowerCase();
+      const hasFilter = (data: any, filter: string): boolean => {
+        // traverse through JSON's tree like structure
+        if (typeof data === 'object') {
+          for (const key of Object.keys(data)) {
+            if (hasFilter(data[key], filter)) {
               return true;
             }
           }
-          return false;
-        };
-        return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
+        } else {
+          // if you hit a key-value pair where the value is
+          // a primitve type compare and return only if filter found
+          const value = cleanString(_.toString(data));
+          if (value.indexOf(filter) !== -1) {
+            return true;
+          }
+        }
+        return false;
       };
+      return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
+    };
   }
 
   /**

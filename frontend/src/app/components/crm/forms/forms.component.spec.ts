@@ -48,11 +48,11 @@ describe('FormsComponent', () => {
         date: 'June 24'
       }
     ] }),
-    renameForm: (form: Form) => {
-      let editedForms = Array.from(forms);
-      for(let i = 0; i < forms.length; i++) {
-        if(forms[i].formId === form.formId) {
-          forms[i].formName = form.formName;
+    renameForm: (formToEdit: Form) => {
+      const editedForms = Array.from(forms);
+      for (const form of editedForms) {
+        if (form.formId === formToEdit.formId) {
+          form.formName = formToEdit.formName;
         }
       }
       return of<FormsResponse>({ forms: editedForms });
