@@ -53,8 +53,9 @@ public final class Lead implements DatastoreObject {
   static {
     try {
       geoApiKey = new String(
-          Files.readAllBytes(Paths.get("src/main/resources/api-keys/geoApiKey.txt")));
+          Files.readAllBytes(Paths.get("src/main/resources/api-keys/GeoApiKey.txt")));
     } catch (IOException e) {
+      e.printStackTrace();
       geoApiKey = "";
     }
   }
@@ -258,6 +259,7 @@ public final class Lead implements DatastoreObject {
       //no location data to generate
       return;
     }
+    System.out.println("APIKEY:" + geoApiKey);
 
     GeoApiContext context = new GeoApiContext.Builder()
         .apiKey(geoApiKey)
