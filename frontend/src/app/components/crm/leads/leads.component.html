@@ -77,11 +77,12 @@
         <mat-cell *matCellDef="let lead"> {{formNameMap.get(lead.formId)}} </mat-cell>
       </ng-container>
 
-      <!-- Campaign Id Column -->
-      <ng-container matColumnDef="campaignId">
+      <!-- Campaign Name Column -->
+      <ng-container matColumnDef="campaignName">
         <mat-header-cell i18n *matHeaderCellDef
-                         mat-sort-header> Campaign Id </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> {{lead.campaignId}} </mat-cell>
+                         mat-sort-header> Campaign Name </mat-header-cell>
+        <mat-cell *matCellDef="let lead"> {{campaignNameMap.get(lead.campaignId)}} </mat-cell>
+        <div *ngIf="campaignNameMap == null">Oops</div>
       </ng-container>
 
       <!-- Date Column -->

@@ -28,6 +28,7 @@ import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import { FormService } from 'src/app/services/form.service';
+import { CampaignService } from 'src/app/services/campaign.service';
 
 @Component({
   selector: 'app-leads',
@@ -45,7 +46,14 @@ export class LeadsComponent implements AfterViewInit {
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
   group: FormGroup;
+  /**
+   * Maps formId to formName
+   */
   formNameMap: Map<number, string>;
+  /**
+   * Maps campaignId to campaignName
+   */
+  campaignNameMap: Map<number, string>;
   /**
    * Column IDs that we plan to show on the table are stored here
    */
@@ -55,7 +63,7 @@ export class LeadsComponent implements AfterViewInit {
     'name',
     'phone_number',
     'email',
-    'campaignId',
+    'campaignName',
     'status',
     'formName',
     'date',
@@ -67,6 +75,7 @@ export class LeadsComponent implements AfterViewInit {
 
   constructor(private readonly leadService: LeadService,
               private readonly formService: FormService,
+              private readonly campaignService: CampaignService,
               public dialog: MatDialog,
               private titleService: Title) {
     this.titleService.setTitle($localize`Leads`);
@@ -74,6 +83,7 @@ export class LeadsComponent implements AfterViewInit {
     this.loadAllLeads();
     this.leadStatusKeys = Object.keys(this.leadStatus);
     this.formService.getFormNameMap().subscribe(map => this.formNameMap = map);
+    this.campaignService.getCampaignNameMap().subscribe(map => this.campaignNameMap = map);
   }
 
   ngAfterViewInit(): void {

@@ -34,6 +34,7 @@ export class CampaignService {
       for (let campaign of campaigns) {
         map.set(campaign.campaignId, campaign.campaignName);
       }
+      console.log(map);
       return map;
     }));
   }
