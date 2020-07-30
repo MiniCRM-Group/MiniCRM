@@ -20,7 +20,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.File;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,6 +49,15 @@ public final class Lead implements DatastoreObject {
   public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+  private static String geoApiKey;
+  static {
+    try {
+      geoApiKey = new String(
+          Files.readAllBytes(Paths.get("src/main/resources/api-keys/geoApiKey.txt")));
+    } catch (IOException e) {
+      geoApiKey = "";
+    }
+  }
   private transient Key advertiserKey;
   private Date date;
   private String leadId;
@@ -182,7 +194,7 @@ public final class Lead implements DatastoreObject {
     }
   
     GeoApiContext context = new GeoApiContext.Builder()
-    .apiKey("AIzaSyCtwKeQ-lXdDQORu9nzCUE99QmjJHJDsdI")
+    .apiKey(geoApiKey)
     .build();
     GeocodingResult[] results = null;
     // Mandatory exception handling by the geocoding api
