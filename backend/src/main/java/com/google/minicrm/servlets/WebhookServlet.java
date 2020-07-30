@@ -160,7 +160,6 @@ public final class WebhookServlet extends HttpServlet {
       //TODO: Determine what happens when the email fails
     }
     datastore.put(newLead.asEntity());
-    
   }
 
   /**

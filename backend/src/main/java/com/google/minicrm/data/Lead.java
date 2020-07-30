@@ -59,11 +59,8 @@ public final class Lead implements DatastoreObject {
   private boolean isTest;
   private long adgroupId;
   private long creativeId;
-  private String estimatedLocation;
-  private String estimatedLatitude;
-  private String estimatedLongitude;
-  
-
+  private Double estimatedLatitude;
+  private Double estimatedLongitude;
   /**
    * Advertiser defined and edited fields.
    */
@@ -102,9 +99,9 @@ public final class Lead implements DatastoreObject {
     this.creativeId = (Long) entity.getProperty("creativeId");
     this.status = LeadStatus.values()[((Long) entity.getProperty("status")).intValue()];
     this.notes = (String) entity.getProperty("notes");
-    this.estimatedLatitude = (String) entity.getProperty("estimatedLatitude");
-    this.estimatedLongitude = (String) entity.getProperty("estimatedLongitude");
- 
+    this.estimatedLatitude = (Double)entity.getProperty("estimatedLatitude");
+    this.estimatedLongitude = (Double)entity.getProperty("estimatedLongitude");
+    
     entity.removeProperty("date");
     entity.removeProperty("leadId");
     entity.removeProperty("campaignId");
@@ -175,7 +172,9 @@ public final class Lead implements DatastoreObject {
         locationInfos.add(columnData.get(key));
       }
     }
-
+    if(locationInfos.isEmpty()){
+      return leadEntity;
+    }
     // Stringfy the list
     StringBuilder addressToBe = new StringBuilder();
     for (String temp : locationInfos) {
@@ -189,20 +188,58 @@ public final class Lead implements DatastoreObject {
     // Mandatory exception handling by the geocoding api
     try {
       String addressToBeFinal = addressToBe.toString(); 
-      results =  GeocodingApi.geocode(context,
-      addressToBeFinal).await();
+      results =  GeocodingApi.geocode(context, addressToBeFinal).await();
     } catch (ApiException | InterruptedException | IOException e) {
       e.printStackTrace();
     }
 
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     // Get latitude and longitude
-    estimatedLatitude = gson.toJson(results[0].geometry.location.lat);
-    estimatedLongitude = gson.toJson(results[0].geometry.location.lng);
-
+    estimatedLatitude = results[0].geometry.location.lat;
+    estimatedLongitude = results[0].geometry.location.lng;
+    
     leadEntity.setProperty("estimatedLatitude", estimatedLatitude);
     leadEntity.setProperty("estimatedLongitude", estimatedLongitude);
     return leadEntity;
+  }
+
+  /**
+   * Checks whether another object o is a Lead that is either the same object as this lead or has
+   * all the same instance variables expect the date created variable and advertiserKey.
+   * @param o the object to compare to this lead
+   * @return true if the given object is a Lead instance with the same instance variables other than
+   *         date created and advertiserKey. False, otherwise.
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (!(o instanceof Lead)) {
+      return false;
+    }
+
+    Lead other = (Lead) o;
+    return this.leadId.equals(other.leadId) &&
+        this.campaignId == other.campaignId &&
+        this.gclId.equals(other.gclId) &&
+        this.apiVersion.equals(other.apiVersion) &&
+        this.formId == other.formId &&
+        this.googleKey.equals(other.googleKey) &&
+        this.columnData.equals(other.columnData) &&
+        this.isTest == other.isTest &&
+        this.adgroupId == other.adgroupId &&
+        this.creativeId == other.creativeId &&
+        this.status == other.status &&
+        this.notes.equals(other.notes);
+  }
+
+  /**
+   * Returns a JSON representation of this object as a String
+   * @return a String representation of this lead
+   */
+  @Override
+  public String toString() {
+    return this.asJson();
   }
 
   /**
@@ -221,13 +258,18 @@ public final class Lead implements DatastoreObject {
   private void generateDataMap() {
     columnData = new HashMap<>(userColumnData.size());
     for (ColumnData cData : userColumnData) {
-
       columnData.put(cData.getColumnId(), cData.getStringValue());
     }
   }
 
   //Getters and Setters
 
+  /**
+   * @return the Key for the advertiser entity that owns this lead
+   */
+  public Key getAdvertiserKey() {
+    return advertiserKey;
+  }
   /**
    * @return the Date this lead was received
    */

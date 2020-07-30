@@ -4,7 +4,6 @@ import { } from 'googlemaps';
 
 import { LeadService } from '../../../../services/lead.service';
 import { Lead } from '../../../../models/server_responses/lead.model';
-import { LocationData } from '../../../../models/server_responses/lead.model';
 
 import { first } from 'rxjs/operators';
 
@@ -82,8 +81,8 @@ export class MapComponent implements AfterViewInit {
       const longitudeCollection = leads.map(lead => lead.estimatedLongitude);
       for(let i = 0; i < latitudeCollection.length; i++) {
         if(latitudeCollection[i] !== undefined) {
-          const x = Number(latitudeCollection[i]);
-          const y = Number(longitudeCollection[i]);
+          const x = latitudeCollection[i];
+          const y = longitudeCollection[i];
           points.push(new google.maps.LatLng(x,y)); 
      
       }

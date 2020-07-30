@@ -34,7 +34,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [  "src/maps.js" ]
+            "scripts": ["src/maps.js"]
           },
           "configurations": {
             "production": {

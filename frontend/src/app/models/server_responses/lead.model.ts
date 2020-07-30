@@ -1,8 +1,3 @@
-export interface LocationData {
-lat: string;
-lng: string;
-}
-
 export interface ColumnData {
   FULL_NAME: string;
   PHONE_NUMBER: string;
@@ -29,9 +24,8 @@ export interface Lead {
    creativeId: number;
    status: string;
    notes: string;
-   estimatedLocation: LocationData;
-   estimatedLatitude: string;
-   estimatedLongitude: string;
+   estimatedLatitude?: number;
+   estimatedLongitude?: number;
 }
 
 export interface LeadsResponse {
