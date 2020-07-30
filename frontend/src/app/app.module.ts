@@ -38,7 +38,6 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 // Component imports
 import { AppComponent } from './app.component';
 import { CrmComponent } from './components/crm/crm.component';
-import { LeadsComponent } from './components/crm/leads/leads.component';
 import { FormsComponent } from './components/crm/forms/forms.component';
 import { CampaignsComponent } from './components/crm/campaigns/campaigns.component';
 import { GuideComponent } from './components/crm/guide/guide.component';
@@ -46,7 +45,6 @@ import { AnalyticsComponent } from './components/crm/analytics/analytics.compone
 import { LandingComponent } from './components/landing/landing.component';
 import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
 import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
-import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
 import { SettingsComponent } from './components/crm/settings/settings.component';
 
 import { LeadsModule } from './components/crm/leads/leads.module';
@@ -64,7 +62,6 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     FormsComponent,
     CrmTableComponent,
     CopyableFormFieldComponent,
-    LeadDetailsComponent,
     SettingsComponent
   ],
   imports: [
@@ -75,7 +72,6 @@ import { LeadsModule } from './components/crm/leads/leads.module';
     AppRoutingModule,
     HttpClientModule,
     FlexLayoutModule,
-
     // Material
     BrowserAnimationsModule,
     MatButtonModule,
@@ -106,7 +102,6 @@ import { LeadsModule } from './components/crm/leads/leads.module';
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
-  entryComponents: [LeadDetailsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeadsComponent } from './leads.component';
+import { LeadDetailsComponent } from './lead-details/lead-details.component';
+import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,35 +19,43 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 
-
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatSortModule } from '@angular/material/sort';
+import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 
 
 @NgModule({
-  declarations: [ LeadsComponent ],
-  exports: [ LeadsComponent,
-    MatButtonModule,
-       MatIconModule,
-       MatTableModule,
-
-       MatInputModule,
-       MatFormFieldModule,
-       MatInputModule,
-       MatCheckboxModule,
-       ClipboardModule,
-       MatDialogModule,
-       MatProgressSpinnerModule,
-       MatCardModule,
-       MatCheckboxModule,
-       MatDialogModule,
-       MatListModule,
-       MatSelectModule,
-       MatPaginatorModule,
-   ],
-  imports: [
+  declarations: [
+    LeadsComponent,
+    LeadDetailsComponent,
+    HumanizeEnumPipe
+  ],
+  exports: [
+    LeadsComponent,
     MatButtonModule,
     MatIconModule,
     MatTableModule,
+
+    MatInputModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ClipboardModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatListModule,
+    MatSelectModule,
+    MatPaginatorModule,
+   ],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatSortModule,
     MatPaginatorModule,
     MatInputModule,
     MatFormFieldModule,
@@ -61,6 +71,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatSelectModule,
     MatTableExporterModule,
     CommonModule
-  ]
+  ],
+  entryComponents: [LeadDetailsComponent],
 })
 export class LeadsModule { }

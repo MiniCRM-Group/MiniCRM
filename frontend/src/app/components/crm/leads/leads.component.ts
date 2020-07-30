@@ -25,7 +25,7 @@ import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { Lead } from '../../../models/server_responses/lead.model';
+import { Lead, LeadStatus } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 
@@ -42,6 +42,8 @@ import * as _ from 'lodash';
 
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
+  leadStatus = LeadStatus;
+  leadStatusKeys: Array<string>;
   filterPlaceholder = $localize`Type specific area codes, lead-ID, ...`;
 
   isLoading = true;
@@ -66,11 +68,13 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog, private titleService: Title) {
+  constructor(private readonly leadService: LeadService,
+              public dialog: MatDialog,
+              private titleService: Title) {
     this.titleService.setTitle($localize`Leads`);
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
-
+    this.leadStatusKeys = Object.keys(this.leadStatus);
   }
 
   ngAfterViewInit(): void {
@@ -127,6 +131,14 @@ export class LeadsComponent implements AfterViewInit {
       };
       this.isLoading = false;
       });
+  }
+
+  /**
+   * Called when the lead status is changed by the user or new notes are written
+   * @param lead the lead to be updated
+   */
+  updateLead(lead: Lead) {
+    this.leadService.updateLead(lead).subscribe();
   }
 
  /**
@@ -210,11 +222,19 @@ export class LeadsComponent implements AfterViewInit {
     return this.selection.selected.length > 0;
   }
 
-  openDialog(toBeDisplayed) {
-    this.dialog.open(LeadDetailsComponent, {
+  openDialog(leadToShow: Lead) {
+    const dialogRef = this.dialog.open(LeadDetailsComponent, {
       width: '750px',
-      data: { details: toBeDisplayed }
+      data: {lead: leadToShow}
     });
-  }
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        leadToShow.notes = result;
+        // put the new lead
+        this.updateLead(leadToShow);
+      }
+    });
+
+  }
 }
