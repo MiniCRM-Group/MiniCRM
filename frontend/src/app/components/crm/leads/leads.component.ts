@@ -45,6 +45,7 @@ export class LeadsComponent implements AfterViewInit {
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
   group: FormGroup;
+  formNameMap: Map<number, string>;
   /**
    * Column IDs that we plan to show on the table are stored here
    */
@@ -65,13 +66,14 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private readonly leadService: LeadService,
-              public formService: FormService,
+              private readonly formService: FormService,
               public dialog: MatDialog,
               private titleService: Title) {
     this.titleService.setTitle($localize`Leads`);
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
     this.leadStatusKeys = Object.keys(this.leadStatus);
+    this.formService.getFormNameMap().subscribe(map => this.formNameMap = map);
   }
 
   ngAfterViewInit(): void {
@@ -87,7 +89,7 @@ export class LeadsComponent implements AfterViewInit {
         case 'phone_number': return lead.columnData.PHONE_NUMBER;
         case 'email': return lead.columnData.EMAIL;
         case 'date': return new Date(lead.date).getTime();
-        case 'formName': return this.formService.getFormName(lead.formId);
+        case 'formName': return this.formNameMap.get(lead.formId);
         default: return lead[property];
       }
     };

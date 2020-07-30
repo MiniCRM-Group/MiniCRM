@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { FormsResponse } from '../models/server_responses/forms-response.model';
 import { retry, catchError, first, mergeMap } from 'rxjs/operators';
 import { Form } from '../models/server_responses/forms-response.model';
-import { map } from 'lodash';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,8 @@ import { map } from 'lodash';
 export class FormService {
 
   formEndpoint = '/api/forms';
-  private formMap: Map<number, string>;
 
   constructor(private http: HttpClient) { 
-    this.generateFormMap();
   }
 
   getForms(): Observable<FormsResponse> {
@@ -36,34 +34,24 @@ export class FormService {
   renameForm(form: Form): Observable<FormsResponse> {
     const body = {formId: form.formId.toString(), formName: form.formName};
     //update the form in the map TODO: move this to the success callback... what does mergeMap do
-    this.formMap.set(form.formId, form.formName);
     return this.http.put<any>(this.formEndpoint, body)
     .pipe(retry(3), mergeMap(() => this.getForms()));
   }
 
   /**
-   * Utilizes the formMap to get the name of a form given its id in constant time
-   * @param formId the form id of the form name to get. 
-   * @return the name of the form specified by the form id. Undefined if the form does not exist.
+   * @return an Observable map mapping formIds to formNames
    */
-  getFormName(formId: number): string {
-    return this.formMap.get(formId);
-  }
-
-  /**
-   * Initially generates the formMap that maps formId to formName for constant lookup on service creation
-   */
-  private generateFormMap() {
+  getFormNameMap(): Observable<Map<number, string>> {
     let forms: Form[];
-    this.getForms().subscribe((res: FormsResponse) => {
+    return this.getForms().pipe(map((res: FormsResponse) => {
       forms = res.forms;
       console.log(forms);
       let map: Map<number, string> = new Map();
       for (let form of forms) {
         map.set(form.formId, form.formName);
       }
-      this.formMap = map;
-    });
+      return map;
+    }));
     
   }
   
