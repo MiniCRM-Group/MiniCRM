@@ -175,7 +175,7 @@ public final class Lead implements DatastoreObject {
     leadEntity.setProperty("adgroupId", adgroupId);
     leadEntity.setProperty("creativeId", creativeId);
     leadEntity.setProperty("notes", notes);
-    leadEntity.setProperty("status", status.ordinal());
+    leadEntity.setProperty("status", status.getIndex());
     List<String> locationInfos = new ArrayList<>();
     for (String key : columnData.keySet()) {
       leadEntity.setProperty(key, columnData.get(key));
