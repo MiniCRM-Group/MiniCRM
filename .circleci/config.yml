@@ -31,7 +31,7 @@ jobs: # a collection of steps
           name: Retrieve API Keys
           command: |
             chown -R $USER:$USER ~/minicrm/backend/src/main/resources # gives perms to write dirs and files
-            mkdir ~/minicrm/backend/src/main/resources/api-keys
+            mkdir -p ~/minicrm/backend/src/main/resources/api-keys
             printf $GEO_API_KEY > ~/minicrm/backend/src/main/resources/api-keys/GeoApiKey.txt
       
       - run: mvn package # run the actual tests
