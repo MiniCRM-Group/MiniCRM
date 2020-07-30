@@ -23,4 +23,18 @@ export class CampaignService {
     return this.http.put<any>(this.url, body)
     .pipe(retry(3), mergeMap(() => this.getAllCampaigns()));
   }
+
+  /**
+   * @return an Observable map mapping formIds to formNames
+   */
+  getCampaignNameMap(): Observable<Map<number, string>> {
+    return this.getAllCampaigns().pipe(map((res: CampaignsResponse) => {
+      let campaigns: Campaign[] = res.campaigns;
+      let map: Map<number, string> = new Map();
+      for (let campaign of campaigns) {
+        map.set(campaign.campaignId, campaign.campaignName);
+      }
+      return map;
+    }));
+  }
 }

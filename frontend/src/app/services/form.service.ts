@@ -42,9 +42,8 @@ export class FormService {
    * @return an Observable map mapping formIds to formNames
    */
   getFormNameMap(): Observable<Map<number, string>> {
-    let forms: Form[];
     return this.getForms().pipe(map((res: FormsResponse) => {
-      forms = res.forms;
+      let forms: Form[] = res.forms;
       console.log(forms);
       let map: Map<number, string> = new Map();
       for (let form of forms) {
@@ -52,7 +51,6 @@ export class FormService {
       }
       return map;
     }));
-    
   }
   
 }
