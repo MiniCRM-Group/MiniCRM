@@ -5,7 +5,7 @@
  *  - The lead service
  */
 
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 
 /**
  * Import Material components
@@ -13,24 +13,18 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
 import { MatDialog } from '@angular/material/dialog';
-
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 /**
  * Imports from the RxJS library
  */
-import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { Lead } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
-
-import { MatTableExporterModule } from 'mat-table-exporter';
-
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
@@ -77,7 +71,8 @@ export class LeadsComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
 
     /**
-     * This will let the dataSource sort feature to access nested properties in the JSON such as column_data.
+     * This will let the dataSource sort feature to access nested properties 
+     * in the JSON such as column_data.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
       switch (property) {
@@ -89,17 +84,8 @@ export class LeadsComponent implements AfterViewInit {
       }
     };
     this.dataSource.sort = this.sort;
-  }
-
-  /**
-   * This will access the leads from the leadService and handle the filterPredicate and the isLoading boolean value.
-   */
-  loadAllLeads(): void {
-    this.isLoading = true;
-    this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
-      this.dataSource.data = leads;
-
-      /**
+    
+    /**
        * @param data The whole data we have in the JSON.
        * @param filter The value that the user searches for.
        */
@@ -125,8 +111,17 @@ export class LeadsComponent implements AfterViewInit {
         };
         return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
       };
+  }
+
+  /**
+   * This will access the leads from the leadService and handle the filterPredicate and the isLoading boolean value.
+   */
+  loadAllLeads(): void {
+    this.isLoading = true;
+    this.leadService.getAllLeads().subscribe((leads) => {
+      this.dataSource.data = leads;
       this.isLoading = false;
-      });
+    });
   }
 
  /**

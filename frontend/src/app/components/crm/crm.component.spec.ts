@@ -26,8 +26,7 @@ describe('CrmComponent', () => {
       declarations: [ CrmComponent ],
       imports: [
         CrmModule,
-        NoopAnimationsModule,
-        AppRoutingModule
+        NoopAnimationsModule
        ],
       providers: [
         { provide: LoginService, useValue: loginService },
