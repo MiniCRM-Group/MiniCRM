@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class AreaCodeService {
 }
 
 public getAreaCodes(): Observable<any> {
-    return this.http.get("./assets/data/AreaCodes.json");
+    return this.http.get('./assets/data/AreaCodes.json');
 }
 }
 

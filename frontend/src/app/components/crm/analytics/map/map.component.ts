@@ -5,7 +5,7 @@ import { } from 'googlemaps';
 import { LeadService } from '../../../../services/lead.service';
 import { Lead } from '../../../../models/server_responses/lead.model';
 
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-map',
@@ -18,15 +18,16 @@ export class MapComponent implements AfterViewInit {
 
   @ViewChild('map', {static: true}) mapElement: any;
   map: google.maps.Map;
-  marker = (new google.maps.Marker);
-  marker2 = new google.maps.Marker;
-  infoWindow = new google.maps.InfoWindow;
-  heatmap = new google.maps.visualization.HeatmapLayer;
+  marker = new google.maps.Marker();
+  marker2 = new google.maps.Marker();
+  infoWindow = new google.maps.InfoWindow();
+  heatmap = new google.maps.visualization.HeatmapLayer();
   pos = null;
   leads: Lead[];
   constructor(private leadService: LeadService, private titleService: Title) {
     this.titleService.setTitle('Map');
-    this.loadAllLocations();
+    this.loadAllHeatLocations();
+    this.loadAllMarkerLocations();
   }
 
   ngAfterViewInit(): void {
@@ -35,63 +36,61 @@ export class MapComponent implements AfterViewInit {
       zoom: 11,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    const myLatLng = {lat: 35.2271, lng: -80.8431};
+    const myLatLng = {lat: 37.782551,  lng: -122.445368};
 
-    this.map = new google.maps.Map(this.mapElement.nativeElement,    mapProperties);
-    this.marker = new google.maps.Marker({
-      position: myLatLng,
-      map: this.map,
-      title: 'Hello World!'
+    this.map = new google.maps.Map(this.mapElement.nativeElement, mapProperties);
+    const markerData = this.loadAllMarkerLocations().subscribe((mark) => {
+      this.marker = new google.maps.Marker({
+        position: new google.maps.LatLng(37.782551, -122.445368),
+        map: this.map,
+        title: 'Hello World!'
+      });
     });
+
     this.heatmap = new google.maps.visualization.HeatmapLayer({
-      data: this.loadAllLocations(),
+      data: this.loadAllHeatLocations(),
       map: this.map
     });
-    // Try HTML5 geolocation.
-    // Try HTML5 geolocation.
-    let latitude;
-    let longitude;
 
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode(
-    {
-       componentRestrictions: {
-           country: 'ET',
-           postalCode: '251'
-       }
-    }, function(results, status) {
-        if (status === google.maps.GeocoderStatus.OK) {
-            latitude = results[0].geometry.location.lat();
-            longitude = results[0].geometry.location.lng();
-            console.log(latitude + ',' + longitude);
-        } else {
-            alert('Request failed.');
-        }
-    });
-
-	  navigator.geolocation.getCurrentPosition(this.success);
+    navigator.geolocation.getCurrentPosition(this.success);
 
   }
 
-  loadAllLocations() {
-    let points = [];
+  loadAllMarkerLocations() {
+    const points = [];
+    return this.leadService.getAllLeads().pipe(first(), map((leads) => {
+      this.leads = leads;
+      const latitudeCollection = leads.map(lead => lead.estimatedLatitude);
+      const longitudeCollection = leads.map(lead => lead.estimatedLongitude);
+      for (let i = 0; i < latitudeCollection.length; i++) {
+        if (latitudeCollection[i] !== undefined) {
+          const x = latitudeCollection[i];
+          const y = longitudeCollection[i];
+          points.push([x,y]);
+        }
+      }
+      return points;
+    }));
+  }
+
+  loadAllHeatLocations() {
+    const points = [];
     this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
       this.leads = leads;
       const latitudeCollection = leads.map(lead => lead.estimatedLatitude);
       const longitudeCollection = leads.map(lead => lead.estimatedLongitude);
-      for(let i = 0; i < latitudeCollection.length; i++) {
-        if(latitudeCollection[i] !== undefined) {
+      for (let i = 0; i < latitudeCollection.length; i++) {
+        if (latitudeCollection[i] !== undefined) {
           const x = latitudeCollection[i];
           const y = longitudeCollection[i];
-          points.push(new google.maps.LatLng(x,y)); 
-     
+          points.push(new google.maps.LatLng(x,y));
       }
      }
     });
-  return points;
+    return points;
   }
-  
-  //test data
+
+  // test data
   getPoints() {
   console.log(new google.maps.LatLng(37.782551, -122.445368));
     return [
@@ -595,7 +594,8 @@ export class MapComponent implements AfterViewInit {
       new google.maps.LatLng(37.753837, -122.403172),
       new google.maps.LatLng(37.752986, -122.403112),
       new google.maps.LatLng(37.751266, -122.403355)
-    ];}
+    ];
+  }
   success(pos) {
     const crd = pos.coords;
     console.log('Your current position is:');
