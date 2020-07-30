@@ -74,15 +74,22 @@
       <ng-container matColumnDef="formName">
         <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Form Name </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> {{formNameMap.get(lead.formId)}} </mat-cell>
+          <mat-cell *matCellDef="let lead"> 
+            <ng-container *ngIf="formNameMap">
+              {{formNameMap.get(lead.formId)}} 
+            </ng-container>
+          </mat-cell>
       </ng-container>
 
       <!-- Campaign Name Column -->
       <ng-container matColumnDef="campaignName">
         <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Campaign Name </mat-header-cell>
-        <mat-cell *matCellDef="let lead"> {{campaignNameMap.get(lead.campaignId)}} </mat-cell>
-        <div *ngIf="campaignNameMap == null">Oops</div>
+          <mat-cell *matCellDef="let lead"> 
+            <ng-container *ngIf="campaignNameMap">
+              {{campaignNameMap.get(lead.campaignId)}} 
+            </ng-container>
+          </mat-cell>
       </ng-container>
 
       <!-- Date Column -->
@@ -141,3 +148,6 @@
   <button mat-raised-button color="primary" class="margined" (click)="exporter.exportTable('xlsx', {fileName:'test', sheet: 'sheet_name', Props: {Author: 'MiniCRM'}})">Download CSV <mat-icon>table_chart</mat-icon></button>
   <br>
 </div>
+<ng-template #loading>
+  Loading...
+</ng-template>
