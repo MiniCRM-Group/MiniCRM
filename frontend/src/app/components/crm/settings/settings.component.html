@@ -6,8 +6,8 @@
             <div i18n mat-line>Email</div>
             <div mat-line>
                 {{
-                    settings.emailNotificationsFrequency === "Never" ? 
-                    "Never" : settings.email + " (" + settings.emailNotificationsFrequency + ")"
+                    settings?.emailNotificationsFrequency === "Never" ? 
+                    "Never" : settings?.email + " (" + settings?.emailNotificationsFrequency + ")"
                 }}
             </div>
         </mat-list-item>
@@ -16,8 +16,8 @@
             <div i18n mat-line>Phone Number</div>
             <div mat-line>
                 {{
-                    settings.phoneNotificationsFrequency === "Never" ? 
-                    "Never" : settings.phone + " (" + settings.phoneNotificationsFrequency + ")"
+                    settings?.phoneNotificationsFrequency === "Never" ? 
+                    "Never" : settings?.phone + " (" + settings?.phoneNotificationsFrequency + ")"
                 }}
             </div>
         </mat-list-item>
@@ -26,12 +26,12 @@
         <mat-list-item>
             <mat-icon mat-list-icon>language</mat-icon>
             <div i18n mat-line>Language</div>
-            <div mat-line>{{settings.language}}</div>
+            <div mat-line>{{settings?.language}}</div>
         </mat-list-item>
         <mat-list-item>
             <mat-icon mat-list-icon>attach_money</mat-icon>
             <div i18n mat-line>Currency</div>
-            <div mat-line>{{settings.currency}}</div>
+            <div mat-line>{{settings?.currency}}</div>
         </mat-list-item>
     </mat-list>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { Campaign } from 'src/app/models/server_responses/campaign.model';
+import { Campaign, CampaignsResponse } from 'src/app/models/server_responses/campaign.model';
 import { CampaignService } from 'src/app/services/campaign.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
 import { KeyDisplayedNameMap } from 'src/app/models/component_states/table-data.model';
@@ -38,8 +38,8 @@ export class CampaignsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.campaignService.getAllCampaigns().subscribe((res: Campaign[]) => {
-      this.campaignsTable.data = res;
+    this.campaignService.getAllCampaigns().subscribe((res: CampaignsResponse) => {
+      this.campaignsTable.data = res.campaigns;
       this.campaignsTable.refreshDataSource();
     });
   }

@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Form, FormsResponse } from '../../../models/server_responses/forms-response.model';
-import { MatDialog } from '@angular/material/dialog';
 import { FormService } from '../../../services/form.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { KeyDisplayedNameMap } from 'src/app/models/component_states/table-data.model';
 
@@ -31,7 +28,7 @@ export class FormsComponent implements OnInit, AfterViewInit {
   ];
 
   constructor(
-    public dialog: MatDialog, private formService: FormService,
+    private formService: FormService,
     private titleService: Title) {
       this.titleService.setTitle($localize`Forms`);
   }
@@ -52,6 +49,9 @@ export class FormsComponent implements OnInit, AfterViewInit {
    * @param form the form to be renamed
    */
   renameForm(form: Form) {
-    this.formService.renameForm(form).subscribe();
+    this.formService.renameForm(form).subscribe((res: FormsResponse) => {
+      this.formsTable.data = res.forms;
+      this.formsTable.refreshDataSource();
+    });
   }
 }
