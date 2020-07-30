@@ -71,13 +71,17 @@ public final class Lead implements DatastoreObject {
   private boolean isTest;
   private long adgroupId;
   private long creativeId;
-  private Double estimatedLatitude;
-  private Double estimatedLongitude;
   /**
    * Advertiser defined and edited fields.
    */
   private LeadStatus status;
   private String notes;
+  /**
+   * Generated based on any column data that may contain location data (zip code, phone #, etc.)
+   * If no location data exists, both will be null.
+   */
+  private Double estimatedLatitude;
+  private Double estimatedLongitude;
 
   /**
    * Blank constructor that sets the time when this lead was created and sets defaults for values
@@ -144,6 +148,7 @@ public final class Lead implements DatastoreObject {
   public static Lead fromReader(Reader reader, Key advertiserKey) {
     Lead thisLead = gson.fromJson(reader, Lead.class);
     thisLead.generateDataMap();
+    thisLead.generateLocationInfo();
     thisLead.advertiserKey = advertiserKey;
     return thisLead;
   }
@@ -176,41 +181,11 @@ public final class Lead implements DatastoreObject {
     leadEntity.setProperty("creativeId", creativeId);
     leadEntity.setProperty("notes", notes);
     leadEntity.setProperty("status", status.getIndex());
-    List<String> locationInfos = new ArrayList<>();
-    for (String key : columnData.keySet()) {
-      leadEntity.setProperty(key, columnData.get(key));
-      // If the column data is related with address add it into locationInfo arraylist
-      if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") || key.equals("CITY") || key.equals("REGION") || key.equals("COUNTRY") || key.equals("COUNTRY")){
-        locationInfos.add(columnData.get(key));
-      }
-    }
-    if(locationInfos.isEmpty()){
-      return leadEntity;
-    }
-    // Stringfy the list
-    StringBuilder addressToBe = new StringBuilder();
-    for (String temp : locationInfos) {
-      addressToBe.append(temp + " ");
-    }
-  
-    GeoApiContext context = new GeoApiContext.Builder()
-    .apiKey(geoApiKey)
-    .build();
-    GeocodingResult[] results = null;
-    // Mandatory exception handling by the geocoding api
-    try {
-      String addressToBeFinal = addressToBe.toString(); 
-      results =  GeocodingApi.geocode(context, addressToBeFinal).await();
-    } catch (ApiException | InterruptedException | IOException e) {
-      e.printStackTrace();
-    }
-
-    // Get latitude and longitude
-    estimatedLatitude = results[0].geometry.location.lat;
-    estimatedLongitude = results[0].geometry.location.lng;
-    
     leadEntity.setProperty("estimatedLatitude", estimatedLatitude);
     leadEntity.setProperty("estimatedLongitude", estimatedLongitude);
+    for (String key : columnData.keySet()) {
+      leadEntity.setProperty(key, columnData.get(key));
+    }
     return leadEntity;
   }
 
@@ -264,6 +239,42 @@ public final class Lead implements DatastoreObject {
     return KeyFactory.createKey(parentKey, KIND_NAME, leadId);
   }
 
+  /**
+   * Searches for any location data present and populates the estimatedLongitude and
+   * estimateLatitude instance variables.
+   */
+  private void generateLocationInfo() {
+    StringBuilder locationInfo = new StringBuilder();
+    for (String key : columnData.keySet()) {
+      // If the column data is related with address add it into locationInfo arraylist
+      if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") ||
+          key.equals("CITY") || key.equals("REGION") ||
+          key.equals("COUNTRY") || key.equals("COUNTRY")) {
+        locationInfo.append(columnData.get(key) + " ");
+      }
+    }
+
+    if (locationInfo.length() == 0) {
+      //no location data to generate
+      return;
+    }
+
+    GeoApiContext context = new GeoApiContext.Builder()
+        .apiKey(geoApiKey)
+        .build();
+
+    GeocodingResult[] results;
+    try {
+      results =  GeocodingApi.geocode(context, locationInfo.toString()).await();
+    } catch (ApiException | InterruptedException | IOException e) {
+      e.printStackTrace();
+      return;
+    }
+
+    // Get and assign latitude and longitude
+    estimatedLatitude = results[0].geometry.location.lat;
+    estimatedLongitude = results[0].geometry.location.lng;
+  }
   /**
    * Creates and populates the columnData Map from userColumnData
    */
