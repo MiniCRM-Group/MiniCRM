@@ -1,9 +1,9 @@
-version: 2 # use CircleCI 2.0
+version: 2.1 # use CircleCI 2.1
 workflows:
   test-env-vars:
     jobs:
-      - build:
-          context: backend_context # has an env var called GEO_API_KEY
+      - build
+
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
     
