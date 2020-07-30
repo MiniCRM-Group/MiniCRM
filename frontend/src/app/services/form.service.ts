@@ -13,7 +13,7 @@ export class FormService {
 
   formEndpoint = '/api/forms';
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
   }
 
   getForms(): Observable<FormsResponse> {
@@ -33,7 +33,6 @@ export class FormService {
 
   renameForm(form: Form): Observable<FormsResponse> {
     const body = {formId: form.formId.toString(), formName: form.formName};
-    //update the form in the map TODO: move this to the success callback... what does mergeMap do
     return this.http.put<any>(this.formEndpoint, body)
     .pipe(retry(3), mergeMap(() => this.getForms()));
   }
@@ -43,14 +42,12 @@ export class FormService {
    */
   getFormNameMap(): Observable<Map<number, string>> {
     return this.getForms().pipe(map((res: FormsResponse) => {
-      let forms: Form[] = res.forms;
-      console.log(forms);
-      let map: Map<number, string> = new Map();
-      for (let form of forms) {
+      const forms: Form[] = res.forms;
+      const map: Map<number, string> = new Map();
+      for (const form of forms) {
         map.set(form.formId, form.formName);
       }
       return map;
     }));
   }
-  
 }
