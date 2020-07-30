@@ -17,10 +17,18 @@ export interface Lead {
    isTest: boolean;
    adgroupId: number;
    creativeId: number;
-   status: string;
+   status: LeadStatus;
    notes: string;
 }
 
 export interface LeadsResponse {
   leads: Lead[];
+}
+
+export enum LeadStatus {
+  NEW = 'NEW',
+  OPEN = 'OPEN',
+  WORKING = 'WORKING',
+  CLOSED_CONVERTED = 'CLOSED_CONVERTED',
+  CLOSED_NOT_CONVERTED = 'CLOSED_NOT_CONVERTED'
 }

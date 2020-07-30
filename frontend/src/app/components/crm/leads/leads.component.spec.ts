@@ -3,7 +3,7 @@ import { LeadsModule } from './leads.module';
 import { LeadService } from 'src/app/services/lead.service';
 import { LeadsComponent } from './leads.component';
 import { of } from 'rxjs';
-import { Lead } from 'src/app/models/server_responses/lead.model';
+import { Lead, LeadStatus } from 'src/app/models/server_responses/lead.model';
 import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { MatTableHarness } from '@angular/material/table/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -29,7 +29,7 @@ describe('LeadsComponent', () => {
       isTest: false,
       adgroupId: 1,
       creativeId: 1,
-      status: 'CLOSED',
+      status: LeadStatus.CLOSED_CONVERTED,
       notes: 'Linked us with more potential clients'
     },
     {
@@ -48,7 +48,7 @@ describe('LeadsComponent', () => {
       isTest: false,
       adgroupId: 1,
       creativeId: 1,
-      status: 'OPEN',
+      status: LeadStatus.OPEN,
       notes: 'Awesome returns'
     },
     {
@@ -67,7 +67,7 @@ describe('LeadsComponent', () => {
       isTest: false,
       adgroupId: 1,
       creativeId: 1,
-      status: 'CLOSED',
+      status: LeadStatus.CLOSED_NOT_CONVERTED,
       notes: 'Great lead'
     }
   ];
