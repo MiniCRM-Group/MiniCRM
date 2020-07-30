@@ -20,7 +20,11 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.File;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -28,14 +32,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
-
-import com.google.maps.GeoApiContext;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.GeocodingApi;
-import com.google.maps.errors.ApiException;
-import java.io.IOException;
 
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
@@ -50,6 +47,7 @@ public final class Lead implements DatastoreObject {
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
   private static String geoApiKey;
+
   static {
     try {
       geoApiKey = new String(
@@ -59,8 +57,9 @@ public final class Lead implements DatastoreObject {
       geoApiKey = "";
     }
   }
+
   private transient Key advertiserKey;
-  private Date date;
+  private final Date date;
   private String leadId;
   private long campaignId;
   private String gclId;
@@ -118,7 +117,7 @@ public final class Lead implements DatastoreObject {
     this.notes = (String) entity.getProperty("notes");
     this.estimatedLatitude = (Double)entity.getProperty("estimatedLatitude");
     this.estimatedLongitude = (Double)entity.getProperty("estimatedLongitude");
-    
+
     entity.removeProperty("date");
     entity.removeProperty("leadId");
     entity.removeProperty("campaignId");
@@ -140,9 +139,10 @@ public final class Lead implements DatastoreObject {
   }
 
   /**
-   * Creates a lead based off of JSON representing the Lead with the parent advertiserKey specified.
+   * Creates a lead based off of JSON representing the Lead with the parent advertiserKey
+   * specified.
    *
-   * @param reader a reader object containing a JSON describing a lead object
+   * @param reader        a reader object containing a JSON describing a lead object
    * @param advertiserKey the Key of the advertiser that this lead belongs to
    * @return a lead object created by the JSON
    */
@@ -193,6 +193,7 @@ public final class Lead implements DatastoreObject {
   /**
    * Checks whether another object o is a Lead that is either the same object as this lead or has
    * all the same instance variables expect the date created variable and advertiserKey.
+   *
    * @param o the object to compare to this lead
    * @return true if the given object is a Lead instance with the same instance variables other than
    *         date created and advertiserKey. False, otherwise.
@@ -267,7 +268,7 @@ public final class Lead implements DatastoreObject {
 
     GeocodingResult[] results;
     try {
-      results =  GeocodingApi.geocode(context, locationInfo.toString()).await();
+      results = GeocodingApi.geocode(context, locationInfo.toString()).await();
     } catch (ApiException | InterruptedException | IOException e) {
       e.printStackTrace();
       return;
@@ -277,6 +278,7 @@ public final class Lead implements DatastoreObject {
     estimatedLatitude = results[0].geometry.location.lat;
     estimatedLongitude = results[0].geometry.location.lng;
   }
+
   /**
    * Creates and populates the columnData Map from userColumnData
    */
@@ -295,6 +297,7 @@ public final class Lead implements DatastoreObject {
   public Key getAdvertiserKey() {
     return advertiserKey;
   }
+
   /**
    * @return the Date this lead was received
    */
