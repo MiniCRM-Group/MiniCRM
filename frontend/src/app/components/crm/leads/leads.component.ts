@@ -100,6 +100,7 @@ export class LeadsComponent implements AfterViewInit {
         case 'email': return lead.columnData.EMAIL;
         case 'date': return new Date(lead.date).getTime();
         case 'formName': return this.formNameMap.get(lead.formId);
+        case 'campaignName': return this.campaignNameMap.get(lead.campaignId);
         default: return lead[property];
       }
     };
