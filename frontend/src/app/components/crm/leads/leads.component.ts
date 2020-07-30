@@ -60,13 +60,13 @@ export class LeadsComponent implements AfterViewInit {
   readonly displayedColumns: string[] = [
     'select',
     'leadId',
+    'date',
     'name',
     'phone_number',
     'email',
-    'campaignName',
     'status',
     'formName',
-    'date',
+    'campaignName',
     'details'
   ];
 
@@ -247,6 +247,5 @@ export class LeadsComponent implements AfterViewInit {
         this.updateLead(leadToShow);
       }
     });
-
   }
 }
