@@ -24,6 +24,7 @@ public enum LeadStatus {
   CLOSED_CONVERTED(3),
   CLOSED_NOT_CONVERTED(4);
 
+  private static final LeadStatus[] STATUSES = LeadStatus.values();
   private final int index;
 
   LeadStatus(int index) {
@@ -35,5 +36,13 @@ public enum LeadStatus {
    */
   public int getIndex() {
     return index;
+  }
+
+  /**
+   * @param i the index of the leadstatus to get
+   * @return the lead status at the corresponding index
+   */
+  public static LeadStatus getFromIndex(int i) {
+    return STATUSES[i];
   }
 }
