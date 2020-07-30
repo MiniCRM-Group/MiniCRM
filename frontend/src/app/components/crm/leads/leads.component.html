@@ -70,6 +70,13 @@
         <mat-cell *matCellDef="let lead"> {{lead.columnData.EMAIL}} </mat-cell>
       </ng-container>
 
+      <!-- Form Name Column -->
+      <ng-container matColumnDef="formName">
+        <mat-header-cell i18n *matHeaderCellDef
+                         mat-sort-header> Form Name </mat-header-cell>
+        <mat-cell *matCellDef="let lead"> {{formService.getFormName(lead.formId)}} </mat-cell>
+      </ng-container>
+
       <!-- Campaign Id Column -->
       <ng-container matColumnDef="campaignId">
         <mat-header-cell i18n *matHeaderCellDef

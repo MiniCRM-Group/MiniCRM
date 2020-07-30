@@ -27,6 +27,7 @@ import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
+import { FormService } from 'src/app/services/form.service';
 
 @Component({
   selector: 'app-leads',
@@ -55,6 +56,7 @@ export class LeadsComponent implements AfterViewInit {
     'email',
     'campaignId',
     'status',
+    'formName',
     'date',
     'details'
   ];
@@ -63,6 +65,7 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private readonly leadService: LeadService,
+              public formService: FormService,
               public dialog: MatDialog,
               private titleService: Title) {
     this.titleService.setTitle($localize`Leads`);
@@ -84,6 +87,7 @@ export class LeadsComponent implements AfterViewInit {
         case 'phone_number': return lead.columnData.PHONE_NUMBER;
         case 'email': return lead.columnData.EMAIL;
         case 'date': return new Date(lead.date).getTime();
+        case 'formName': return this.formService.getFormName(lead.formId);
         default: return lead[property];
       }
     };

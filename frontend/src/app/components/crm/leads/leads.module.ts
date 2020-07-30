@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 import { FormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     CommonModule,
     MatIconModule,
+    MatSortModule,
     MatFormFieldModule,
     MatTableModule,
     MatTableExporterModule,
