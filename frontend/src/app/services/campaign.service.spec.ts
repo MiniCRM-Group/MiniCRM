@@ -85,7 +85,7 @@ describe('CampaignService', () => {
       const req = httpMock.expectOne(service.endpoint);
       const request = req.request;
       expect(request.method).toBe('GET');
-      req.flush([]);
+      req.flush({campaigns: [] as Campaign[]});
     });
   });
 });
