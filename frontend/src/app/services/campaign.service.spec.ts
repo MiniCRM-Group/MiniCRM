@@ -62,8 +62,8 @@ describe('CampaignService', () => {
   describe('getCampaignNameMap', () => {
     it('should return a map containing all campaign ids mapped to correct names', () => {
       const expectedMap: Map<number, string> = new Map();
-      expectedMap.set(1, 'campaign1');
-      expectedMap.set(2, 'campaign2');
+      expectedMap.set(1, 'Campaign 1');
+      expectedMap.set(2, 'Campaign 2');
 
       service.getCampaignNameMap().subscribe((map: Map<number, string>) => {
         expect(map).toEqual(expectedMap);
@@ -73,6 +73,19 @@ describe('CampaignService', () => {
       const request = req.request;
       expect(request.method).toBe('GET');
       req.flush(dummyCampaignsResponse);
+    });
+
+    it('should return an empty map with no campaigns', () => {
+      const expectedMap: Map<number, string> = new Map();
+
+      service.getCampaignNameMap().subscribe((map: Map<number, string>) => {
+        expect(map).toEqual(expectedMap);
+      });
+
+      const req = httpMock.expectOne(service.endpoint);
+      const request = req.request;
+      expect(request.method).toBe('GET');
+      req.flush([]);
     });
   });
 });
