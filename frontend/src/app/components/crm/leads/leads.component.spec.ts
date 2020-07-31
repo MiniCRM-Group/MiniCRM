@@ -8,6 +8,8 @@ import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { MatTableHarness } from '@angular/material/table/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { FormService } from 'src/app/services/form.service';
+import { CampaignService } from 'src/app/services/campaign.service';
 
 describe('LeadsComponent', () => {
   let loader: HarnessLoader;
@@ -19,7 +21,7 @@ describe('LeadsComponent', () => {
       campaignId: 1,
       gclId: '1',
       apiVersion: '1.0.0',
-      formId: 2,
+      formId: 1,
       googleKey: 'googlekey1',
       columnData: {
         FULL_NAME: 'Roddy',
@@ -74,6 +76,21 @@ describe('LeadsComponent', () => {
   const leadService: Partial<LeadService> = {
     getAllLeads: () => of<Lead[]>(leads)
   };
+
+  const formNameMap: Map<number, string> = new Map();
+  formNameMap.set(1, 'Form 1');
+  formNameMap.set(2, 'Form 2');
+  const formService: Partial<FormService> = {
+    getFormNameMap: () => of<Map<number, string>>(formNameMap)
+  };
+
+  const campaignNameMap: Map<number, string> = new Map();
+  campaignNameMap.set(1, 'Campaign 1');
+  campaignNameMap.set(2, 'Campaign 2');
+  const campaignService: Partial<CampaignService> = {
+    getCampaignNameMap: () => of<Map<number, string>>(campaignNameMap)
+  };
+
   let fixture: ComponentFixture<LeadsComponent>;
 
   beforeEach(async(() => {
@@ -81,7 +98,9 @@ describe('LeadsComponent', () => {
       imports: [ LeadsModule, NoopAnimationsModule],
      // aotSummaries: LeadsModuleNgSummary,
       providers: [
-        { provide: LeadService, useValue: leadService }
+        { provide: LeadService, useValue: leadService },
+        { provide: FormService, useValue: formService },
+        { provide: CampaignService, useValue: campaignService }
       ]
     })
     .compileComponents();
@@ -102,9 +121,9 @@ describe('LeadsComponent', () => {
     const leadsTable = await loader.getHarness(MatTableHarness);
     const displayedLeads = await leadsTable.getRows();
     displayedLeads.forEach(async (displayedLead, index) => {
-      const [selectCell, leadIdCell, nameCell,
-      phoneNumberCell, emailCell, campaignIdCell,
-      dateCell, statusCell, moreInfoCell] = await displayedLead.getCells();
+      const [selectCell, leadIdCell, dateCell, nameCell,
+      phoneNumberCell, emailCell,
+      statusCell, formNameCell, campaignNameCell, moreInfoCell] = await displayedLead.getCells();
       const leadId = await leadIdCell.getText();
       expect(leadId).toEqual(leads[index].leadId);
       const name = await nameCell.getText();
@@ -113,8 +132,10 @@ describe('LeadsComponent', () => {
       expect(phoneNum).toEqual(leads[index].columnData.PHONE_NUMBER);
       const email = await emailCell.getText();
       expect(email).toEqual(leads[index].columnData.EMAIL);
-      const campaignId = await campaignIdCell.getText();
-      expect(campaignId).toEqual(leads[index].campaignId.toString());
+      const campaignName = await campaignNameCell.getText();
+      expect(campaignName).toEqual(campaignNameMap.get(leads[index].campaignId));
+      const formName = await formNameCell.getText();
+      expect(formName).toEqual(formNameMap.get(leads[index].formId));
       // dates are failing for some reason
       const date = await dateCell.getText();
     });
