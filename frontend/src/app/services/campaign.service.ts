@@ -30,11 +30,11 @@ export class CampaignService {
   getCampaignNameMap(): Observable<Map<number, string>> {
     return this.getCampaigns().pipe(map((res: CampaignsResponse) => {
       const campaigns: Campaign[] = res.campaigns;
-      const map: Map<number, string> = new Map();
+      const campaignNameMap: Map<number, string> = new Map();
       for (const campaign of campaigns) {
-        map.set(campaign.campaignId, campaign.campaignName);
+        campaignNameMap.set(campaign.campaignId, campaign.campaignName);
       }
-      return map;
+      return campaignNameMap;
     }));
   }
 }

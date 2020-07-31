@@ -43,11 +43,11 @@ export class FormService {
   getFormNameMap(): Observable<Map<number, string>> {
     return this.getForms().pipe(map((res: FormsResponse) => {
       const forms: Form[] = res.forms;
-      const map: Map<number, string> = new Map();
+      const formNameMap: Map<number, string> = new Map();
       for (const form of forms) {
-        map.set(form.formId, form.formName);
+        formNameMap.set(form.formId, form.formName);
       }
-      return map;
+      return formNameMap;
     }));
   }
 }
