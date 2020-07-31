@@ -3,14 +3,20 @@ import { CommonModule } from '@angular/common';
 import { AnalyticsComponent } from './analytics.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { ChartsModule } from './charts/charts.module';
 
 @NgModule({
-  declarations: [AnalyticsComponent],
-  exports: [AnalyticsComponent, MatTabsModule],
+  declarations: [
+    AnalyticsComponent,
+  ],
+  exports: [
+    AnalyticsComponent
+  ],
   imports: [
     CommonModule,
     MatTabsModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    ChartsModule
   ]
 })
 export class AnalyticsModule { }
