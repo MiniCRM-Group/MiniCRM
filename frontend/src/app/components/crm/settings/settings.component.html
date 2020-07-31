@@ -1,24 +1,67 @@
-<div>
+<div [formGroup]="settingsForm" id="settings-container" class="mat-elevation-z2">
     <mat-list>
-        <div i18n mat-subheader>Notifications</div>
+        <div i18n mat-subheader fxLayout="row" fxLayoutAlign="space-between">
+            Notifications 
+            <button *ngIf="!editMode" (click)="onEdit()" mat-mini-fab>
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
         <mat-list-item>
             <mat-icon mat-list-icon>email</mat-icon>
             <div i18n mat-line>Email</div>
-            <div mat-line>
+            <div *ngIf="!editMode" mat-line>
                 {{
                     settings?.emailNotificationsFrequency === "Never" ? 
                     "Never" : settings?.email + " (" + settings?.emailNotificationsFrequency + ")"
                 }}
             </div>
+            <div *ngIf="editMode" mat-line>
+                <mat-form-field  *ngIf="settingsForm.get('emailNotificationsFrequency').value !== 'NEVER'" id="emailFormField" floatLabel="never">
+                    <input matInput formControlName="email" [errorStateMatcher]="matcher" placeholder="Ex. pat@example.com">
+                    <mat-error *ngIf="settingsForm.get('email').hasError('email') && !settingsForm.get('email').hasError('required')">
+                        Please enter a valid email address
+                    </mat-error>
+                    <mat-error *ngIf="settingsForm.get('email').hasError('email')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Frequency</mat-label>
+                    <mat-select formControlName="emailNotificationsFrequency">
+                        <mat-option *ngFor="let notFrq of availableNotifFreqs" [value]="notFrq.id">
+                        {{notFrq.displayed}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </mat-list-item>
         <mat-list-item>
             <mat-icon mat-list-icon>phone</mat-icon>
             <div i18n mat-line>Phone Number</div>
-            <div mat-line>
+            <div *ngIf="!editMode" mat-line>
                 {{
                     settings?.phoneNotificationsFrequency === "Never" ? 
                     "Never" : settings?.phone + " (" + settings?.phoneNotificationsFrequency + ")"
                 }}
+            </div>
+            <div *ngIf="editMode" mat-line>
+                <mat-form-field *ngIf="settingsForm.get('phoneNotificationsFrequency').value !== 'NEVER'" id="phoneFormField" floatLabel="never">
+                    <input matInput formControlName="phone" [errorStateMatcher]="matcher" placeholder="Ex. 123-456-7890">
+                    <mat-error *ngIf="settingsForm.get('phone').hasError('phone') && !settingsForm.get('phone').hasError('required')">
+                        Please enter a valid phone number
+                    </mat-error>
+                    <mat-error *ngIf="settingsForm.get('phone').hasError('required')">
+                        Phone number is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Frequency</mat-label>
+                    <mat-select formControlName="phoneNotificationsFrequency">
+                        <mat-option *ngFor="let notFrq of availableNotifFreqs" [value]="notFrq.id">
+                        {{notFrq.displayed}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
@@ -26,12 +69,35 @@
         <mat-list-item>
             <mat-icon mat-list-icon>language</mat-icon>
             <div i18n mat-line>Language</div>
-            <div mat-line>{{settings?.language}}</div>
+            <div *ngIf="!editMode" mat-line>{{settings?.language}}</div>
+            <div *ngIf="editMode" mat-line>
+                <mat-form-field>
+                    <mat-select formControlName="language">
+                        <mat-option *ngFor="let lang of availableLanguages" [value]="lang.isoCode">
+                        {{lang.displayed}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </mat-list-item>
         <mat-list-item>
             <mat-icon mat-list-icon>attach_money</mat-icon>
             <div i18n mat-line>Currency</div>
-            <div mat-line>{{settings?.currency}}</div>
+            <div *ngIf="!editMode" mat-line>{{settings?.currency}}</div>
+            <div *ngIf="editMode" mat-line>
+                <mat-form-field>
+                    <mat-select formControlName="currency">
+                        <mat-option *ngFor="let curr of availableCurrencies" [value]="curr.isoCode">
+                        {{curr.displayed}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </mat-list-item>
+        <mat-divider *ngIf="editMode"></mat-divider>
     </mat-list>
+    <div id="actions" *ngIf="editMode" fxLayout="row" fxLayoutAlign="space-evenly">
+        <button (click)="onCancel()" mat-flat-button color="warn">CANCEL</button>
+        <button (click)="onSave()" [disabled]="settingsForm.invalid" mat-flat-button color="primary">SAVE</button>
+    </div>
 </div>
