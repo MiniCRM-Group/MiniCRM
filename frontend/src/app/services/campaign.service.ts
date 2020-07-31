@@ -8,24 +8,24 @@ import { Campaign, CampaignsResponse } from '../models/server_responses/campaign
   providedIn: 'root'
 })
 export class CampaignService {
-  private url = '/api/campaigns';
+  public endpoint = '/api/campaigns';
   constructor(private http: HttpClient) { }
 
   getCampaigns(): Observable<CampaignsResponse> {
     const options = {
       responseType: 'json' as const
     };
-    return this.http.get<CampaignsResponse>(this.url, options);
+    return this.http.get<CampaignsResponse>(this.endpoint, options);
   }
 
   renameCampaign(campaign: Campaign): Observable<CampaignsResponse> {
     const body = {campaignId: campaign.campaignId.toString(), campaignName: campaign.campaignName};
-    return this.http.put<any>(this.url, body)
+    return this.http.put<any>(this.endpoint, body)
     .pipe(retry(3), mergeMap(() => this.getCampaigns()));
   }
 
   /**
-   * @return an Observable map mapping formIds to formNames
+   * @return an Observable map mapping campaignIds to campaignNames
    */
   getCampaignNameMap(): Observable<Map<number, string>> {
     return this.getCampaigns().pipe(map((res: CampaignsResponse) => {
