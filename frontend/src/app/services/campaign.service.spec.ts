@@ -19,7 +19,7 @@ describe('CampaignService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ],
-      providers: [ FormService ]
+      providers: [ CampaignService ]
     });
     service = TestBed.inject(CampaignService);
     httpMock = TestBed.inject(HttpTestingController);
