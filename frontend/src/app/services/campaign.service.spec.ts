@@ -9,7 +9,7 @@ describe('CampaignService', () => {
   const dummyCampaignsResponse: CampaignsResponse = {
     campaigns: [
       { campaignId: 1, campaignName: 'Campaign 1', date: Date().toString() },
-      { campaignId: 1, campaignName: 'Campaign 2', date: Date().toString() }
+      { campaignId: 2, campaignName: 'Campaign 2', date: Date().toString() }
     ] as Campaign[]
   };
 
