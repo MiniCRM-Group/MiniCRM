@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 })
 export class FormService {
 
-  formEndpoint = '/api/forms';
+  endpoint = '/api/forms';
 
   constructor(private http: HttpClient) {
   }
@@ -20,7 +20,7 @@ export class FormService {
     const options = {
       responseType: 'json' as const
     };
-    return this.http.get<FormsResponse>(this.formEndpoint, options)
+    return this.http.get<FormsResponse>(this.endpoint, options)
     .pipe(
       first(),
       retry(3),
@@ -33,7 +33,7 @@ export class FormService {
 
   renameForm(form: Form): Observable<FormsResponse> {
     const body = {formId: form.formId.toString(), formName: form.formName};
-    return this.http.put<any>(this.formEndpoint, body)
+    return this.http.put<any>(this.endpoint, body)
     .pipe(retry(3), mergeMap(() => this.getForms()));
   }
 

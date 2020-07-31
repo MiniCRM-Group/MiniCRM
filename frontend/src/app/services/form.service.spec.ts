@@ -36,7 +36,7 @@ describe('FormService', () => {
       expect(res.forms).toEqual(dummyFormResponse.forms);
     });
 
-    const req = httpMock.expectOne(service.formEndpoint);
+    const req = httpMock.expectOne(service.endpoint);
     expect(req.request.method).toBe('GET');
     req.flush(dummyFormResponse);
   });
