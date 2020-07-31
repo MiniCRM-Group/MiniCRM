@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { Lead, LeadStatus } from 'src/app/models/server_responses/lead.model';
 import { NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { MatTableHarness } from '@angular/material/table/testing';
+import { MatSortHarness, MatSortHeaderHarness } from '@angular/material/sort/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { FormService } from 'src/app/services/form.service';
@@ -93,8 +94,8 @@ describe('LeadsComponent', () => {
 
   let fixture: ComponentFixture<LeadsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async() => {
+    await TestBed.configureTestingModule({
       imports: [ LeadsModule, NoopAnimationsModule],
      // aotSummaries: LeadsModuleNgSummary,
       providers: [
@@ -104,9 +105,6 @@ describe('LeadsComponent', () => {
       ]
     })
     .compileComponents();
-  }));
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(LeadsComponent);
     component = fixture.componentInstance;
     loader = TestbedHarnessEnvironment.loader(fixture);
@@ -138,6 +136,20 @@ describe('LeadsComponent', () => {
       expect(formName).toEqual(formNameMap.get(leads[index].formId));
       // dates are failing for some reason
       const date = await dateCell.getText();
+    });
+  });
+
+  xit('should be sortable by all sortable columns in both ascending and descending order', async () => {
+    const matSortHarness: MatSortHarness = await loader.getHarness(MatSortHarness);
+    const headerHarnesses: MatSortHeaderHarness[] = await matSortHarness.getSortHeaders();
+    headerHarnesses.forEach(async (headerHarness) => {
+      const firstSortDirection = await headerHarness.getSortDirection();
+      expect(await headerHarness.isDisabled()).toBe(false);
+      await headerHarness.click();
+      expect(await headerHarness.isActive()).toBe(true);
+      await headerHarness.click();
+      expect(await headerHarness.isActive()).toBe(true);
+      expect(await headerHarness.getSortDirection()).not.toEqual(firstSortDirection);
     });
   });
 });
