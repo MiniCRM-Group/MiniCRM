@@ -1,5 +1,15 @@
 package com.google.minicrm.filters;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.repackaged.org.apache.commons.codec.language.bm.Lang;
+import com.google.minicrm.data.Advertiser;
+import com.google.minicrm.data.Language;
+import com.google.minicrm.data.Settings;
+import com.google.minicrm.utils.UserAuthenticationUtil;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -54,7 +64,19 @@ public final class ClientAppFilter implements Filter {
       filterChain.doFilter(servletRequest, servletResponse);
     } else {
       //Angular URL, send back to index.html
-      RequestDispatcher dispatcher = servletRequest.getRequestDispatcher(localizePath(path));
+      RequestDispatcher dispatcher;
+      if (UserAuthenticationUtil.isAuthenticated()) {
+        Query query = new Query(Settings.KIND_NAME)
+                .setAncestor(Advertiser.generateKey(UserAuthenticationUtil.getCurrentUser()));
+        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery preparedQuery = datastoreService.prepare(query);
+        Settings settings = new Settings(preparedQuery.asSingleEntity());
+        Language lang = settings.getLanguage();
+        dispatcher = servletRequest.getRequestDispatcher(localizePath("/" +
+                (lang == Language.ENGLISH ? "" : lang.getIsoCode())));
+      } else {
+        dispatcher = servletRequest.getRequestDispatcher(localizePath(path));
+      }
       dispatcher.forward(servletRequest, servletResponse);
     }
   }

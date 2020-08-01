@@ -1,10 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Settings, Language, Currency, NotificationsFrequency } from 'src/app/models/server_responses/settings-response.model';
+import { Settings, Language, Currency, NotificationsFrequency, SettingsResponse } from 'src/app/models/server_responses/settings-response.model';
 import { SettingsService } from 'src/app/services/settings.service';
 import { first } from 'rxjs/operators';
 import { FormControl, FormGroupDirective, NgForm, Validators, AbstractControl, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { matFormFieldAnimations } from '@angular/material/form-field';
+import { LoginService } from 'src/app/services/login.service';
+import { LoginResponse } from 'src/app/models/server_responses/login-response.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class SettingsErrorStateMatcher implements ErrorStateMatcher {
@@ -41,7 +44,7 @@ export class SettingsComponent implements OnInit {
   });
   matcher = new SettingsErrorStateMatcher();
 
-  constructor(private titleService: Title, private settingsService: SettingsService) {
+  constructor(private titleService: Title, private settingsService: SettingsService, private loginServce: LoginService) {
     this.titleService.setTitle($localize`Settings`);
     this.settingsService.getSettings().subscribe((res) => {
       this.settings = res.settings;
@@ -68,8 +71,13 @@ export class SettingsComponent implements OnInit {
   onSave() {
     this.editMode = false;
     console.log(this.settingsForm.value);
-    this.settingsService.setSettings(this.settingsForm.value).subscribe(res => {
-      this.settings = res.settings;
+    this.settingsService.setSettings(this.settingsForm.value).subscribe((settingsRes: SettingsResponse) => {
+      if (this.settings.language !== settingsRes.settings.language) {
+        this.loginServce.getLoginResponse().subscribe((loginRes: LoginResponse) => {
+          location.href = loginRes.url;
+        });
+      }
+      this.settings = settingsRes.settings;
     }, (error) => {
       // TODO: handle error with Toaster
     }, () => {
