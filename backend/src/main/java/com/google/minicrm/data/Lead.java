@@ -18,21 +18,27 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+import java.util.stream.Collectors; 
 import com.google.gson.GsonBuilder;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.io.FileReader;
 
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
@@ -49,13 +55,12 @@ public final class Lead implements DatastoreObject {
   private static String geoApiKey;
 
   static {
-    try {
-      geoApiKey = new String(
-          Files.readAllBytes(Paths.get("src/main/resources/api-keys/GeoApiKey.txt")));
-    } catch (IOException e) {
-      e.printStackTrace();
-      geoApiKey = "";
-    }
+    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+    InputStream is = classloader.getResourceAsStream("api-keys/GeoApiKey.txt");
+    geoApiKey = new BufferedReader(
+        new InputStreamReader(is, StandardCharsets.UTF_8))
+        .lines()
+        .collect(Collectors.joining("\n"));
   }
 
   private transient Key advertiserKey;
@@ -247,18 +252,49 @@ public final class Lead implements DatastoreObject {
    */
   private void generateLocationInfo() {
     StringBuilder locationInfo = new StringBuilder();
+    String phoneNumber = "";
+
     for (String key : columnData.keySet()) {
       // If the column data is related with address add it into locationInfo arraylist
       if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") ||
           key.equals("CITY") || key.equals("REGION") ||
           key.equals("COUNTRY") || key.equals("COUNTRY")) {
         locationInfo.append(columnData.get(key) + " ");
+      } else if (key.equals("PHONE_NUMBER") ) {
+        phoneNumber = columnData.get("PHONE_NUMBER");
       }
-    }
-
+    }   
     if (locationInfo.length() == 0) {
-      //no location data to generate
-      return;
+     final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+     System.out.println(areaCodeFromLead);
+
+     try {
+        // create Gson instance
+        Gson gson = new Gson();
+        // create a reader
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        InputStream is = classloader.getResourceAsStream("data/AreaCodes.json");
+        InputStreamReader reader = 
+        new InputStreamReader(is, StandardCharsets.UTF_8);
+        
+        // convert JSON array to list of users
+        List<AreaCode> areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}.getType());
+
+        List<AreaCode> areaCodesFiltered = areaCodes
+         .stream()
+         .filter(c -> c.areaCode == areaCodeFromLead)
+         .collect(Collectors.toList());
+        
+         for( AreaCode finalFilter : areaCodesFiltered){
+         estimatedLatitude = finalFilter.latitude;
+         estimatedLongitude = finalFilter.longitude;
+        }
+            //close reader
+            reader.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return;
     }
 
     GeoApiContext context = new GeoApiContext.Builder()
