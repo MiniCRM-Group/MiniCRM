@@ -24,15 +24,18 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
@@ -49,13 +52,12 @@ public final class Lead implements DatastoreObject {
   private static String geoApiKey;
 
   static {
-    try {
-      geoApiKey = new String(
-          Files.readAllBytes(Paths.get("src/main/resources/api-keys/GeoApiKey.txt")));
-    } catch (IOException e) {
-      e.printStackTrace();
-      geoApiKey = "";
-    }
+    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+    InputStream is = classloader.getResourceAsStream("api-keys/GeoApiKey.txt");
+    geoApiKey = new BufferedReader(
+        new InputStreamReader(is, StandardCharsets.UTF_8))
+        .lines()
+        .collect(Collectors.joining("\n"));
   }
 
   private transient Key advertiserKey;
