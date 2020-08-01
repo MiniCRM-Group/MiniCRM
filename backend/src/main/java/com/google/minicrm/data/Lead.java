@@ -262,7 +262,6 @@ public final class Lead implements DatastoreObject {
       //no location data to generate
       return;
     }
-    System.out.println("APIKEY:" + geoApiKey);
 
     GeoApiContext context = new GeoApiContext.Builder()
         .apiKey(geoApiKey)
