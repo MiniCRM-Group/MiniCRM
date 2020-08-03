@@ -277,20 +277,6 @@ public final class Lead implements DatastoreObject {
       }
     }   
    
-    if (locationInfo.length() == 0 && phoneNumber != null) {
-     final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
-     
-        List<AreaCode> areaCodesFiltered = areaCodes
-         .stream()
-         .filter(c -> c.areaCode == areaCodeFromLead)
-         .collect(Collectors.toList());
-        
-          estimatedLatitude = areaCodesFiltered.get(0).latitude;
-          estimatedLongitude = areaCodesFiltered.get(0).longitude;
-          
-        return;
-    }
-    
     if (locationInfo.length() == 0 && phoneNumber.equals("")) {
       //no location data
       return;
@@ -315,30 +301,16 @@ public final class Lead implements DatastoreObject {
     } else { //use phone number info
       final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
 
-      // create a reader
-      ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-      InputStream is = classloader.getResourceAsStream("data/AreaCodes.json");
-      InputStreamReader reader =
-          new InputStreamReader(is, StandardCharsets.UTF_8);
-
-      // convert JSON array to list of users
-      List<AreaCode> areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}
-          .getType());
       List<AreaCode> areaCodesFiltered = areaCodes
-          .stream()
-          .filter(c -> c.areaCodes == areaCodeFromLead)
-          .collect(Collectors.toList());
+        .stream()
+        .filter(c -> c.areaCodes == areaCodeFromLead)
+        .collect(Collectors.toList());
 
       if (!areaCodesFiltered.isEmpty()) {
         estimatedLatitude = areaCodesFiltered.get(0).latitude;
         estimatedLongitude = areaCodesFiltered.get(0).longitude;
       }
 
-      try {
-        reader.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 
