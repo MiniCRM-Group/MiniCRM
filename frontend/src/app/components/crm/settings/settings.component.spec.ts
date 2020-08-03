@@ -41,7 +41,7 @@ describe('SettingsComponent', () => {
     })
   };
   const loginService: Partial<LoginService> = {
-    getLoginResponse: (lang: string) => of<LoginResponse>({
+    getLoginResponse: () => of<LoginResponse>({
       loggedIn: false,
       url: ''
     })
