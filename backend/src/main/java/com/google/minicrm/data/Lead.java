@@ -284,10 +284,10 @@ public final class Lead implements DatastoreObject {
          .filter(c -> c.areaCode == areaCodeFromLead)
          .collect(Collectors.toList());
         
-         for( AreaCode finalFilter : areaCodesFiltered){
+         for( AreaCode finalFilter : areaCodesFiltered) {
          estimatedLatitude = finalFilter.latitude;
          estimatedLongitude = finalFilter.longitude;
-        }
+         }
             //close reader
             reader.close();
         } catch (Exception ex) {
