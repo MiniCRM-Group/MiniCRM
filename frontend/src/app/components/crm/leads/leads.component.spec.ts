@@ -94,7 +94,7 @@ describe('LeadsComponent', () => {
 
   let fixture: ComponentFixture<LeadsComponent>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ LeadsModule, NoopAnimationsModule],
      // aotSummaries: LeadsModuleNgSummary,

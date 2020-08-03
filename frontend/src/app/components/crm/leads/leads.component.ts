@@ -48,7 +48,7 @@ export class LeadsComponent implements AfterViewInit {
     form: 'any',
     campaign: 'any',
     other: ''
-  }
+  };
   isLoading = true;
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
@@ -137,12 +137,12 @@ export class LeadsComponent implements AfterViewInit {
         }
         return false;
       };
-      const filter = JSON.parse(filterPredicateFilter);
-      const formMatch = filter.form === 'any' || filterPredicateData.formId === filter.form;
-      const campaignMatch = filter.campaign === 'any' || filterPredicateData.campaignId === filter.campaign;
+      const filters = JSON.parse(filterPredicateFilter);
+      const formMatch = filters.form === 'any' || filterPredicateData.formId === filters.form;
+      const campaignMatch = filters.campaign === 'any' || filterPredicateData.campaignId === filters.campaign;
       return formMatch
         && campaignMatch
-        && hasFilter(filterPredicateData, cleanString(filter.other));
+        && hasFilter(filterPredicateData, cleanString(filters.other));
     };
   }
 
