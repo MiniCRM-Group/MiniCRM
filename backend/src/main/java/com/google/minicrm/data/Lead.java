@@ -18,9 +18,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
-import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import java.util.stream.Collectors; 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
@@ -265,7 +265,6 @@ public final class Lead implements DatastoreObject {
     }   
     if (locationInfo.length() == 0) {
      final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
-     System.out.println(areaCodeFromLead);
 
      try {
         // create Gson instance
@@ -285,12 +284,12 @@ public final class Lead implements DatastoreObject {
          .collect(Collectors.toList());
         
          for( AreaCode finalFilter : areaCodesFiltered) {
-         estimatedLatitude = finalFilter.latitude;
-         estimatedLongitude = finalFilter.longitude;
+          estimatedLatitude = finalFilter.latitude;
+          estimatedLongitude = finalFilter.longitude;
          }
             //close reader
-            reader.close();
-        } catch (Exception ex) {
+        reader.close();
+      } catch (Exception ex) {
             ex.printStackTrace();
         }
         return;
