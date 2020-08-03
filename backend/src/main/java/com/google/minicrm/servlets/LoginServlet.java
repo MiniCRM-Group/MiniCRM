@@ -57,13 +57,14 @@ public final class LoginServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String languageParam = request.getParameter("language");
+    Language language = Language.fromIsoCode(languageParam);
     String url;
     boolean loggedIn = userService.isUserLoggedIn();
     if (loggedIn) {
-      Language lang = UserAuthenticationUtil.getCurrentUserSettings().getLanguage();
-      url = userService.createLogoutURL("/" + lang.getIsoCode());
+      url = userService.createLogoutURL("/" + language.getIsoCode());
     } else {
-      url = userService.createLoginURL("/");
+      url = userService.createLoginURL("/" + language.getIsoCode());
     }
     LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
     response.setContentType("application/json;");

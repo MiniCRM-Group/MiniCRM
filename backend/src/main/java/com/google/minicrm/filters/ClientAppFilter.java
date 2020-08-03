@@ -1,15 +1,5 @@
 package com.google.minicrm.filters;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.repackaged.org.apache.commons.codec.language.bm.Lang;
-import com.google.minicrm.data.Advertiser;
-import com.google.minicrm.data.Language;
-import com.google.minicrm.data.Settings;
-import com.google.minicrm.utils.UserAuthenticationUtil;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -84,26 +74,19 @@ public final class ClientAppFilter implements Filter {
   private void redirectToClient(ServletRequest servletRequest, ServletResponse servletResponse,
                                 String path) throws IOException, ServletException {
     RequestDispatcher dispatcher;
-    if (UserAuthenticationUtil.isAuthenticated()) {
-      Settings settings = UserAuthenticationUtil.getCurrentUserSettings();
-      Language lang = settings.getLanguage();
-      dispatcher = servletRequest.getRequestDispatcher(localizePath("/" +
-              (lang == Language.ENGLISH ? "" : lang.getIsoCode())));
-    } else {
-      dispatcher = servletRequest.getRequestDispatcher(localizePath(path));
-    }
+    dispatcher = servletRequest.getRequestDispatcher(localizePath(path));
     dispatcher.forward(servletRequest, servletResponse);
   }
 
   private String localizePath(String url) {
     if (url.startsWith("/hi")) {
-      return "/hi/";
+      return "/hi/index.html";
     } else if (url.startsWith("/es")) {
-      return "/es/";
+      return "/es/index.html";
     } else if (url.startsWith("/pt")) {
-      return "/pt/";
+      return "/pt/index.html";
     } else {
-      return "/en/";
+      return "/en/index.html";
     }
   }
 }

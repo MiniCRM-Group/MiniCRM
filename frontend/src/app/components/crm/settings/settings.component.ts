@@ -29,7 +29,6 @@ export const phoneValidator = (control: AbstractControl): {[key: string]: any} |
 })
 export class SettingsComponent implements OnInit {
   settings: Settings;
-  availableLanguages: Language[];
   availableCurrencies: Currency[];
   availableNotifFreqs: NotificationsFrequency[];
 
@@ -39,7 +38,6 @@ export class SettingsComponent implements OnInit {
     phone: new FormControl(),
     emailNotificationsFrequency: new FormControl(),
     phoneNotificationsFrequency: new FormControl(),
-    language: new FormControl(),
     currency: new FormControl()
   });
   matcher = new SettingsErrorStateMatcher();
@@ -48,7 +46,6 @@ export class SettingsComponent implements OnInit {
     this.titleService.setTitle($localize`Settings`);
     this.settingsService.getSettings().subscribe((res) => {
       this.settings = res.settings;
-      this.availableLanguages = res.supportedLanguages;
       this.availableCurrencies = res.supportedCurrencies;
       this.availableNotifFreqs = res.supportedNotifsFreqs;
       this.fillForm();
@@ -72,13 +69,6 @@ export class SettingsComponent implements OnInit {
     this.editMode = false;
     console.log(this.settingsForm.value);
     this.settingsService.setSettings(this.settingsForm.value).subscribe((settingsRes: SettingsResponse) => {
-      if (this.settings.language !== settingsRes.settings.language) {
-        this.loginServce.getLoginResponse().subscribe((loginRes: LoginResponse) => {
-          if (loginRes.loggedIn) {
-            location.href = loginRes.url;
-          }
-        });
-      }
       this.settings = settingsRes.settings;
     }, (error) => {
       // TODO: handle error with Toaster
@@ -93,7 +83,6 @@ export class SettingsComponent implements OnInit {
       emailNotificationsFrequency: this.availableNotifFreqs.find(nf => nf.displayed === this.settings.emailNotificationsFrequency).id,
       phone: this.settings.phone,
       phoneNotificationsFrequency: this.availableNotifFreqs.find(nf => nf.displayed === this.settings.phoneNotificationsFrequency).id,
-      language: this.availableLanguages.find(lang => lang.displayed === this.settings.language).isoCode,
       currency: this.availableCurrencies.find(curr => curr.displayed === this.settings.currency).isoCode
     });
     this.settingsForm.get('email').setValidators(

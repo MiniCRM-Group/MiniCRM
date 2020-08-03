@@ -15,7 +15,6 @@ describe('SettingsComponent', () => {
     emailNotificationsFrequency: 'Never',
     phone: '101-101-1010',
     phoneNotificationsFrequency: 'On Every Lead',
-    language: 'Spanish',
     currency: 'USD $'
   };
   let loader: HarnessLoader;
@@ -23,12 +22,6 @@ describe('SettingsComponent', () => {
   const settingsService: Partial<SettingsService> = {
     getSettings: () => of<SettingsResponse>({
       settings,
-      supportedLanguages: [
-        {
-          displayed: 'Spanish',
-          isoCode: 'es'
-        }
-      ],
       supportedCurrencies: [
         {
           displayed: 'USD $',
@@ -48,7 +41,7 @@ describe('SettingsComponent', () => {
     })
   };
   const loginService: Partial<LoginService> = {
-    getLoginResponse: () => of<LoginResponse>({
+    getLoginResponse: (lang: string) => of<LoginResponse>({
       loggedIn: false,
       url: ''
     })
@@ -80,7 +73,7 @@ describe('SettingsComponent', () => {
 
   it('should display settings', async () => {
     const settingsList = await loader.getHarness(MatListHarness);
-    const [notifications, langAndCurrency] = await settingsList.getItemsGroupedByDividers();
+    const [notifications, other] = await settingsList.getItemsGroupedByDividers();
 
     const [emailNotifications, phoneNotifications] = notifications;
 
@@ -92,11 +85,7 @@ describe('SettingsComponent', () => {
     expect(phoneLabel).toEqual('Phone Number');
     expect(phone).toEqual(`${settings.phone} (${settings.phoneNotificationsFrequency})`);
 
-    const [language, currency] = langAndCurrency;
-
-    const [langLabel, lang] = await language.getLinesText();
-    expect(langLabel).toEqual('Language');
-    expect(lang).toEqual(settings.language);
+    const [currency] = other;
 
     const [currLabel, curr] = await currency.getLinesText();
     expect(currLabel).toEqual('Currency');

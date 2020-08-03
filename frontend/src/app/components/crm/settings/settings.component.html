@@ -65,22 +65,7 @@
             </div>
         </mat-list-item>
         <mat-divider></mat-divider>
-        <div i18n mat-subheader>Language & Currency</div>
-        <mat-list-item>
-            <mat-icon mat-list-icon>language</mat-icon>
-            <div i18n mat-line>Language</div>
-            <div *ngIf="!editMode" mat-line>{{settings?.language}}</div>
-            <div *ngIf="editMode" mat-line>
-                <mat-form-field>
-                    <mat-select formControlName="language">
-                        <mat-option *ngFor="let lang of availableLanguages" [value]="lang.isoCode">
-                        {{lang.displayed}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>You will have to logout and log back in to see this change.</mat-hint>
-                </mat-form-field>
-            </div>
-        </mat-list-item>
+        <div i18n mat-subheader>Currency</div>
         <mat-list-item>
             <mat-icon mat-list-icon>attach_money</mat-icon>
             <div i18n mat-line>Currency</div>

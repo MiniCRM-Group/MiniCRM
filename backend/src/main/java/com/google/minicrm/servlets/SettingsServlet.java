@@ -92,13 +92,11 @@ public final class SettingsServlet extends HttpServlet {
     private final class SettingsResponse implements ClientResponse {
         private Settings settings;
         private List<Map<String, String>> supportedCurrencies;
-        private List<Map<String, String>> supportedLanguages;
         private List<Map<String, String>> supportedNotifsFreqs;
 
         SettingsResponse(Settings settings) {
             this.settings = settings;
             this.supportedCurrencies = Currency.supportedCurrencies;
-            this.supportedLanguages = Language.supportedLanguages;
             this.supportedNotifsFreqs = NotificationsFrequency.supportedNotificationsFrequencies;
         }
 

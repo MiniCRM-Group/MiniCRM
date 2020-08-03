@@ -23,18 +23,16 @@ public final class Settings implements DatastoreObject {
     private NotificationsFrequency emailNotificationsFrequency;
     private String phone;
     private NotificationsFrequency phoneNotificationsFrequency;
-    private Language language;
     private Currency currency;
 
     public Settings(Key advertiserKey, String email, String phone, NotificationsFrequency emailNotificationsFrequency,
-                    NotificationsFrequency phoneNotificationsFrequency, Language language, Currency currency)
+                    NotificationsFrequency phoneNotificationsFrequency, Currency currency)
             throws ValidatorException, NumberParseException {
         this.advertiserKey = advertiserKey;
         this.email = email;
         this.phone = phone;
         this.emailNotificationsFrequency = emailNotificationsFrequency;
         this.phoneNotificationsFrequency = phoneNotificationsFrequency;
-        this.language = language;
         this.currency = currency;
         if (this.emailNotificationsFrequency != NotificationsFrequency.NEVER) {
             if (email == null || email.trim().length() < 0) {
@@ -70,7 +68,6 @@ public final class Settings implements DatastoreObject {
     public Settings(Key advertiserKey, String email) {
         this.advertiserKey = advertiserKey;
         this.email = email;
-        this.language = Language.ENGLISH;
         this.currency = Currency.US_DOLLAR;
         // defaults
         this.emailNotificationsFrequency = NotificationsFrequency.NEVER;
@@ -90,7 +87,6 @@ public final class Settings implements DatastoreObject {
         this.phone = (String) entity.getProperty("phone");
         this.phoneNotificationsFrequency =
                 NotificationsFrequency.fromDisplayed((String) entity.getProperty("phoneNf"));
-        this.language = Language.fromIsoCode((String) entity.getProperty("language"));
         this.currency = Currency.fromIsoCode((String) entity.getProperty("currency"));
     }
 
@@ -100,7 +96,7 @@ public final class Settings implements DatastoreObject {
         if(jsonMap == null || !jsonMap.containsKey("email") || !jsonMap.containsKey("phone") ||
                 !jsonMap.containsKey("emailNotificationsFrequency") ||
                 !jsonMap.containsKey("phoneNotificationsFrequency") ||
-                !jsonMap.containsKey("language") || !jsonMap.containsKey("currency")) {
+                !jsonMap.containsKey("currency")) {
             throw new MalformedJsonException("One or more missing keys in JSON.");
         }
         String email = jsonMap.get("email");
@@ -109,7 +105,7 @@ public final class Settings implements DatastoreObject {
         NotificationsFrequency phoneNotifFreq = NotificationsFrequency.valueOf(jsonMap.get("phoneNotificationsFrequency"));
         Language lang = Language.fromIsoCode(jsonMap.get("language"));
         Currency curr = Currency.fromIsoCode(jsonMap.get("currency"));
-        return new Settings(advertiserKey, email, phone, emailNotifFreq, phoneNotifFreq, lang, curr);
+        return new Settings(advertiserKey, email, phone, emailNotifFreq, phoneNotifFreq, curr);
     }
 
     public String getEmail() {
@@ -126,10 +122,6 @@ public final class Settings implements DatastoreObject {
 
     public NotificationsFrequency getPhoneNotificationFrequency() {
         return phoneNotificationsFrequency;
-    }
-
-    public Language getLanguage() {
-        return language;
     }
 
     public Currency getCurrency() {
@@ -152,10 +144,6 @@ public final class Settings implements DatastoreObject {
         this.phoneNotificationsFrequency = phoneNotificationsFrequency;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
     public void setCurrency(Currency currency) {
         this.currency = currency;
     }
@@ -168,7 +156,6 @@ public final class Settings implements DatastoreObject {
         entity.setProperty("emailNf", emailNotificationsFrequency.getDisplayed());
         entity.setProperty("phone", phone);
         entity.setProperty("phoneNf", phoneNotificationsFrequency.getDisplayed());
-        entity.setProperty("language", language.getIsoCode());
         entity.setProperty("currency", currency.getIsoCode());
         return entity;
     }
