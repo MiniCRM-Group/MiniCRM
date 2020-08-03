@@ -52,6 +52,7 @@ public final class Lead implements DatastoreObject {
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
   private static String geoApiKey;
+  private static List<AreaCode> areaCodes;
 
   static {
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
@@ -60,6 +61,19 @@ public final class Lead implements DatastoreObject {
         new InputStreamReader(is, StandardCharsets.UTF_8))
         .lines()
         .collect(Collectors.joining("\n"));
+    // convert JSON array to list of users
+
+    // create a reader
+    ClassLoader classloader2 = Thread.currentThread().getContextClassLoader();
+    InputStream is2 = classloader2.getResourceAsStream("data/AreaCodes.json");
+    InputStreamReader reader = 
+      new InputStreamReader(is2, StandardCharsets.UTF_8);
+    areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}.getType());
+    try {
+      reader.close();
+    } catch (IOException ex) {
+          ex.printStackTrace();
+      }
   }
 
   private transient Key advertiserKey;
@@ -263,35 +277,17 @@ public final class Lead implements DatastoreObject {
         phoneNumber = columnData.get("PHONE_NUMBER");
       }
     }   
-    if (locationInfo.length() == 0) {
+    if (locationInfo.length() == 0 && phoneNumber != null) {
      final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
-
-     try {
-        // create Gson instance
-        Gson gson = new Gson();
-        // create a reader
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("data/AreaCodes.json");
-        InputStreamReader reader = 
-        new InputStreamReader(is, StandardCharsets.UTF_8);
-        
-        // convert JSON array to list of users
-        List<AreaCode> areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}.getType());
-
+     
         List<AreaCode> areaCodesFiltered = areaCodes
          .stream()
          .filter(c -> c.areaCode == areaCodeFromLead)
          .collect(Collectors.toList());
         
-         for( AreaCode finalFilter : areaCodesFiltered) {
-          estimatedLatitude = finalFilter.latitude;
-          estimatedLongitude = finalFilter.longitude;
-         }
-            //close reader
-        reader.close();
-      } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+          estimatedLatitude = areaCodesFiltered.get(0).latitude;
+          estimatedLongitude = areaCodesFiltered.get(0).longitude;
+          
         return;
     }
 
