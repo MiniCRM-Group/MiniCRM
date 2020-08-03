@@ -275,11 +275,6 @@ public final class Lead implements DatastoreObject {
       } else if (key.equals("PHONE_NUMBER") ) {
         phoneNumber = columnData.get("PHONE_NUMBER");
       }
-    }   
-   
-    if (locationInfo.length() == 0 && phoneNumber != null) {
-      //no location info
-      return;
     }
     
     if (locationInfo.length() == 0 && phoneNumber.equals("")) {
