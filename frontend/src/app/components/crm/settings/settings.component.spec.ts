@@ -6,6 +6,8 @@ import { SettingsResponse, Settings } from 'src/app/models/server_responses/sett
 import { MatListHarness } from '@angular/material/list/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { LoginService } from 'src/app/services/login.service';
+import { LoginResponse } from 'src/app/models/server_responses/login-response.model';
 
 describe('SettingsComponent', () => {
   const settings: Settings = {
@@ -45,13 +47,20 @@ describe('SettingsComponent', () => {
       ]
     })
   };
+  const loginService: Partial<LoginService> = {
+    getLoginResponse: () => of<LoginResponse>({
+      loggedIn: false,
+      url: ''
+    })
+  };
   let fixture: ComponentFixture<SettingsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SettingsComponent ],
       providers: [
-        { provide: SettingsService, useValue: settingsService }
+        { provide: SettingsService, useValue: settingsService },
+        { provide: LoginService, useValue: loginService }
       ]
     })
     .compileComponents();

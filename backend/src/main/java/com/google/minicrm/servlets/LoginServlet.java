@@ -17,7 +17,10 @@ package com.google.minicrm.servlets;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+import com.google.minicrm.data.Language;
 import com.google.minicrm.interfaces.ClientResponse;
+import com.google.minicrm.utils.UserAuthenticationUtil;
+
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -57,9 +60,10 @@ public final class LoginServlet extends HttpServlet {
     String url;
     boolean loggedIn = userService.isUserLoggedIn();
     if (loggedIn) {
-      url = userService.createLogoutURL("/");
+      Language lang = UserAuthenticationUtil.getCurrentUserSettings().getLanguage();
+      url = userService.createLogoutURL("/" + lang.getIsoCode());
     } else {
-      url = userService.createLoginURL("/crm/guide");
+      url = userService.createLoginURL("/");
     }
     LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
     response.setContentType("application/json;");

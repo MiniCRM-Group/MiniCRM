@@ -63,21 +63,7 @@ public final class ClientAppFilter implements Filter {
       //allowed, continue navigation
       filterChain.doFilter(servletRequest, servletResponse);
     } else {
-      //Angular URL, send back to index.html
-      RequestDispatcher dispatcher;
-      if (UserAuthenticationUtil.isAuthenticated()) {
-        Query query = new Query(Settings.KIND_NAME)
-                .setAncestor(Advertiser.generateKey(UserAuthenticationUtil.getCurrentUser()));
-        DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery preparedQuery = datastoreService.prepare(query);
-        Settings settings = new Settings(preparedQuery.asSingleEntity());
-        Language lang = settings.getLanguage();
-        dispatcher = servletRequest.getRequestDispatcher(localizePath("/" +
-                (lang == Language.ENGLISH ? "" : lang.getIsoCode())));
-      } else {
-        dispatcher = servletRequest.getRequestDispatcher(localizePath(path));
-      }
-      dispatcher.forward(servletRequest, servletResponse);
+      redirectToClient(servletRequest, servletResponse, path);
     }
   }
 
@@ -93,6 +79,20 @@ public final class ClientAppFilter implements Filter {
   private boolean isValidApiUrl(String url) {
     // valid urls start with /api (for API endpoints) or /_ah (for other GCP URLs)
     return url.startsWith("/api") || url.startsWith("/_ah");
+  }
+
+  private void redirectToClient(ServletRequest servletRequest, ServletResponse servletResponse,
+                                String path) throws IOException, ServletException {
+    RequestDispatcher dispatcher;
+    if (UserAuthenticationUtil.isAuthenticated()) {
+      Settings settings = UserAuthenticationUtil.getCurrentUserSettings();
+      Language lang = settings.getLanguage();
+      dispatcher = servletRequest.getRequestDispatcher(localizePath("/" +
+              (lang == Language.ENGLISH ? "" : lang.getIsoCode())));
+    } else {
+      dispatcher = servletRequest.getRequestDispatcher(localizePath(path));
+    }
+    dispatcher.forward(servletRequest, servletResponse);
   }
 
   private String localizePath(String url) {

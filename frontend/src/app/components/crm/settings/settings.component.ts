@@ -74,7 +74,9 @@ export class SettingsComponent implements OnInit {
     this.settingsService.setSettings(this.settingsForm.value).subscribe((settingsRes: SettingsResponse) => {
       if (this.settings.language !== settingsRes.settings.language) {
         this.loginServce.getLoginResponse().subscribe((loginRes: LoginResponse) => {
-          location.href = loginRes.url;
+          if (loginRes.loggedIn) {
+            location.href = loginRes.url;
+          }
         });
       }
       this.settings = settingsRes.settings;

@@ -1,8 +1,6 @@
 package com.google.minicrm.utils;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -38,6 +36,15 @@ public final class UserAuthenticationUtil {
    */
   public static User getCurrentUser() {
     return userService.getCurrentUser();
+  }
+
+  public static Settings getCurrentUserSettings() {
+    User user = getCurrentUser();
+    Query query = new Query(Settings.KIND_NAME)
+            .setAncestor(Advertiser.generateKey(user));
+    DatastoreService datastoreService = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery preparedQuery = datastoreService.prepare(query);
+    return new Settings(preparedQuery.asSingleEntity());
   }
 
   private static void onFirstTimeLogin(User user) {
