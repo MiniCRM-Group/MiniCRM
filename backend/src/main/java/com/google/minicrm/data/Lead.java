@@ -18,10 +18,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
-import com.google.gson.reflect.TypeToken;
-import java.util.stream.Collectors; 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
@@ -277,6 +276,7 @@ public final class Lead implements DatastoreObject {
         phoneNumber = columnData.get("PHONE_NUMBER");
       }
     }   
+   
     if (locationInfo.length() == 0 && phoneNumber != null) {
      final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
      
@@ -290,22 +290,56 @@ public final class Lead implements DatastoreObject {
           
         return;
     }
-
-    GeoApiContext context = new GeoApiContext.Builder()
-        .apiKey(geoApiKey)
-        .build();
-
-    GeocodingResult[] results;
-    try {
-      results = GeocodingApi.geocode(context, locationInfo.toString()).await();
-    } catch (ApiException | InterruptedException | IOException e) {
-      e.printStackTrace();
+    
+    if (locationInfo.length() == 0 && phoneNumber.equals("")) {
+      //no location data
       return;
     }
 
-    // Get and assign latitude and longitude
-    estimatedLatitude = results[0].geometry.location.lat;
-    estimatedLongitude = results[0].geometry.location.lng;
+    if (locationInfo.length() > 0) {
+      GeoApiContext context = new GeoApiContext.Builder()
+          .apiKey(geoApiKey)
+          .build();
+
+      GeocodingResult[] results;
+      try {
+        results = GeocodingApi.geocode(context, locationInfo.toString()).await();
+      } catch (ApiException | InterruptedException | IOException e) {
+        e.printStackTrace();
+        return;
+      }
+
+      // Get and assign latitude and longitude
+      estimatedLatitude = results[0].geometry.location.lat;
+      estimatedLongitude = results[0].geometry.location.lng;
+    } else { //use phone number info
+      final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+
+      // create a reader
+      ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+      InputStream is = classloader.getResourceAsStream("data/AreaCodes.json");
+      InputStreamReader reader =
+          new InputStreamReader(is, StandardCharsets.UTF_8);
+
+      // convert JSON array to list of users
+      List<AreaCode> areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}
+          .getType());
+      List<AreaCode> areaCodesFiltered = areaCodes
+          .stream()
+          .filter(c -> c.areaCodes == areaCodeFromLead)
+          .collect(Collectors.toList());
+
+      if (!areaCodesFiltered.isEmpty()) {
+        estimatedLatitude = areaCodesFiltered.get(0).latitude;
+        estimatedLongitude = areaCodesFiltered.get(0).longitude;
+      }
+
+      try {
+        reader.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   /**
