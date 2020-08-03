@@ -7,11 +7,7 @@ import { FormsModule } from '@angular/forms';
 // Flex + Grid Layout
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-// Material imports
-import { MatButtonModule } from '@angular/material/button';
 
-// Google Maps type imports
-import {} from 'googlemaps';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -19,8 +15,6 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 // Component imports
 import { AppComponent } from './app.component';
-import { MapComponent } from './components/crm/analytics/map/map.component';
-import { ChartsComponent } from './components/crm/analytics/charts/charts.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CrmModule } from './components/crm/crm.module';
 import { GuideModule } from './components/crm/guide/guide.module';
@@ -35,8 +29,6 @@ import { LandingModule } from './components/landing/landing.module';
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent,
-    ChartsComponent,
   ],
   imports: [
     CrmModule,
@@ -50,7 +42,6 @@ import { LandingModule } from './components/landing/landing.module';
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
-    MatButtonModule,
     AppRoutingModule
    ],
   providers: [
