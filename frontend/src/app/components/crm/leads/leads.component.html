@@ -12,7 +12,8 @@
   <div id="filters" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="10px">
     <mat-form-field class="selection" appearance="outline">
       <mat-label>Filter Form</mat-label>
-      <mat-select [(value)]="filterValue.form"
+      <mat-select id="mat-select-form"
+        [(value)]="filterValue.form"
         (selectionChange)="applyFilter()">
         <mat-option i18n value="any">
           All Forms
@@ -24,7 +25,9 @@
     </mat-form-field>
     <mat-form-field class="selection" appearance="outline">
       <mat-label>Filter Campaign</mat-label>
-      <mat-select [(value)]="filterValue.campaign"
+      <mat-select 
+        id="mat-select-campaign"
+        [(value)]="filterValue.campaign"
         (selectionChange)="applyFilter()">
         <mat-option i18n value="any">
           All Campaigns

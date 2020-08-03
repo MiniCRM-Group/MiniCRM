@@ -11,6 +11,8 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { FormService } from 'src/app/services/form.service';
 import { CampaignService } from 'src/app/services/campaign.service';
+import { MatSelectHarness } from '@angular/material/select/testing';
+import { MatSelect } from '@angular/material/select';
 
 describe('LeadsComponent', () => {
   let loader: HarnessLoader;
@@ -152,4 +154,22 @@ describe('LeadsComponent', () => {
       expect(await headerHarness.getSortDirection()).not.toEqual(firstSortDirection);
     });
   });
+
+  describe('Forms Filter', () => {
+    it('should have 3 options', async () => {
+      const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
+      (await formFilter.host()).click();
+      const actual = (await formFilter.getOptions()).length;
+      expect(actual).toBe(3);
+    });
+  });
+  
+  describe('Campaigns Filter', () => {
+    it('should have 3 options', async () => {
+      const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
+      (await campaignFilter.host()).click();
+      const actual = (await campaignFilter.getOptions()).length;
+      expect(actual).toBe(3);
+    })
+  })
 });
