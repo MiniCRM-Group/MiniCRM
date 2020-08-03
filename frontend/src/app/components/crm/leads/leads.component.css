@@ -32,3 +32,17 @@
   display: table-cell;
 }
 
+#filters {
+  margin: 5px 0;
+}
+#filters .selection {
+  width: 15%;
+}
+
+mat-form-field mat-icon {
+  margin-right: 6px;
+}
+
+.button-row button mat-icon {
+  margin-left: 6px;
+}

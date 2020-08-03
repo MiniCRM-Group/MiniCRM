@@ -9,8 +9,8 @@
       <mat-icon>send</mat-icon>
     </button>
   </div>
-  <div id="filters" fxLayout="row" fxLayoutAlign="space-between center">
-    <mat-form-field>
+  <div id="filters" fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="10px">
+    <mat-form-field class="selection" appearance="outline">
       <mat-label>Filter Form</mat-label>
       <mat-select [(value)]="filterValue.form"
         (selectionChange)="applyFilter()">
@@ -22,7 +22,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="selection" appearance="outline">
       <mat-label>Filter Campaign</mat-label>
       <mat-select [(value)]="filterValue.campaign"
         (selectionChange)="applyFilter()">
@@ -34,10 +34,11 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label i18n>Filter your leads</mat-label>
+    <mat-form-field id="search-form-field">
+      <mat-icon matPrefix>search</mat-icon>
+      <mat-label i18n>Search</mat-label>
       <input matInput
-            (change)="applyFilter()"
+            (input)="applyFilter()"
             [placeholder]="filterPlaceholder"
             [(ngModel)]="filterValue.other"
             #input>

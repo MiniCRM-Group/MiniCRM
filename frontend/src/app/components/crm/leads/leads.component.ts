@@ -40,7 +40,7 @@ export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
   leadStatus = LeadStatus;
   leadStatusKeys: Array<string>;
-  filterPlaceholder = $localize`Type specific area codes, lead-ID, ...`;
+  filterPlaceholder = $localize`Search for specific names, area codes, IDs, ...`;
   /**
    * Stores the values to filter by.
    */
