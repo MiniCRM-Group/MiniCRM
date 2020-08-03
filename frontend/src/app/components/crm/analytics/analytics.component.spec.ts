@@ -24,5 +24,5 @@ describe('AnalyticsComponent', () => {
   // problem with Maps
   xit('should create', () => {
     expect(component).toBeTruthy();
-  });*/
+  } );
 });

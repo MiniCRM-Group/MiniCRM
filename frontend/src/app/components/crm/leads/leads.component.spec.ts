@@ -98,22 +98,6 @@ describe('LeadsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should listen to selectors and be disabled', () => {
-    const rootElement = fixture.nativeElement;
-    const submitButton = rootElement.querySelector('button#emailThem') as HTMLButtonElement;
-    const checkboxes = Array.from<HTMLInputElement>(
-      rootElement.querySelectorAll('input[type=checkbox]'));
-   
-      
-      expect(submitButton.disabled).toBe(true); // disabled
-      fixture.detectChanges(); // angular change detection, sometimes you need more than this for observables
-      checkboxes[1].click();
-       
-      expect(checkboxes.length).toBe(1); // make sure you have checkboxes
-  
-      expect(submitButton.disabled).toBe(false); // enabled
-    
-
   it('should display all leads', async () => {
     const leadsTable = await loader.getHarness(MatTableHarness);
     const displayedLeads = await leadsTable.getRows();
@@ -134,6 +118,5 @@ describe('LeadsComponent', () => {
       // dates are failing for some reason
       const date = await dateCell.getText();
     });
-
   });
 });
