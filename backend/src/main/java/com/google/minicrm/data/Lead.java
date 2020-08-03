@@ -267,6 +267,7 @@ public final class Lead implements DatastoreObject {
       return;
     }
 
+    //use locationInfo first if any exists; phoneNumber area code is a backup
     if (locationInfo.length() > 0) {
       GeoApiContext context = new GeoApiContext.Builder()
           .apiKey(geoApiKey)
@@ -283,7 +284,7 @@ public final class Lead implements DatastoreObject {
       // Get and assign latitude and longitude
       estimatedLatitude = results[0].geometry.location.lat;
       estimatedLongitude = results[0].geometry.location.lng;
-    } else { //use phone number info
+    } else { //use phone number info since no other locationInfo exists
       final int areaCodeFromLead;
       try {
         areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
