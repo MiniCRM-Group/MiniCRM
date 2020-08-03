@@ -41,7 +41,14 @@ export class LeadsComponent implements AfterViewInit {
   leadStatus = LeadStatus;
   leadStatusKeys: Array<string>;
   filterPlaceholder = $localize`Type specific area codes, lead-ID, ...`;
-
+  /**
+   * Stores the values to filter by.
+   */
+  filterValue = {
+    form: 'any',
+    campaign: 'any',
+    other: ''
+  }
   isLoading = true;
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
@@ -107,8 +114,8 @@ export class LeadsComponent implements AfterViewInit {
     this.dataSource.sort = this.sort;
 
     /**
-     * @param data The whole data we have in the JSON.
-     * @param filter The value that the user searches for.
+     * @param filterPredicateData The whole data we have in the JSON.
+     * @param filterPredicateFilter The filterValue object containing all the filter fields the user has specified
      */
     this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
       const cleanString = (str: string): string => str.trim().toLowerCase();
@@ -130,7 +137,12 @@ export class LeadsComponent implements AfterViewInit {
         }
         return false;
       };
-      return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
+      const filter = JSON.parse(filterPredicateFilter);
+      const formMatch = filter.form === 'any' || filterPredicateData.formId === filter.form;
+      const campaignMatch = filter.campaign === 'any' || filterPredicateData.campaignId === filter.campaign;
+      return formMatch
+        && campaignMatch
+        && hasFilter(filterPredicateData, cleanString(filter.other));
     };
   }
 
@@ -155,11 +167,10 @@ export class LeadsComponent implements AfterViewInit {
 
  /**
   * This method will listen to the filter field in the html and update the value of dataSource
-  * @param event an input from the filter field
+  * @param column the column to filter by
   */
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter() {
+    this.dataSource.filter = JSON.stringify(this.filterValue);
     if (this.dataSource.paginator != null) {
       this.dataSource.paginator.firstPage();
     }

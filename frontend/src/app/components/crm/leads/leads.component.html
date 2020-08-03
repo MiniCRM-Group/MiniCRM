@@ -9,13 +9,40 @@
       <mat-icon>send</mat-icon>
     </button>
   </div>
-  <mat-form-field>
-    <mat-label i18n>Filter your leads</mat-label>
-    <input matInput
-           (change)="applyFilter($event)"
-           [placeholder]="filterPlaceholder"
-           #input>
-  </mat-form-field>
+  <div id="filters" fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field>
+      <mat-label>Filter Form</mat-label>
+      <mat-select [(value)]="filterValue.form"
+        (selectionChange)="applyFilter()">
+        <mat-option i18n value="any">
+          All Forms
+        </mat-option>
+        <mat-option i18n *ngFor="let form of formNameMap | keyvalue" [value]="form.key">
+          {{form.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Filter Campaign</mat-label>
+      <mat-select [(value)]="filterValue.campaign"
+        (selectionChange)="applyFilter()">
+        <mat-option i18n value="any">
+          All Campaigns
+        </mat-option>
+        <mat-option i18n *ngFor="let campaign of campaignNameMap | keyvalue" [value]="campaign.key">
+          {{campaign.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n>Filter your leads</mat-label>
+      <input matInput
+            (change)="applyFilter()"
+            [placeholder]="filterPlaceholder"
+            [(ngModel)]="filterValue.other"
+            #input>
+    </mat-form-field>
+  </div>
   <div class="mat-elevation-z1">
     <mat-table matTableExporter
                [dataSource]="dataSource"
@@ -82,9 +109,12 @@
         <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Form Name </mat-header-cell>
           <mat-cell *matCellDef="let lead"> 
-            <ng-container *ngIf="formNameMap">
+            <ng-container *ngIf="formNameMap; else formId">
               {{formNameMap.get(lead.formId)}} 
             </ng-container>
+            <ng-template #formId>
+              {{lead.formId}}
+            </ng-template>
           </mat-cell>
       </ng-container>
 
@@ -93,9 +123,12 @@
         <mat-header-cell i18n *matHeaderCellDef
                          mat-sort-header> Campaign Name </mat-header-cell>
           <mat-cell *matCellDef="let lead"> 
-            <ng-container *ngIf="campaignNameMap">
+            <ng-container *ngIf="campaignNameMap; else campaignId">
               {{campaignNameMap.get(lead.campaignId)}} 
             </ng-container>
+            <ng-template #campaignId>
+              {{lead.campaignId}}
+            </ng-template>
           </mat-cell>
       </ng-container>
 

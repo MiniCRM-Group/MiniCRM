@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 import { FormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { MatSortModule } from '@angular/material/sort';
     LeadsComponent,
   ],
   imports: [
+    FlexLayoutModule,
     FormsModule,
     CommonModule,
     MatIconModule,
