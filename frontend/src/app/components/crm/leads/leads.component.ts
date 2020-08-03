@@ -4,7 +4,7 @@
  *  - The lead service
  */
 
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 
 /**
  * Import Material components
@@ -12,24 +12,18 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-
 import { MatDialog } from '@angular/material/dialog';
-
 import { SelectionModel } from '@angular/cdk/collections';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 /**
  * Imports from the RxJS library
  */
-import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { Lead } from '../../../models/server_responses/lead.model';
+import { Lead, LeadStatus } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
-
-import { MatTableExporterModule } from 'mat-table-exporter';
-
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
 
@@ -41,6 +35,8 @@ import * as _ from 'lodash';
 
 export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
+  leadStatus = LeadStatus;
+  leadStatusKeys: Array<string>;
   filterPlaceholder = $localize`Type specific area codes, lead-ID, ...`;
 
   isLoading = true;
@@ -65,18 +61,21 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private readonly leadService: LeadService, public dialog: MatDialog, private titleService: Title) {
+  constructor(private readonly leadService: LeadService,
+              public dialog: MatDialog,
+              private titleService: Title) {
     this.titleService.setTitle($localize`Leads`);
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
-
+    this.leadStatusKeys = Object.keys(this.leadStatus);
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
     /**
-     * This will let the dataSource sort feature to access nested properties in the JSON such as column_data.
+     * This will let the dataSource sort feature to access nested properties
+     * in the JSON such as column_data.
      */
     this.dataSource.sortingDataAccessor = (lead, property) => {
       switch (property) {
@@ -88,6 +87,33 @@ export class LeadsComponent implements AfterViewInit {
       }
     };
     this.dataSource.sort = this.sort;
+
+    /**
+     * @param data The whole data we have in the JSON.
+     * @param filter The value that the user searches for.
+     */
+    this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
+      const cleanString = (str: string): string => str.trim().toLowerCase();
+      const hasFilter = (data: any, filter: string): boolean => {
+        // traverse through JSON's tree like structure
+        if (typeof data === 'object') {
+          for (const key of Object.keys(data)) {
+            if (hasFilter(data[key], filter)) {
+              return true;
+            }
+          }
+        } else {
+          // if you hit a key-value pair where the value is
+          // a primitve type compare and return only if filter found
+          const value = cleanString(_.toString(data));
+          if (value.indexOf(filter) !== -1) {
+            return true;
+          }
+        }
+        return false;
+      };
+      return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
+    };
   }
 
   /**
@@ -95,37 +121,18 @@ export class LeadsComponent implements AfterViewInit {
    */
   loadAllLeads(): void {
     this.isLoading = true;
-    this.leadService.getAllLeads().pipe(first()).subscribe((leads) => {
+    this.leadService.getAllLeads().subscribe((leads) => {
       this.dataSource.data = leads;
-
-      /**
-       * @param data The whole data we have in the JSON.
-       * @param filter The value that the user searches for.
-       */
-      this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
-        const cleanString = (str: string): string => str.trim().toLowerCase();
-        const hasFilter = (data: any, filter: string): boolean => {
-          // traverse through JSON's tree like structure
-          if (typeof data === 'object') {
-            for (const key of Object.keys(data)) {
-              if (hasFilter(data[key], filter)) {
-                return true;
-              }
-            }
-          } else {
-            // if you hit a key-value pair where the value is
-            // a primitve type compare and return only if filter found
-            const value = cleanString(_.toString(data));
-            if (value.indexOf(filter) !== -1) {
-              return true;
-            }
-          }
-          return false;
-        };
-        return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
-      };
       this.isLoading = false;
-      });
+    });
+  }
+
+  /**
+   * Called when the lead status is changed by the user or new notes are written
+   * @param lead the lead to be updated
+   */
+  updateLead(lead: Lead) {
+    this.leadService.updateLead(lead).subscribe();
   }
 
  /**
@@ -209,11 +216,19 @@ export class LeadsComponent implements AfterViewInit {
     return this.selection.selected.length > 0;
   }
 
-  openDialog(toBeDisplayed) {
-    this.dialog.open(LeadDetailsComponent, {
+  openDialog(leadToShow: Lead) {
+    const dialogRef = this.dialog.open(LeadDetailsComponent, {
       width: '750px',
-      data: { details: toBeDisplayed }
+      data: {lead: leadToShow}
     });
-  }
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        leadToShow.notes = result;
+        // put the new lead
+        this.updateLead(leadToShow);
+      }
+    });
+
+  }
 }

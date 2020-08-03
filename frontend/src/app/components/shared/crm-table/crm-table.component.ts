@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
-import { TableData, KeyDisplayedNameMap } from '../../../models/component_states/table-data.model';
+import { KeyDisplayedNameMap } from '../../../models/component_states/table-data.model';
 import * as _ from 'lodash';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -16,7 +16,6 @@ export class CrmTableComponent<T> implements OnInit {
   @Output() rename: EventEmitter<T> = new EventEmitter();
   keyOrdering: string[] = [];
   dataSource: MatTableDataSource<T> = new MatTableDataSource<T>();
-  keyDisplayedNameOrdering: KeyDisplayedNameMap[];
   public selection: SelectionModel<T> = new SelectionModel<T>(/*allow mulitselect=*/true);
 
   constructor(private changeDectectorRef: ChangeDetectorRef) {
@@ -25,8 +24,7 @@ export class CrmTableComponent<T> implements OnInit {
 
   ngOnInit(): void {
     // we can expect inputs here but not in constructor
-    this.keyDisplayedNameOrdering = this.keyDisplayedNameMaps;
-    this.keyOrdering = this.keyDisplayedNameOrdering.map(mapping => mapping.key);
+    this.keyOrdering = this.keyDisplayedNameMaps.map(mapping => mapping.key);
     if (this.selectionEnabled) {
       // adds selection column
       this.keyOrdering.unshift('select');
@@ -45,6 +43,7 @@ export class CrmTableComponent<T> implements OnInit {
    */
   emitRename(renamedEntry: T) {
     this.rename.emit(renamedEntry);
+    this.refreshDataSource();
   }
 
 

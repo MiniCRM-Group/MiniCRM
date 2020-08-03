@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+
 import { FormsModule } from '@angular/forms';
 
 // Flex + Grid Layout
@@ -9,31 +10,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // Material imports
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { ClipboardModule } from '@angular/cdk/clipboard';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatListModule } from '@angular/material/list';
-import { MatSelectModule } from '@angular/material/select';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatTableExporterModule } from 'mat-table-exporter';
-import { MatStepperModule } from '@angular/material/stepper';
 
+// Google Maps type imports
 import {} from 'googlemaps';
-
-
-import { GoogleMapsModule } from '@angular/google-maps';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -41,82 +20,43 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 // Component imports
 import { AppComponent } from './app.component';
-import { CrmComponent } from './components/crm/crm.component';
-import { LeadsComponent } from './components/crm/leads/leads.component';
-import { FormsComponent } from './components/crm/forms/forms.component';
-import { CampaignsComponent } from './components/crm/campaigns/campaigns.component';
-import { GuideComponent } from './components/crm/guide/guide.component';
-import { AnalyticsComponent } from './components/crm/analytics/analytics.component';
 import { MapComponent } from './components/crm/analytics/map/map.component';
 import { ChartsComponent } from './components/crm/analytics/charts/charts.component';
-import { LandingComponent } from './components/landing/landing.component';
-import { CrmTableComponent } from './components/shared/crm-table/crm-table.component';
-import { CopyableFormFieldComponent } from './components/shared/copyable-form-field/copyable-form-field.component';
-import { LeadDetailsComponent } from './components/crm/leads/lead-details/lead-details.component';
-import { SettingsComponent } from './components/crm/settings/settings.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CrmModule } from './components/crm/crm.module';
+import { GuideModule } from './components/crm/guide/guide.module';
 import { LeadsModule } from './components/crm/leads/leads.module';
-
+import { FormsCrmModule } from './components/crm/forms/forms.module';
+import { CampaignsModule } from './components/crm/campaigns/campaigns.module';
+import { AnalyticsModule } from './components/crm/analytics/analytics.module';
+import { SettingsModule } from './components/crm/settings/settings.module';
+import { LandingModule } from './components/landing/landing.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormsComponent,
-    CampaignsComponent,
-    GuideComponent,
-    AnalyticsComponent,
     MapComponent,
     ChartsComponent,
-    CrmComponent,
-    LandingComponent,
-    FormsComponent,
-    CrmTableComponent,
-    CopyableFormFieldComponent,
-    LeadDetailsComponent,
-    SettingsComponent
   ],
   imports: [
+    CrmModule,
+    GuideModule,
+    LeadsModule,
+    FormsCrmModule,
+    CampaignsModule,
+    AnalyticsModule,
+    SettingsModule,
+    LandingModule,
     HttpClientModule,
     BrowserModule,
-    FormsModule,
-    LeadsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FlexLayoutModule,
-
-    // Material
     BrowserAnimationsModule,
     MatButtonModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    ClipboardModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatListModule,
-    MatSelectModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatTabsModule,
-    MatStepperModule,
-    GoogleMapsModule,
-    MatTableExporterModule
+    AppRoutingModule
    ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy }
   ],
-  entryComponents: [LeadDetailsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

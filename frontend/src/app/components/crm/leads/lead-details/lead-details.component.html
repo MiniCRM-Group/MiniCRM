@@ -1,37 +1,41 @@
 <h1 mat-dialog-title>Lead Info</h1>
 <div mat-dialog-content>
   <mat-list>
-    <mat-list-item>Date: {{data.details.date}}</mat-list-item>
+    <mat-list-item>Date Received: {{data.lead.date}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>Lead Id: {{data.details.leadId}}</mat-list-item>
+    <mat-list-item>Name: {{data.lead.columnData.FULL_NAME}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>Campaign Id: {{data.details.campaignId}}</mat-list-item>
+    <mat-list-item>Phone Number: {{data.lead.columnData.PHONE_NUMBER}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>Google Click Id: {{data.details.gclId}}</mat-list-item>
+    <mat-list-item>Email: {{data.lead.columnData.EMAIL}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>API Version: {{data.details.apiVersion}}</mat-list-item>
+    <mat-list-item>Status: {{data.lead.status | humanizeEnum}}</mat-list-item>
     <mat-divider></mat-divider>
-    <mat-list-item>Form Id: {{data.details.formId}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Google Key: {{data.details.googleKey}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Name: {{data.details.columnData.FULL_NAME}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Phone Number: {{data.details.columnData.PHONE_NUMBER}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Email: {{data.details.columnData.EMAIL}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Test: {{data.details.isTest}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Ad Group Id: {{data.details.adgroupId}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Creative Id: {{data.details.creativeId}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Status: {{data.details.status}}</mat-list-item>
-    <mat-divider></mat-divider>
-    <mat-list-item>Notes: {{data.details.notes}}</mat-list-item>
   </mat-list>
+  <mat-form-field id="notes">
+    <p>Notes:</p>
+    <textarea matInput 
+      cdkTextareaAutosize 
+      (input)="notesUpdated()"
+      [(ngModel)]="data.lead.notes">
+    </textarea>
+  </mat-form-field>
+  <mat-divider></mat-divider>
+  <p id="sub-details" class="mat-small">
+    Lead Id: {{data.lead.leadId}}
+    <br/>
+    Campaign Id: {{data.lead.campaignId}}
+    <br/>
+    Form Id: {{data.lead.formId}}
+    <br/>
+    Ad Group Id: {{data.lead.adgroupId}}
+    <br/>
+    Creative Id: {{data.lead.creativeId}}
+    <br/>
+    Google Click Id: {{data.lead.gclId}}
+  </p>
 </div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Close</button>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-flat-button [mat-dialog-close]="data.lead.notes" color="primary" [disabled]="!updated">Update</button>
 </div>

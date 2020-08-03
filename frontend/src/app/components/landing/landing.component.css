@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 #screenshot {
     border: 1px solid #ddd;
     width: 511px;
@@ -13,6 +17,14 @@
     margin-top: 57px;
 }
 
+#login-button {
+    padding: 10px 8%;
+}
+
 #login {
     margin-right: 4px;
+}
+
+#crm-description {
+    max-width: 30%;
 }

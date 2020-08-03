@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LeadDetailsComponent } from './lead-details.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Lead } from 'src/app/models/server_responses/lead.model';
+import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
+
 
 describe('LeadDetailsComponent', () => {
   let component: LeadDetailsComponent;
@@ -10,7 +12,7 @@ describe('LeadDetailsComponent', () => {
     close: jasmine.createSpy('close')
   };
   const data: any = {
-    details: {
+    lead: {
       date: new Date(2020, /*month=*/ 7, /*day=*/ 17),
       leadId: '1',
       campaignId: 1,
@@ -33,7 +35,7 @@ describe('LeadDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeadDetailsComponent ],
+      declarations: [ LeadDetailsComponent, HumanizeEnumPipe ],
       imports: [
         MatDialogModule
       ],
