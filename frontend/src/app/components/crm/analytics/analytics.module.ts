@@ -11,7 +11,7 @@ import {} from 'googlemaps';
 
 @NgModule({
   declarations: [AnalyticsComponent, MapComponent, ChartsComponent ],
-  exports: [AnalyticsComponent, MatTabsModule,],
+  exports: [AnalyticsComponent, MatTabsModule, ],
   imports: [
     CommonModule,
     MatTabsModule,
