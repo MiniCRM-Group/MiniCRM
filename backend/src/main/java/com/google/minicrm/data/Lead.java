@@ -54,15 +54,15 @@ public final class Lead implements DatastoreObject {
   private static List<AreaCode> areaCodes;
 
   static {
+    //load in GEO API KEY
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
     InputStream is = classloader.getResourceAsStream("api-keys/GeoApiKey.txt");
     geoApiKey = new BufferedReader(
         new InputStreamReader(is, StandardCharsets.UTF_8))
         .lines()
         .collect(Collectors.joining("\n"));
-    // convert JSON array to list of users
 
-    // create a reader
+    // load in area code JSON
     ClassLoader classloader2 = Thread.currentThread().getContextClassLoader();
     InputStream is2 = classloader2.getResourceAsStream("data/AreaCodes.json");
     InputStreamReader reader = 
@@ -71,8 +71,8 @@ public final class Lead implements DatastoreObject {
     try {
       reader.close();
     } catch (IOException ex) {
-          ex.printStackTrace();
-      }
+      ex.printStackTrace();
+    }
   }
 
   private transient Key advertiserKey;
@@ -278,17 +278,8 @@ public final class Lead implements DatastoreObject {
     }   
    
     if (locationInfo.length() == 0 && phoneNumber != null) {
-     final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
-     
-        List<AreaCode> areaCodesFiltered = areaCodes
-         .stream()
-         .filter(c -> c.areaCode == areaCodeFromLead)
-         .collect(Collectors.toList());
-        
-          estimatedLatitude = areaCodesFiltered.get(0).latitude;
-          estimatedLongitude = areaCodesFiltered.get(0).longitude;
-          
-        return;
+      //no location info
+      return;
     }
     
     if (locationInfo.length() == 0 && phoneNumber.equals("")) {
