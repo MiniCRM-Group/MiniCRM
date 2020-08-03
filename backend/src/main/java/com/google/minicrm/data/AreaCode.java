@@ -4,12 +4,12 @@
 package com.google.minicrm.data;
 
 public class AreaCode {
-    public Double areaCode;
+    public Double areaCodes;
     public Double latitude;
     public Double longitude;
 
-    public AreaCode(Double areaCode, Double latitude, Double longitude) {
-        this.areaCode = areaCode;
+    public AreaCode(Double areaCodes, Double latitude, Double longitude) {
+        this.areaCodes = areaCodes;
         this.latitude = latitude;
         this.longitude = longitude;
     }

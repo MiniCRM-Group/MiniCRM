@@ -37,7 +37,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
@@ -262,54 +261,56 @@ public final class Lead implements DatastoreObject {
       } else if (key.equals("PHONE_NUMBER") ) {
         phoneNumber = columnData.get("PHONE_NUMBER");
       }
-    }   
-    if (locationInfo.length() == 0) {
-     final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
-
-     try {
-        // create Gson instance
-        Gson gson = new Gson();
-        // create a reader
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream("data/AreaCodes.json");
-        InputStreamReader reader = 
-        new InputStreamReader(is, StandardCharsets.UTF_8);
-        
-        // convert JSON array to list of users
-        List<AreaCode> areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}.getType());
-
-        List<AreaCode> areaCodesFiltered = areaCodes
-         .stream()
-         .filter(c -> c.areaCode == areaCodeFromLead)
-         .collect(Collectors.toList());
-        
-         for( AreaCode finalFilter : areaCodesFiltered) {
-          estimatedLatitude = finalFilter.latitude;
-          estimatedLongitude = finalFilter.longitude;
-         }
-            //close reader
-        reader.close();
-      } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return;
     }
-
-    GeoApiContext context = new GeoApiContext.Builder()
-        .apiKey(geoApiKey)
-        .build();
-
-    GeocodingResult[] results;
-    try {
-      results = GeocodingApi.geocode(context, locationInfo.toString()).await();
-    } catch (ApiException | InterruptedException | IOException e) {
-      e.printStackTrace();
+    if (locationInfo.length() == 0 && phoneNumber.equals("")) {
+      //no location data
       return;
     }
 
-    // Get and assign latitude and longitude
-    estimatedLatitude = results[0].geometry.location.lat;
-    estimatedLongitude = results[0].geometry.location.lng;
+    if (locationInfo.length() > 0) {
+      GeoApiContext context = new GeoApiContext.Builder()
+          .apiKey(geoApiKey)
+          .build();
+
+      GeocodingResult[] results;
+      try {
+        results = GeocodingApi.geocode(context, locationInfo.toString()).await();
+      } catch (ApiException | InterruptedException | IOException e) {
+        e.printStackTrace();
+        return;
+      }
+
+      // Get and assign latitude and longitude
+      estimatedLatitude = results[0].geometry.location.lat;
+      estimatedLongitude = results[0].geometry.location.lng;
+    } else { //use phone number info
+      final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+
+      // create a reader
+      ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+      InputStream is = classloader.getResourceAsStream("data/AreaCodes.json");
+      InputStreamReader reader =
+          new InputStreamReader(is, StandardCharsets.UTF_8);
+
+      // convert JSON array to list of users
+      List<AreaCode> areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}
+          .getType());
+      List<AreaCode> areaCodesFiltered = areaCodes
+          .stream()
+          .filter(c -> c.areaCodes == areaCodeFromLead)
+          .collect(Collectors.toList());
+
+      if (!areaCodesFiltered.isEmpty()) {
+        estimatedLatitude = areaCodesFiltered.get(0).latitude;
+        estimatedLongitude = areaCodesFiltered.get(0).longitude;
+      }
+
+      try {
+        reader.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
   }
 
   /**
