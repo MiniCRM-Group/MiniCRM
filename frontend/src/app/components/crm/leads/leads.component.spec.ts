@@ -24,7 +24,12 @@ describe('LeadsComponent', () => {
       columnData: {
         FULL_NAME: 'Roddy',
         PHONE_NUMBER: '101-101-1010',
-        EMAIL: 'roddy@example.com'
+        EMAIL: 'roddy@example.com',
+        POSTAL_CODE: '43004',
+        STREET_ADDRESS: '3975 Townsfair Way',
+        CITY: 'Columbus',
+        REGION: 'OH',
+        COUNTRY: 'US'
       },
       isTest: false,
       adgroupId: 1,
@@ -43,7 +48,12 @@ describe('LeadsComponent', () => {
       columnData: {
         FULL_NAME: 'Alex',
         PHONE_NUMBER: '201-301-4010',
-        EMAIL: 'alex@email.com'
+        EMAIL: 'alex@email.com',
+        POSTAL_CODE: '43004',
+        STREET_ADDRESS: '3975 Townsfair Way',
+        CITY: 'Columbus',
+        REGION: 'OH',
+        COUNTRY: 'US'
       },
       isTest: false,
       adgroupId: 1,
@@ -62,7 +72,12 @@ describe('LeadsComponent', () => {
       columnData: {
         FULL_NAME: 'Aman',
         PHONE_NUMBER: '106-107-1080',
-        EMAIL: 'aman@crm.com'
+        EMAIL: 'aman@crm.com',
+        POSTAL_CODE: '43004',
+        STREET_ADDRESS: '3975 Townsfair Way',
+        CITY: 'Columbus',
+        REGION: 'OH',
+        COUNTRY: 'US'
       },
       isTest: false,
       adgroupId: 1,
