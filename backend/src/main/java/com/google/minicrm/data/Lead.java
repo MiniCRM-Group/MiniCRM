@@ -284,7 +284,12 @@ public final class Lead implements DatastoreObject {
       estimatedLatitude = results[0].geometry.location.lat;
       estimatedLongitude = results[0].geometry.location.lng;
     } else { //use phone number info
-      final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+      try {
+        final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+      } catch (NumberFormatException e) {
+        //error in parsing phoneNumber area code, don't do anything then
+        return;
+      }
 
       // create a reader
       ClassLoader classloader = Thread.currentThread().getContextClassLoader();
