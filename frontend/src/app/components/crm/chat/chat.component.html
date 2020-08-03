@@ -1,0 +1,37 @@
+<div id="chat" mat-elevation-z8>
+    <div id="header" color="primary">
+        <span class="title">Chat with miniBot</span>
+        <span class="subtitle">Ask it anything. It's happy to assist!</span>
+        <button mat-button-icon>
+            <mat-icon>minimize</mat-icon>
+        </button>
+    </div>
+    <div #scrollable id="conversation-history" fxLayout="column">
+        <div *ngFor="let msg of conversation.history" [class]="msg.fromCurrentUser ? 'thisUser' : 'otherUser'">
+            <mat-icon *ngIf="!msg.fromCurrentUser" class="profileIcon">sentiment_satisfied_alt</mat-icon>
+            <div class="message">
+                <div class="text">
+                    <span>{{msg.text}}</span>
+                </div>
+                <div class="name-date">
+                    <span>{{msg.fromCurrentUser ? msg.date : msg.name + " · " + msg.date}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">    
+        <div *ngIf="otherUserTyping" id="otherUserTyping">
+            <span>{{otherUserTyping}} is typing </span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center">
+            <input id="message-textbox" type="text" placeholder="Type your message here..." [(ngModel)]="currentTextMessage" />
+            <button 
+                mat-icon-button
+                color="primary"
+                (click)="sendMessage()"
+                [disabled]="currentTextMessage.trim().length === 0">
+                <mat-icon>send</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
