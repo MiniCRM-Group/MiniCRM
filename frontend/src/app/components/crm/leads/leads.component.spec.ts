@@ -59,7 +59,7 @@ describe('LeadsComponent', () => {
     {
       date: new Date(2022, 7, 30, 12, 40, 1, 0),
       leadId: '3',
-      campaignId: 1,
+      campaignId: 2,
       gclId: '1',
       apiVersion: '1.0.0',
       formId: 2,
@@ -156,20 +156,96 @@ describe('LeadsComponent', () => {
   });
 
   describe('Forms Filter', () => {
+    it('should open on click', async () => {
+      const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
+      (await formFilter.host()).click();
+      expect(await formFilter.isOpen()).toBeTrue();
+    });
+
+    it('should show the chosen form name', async () => {
+      const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
+      expect(await formFilter.getValueText()).toBe('All Forms');
+      await formFilter.clickOptions({text: 'Form 1'});
+      expect(await formFilter.getValueText()).toBe('Form 1');
+      await formFilter.clickOptions({text: 'Form 2'});
+      expect(await formFilter.getValueText()).toBe('Form 2');
+    });
+
     it('should have 3 options', async () => {
       const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
       (await formFilter.host()).click();
       const actual = (await formFilter.getOptions()).length;
       expect(actual).toBe(3);
     });
+
+    it('should filter out by form name', async () => {
+      const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
+      await formFilter.clickOptions({text: 'Form 1'});
+      expect(component.dataSource.filteredData).toEqual([leads[0]]);
+      await formFilter.clickOptions({text: 'Form 2'});
+      expect(component.dataSource.filteredData).toEqual([leads[1], leads[2]]);
+    });
+
+    it('should not filter out anything when All Forms is clicked', async () => {
+      const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
+      await formFilter.clickOptions({text: 'All Forms'});
+      expect(component.dataSource.filteredData).toEqual(leads);
+    });
   });
-  
+
   describe('Campaigns Filter', () => {
+    it('should open on click', async () => {
+      const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
+      (await campaignFilter.host()).click();
+      expect(await campaignFilter.isOpen()).toBeTrue();
+    });
+
+    it('should show the chosen campaign name', async () => {
+      const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
+      expect(await campaignFilter.getValueText()).toBe('All Campaigns');
+      await campaignFilter.clickOptions({text: 'Campaign 1'});
+      expect(await campaignFilter.getValueText()).toBe('Campaign 1');
+      await campaignFilter.clickOptions({text: 'Campaign 2'});
+      expect(await campaignFilter.getValueText()).toBe('Campaign 2');
+    });
+
     it('should have 3 options', async () => {
       const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
       (await campaignFilter.host()).click();
       const actual = (await campaignFilter.getOptions()).length;
       expect(actual).toBe(3);
-    })
-  })
+    });
+
+    it('should filter out by campaign name', async () => {
+      const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
+      await campaignFilter.clickOptions({text: 'Campaign 1'});
+      expect(component.dataSource.filteredData).toEqual([leads[0], leads[1]]);
+      await campaignFilter.clickOptions({text: 'Campaign 2'});
+      expect(component.dataSource.filteredData).toEqual([leads[2]]);
+    });
+
+    it('should no filter out anything when All Campaigns is clicked', async () => {
+      const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
+      await campaignFilter.clickOptions({text: 'All Campaigns'});
+      expect(component.dataSource.filteredData).toEqual(leads);
+    });
+  });
+
+  describe('Multiple Filters', () => {
+    it('should show the intersection of the filters, not the union', async () => {
+      const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
+      const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
+      await formFilter.clickOptions({text: 'Form 1'});
+      await campaignFilter.clickOptions({text: 'Campaign 1'});
+      expect(component.dataSource.filteredData).toEqual([leads[0]]);
+    });
+
+    it('should show nothing when nothing matches the filters', async () => {
+      const formFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-form'}));
+      const campaignFilter = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({selector: '#mat-select-campaign'}));
+      await formFilter.clickOptions({text: 'Form 1'});
+      await campaignFilter.clickOptions({text: 'Campaign 2'});
+      expect(component.dataSource.filteredData).toEqual([]);
+    });
+  });
 });
