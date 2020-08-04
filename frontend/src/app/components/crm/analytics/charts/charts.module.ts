@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChartsComponent } from './charts.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 
@@ -17,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     MatCardModule,
     MatProgressSpinnerModule,
+    NgxChartsModule,
   ]
 })
 export class ChartsModule { }
