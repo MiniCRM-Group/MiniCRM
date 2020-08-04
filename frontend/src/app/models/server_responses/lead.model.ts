@@ -1,7 +1,12 @@
 export interface ColumnData {
-  FULL_NAME?: string;
-  PHONE_NUMBER?: string;
-  EMAIL?: string;
+  FULL_NAME: string;
+  PHONE_NUMBER: string;
+  EMAIL: string;
+  POSTAL_CODE: string;
+  STREET_ADDRESS: string;
+  CITY: string;
+  REGION: string;
+  COUNTRY: string;
 }
 
 // An interface to handle fetching a lead's property
@@ -19,6 +24,8 @@ export interface Lead {
    creativeId: number;
    status: LeadStatus;
    notes: string;
+   estimatedLatitude?: number;
+   estimatedLongitude?: number;
 }
 
 export interface LeadsResponse {

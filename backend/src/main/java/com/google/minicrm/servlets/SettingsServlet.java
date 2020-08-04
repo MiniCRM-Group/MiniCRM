@@ -1,22 +1,26 @@
 package com.google.minicrm.servlets;
 
-
-import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.stream.MalformedJsonException;
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.minicrm.data.*;
+import com.google.minicrm.data.Advertiser;
+import com.google.minicrm.data.Currency;
+import com.google.minicrm.data.Language;
+import com.google.minicrm.data.NotificationsFrequency;
+import com.google.minicrm.data.Settings;
 import com.google.minicrm.interfaces.ClientResponse;
 import com.google.minicrm.utils.UserAuthenticationUtil;
-import org.apache.commons.validator.ValidatorException;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 @WebServlet("/api/settings")
 public final class SettingsServlet extends HttpServlet {

@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
@@ -18,9 +19,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 import { FormsModule } from '@angular/forms';
+import { MatSortModule } from '@angular/material/sort';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
+
   declarations: [
     LeadsComponent,
     LeadDetailsComponent,
@@ -29,10 +33,13 @@ import { FormsModule } from '@angular/forms';
   exports: [
     LeadsComponent,
   ],
+
   imports: [
+    FlexLayoutModule,
     FormsModule,
     CommonModule,
     MatIconModule,
+    MatSortModule,
     MatFormFieldModule,
     MatTableModule,
     MatTableExporterModule,

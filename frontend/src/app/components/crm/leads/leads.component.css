@@ -17,6 +17,11 @@
   flex: 0 0 4%;
 }
 
+.mat-column-leadId {
+  flex: 0 0 4%;
+  margin-right: 10px;
+}
+
 .mat-column-status {
   flex: 0 0 10%;
   margin-right: 10px;
@@ -32,3 +37,17 @@
   display: table-cell;
 }
 
+#filters {
+  margin: 5px 0;
+}
+#filters .selection {
+  width: 15%;
+}
+
+mat-form-field mat-icon {
+  margin-right: 6px;
+}
+
+.button-row button mat-icon {
+  margin-left: 6px;
+}
