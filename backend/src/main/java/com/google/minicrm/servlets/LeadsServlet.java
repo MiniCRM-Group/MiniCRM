@@ -16,7 +16,6 @@ package com.google.minicrm.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -25,7 +24,6 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.minicrm.data.Advertiser;
-import com.google.minicrm.data.Form;
 import com.google.minicrm.data.Lead;
 import com.google.minicrm.data.LeadStatus;
 import com.google.minicrm.interfaces.ClientResponse;

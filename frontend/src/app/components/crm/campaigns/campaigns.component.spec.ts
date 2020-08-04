@@ -32,7 +32,7 @@ describe('CampaignsComponent', () => {
   ];
 
   const campaignService: Partial<CampaignService> = {
-    getAllCampaigns: () => of<CampaignsResponse>({ campaigns }),
+    getCampaigns: () => of<CampaignsResponse>({ campaigns }),
     renameCampaign: (campaign: Campaign) => {
       const campaignsCopy = Array.from(campaigns);
       campaignsCopy.forEach(c => {

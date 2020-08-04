@@ -10,7 +10,7 @@
       "sourceRoot": "src",
       "prefix": "app",
       "i18n": {
-        "sourceLocale": "en-US",
+        "sourceLocale": "en",
         "locales": {
           "es": "src/locales/messages/messages.es.xlf",
           "hi": "src/locales/messages/messages.hi.xlf",
@@ -34,7 +34,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["src/maps.js"]
           },
           "configurations": {
             "production": {
