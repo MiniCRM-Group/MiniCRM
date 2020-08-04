@@ -54,15 +54,15 @@ public final class Lead implements DatastoreObject {
   private static List<AreaCode> areaCodes;
 
   static {
+    //load in GEO API KEY
     ClassLoader classloader = Thread.currentThread().getContextClassLoader();
     InputStream is = classloader.getResourceAsStream("api-keys/GeoApiKey.txt");
     geoApiKey = new BufferedReader(
         new InputStreamReader(is, StandardCharsets.UTF_8))
         .lines()
         .collect(Collectors.joining("\n"));
-    // convert JSON array to list of users
 
-    // create a reader
+    // load in area code JSON
     ClassLoader classloader2 = Thread.currentThread().getContextClassLoader();
     InputStream is2 = classloader2.getResourceAsStream("data/AreaCodes.json");
     InputStreamReader reader = 
@@ -71,8 +71,8 @@ public final class Lead implements DatastoreObject {
     try {
       reader.close();
     } catch (IOException ex) {
-          ex.printStackTrace();
-      }
+      ex.printStackTrace();
+    }
   }
 
   private transient Key advertiserKey;
@@ -259,7 +259,8 @@ public final class Lead implements DatastoreObject {
   }
 
   /**
-   * Searches for any location data present and populates the estimatedLongitude and
+   * Searches for any location data present (Postal Code, Street Address, City, Region, Country, and Phone Number ) 
+   * and populates the estimatedLongitude and
    * estimateLatitude instance variables.
    */
   private void generateLocationInfo() {
@@ -270,22 +271,24 @@ public final class Lead implements DatastoreObject {
       // If the column data is related with address add it into locationInfo arraylist
       if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") ||
           key.equals("CITY") || key.equals("REGION") ||
-          key.equals("COUNTRY") || key.equals("COUNTRY")) {
+          key.equals("COUNTRY")) {
         locationInfo.append(columnData.get(key) + " ");
       } else if (key.equals("PHONE_NUMBER") ) {
         phoneNumber = columnData.get("PHONE_NUMBER");
       }
-    }   
-   
+    }
+    
+    // If there is no info from the generated lead relating to address then GeoCoding is impossible
     if (locationInfo.length() == 0 && phoneNumber.equals("")) {
       //no location data
       return;
     }
 
+    //use locationInfo first if any exists; phoneNumber area code is a backup
     if (locationInfo.length() > 0) {
       GeoApiContext context = new GeoApiContext.Builder()
-          .apiKey(geoApiKey)
-          .build();
+        .apiKey(geoApiKey)
+        .build();
 
       GeocodingResult[] results;
       try {
@@ -298,19 +301,24 @@ public final class Lead implements DatastoreObject {
       // Get and assign latitude and longitude
       estimatedLatitude = results[0].geometry.location.lat;
       estimatedLongitude = results[0].geometry.location.lng;
-    } else { //use phone number info
-      final int areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+    } else { //use phone number info since no other locationInfo exists
+      final int areaCodeFromLead;
+      try {
+        areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+      } catch (NumberFormatException e) {
+        //error in parsing phoneNumber area code, don't do anything then
+        return;
+      }
 
+      // Filter AreaCodes list to get the AreaCode
       List<AreaCode> areaCodesFiltered = areaCodes
         .stream()
         .filter(c -> c.areaCodes == areaCodeFromLead)
         .collect(Collectors.toList());
-
       if (!areaCodesFiltered.isEmpty()) {
         estimatedLatitude = areaCodesFiltered.get(0).latitude;
         estimatedLongitude = areaCodesFiltered.get(0).longitude;
       }
-
     }
   }
 
