@@ -79,14 +79,9 @@ public final class ClientAppFilter implements Filter {
   }
 
   private String localizePath(String url) {
-    if (url.startsWith("/hi")) {
-      return "/hi/index.html";
-    } else if (url.startsWith("/es")) {
-      return "/es/index.html";
-    } else if (url.startsWith("/pt")) {
-      return "/pt/index.html";
-    } else {
-      return "/en/index.html";
+    if (url.startsWith("/hi") || url.startsWith("/es") || url.startsWith("/pt")) {
+      return url.substring(0, 3) + "/index.html";
     }
+    return "/en/index.html";
   }
 }

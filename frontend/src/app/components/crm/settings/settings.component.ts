@@ -18,6 +18,7 @@ export class SettingsErrorStateMatcher implements ErrorStateMatcher {
 }
 
 export const phoneValidator = (control: AbstractControl): {[key: string]: any} | null => {
+  // Phone regex validates US and international numbers, see more info here: https://stackoverflow.com/a/18626090
   const validPhoneRegex: RegExp = /(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})\s*(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+)\s*)?$/i;
   return validPhoneRegex.test(control.value) ? null : { phone: control.valid };
 };

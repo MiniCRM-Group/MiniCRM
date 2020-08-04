@@ -93,10 +93,10 @@ public final class Settings implements DatastoreObject {
     public static Settings fromReader(Reader reader, Key advertiserKey) throws NumberParseException, ValidatorException, MalformedJsonException {
         Gson gson = new Gson();
         Map<String, String> jsonMap = gson.fromJson(reader, Map.class);
-        if(jsonMap == null || !jsonMap.containsKey("email") || !jsonMap.containsKey("phone") ||
-                !jsonMap.containsKey("emailNotificationsFrequency") ||
-                !jsonMap.containsKey("phoneNotificationsFrequency") ||
-                !jsonMap.containsKey("currency")) {
+        if (!(jsonMap == null && jsonMap.containsKey("email") && jsonMap.containsKey("phone") &&
+                jsonMap.containsKey("emailNotificationsFrequency") &&
+                jsonMap.containsKey("phoneNotificationsFrequency") &&
+                jsonMap.containsKey("currency"))) {
             throw new MalformedJsonException("One or more missing keys in JSON.");
         }
         String email = jsonMap.get("email");
