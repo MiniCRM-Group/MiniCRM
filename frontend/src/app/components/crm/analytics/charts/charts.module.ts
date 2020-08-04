@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartsComponent } from './charts.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -12,7 +14,9 @@ import { ChartsComponent } from './charts.component';
     ChartsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class ChartsModule { }

@@ -1,1 +1,16 @@
-<p>charts works!</p>
+<div class="container">
+  <ng-container *ngIf="!isLoading; else loadingSpinner">
+    <h1 class="mat-h4">
+      Total Leads: {{leads.length}}
+    </h1>
+  </ng-container>
+  <ng-template #loadingSpinner>
+    <mat-card *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
+  </ng-template>
+</div>
