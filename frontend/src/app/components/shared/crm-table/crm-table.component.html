@@ -34,7 +34,7 @@
                 <th mat-header-cell *matHeaderCellDef>{{ map.displayedName }}</th>
                 <td [ngClass]="map.key"  mat-cell *matCellDef="let element"> 
                     <mat-form-field floatLabel="never" *ngIf="map.displayedName.indexOf('Name') > -1; else normalCell">
-                        <input class="editable" *ngIf="map.displayedName.indexOf('Name') > -1" matInput [value]="element[map.key]"
+                        <input class="editable" matInput [value]="element[map.key]"
                             [(ngModel)]="element[map.key]"
                             (change)="emitRename(element)">
                     </mat-form-field>

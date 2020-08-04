@@ -1,4 +1,3 @@
-
 /**
  * This typescript file is reponsible for all the features on the leads component. It is dependent on:
  *  - The lead model/interface

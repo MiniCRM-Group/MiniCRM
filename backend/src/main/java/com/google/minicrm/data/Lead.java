@@ -20,12 +20,23 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Represents a lead and all its data. Supports conversion to and from JSON and datastore Entity
@@ -39,8 +50,33 @@ public final class Lead implements DatastoreObject {
   public static final String KIND_NAME = "Lead";
   private static final Gson gson = new GsonBuilder()
       .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+  private static String geoApiKey;
+  private static List<AreaCode> areaCodes;
+
+  static {
+    //load in GEO API KEY
+    ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+    InputStream is = classloader.getResourceAsStream("api-keys/GeoApiKey.txt");
+    geoApiKey = new BufferedReader(
+        new InputStreamReader(is, StandardCharsets.UTF_8))
+        .lines()
+        .collect(Collectors.joining("\n"));
+
+    // load in area code JSON
+    ClassLoader classloader2 = Thread.currentThread().getContextClassLoader();
+    InputStream is2 = classloader2.getResourceAsStream("data/AreaCodes.json");
+    InputStreamReader reader = 
+      new InputStreamReader(is2, StandardCharsets.UTF_8);
+    areaCodes = new Gson().fromJson(reader, new TypeToken<List<AreaCode>>() {}.getType());
+    try {
+      reader.close();
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+
   private transient Key advertiserKey;
-  private Date date;
+  private final Date date;
   private String leadId;
   private long campaignId;
   private String gclId;
@@ -52,12 +88,17 @@ public final class Lead implements DatastoreObject {
   private boolean isTest;
   private long adgroupId;
   private long creativeId;
-
   /**
    * Advertiser defined and edited fields.
    */
   private LeadStatus status;
   private String notes;
+  /**
+   * Generated based on any column data that may contain location data (zip code, phone #, etc.)
+   * If no location data exists, both will be null.
+   */
+  private Double estimatedLatitude;
+  private Double estimatedLongitude;
 
   /**
    * Blank constructor that sets the time when this lead was created and sets defaults for values
@@ -89,9 +130,10 @@ public final class Lead implements DatastoreObject {
     this.isTest = (Boolean) entity.getProperty("isTest");
     this.adgroupId = (Long) entity.getProperty("adgroupId");
     this.creativeId = (Long) entity.getProperty("creativeId");
-    this.status = LeadStatus.values()[((Long) entity.getProperty("status")).intValue()];
+    this.status = LeadStatus.getFromIndex(((Long) entity.getProperty("status")).intValue());
     this.notes = (String) entity.getProperty("notes");
-
+    this.estimatedLatitude = (Double)entity.getProperty("estimatedLatitude");
+    this.estimatedLongitude = (Double)entity.getProperty("estimatedLongitude");
 
     entity.removeProperty("date");
     entity.removeProperty("leadId");
@@ -105,6 +147,8 @@ public final class Lead implements DatastoreObject {
     entity.removeProperty("creativeId");
     entity.removeProperty("status");
     entity.removeProperty("notes");
+    entity.removeProperty("estimatedLatitude");
+    entity.removeProperty("estimatedLongitude");
     this.columnData = new HashMap<>();
     for (String key : entity.getProperties().keySet()) {
       columnData.put(key, (String) entity.getProperty(key));
@@ -112,15 +156,17 @@ public final class Lead implements DatastoreObject {
   }
 
   /**
-   * Creates a lead based off of JSON representing the Lead with the parent advertiserKey specified.
+   * Creates a lead based off of JSON representing the Lead with the parent advertiserKey
+   * specified.
    *
-   * @param reader a reader object containing a JSON describing a lead object
+   * @param reader        a reader object containing a JSON describing a lead object
    * @param advertiserKey the Key of the advertiser that this lead belongs to
    * @return a lead object created by the JSON
    */
   public static Lead fromReader(Reader reader, Key advertiserKey) {
     Lead thisLead = gson.fromJson(reader, Lead.class);
     thisLead.generateDataMap();
+    thisLead.generateLocationInfo();
     thisLead.advertiserKey = advertiserKey;
     return thisLead;
   }
@@ -152,7 +198,9 @@ public final class Lead implements DatastoreObject {
     leadEntity.setProperty("adgroupId", adgroupId);
     leadEntity.setProperty("creativeId", creativeId);
     leadEntity.setProperty("notes", notes);
-    leadEntity.setProperty("status", status.ordinal());
+    leadEntity.setProperty("status", status.getIndex());
+    leadEntity.setProperty("estimatedLatitude", estimatedLatitude);
+    leadEntity.setProperty("estimatedLongitude", estimatedLongitude);
     for (String key : columnData.keySet()) {
       leadEntity.setProperty(key, columnData.get(key));
     }
@@ -162,6 +210,7 @@ public final class Lead implements DatastoreObject {
   /**
    * Checks whether another object o is a Lead that is either the same object as this lead or has
    * all the same instance variables expect the date created variable and advertiserKey.
+   *
    * @param o the object to compare to this lead
    * @return true if the given object is a Lead instance with the same instance variables other than
    *         date created and advertiserKey. False, otherwise.
@@ -210,6 +259,70 @@ public final class Lead implements DatastoreObject {
   }
 
   /**
+   * Searches for any location data present (Postal Code, Street Address, City, Region, Country, and Phone Number ) 
+   * and populates the estimatedLongitude and
+   * estimateLatitude instance variables.
+   */
+  private void generateLocationInfo() {
+    StringBuilder locationInfo = new StringBuilder();
+    String phoneNumber = "";
+
+    for (String key : columnData.keySet()) {
+      // If the column data is related with address add it into locationInfo arraylist
+      if (key.equals("POSTAL_CODE") || key.equals("STREET_ADDRESS") ||
+          key.equals("CITY") || key.equals("REGION") ||
+          key.equals("COUNTRY")) {
+        locationInfo.append(columnData.get(key) + " ");
+      } else if (key.equals("PHONE_NUMBER") ) {
+        phoneNumber = columnData.get("PHONE_NUMBER");
+      }
+    }
+    
+    // If there is no info from the generated lead relating to address then GeoCoding is impossible
+    if (locationInfo.length() == 0 && phoneNumber.equals("")) {
+      //no location data
+      return;
+    }
+
+    //use locationInfo first if any exists; phoneNumber area code is a backup
+    if (locationInfo.length() > 0) {
+      GeoApiContext context = new GeoApiContext.Builder()
+        .apiKey(geoApiKey)
+        .build();
+
+      GeocodingResult[] results;
+      try {
+        results = GeocodingApi.geocode(context, locationInfo.toString()).await();
+      } catch (ApiException | InterruptedException | IOException e) {
+        e.printStackTrace();
+        return;
+      }
+
+      // Get and assign latitude and longitude
+      estimatedLatitude = results[0].geometry.location.lat;
+      estimatedLongitude = results[0].geometry.location.lng;
+    } else { //use phone number info since no other locationInfo exists
+      final int areaCodeFromLead;
+      try {
+        areaCodeFromLead = Integer.parseInt(phoneNumber.substring(0, 3));
+      } catch (NumberFormatException e) {
+        //error in parsing phoneNumber area code, don't do anything then
+        return;
+      }
+
+      // Filter AreaCodes list to get the AreaCode
+      List<AreaCode> areaCodesFiltered = areaCodes
+        .stream()
+        .filter(c -> c.areaCodes == areaCodeFromLead)
+        .collect(Collectors.toList());
+      if (!areaCodesFiltered.isEmpty()) {
+        estimatedLatitude = areaCodesFiltered.get(0).latitude;
+        estimatedLongitude = areaCodesFiltered.get(0).longitude;
+      }
+    }
+  }
+
+  /**
    * Creates and populates the columnData Map from userColumnData
    */
   private void generateDataMap() {
@@ -227,6 +340,7 @@ public final class Lead implements DatastoreObject {
   public Key getAdvertiserKey() {
     return advertiserKey;
   }
+
   /**
    * @return the Date this lead was received
    */

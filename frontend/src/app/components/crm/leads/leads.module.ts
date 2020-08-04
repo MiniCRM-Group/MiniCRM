@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,6 +24,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
+
   declarations: [
     LeadsComponent,
     LeadDetailsComponent,
@@ -31,6 +33,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   exports: [
     LeadsComponent,
   ],
+
   imports: [
     FlexLayoutModule,
     FormsModule,

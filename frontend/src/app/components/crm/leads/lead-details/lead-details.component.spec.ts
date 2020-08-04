@@ -24,6 +24,11 @@ describe('LeadDetailsComponent', () => {
         FULL_NAME: 'Roddy Taipe',
         PHONE_NUMBER: '973-201-2019',
         EMAIL: 'roddy@roddy.com',
+        POSTAL_CODE: '43004',
+        STREET_ADDRESS: '3975 Townsfair Way',
+        CITY: 'Columbus',
+        REGION: 'OH',
+        COUNTRY: 'US'
       },
       isTest: true,
       adgroupId: 1,
