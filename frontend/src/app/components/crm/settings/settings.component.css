@@ -1,0 +1,17 @@
+#settings-container {
+    width: 500px;
+    margin: auto;
+    padding: 16px;
+}
+
+#actions {
+    margin: 16px 0 auto auto;
+}
+
+#emailFormField {
+    margin-right: 16px;
+}
+
+#phoneFormField {
+    margin-right: 16px;
+}
