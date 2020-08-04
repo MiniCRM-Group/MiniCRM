@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { LoginResponse } from '../../models/server_responses/login-response.model';
-import { Language } from 'src/app/models/server_responses/settings-response.model';
-import { LanguageService } from 'src/app/services/language.service';
 
 interface Feature {
   icon: string;
@@ -39,23 +37,16 @@ export class LandingComponent implements OnInit {
     }
   ];
   loginUrl: string;
-  loginButtonLabel: string;
-  supportedLanguages = this.languageService.getAllSupportedLanguages();
 
-  constructor(private loginService: LoginService, private languageService: LanguageService) { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
       this.loginUrl = res.loggedIn ? 'crm/guide' : res.url;
-      this.loginButtonLabel = res.loggedIn ? 'Go to CRM' : 'LOGIN';
     });
   }
 
   login() {
     location.href = this.loginUrl;
-  }
-
-  switchLanguage(langIsoCode) {
-    location.href = `/${langIsoCode}`;
   }
 }
