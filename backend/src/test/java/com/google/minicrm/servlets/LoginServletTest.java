@@ -23,8 +23,6 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 import com.google.gson.Gson;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
@@ -38,19 +36,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class LoginServletTest {
 
-  private static final String TEST_USER_ID = "testUserId";
-  private static Map<String, Object> envAttributes;
-  static {
-    envAttributes = new HashMap<>();
-    envAttributes.put("com.google.appengine.api.users.UserService.user_id_key", TEST_USER_ID);
-  }
-
   private static final LocalServiceTestHelper loggedInHelper =
-      new LocalServiceTestHelper(new LocalUserServiceTestConfig())
-              .setEnvIsLoggedIn(true)
-              .setEnvEmail("test@test.com")
-              .setEnvAuthDomain("testAuthDomain")
-              .setEnvAttributes(envAttributes);;
+      new LocalServiceTestHelper(new LocalUserServiceTestConfig()).setEnvIsLoggedIn(true);
   private static final LocalServiceTestHelper loggedOutHelper =
       new LocalServiceTestHelper(new LocalUserServiceTestConfig()).setEnvIsLoggedIn(false);
   private final Gson gson = new Gson();

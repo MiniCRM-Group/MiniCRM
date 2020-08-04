@@ -1,6 +1,7 @@
 export interface SettingsResponse {
     settings: Settings;
     supportedCurrencies: Currency[];
+    supportedLanguages: Language[];
     supportedNotifsFreqs: NotificationsFrequency[];
 }
 
@@ -9,6 +10,7 @@ export interface Settings {
     emailNotificationsFrequency: string;
     phone: string;
     phoneNotificationsFrequency: string;
+    language: string;
     currency: string;
 }
 

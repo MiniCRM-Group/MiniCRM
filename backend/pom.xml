@@ -72,16 +72,6 @@
             <version>1.9.80</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>commons-validator</groupId>
-            <artifactId>commons-validator</artifactId>
-            <version>1.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.libphonenumber</groupId>
-            <artifactId>libphonenumber</artifactId>
-            <version>8.10.2</version>
-        </dependency>
           <dependency>
             <groupId>com.google.maps</groupId>
             <artifactId>google-maps-services</artifactId>
@@ -95,6 +85,7 @@
             <version>1.7.30</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
