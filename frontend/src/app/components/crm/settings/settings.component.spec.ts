@@ -6,6 +6,8 @@ import { SettingsResponse, Settings } from 'src/app/models/server_responses/sett
 import { MatListHarness } from '@angular/material/list/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { LoginService } from 'src/app/services/login.service';
+import { LoginResponse } from 'src/app/models/server_responses/login-response.model';
 
 describe('SettingsComponent', () => {
   const settings: Settings = {
@@ -13,7 +15,6 @@ describe('SettingsComponent', () => {
     emailNotificationsFrequency: 'Never',
     phone: '101-101-1010',
     phoneNotificationsFrequency: 'On Every Lead',
-    language: 'Spanish',
     currency: 'USD $'
   };
   let loader: HarnessLoader;
@@ -21,12 +22,6 @@ describe('SettingsComponent', () => {
   const settingsService: Partial<SettingsService> = {
     getSettings: () => of<SettingsResponse>({
       settings,
-      supportedLanguages: [
-        {
-          displayed: 'Spanish',
-          isoCode: 'es'
-        }
-      ],
       supportedCurrencies: [
         {
           displayed: 'USD $',
@@ -45,13 +40,20 @@ describe('SettingsComponent', () => {
       ]
     })
   };
+  const loginService: Partial<LoginService> = {
+    getLoginResponse: () => of<LoginResponse>({
+      loggedIn: false,
+      url: ''
+    })
+  };
   let fixture: ComponentFixture<SettingsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SettingsComponent ],
       providers: [
-        { provide: SettingsService, useValue: settingsService }
+        { provide: SettingsService, useValue: settingsService },
+        { provide: LoginService, useValue: loginService }
       ]
     })
     .compileComponents();
@@ -71,7 +73,7 @@ describe('SettingsComponent', () => {
 
   it('should display settings', async () => {
     const settingsList = await loader.getHarness(MatListHarness);
-    const [notifications, langAndCurrency] = await settingsList.getItemsGroupedByDividers();
+    const [notifications, other] = await settingsList.getItemsGroupedByDividers();
 
     const [emailNotifications, phoneNotifications] = notifications;
 
@@ -83,11 +85,7 @@ describe('SettingsComponent', () => {
     expect(phoneLabel).toEqual('Phone Number');
     expect(phone).toEqual(`${settings.phone} (${settings.phoneNotificationsFrequency})`);
 
-    const [language, currency] = langAndCurrency;
-
-    const [langLabel, lang] = await language.getLinesText();
-    expect(langLabel).toEqual('Language');
-    expect(lang).toEqual(settings.language);
+    const [currency] = other;
 
     const [currLabel, curr] = await currency.getLinesText();
     expect(currLabel).toEqual('Currency');

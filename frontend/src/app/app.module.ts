@@ -2,6 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
+import { FormsModule } from '@angular/forms';
+
+// Flex + Grid Layout
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+
+
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -17,6 +24,7 @@ import { CampaignsModule } from './components/crm/campaigns/campaigns.module';
 import { AnalyticsModule } from './components/crm/analytics/analytics.module';
 import { SettingsModule } from './components/crm/settings/settings.module';
 import { LandingModule } from './components/landing/landing.module';
+
 
 @NgModule({
   declarations: [

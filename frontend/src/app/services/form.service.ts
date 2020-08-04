@@ -4,21 +4,23 @@ import { Observable, of } from 'rxjs';
 import { FormsResponse } from '../models/server_responses/forms-response.model';
 import { retry, catchError, first, mergeMap } from 'rxjs/operators';
 import { Form } from '../models/server_responses/forms-response.model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormService {
 
-  constructor(private http: HttpClient) { }
+  endpoint = '/api/forms';
 
-  formEndpoint = '/api/forms';
+  constructor(private http: HttpClient) {
+  }
 
   getForms(): Observable<FormsResponse> {
     const options = {
       responseType: 'json' as const
     };
-    return this.http.get<FormsResponse>(this.formEndpoint, options)
+    return this.http.get<FormsResponse>(this.endpoint, options)
     .pipe(
       first(),
       retry(3),
@@ -31,7 +33,21 @@ export class FormService {
 
   renameForm(form: Form): Observable<FormsResponse> {
     const body = {formId: form.formId.toString(), formName: form.formName};
-    return this.http.put<any>(this.formEndpoint, body)
+    return this.http.put<any>(this.endpoint, body)
     .pipe(retry(3), mergeMap(() => this.getForms()));
+  }
+
+  /**
+   * @return an Observable map mapping formIds to formNames
+   */
+  getFormNameMap(): Observable<Map<number, string>> {
+    return this.getForms().pipe(map((res: FormsResponse) => {
+      const forms: Form[] = res.forms;
+      const formNameMap: Map<number, string> = new Map();
+      for (const form of forms) {
+        formNameMap.set(form.formId, form.formName);
+      }
+      return formNameMap;
+    }));
   }
 }
