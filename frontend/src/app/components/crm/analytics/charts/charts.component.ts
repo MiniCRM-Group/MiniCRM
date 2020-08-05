@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LeadService } from 'src/app/services/lead.service';
 import { Lead, LeadStatus } from 'src/app/models/server_responses/lead.model';
+import { HumanizeEnumPipe } from 'src/app/pipes/humanize-enum.pipe';
 
 @Component({
   selector: 'app-charts',
@@ -8,6 +9,7 @@ import { Lead, LeadStatus } from 'src/app/models/server_responses/lead.model';
   styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent implements OnInit {
+  pipe: HumanizeEnumPipe = new HumanizeEnumPipe();
   leads: Lead[];
   leadStatuses: object[];
   view: any[] = [700, 400];
@@ -48,7 +50,7 @@ export class ChartsComponent implements OnInit {
     this.leadStatuses = [];
     statusMap.forEach((count: number, key: LeadStatus) => {
       const dataPoint = {
-        name: LeadStatus[key],
+        name: this.pipe.transform(LeadStatus[key]),
         value: count
       };
       this.leadStatuses.push(dataPoint);
