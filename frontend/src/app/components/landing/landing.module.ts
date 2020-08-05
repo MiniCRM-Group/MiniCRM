@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -16,8 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     FlexLayoutModule,
     MatToolbarModule,
-    MatButtonModule,
-    MatMenuModule
+    MatButtonModule
   ]
 })
 export class LandingModule { }
