@@ -33,19 +33,18 @@ export class MapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    navigator.geolocation.getCurrentPosition(this.success);
+    // Set default map properties
     const mapProperties = {
       center: new google.maps.LatLng(37.782551, -122.445368),
       zoom: 11,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    const myLatLng = {lat: 37.782551,  lng: -122.445368};
+
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapProperties);
 
     // Subcribing to leads here to avoid the common array bug
     this.leadService.getAllLeads().subscribe((leads: Lead[]) => {
       const markerLocations = this.getAllMarkersLocation(leads);
-      const heatmapLocations = this.getAllHeatLocations(leads);
       markerLocations.forEach((markerLocation: number[]) => {
         const marker = new google.maps.Marker({
           position: new google.maps.LatLng(markerLocation[0], markerLocation[1]),
@@ -54,17 +53,26 @@ export class MapComponent implements AfterViewInit {
         this.allMarkers.push(marker);
       });
     });
-    const markerData = this.loadAllMarkerLocations().subscribe((mark) => {
-      this.marker = new google.maps.Marker({
-        position: new google.maps.LatLng(37.782551, -122.445368),
-        map: this.map,
-        title: 'Hello World!'
-      });
-    });
 
+    // Heatmap loading starts here
     this.heatmap = new google.maps.visualization.HeatmapLayer({
       data: this.loadAllHeatLocations(),
       map: this.map
+    });
+
+    // Get user's location if possible
+    const userLocation = new Promise<any>((resolve, reject) => {
+
+      navigator.geolocation.getCurrentPosition(resp => {
+
+          resolve({lat: resp.coords.latitude, lng: resp.coords.longitude });
+        },
+        err => {
+          reject(err);
+        });
+    });
+    userLocation.then((pos) => {
+      this.map.setCenter(new google.maps.LatLng(pos.lat, pos.lng) );
     });
 
   }
@@ -133,26 +141,6 @@ export class MapComponent implements AfterViewInit {
      }
     });
     return points;
-  }
-
-  getAllHeatLocations(leads: Lead[]): google.maps.LatLng[] {
-    const points = [];
-    const latitudeCollection = leads.map(lead => lead.estimatedLatitude);
-    const longitudeCollection = leads.map(lead => lead.estimatedLongitude);
-    for (let i = 0; i < latitudeCollection.length; i++) {
-      if (latitudeCollection[i] !== undefined) {
-        const x = latitudeCollection[i];
-        const y = longitudeCollection[i];
-        points.push(new google.maps.LatLng(x, y));
-      }
-    }
-    return points;
-  }
-
-  success(pos) {
-    const crd = pos.coords;
-    const myLatLng2 = {lat: crd.latitude, lng: crd.longitude};
-    console.log(myLatLng2);
   }
 
 }

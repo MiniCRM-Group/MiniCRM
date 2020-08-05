@@ -5,6 +5,7 @@ import { GuideComponent } from './guide.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     GuideComponent
@@ -16,7 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     FlexLayoutModule,
     MatStepperModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ]
 })
 export class GuideModule { }

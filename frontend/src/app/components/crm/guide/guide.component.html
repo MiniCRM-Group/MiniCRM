@@ -1,52 +1,63 @@
 
-<mat-horizontal-stepper #stepper>
-    <mat-step >
-
-        <ng-template matStepLabel>Get your webhook</ng-template>
-        <div id="content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="57px">
-            <div id="settingUp" class="guideModule" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="100px">
-                <div id="settingUpText">
-                    <span i18n class="mat-h1" >At the top right of the page, click on the User icon.</span>
-                </div>
-                <div>
-                    <img id="screenshot" src="assets/imgs/getWebhook.jpg">
-                </div>
+<!-- #docregion states -->
+<mat-horizontal-stepper>
+  <!-- #docregion label -->
+    <mat-step state="content_copy">
+      <ng-template matStepLabel>Get your webhook</ng-template>
+      <div id="content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="57px">
+        <div id="settingUp" class="guideModule" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="100px">
+            <div id="settingUpText">
+                <span i18n class="mat-h1" >At the top right of the page, click on the User icon.</span><br/>
+                <span i18n class="mat-h1">Your unique webhook url and Google key should appear, copy them to the Google Form Ad(s) that you wish to link to miniCRM.</span>
+            </div>
+            <div>
+                <img alt="Get your webhook" id="screenshot" src="assets/imgs/getWebhook.jpg">
             </div>
         </div>
-        <div>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-     </mat-step>
+    </div>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+  <!-- #enddocregion label -->
     <mat-step >
+      
       <ng-template matStepLabel>Connect with Google Form Ads</ng-template>
     
       <div id="content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="57px">
         <div id="settingUp" class="guideModule" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="100px">
             <div id="settingUpText">
-                <span i18n class="mat-h1">Your unique webhook url and Google key should appear, copy them to the Google Form Ad(s) that you wish to link to miniCRM.</span>
-                              <li>
-                        <span i18n>On the Google Ads site, this can be found while editing a form in the section "Lead Delivery Option" > "Manage your leads with a webhook</span>
-                        <span i18n>Copy and paste your webhook url and Google key from miniCRM into the respective fields in your form.</span>
-                    </li>
-                    <li i18n>Click save at the bottom of the Form page.</li>
-                    <li i18n>Congratulations! Your form is ready to delivery leads for you to view here! As soon as you receive a new lead, you will be able to view it on the "Leads" page!</li>
+             <ol>  
+              <li><span i18n class="mat-h1">Your unique webhook url and Google key should appear, copy them to the Google Form Ad(s) that you wish to link to miniCRM.</span>     </li>         
+              <li><span i18n class="mat-h1">On the Google Ads site, this can be found while editing a form in the section "Lead Delivery Option" > "Manage your leads with a webhook</span></li>
+              <li><span i18n class="mat-h1">Copy and paste your webhook url and Google key from miniCRM into the respective fields in your form.</span></li>
+              <li><span i18n class="mat-h1">Click save at the bottom of the Form page.</span></li>
+               
+             </ol>     
             </div>
             <div>
-                <img id="screenshot" src="assets/imgs/adsPortal.jpg">
+                <img alt="Connect with Google Form Ads" id="screenshot" src="assets/imgs/adsPortal.jpg">
             </div>
         </div>
-    </div>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
+      </div>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+        <button mat-button matStepperNext>Next</button>
       </div>
     </mat-step>
+    <mat-step state="done_all">
+      <ng-template matStepLabel>All set!</ng-template>
+      <div id="content" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="57px">
+        <div id="settingUp" class="guideModule" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="100px">
+            <div id="settingUpText">
+              <span i18n class="mat-h1">Congratulations! Your form is ready to delivery leads for you to view here! As soon as you receive a new lead, you will be able to view it on the "Leads" page!</span>
+            </div>  
+      <img alt="View Leads" id="screenshot" src="assets/imgs/done.jpg">
+      </div>
+      </div>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+      </div>  
+    </mat-step>
 </mat-horizontal-stepper>
+  
