@@ -3,6 +3,17 @@
     <h1 class="mat-h4">
       Total Leads: {{leads.length}}
     </h1>
+    <h4 class="mat-h4">
+      Leads by Status
+    </h4>
+    <div id="pie-chart">
+      <ngx-charts-pie-chart
+        [view]="view"
+        [results]="leadStatuses"
+        legend="true"
+        >
+      </ngx-charts-pie-chart>
+    </div>
   </ng-container>
   <ng-template #loadingSpinner>
     <mat-card *ngIf="isLoading"

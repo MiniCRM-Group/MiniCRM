@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LeadService } from 'src/app/services/lead.service';
-import { Lead } from 'src/app/models/server_responses/lead.model';
+import { Lead, LeadStatus } from 'src/app/models/server_responses/lead.model';
 
 @Component({
   selector: 'app-charts',
@@ -9,6 +9,11 @@ import { Lead } from 'src/app/models/server_responses/lead.model';
 })
 export class ChartsComponent implements OnInit {
   leads: Lead[];
+  leadStatuses: object[];
+  view: any[] = [700, 400];
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
   isLoading: boolean;
 
   constructor(private leadService: LeadService) { 
@@ -25,7 +30,28 @@ export class ChartsComponent implements OnInit {
     this.isLoading = true;
     this.leadService.getAllLeads().subscribe((leads) => {
       this.leads = leads;
+      this.generateData();
       this.isLoading = false;
+    });
+  }
+
+  generateData(): void {
+    // fill out the leadStatuses object
+    const statusMap: Map<LeadStatus, number> = new Map<LeadStatus, number>();
+    for (const lead of this.leads) {
+      if (statusMap.has(lead.status)) {
+        statusMap.set(lead.status, statusMap.get(lead.status) + 1);
+      } else {
+        statusMap.set(lead.status, 1);
+      }
+    }
+    this.leadStatuses = [];
+    statusMap.forEach((count: number, key: LeadStatus) => {
+      const dataPoint = {
+        name: LeadStatus[key],
+        value: count
+      };
+      this.leadStatuses.push(dataPoint);
     });
   }
 }
