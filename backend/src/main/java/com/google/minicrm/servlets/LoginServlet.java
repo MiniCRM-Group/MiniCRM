@@ -17,7 +17,6 @@ package com.google.minicrm.servlets;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.minicrm.data.Language;
 import com.google.minicrm.interfaces.ClientResponse;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -55,13 +54,12 @@ public final class LoginServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Language language = Language.fromIsoCode(request.getParameter("language"));
     String url;
     boolean loggedIn = userService.isUserLoggedIn();
     if (loggedIn) {
-      url = userService.createLogoutURL("/" + language.getIsoCode());
+      url = userService.createLogoutURL("/");
     } else {
-      url = userService.createLoginURL("/" + language.getIsoCode());
+      url = userService.createLoginURL("/crm/guide");
     }
     LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
     response.setContentType("application/json;");
