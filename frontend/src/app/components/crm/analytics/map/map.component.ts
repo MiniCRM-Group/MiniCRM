@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { } from 'googlemaps';
 
@@ -100,7 +100,6 @@ export class MapComponent implements AfterViewInit {
           points.push([x, y]);
         }
       }
-      console.log(points);
       return points;
     }));
   }
@@ -150,13 +149,8 @@ export class MapComponent implements AfterViewInit {
     return points;
   }
 
-
   success(pos) {
     const crd = pos.coords;
-    console.log('Your current position is:');
-    console.log(`Latitude : {crd.latitude}`);
-    console.log(`Longitude: {crd.longitude}`);
-    console.log(`More or less {crd.accuracy} meters.`);
     const myLatLng2 = {lat: crd.latitude, lng: crd.longitude};
     console.log(myLatLng2);
   }

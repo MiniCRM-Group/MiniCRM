@@ -19,7 +19,6 @@ import { FormGroup } from '@angular/forms';
 /**
  * Imports from the RxJS library
  */
-import { first } from 'rxjs/operators';
 
 import { Lead, LeadStatus } from '../../../models/server_responses/lead.model';
 import { LeadService } from '../../../services/lead.service';
