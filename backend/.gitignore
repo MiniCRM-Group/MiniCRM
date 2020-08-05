@@ -8,7 +8,7 @@ target/
 .factorypath
 .project
 .settings
-WEB-INF/
+/WEB-INF/
 src/main/resources/api-keys/
 
 # Ignore anything in webapp except for WEB-INF
