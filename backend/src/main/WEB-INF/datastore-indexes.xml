@@ -7,4 +7,7 @@
   <datastore-index kind="Form" ancestor="true" source="manual">
     <property name="date" direction="desc" />
   </datastore-index>
+  <datastore-index kind="Campaign" ancestor="true" source="manual">
+    <property name="date" direction="desc"/>
+  </datastore-index>
 </datastore-indexes>
