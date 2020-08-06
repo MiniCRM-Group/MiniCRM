@@ -108,6 +108,7 @@
                 <configuration>
                     <deploy.projectId>form-ads-leads</deploy.projectId>
                     <deploy.version>1</deploy.version>
+                    <port>8081</port>
                     <automaticRestart>true</automaticRestart>
                 </configuration>
             </plugin>
