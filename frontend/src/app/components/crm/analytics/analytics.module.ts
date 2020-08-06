@@ -5,6 +5,7 @@ import { MapComponent } from './map/map.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ChartsModule } from './charts/charts.module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ChartsModule } from './charts/charts.module';
   imports: [
     CommonModule,
     MatTabsModule,
+    MatButtonModule,
     GoogleMapsModule,
     ChartsModule
   ]
