@@ -82,6 +82,6 @@ public final class ClientAppFilter implements Filter {
     if (url.startsWith("/hi") || url.startsWith("/es") || url.startsWith("/pt")) {
       return url.substring(0, 3) + "/index.html";
     }
-    return "/en/index.html";
+    return "/index.html";
   }
 }

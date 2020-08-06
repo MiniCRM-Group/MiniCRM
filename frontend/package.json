@@ -8,7 +8,7 @@
     "start:hi": "ng serve --aot --configuration=hi",
     "start:pt": "ng serve --aot --configuration=pt",
     "copy-web-inf": "cp -R ../backend/src/main/WEB-INF ../backend/src/main/webapp",
-    "build": "ng build --prod --localize && npm run copy-web-inf",
+    "build": "ng build --prod --localize && cp -a ../backend/src/main/webapp/en/. ../backend/src/main/webapp/ && rm -rf ../backend/src/main/webapp/en && npm run copy-web-inf",
     "build:ci": "ng build --prod",
     "build:dev": "ng build --configuration=developer && npm run copy-web-inf",
     "build:es": "ng build --configuration=production-es && npm run copy-web-inf",

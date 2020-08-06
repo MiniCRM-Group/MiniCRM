@@ -30,6 +30,13 @@ public enum Language {
         return  this.isoCode;
     }
 
+    public String toClientRoute() {
+        if (this == Language.ENGLISH) {
+            return "/";
+        }
+        return "/" + this.isoCode;
+    }
+
     /**
      * Returns a Language enum given the ISO 639-1 code.
      * @param isoCode Must be in ISO 639-1 and must be supported.

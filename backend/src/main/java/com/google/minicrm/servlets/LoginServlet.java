@@ -61,9 +61,9 @@ public final class LoginServlet extends HttpServlet {
     String url;
     boolean loggedIn = userService.isUserLoggedIn();
     if (loggedIn) {
-      url = userService.createLogoutURL("/" + language.getIsoCode());
+      url = userService.createLogoutURL(language.toClientRoute());
     } else {
-      url = userService.createLoginURL("/" + language.getIsoCode());
+      url = userService.createLoginURL(language.toClientRoute());
     }
     LoginClientResponse loginClientResponse = new LoginClientResponse(url, loggedIn);
     response.setContentType("application/json;");

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../services/login.service';
 import { LoginResponse } from '../../models/server_responses/login-response.model';
-import { Language } from 'src/app/models/server_responses/settings-response.model';
 import { LanguageService } from 'src/app/services/language.service';
+import { environment } from './../../../environments/environment';
 
 interface Feature {
   icon: string;
@@ -41,6 +41,7 @@ export class LandingComponent implements OnInit {
   loginUrl: string;
   loginButtonLabel: string;
   supportedLanguages = this.languageService.getAllSupportedLanguages();
+  languageEnabled = environment.languageEnabled;
 
   constructor(private loginService: LoginService, private languageService: LanguageService) { }
 

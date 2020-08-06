@@ -5,11 +5,11 @@ import { Language } from '../models/server_responses/settings-response.model';
   providedIn: 'root'
 })
 export class LanguageService {
+  private readonly DEFAULT: Language = {
+    isoCode: '',
+    displayed: 'English'
+  };
   private readonly SUPPORTED: Language[] = [
-    {
-      isoCode: 'en',
-      displayed: 'English'
-    },
     {
       isoCode: 'es',
       displayed: 'Spanish'
@@ -27,10 +27,10 @@ export class LanguageService {
   getCurrentLanguage(): Language {
     const path = location.pathname;
     const language = this.SUPPORTED.find(lang => path.startsWith('/' + lang.isoCode));
-    return language;
+    return language ?? this.DEFAULT;
   }
 
   getAllSupportedLanguages(): Language[] {
-    return this.SUPPORTED;
+    return [ this.DEFAULT, ...this.SUPPORTED ];
   }
 }
