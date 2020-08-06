@@ -1,0 +1,14 @@
+.container {
+  width: 90%;
+  margin: 15px auto;
+} 
+
+.chart-container {
+  min-width: 300px;
+  min-height: 300px;
+}
+
+mat-card {
+  margin-bottom: 15px;
+  flex: 1;
+}

@@ -1,1 +1,76 @@
-<p>charts works!</p>
+<div class="container">
+  <ng-container *ngIf="!isLoading; else loadingSpinner">
+    <h1 class="mat-h4">
+      Total Leads: {{leads.length}}
+    </h1>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5%">
+      <mat-card class="mat-elevation-z3">
+        <mat-card-title>
+          Conversion Rate
+        </mat-card-title>
+        <div class="chart-container">
+          <ngx-charts-gauge
+            [results]="convertedLeads"
+            [max]="leads.length"
+            units="converted"
+            [bigSegments]="leads.length"
+            smallSegments="0"
+            >
+          </ngx-charts-gauge>
+        </div>
+      </mat-card>
+      <mat-card class="mat-elevation-z3">
+        <mat-card-title>
+          Leads by Status
+        </mat-card-title>
+        <div class="chart-container">
+          <ngx-charts-pie-chart
+            [results]="leadsByStatus"
+            labels="true"
+            trimLabels="false"
+            maxLabelLength=100
+            doughnut="true"
+            >
+          </ngx-charts-pie-chart>
+        </div>
+      </mat-card>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5%">
+      <mat-card class="mat-elevation-z3">
+        <mat-card-title>
+          Leads by Form
+        </mat-card-title>
+        <div class="chart-container">
+          <ngx-charts-pie-chart
+            [results]="leadsByForm"
+            legend="true"
+            labels="true"
+            >
+          </ngx-charts-pie-chart>
+        </div>
+      </mat-card>
+      <mat-card class="mat-elevation-z3">
+        <mat-card-title>
+          Leads by Campaign
+        </mat-card-title>
+        <div class="chart-container">
+          <ngx-charts-pie-chart
+            [results]="leadsByCampaign"
+            legend="true"
+            labels="true"
+            >
+          </ngx-charts-pie-chart>
+        </div>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loadingSpinner>
+    <mat-card *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate">
+      </mat-progress-spinner>
+    </mat-card>
+  </ng-template>
+</div>

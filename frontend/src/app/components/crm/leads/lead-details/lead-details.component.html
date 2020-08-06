@@ -11,6 +11,9 @@
     <mat-divider></mat-divider>
     <mat-list-item>Status: {{data.lead.status | humanizeEnum}}</mat-list-item>
     <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <mat-list-item>Address: {{data.lead.columnData.STREET_ADDRESS}} {{data.lead.columnData.CITY}} {{data.lead.columnData.REGION}} {{data.lead.columnData.REIGON}} {{data.lead.columnData.POSTAL_CODE}} {{data.lead.columnData.COUNTRY}} </mat-list-item>
+    <mat-divider></mat-divider>
   </mat-list>
   <mat-form-field id="notes">
     <p>Notes:</p>
