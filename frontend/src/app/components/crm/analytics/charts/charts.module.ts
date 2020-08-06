@@ -4,6 +4,7 @@ import { ChartsComponent } from './charts.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 
@@ -19,6 +20,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatCardModule,
     MatProgressSpinnerModule,
     NgxChartsModule,
+    FlexLayoutModule,
   ]
 })
 export class ChartsModule { }
