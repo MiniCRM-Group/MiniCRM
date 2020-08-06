@@ -1,8 +1,7 @@
-
-
-#container {
-  width: 100%;
+.container {
   height: 100%;
+  width: 90%;
+  margin: 15px auto;
 }
 
 .pie-chart-container {
