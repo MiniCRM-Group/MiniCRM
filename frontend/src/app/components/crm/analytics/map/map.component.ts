@@ -62,9 +62,7 @@ export class MapComponent implements AfterViewInit {
 
     // Get user's location if possible
     const userLocation = new Promise<any>((resolve, reject) => {
-
       navigator.geolocation.getCurrentPosition(resp => {
-
           resolve({lat: resp.coords.latitude, lng: resp.coords.longitude });
         },
         err => {
