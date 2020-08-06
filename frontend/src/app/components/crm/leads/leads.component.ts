@@ -1,4 +1,3 @@
-
 /**
  * This typescript file is reponsible for all the features on the leads component. It is dependent on:
  *  - The lead model/interface
@@ -27,6 +26,8 @@ import { LeadService } from '../../../services/lead.service';
 import { LeadDetailsComponent } from './lead-details/lead-details.component';
 import { Title } from '@angular/platform-browser';
 import * as _ from 'lodash';
+import { FormService } from 'src/app/services/form.service';
+import { CampaignService } from 'src/app/services/campaign.service';
 
 @Component({
   selector: 'app-leads',
@@ -38,24 +39,40 @@ export class LeadsComponent implements AfterViewInit {
   leads: Lead[];
   leadStatus = LeadStatus;
   leadStatusKeys: Array<string>;
-  filterPlaceholder = $localize`Type specific area codes, lead-ID, ...`;
-
+  filterPlaceholder = $localize`Search for specific names, area codes, IDs, ...`;
+  /**
+   * Stores the values to filter by.
+   */
+  filterValue = {
+    form: 'any',
+    campaign: 'any',
+    other: ''
+  };
   isLoading = true;
   readonly dataSource: MatTableDataSource<Lead>;
   selection = new SelectionModel<Lead>(true, []);
   group: FormGroup;
+  /**
+   * Maps formId to formName
+   */
+  formNameMap: Map<number, string>;
+  /**
+   * Maps campaignId to campaignName
+   */
+  campaignNameMap: Map<number, string>;
   /**
    * Column IDs that we plan to show on the table are stored here
    */
   readonly displayedColumns: string[] = [
     'select',
     'leadId',
+    'date',
     'name',
     'phone_number',
     'email',
-    'campaignId',
     'status',
-    'date',
+    'formName',
+    'campaignName',
     'details'
   ];
 
@@ -63,12 +80,16 @@ export class LeadsComponent implements AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(private readonly leadService: LeadService,
+              private readonly formService: FormService,
+              private readonly campaignService: CampaignService,
               public dialog: MatDialog,
               private titleService: Title) {
     this.titleService.setTitle($localize`Leads`);
     this.dataSource = new MatTableDataSource();
     this.loadAllLeads();
     this.leadStatusKeys = Object.keys(this.leadStatus);
+    this.formService.getFormNameMap().subscribe(map => this.formNameMap = map);
+    this.campaignService.getCampaignNameMap().subscribe(map => this.campaignNameMap = map);
   }
 
   ngAfterViewInit(): void {
@@ -84,14 +105,16 @@ export class LeadsComponent implements AfterViewInit {
         case 'phone_number': return lead.columnData.PHONE_NUMBER;
         case 'email': return lead.columnData.EMAIL;
         case 'date': return new Date(lead.date).getTime();
+        case 'formName': return this.formNameMap.get(lead.formId);
+        case 'campaignName': return this.campaignNameMap.get(lead.campaignId);
         default: return lead[property];
       }
     };
     this.dataSource.sort = this.sort;
 
     /**
-     * @param data The whole data we have in the JSON.
-     * @param filter The value that the user searches for.
+     * @param filterPredicateData The whole data we have in the JSON.
+     * @param filterPredicateFilter The filterValue object containing all the filter fields the user has specified
      */
     this.dataSource.filterPredicate = (filterPredicateData: any, filterPredicateFilter: string): boolean  => {
       const cleanString = (str: string): string => str.trim().toLowerCase();
@@ -113,7 +136,12 @@ export class LeadsComponent implements AfterViewInit {
         }
         return false;
       };
-      return hasFilter(filterPredicateData, cleanString(filterPredicateFilter));
+      const filters = JSON.parse(filterPredicateFilter);
+      const formMatch = filters.form === 'any' || filterPredicateData.formId === filters.form;
+      const campaignMatch = filters.campaign === 'any' || filterPredicateData.campaignId === filters.campaign;
+      return formMatch
+        && campaignMatch
+        && hasFilter(filterPredicateData, cleanString(filters.other));
     };
   }
 
@@ -138,11 +166,10 @@ export class LeadsComponent implements AfterViewInit {
 
  /**
   * This method will listen to the filter field in the html and update the value of dataSource
-  * @param event an input from the filter field
+  * @param column the column to filter by
   */
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter() {
+    this.dataSource.filter = JSON.stringify(this.filterValue);
     if (this.dataSource.paginator != null) {
       this.dataSource.paginator.firstPage();
     }
@@ -230,6 +257,5 @@ export class LeadsComponent implements AfterViewInit {
         this.updateLead(leadToShow);
       }
     });
-
   }
 }

@@ -7,10 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.stream.MalformedJsonException;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import org.apache.commons.validator.ValidatorException;
-import org.apache.commons.validator.routines.EmailValidator;
 import java.io.Reader;
 import java.util.Map;
+import org.apache.commons.validator.ValidatorException;
+import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * An advertiser's settings for configuring email/phone
