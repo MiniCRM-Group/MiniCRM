@@ -103,7 +103,7 @@ export class ChartsComponent implements OnInit {
       };
       this.leadsByCampaign.push(dataPoint);
     });
-    
+
     // fill out the convertedLeads object
     let leadsConverted = 0;
     if (statusMap.has(LeadStatus.CLOSED_CONVERTED)) {
