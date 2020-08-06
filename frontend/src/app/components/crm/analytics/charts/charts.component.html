@@ -3,17 +3,45 @@
     <h1 class="mat-h4">
       Total Leads: {{leads.length}}
     </h1>
-    <h4 class="mat-h4">
-      Leads by Status
-    </h4>
-    <div id="pie-chart">
-      <ngx-charts-pie-chart
-        [view]="view"
-        [results]="leadStatuses"
-        legend="true"
-        >
-      </ngx-charts-pie-chart>
-    </div>
+    <mat-card class="mat-elevation-z3">
+      <mat-card-title>
+        Leads by Status
+      </mat-card-title>
+      <div class="pie-chart-container">
+        <ngx-charts-pie-chart
+          
+          [results]="leadsByStatus"
+          legend="true"
+          >
+        </ngx-charts-pie-chart>
+      </div>
+    </mat-card>
+    <mat-card class="mat-elevation-z3">
+      <mat-card-title>
+        Leads by Form
+      </mat-card-title>
+      <div class="pie-chart-container">
+        <ngx-charts-pie-chart
+          
+          [results]="leadsByForm"
+          legend="true"
+          >
+        </ngx-charts-pie-chart>
+      </div>
+    </mat-card>
+    <mat-card class="mat-elevation-z3">
+      <mat-card-title>
+        Leads by Campaign
+      </mat-card-title>
+      <div class="pie-chart-container">
+        <ngx-charts-pie-chart
+          
+          [results]="leadsByCampaign"
+          legend="true"
+          >
+        </ngx-charts-pie-chart>
+      </div>
+    </mat-card>
   </ng-container>
   <ng-template #loadingSpinner>
     <mat-card *ngIf="isLoading"
