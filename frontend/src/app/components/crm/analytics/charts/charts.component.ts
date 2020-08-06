@@ -105,9 +105,13 @@ export class ChartsComponent implements OnInit {
     });
 
     // fill out the convertedLeads object
+    let numConverted = 0;
+    if (statusMap.has(LeadStatus.CLOSED_CONVERTED)) {
+      numConverted = statusMap.get(LeadStatus.CLOSED_CONVERTED);
+    }
     const converted = {
       name: 'Converted',
-      value: statusMap.get(LeadStatus.CLOSED_CONVERTED)
+      value: numConverted
     };
     this.convertedLeads = [converted];
   }
