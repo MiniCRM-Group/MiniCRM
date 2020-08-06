@@ -3,6 +3,14 @@ package com.google.minicrm.data;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
+import com.google.gson.stream.MalformedJsonException;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import java.io.Reader;
+import java.util.Map;
+import org.apache.commons.validator.ValidatorException;
+import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  * An advertiser's settings for configuring email/phone
@@ -15,8 +23,41 @@ public final class Settings implements DatastoreObject {
     private NotificationsFrequency emailNotificationsFrequency;
     private String phone;
     private NotificationsFrequency phoneNotificationsFrequency;
-    private Language language;
     private Currency currency;
+
+    public Settings(Key advertiserKey, String email, String phone, NotificationsFrequency emailNotificationsFrequency,
+                    NotificationsFrequency phoneNotificationsFrequency, Currency currency)
+            throws ValidatorException, NumberParseException {
+        this.advertiserKey = advertiserKey;
+        this.email = email;
+        this.phone = phone;
+        this.emailNotificationsFrequency = emailNotificationsFrequency;
+        this.phoneNotificationsFrequency = phoneNotificationsFrequency;
+        this.currency = currency;
+        if (this.emailNotificationsFrequency != NotificationsFrequency.NEVER) {
+            if (email == null || email.trim().length() < 0) {
+                throw new IllegalArgumentException("Must provide email if notifications are enabled");
+            }
+            EmailValidator emailValidator = EmailValidator.getInstance();
+            if (!emailValidator.isValid(email)) {
+                throw new ValidatorException("Invalid email: " + email);
+            }
+        } else {
+            this.email = ""; // ignore email input if user disables notifications
+        }
+
+        if (this.phoneNotificationsFrequency != NotificationsFrequency.NEVER) {
+            if (phone == null || phone.trim().length() < 0) {
+                throw new IllegalArgumentException("Must provide phone if notifications are enabled");
+            }
+            PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+            if (!phoneNumberUtil.isValidNumber(phoneNumberUtil.parse(phone, "US"))) {
+                throw new ValidatorException("Invalid phone number: " + email);
+            }
+        } else {
+            this.phone = ""; // ignore phone input if user disables notifications
+        }
+    }
 
     /**
      * For creation of settings.
@@ -27,7 +68,6 @@ public final class Settings implements DatastoreObject {
     public Settings(Key advertiserKey, String email) {
         this.advertiserKey = advertiserKey;
         this.email = email;
-        this.language = Language.ENGLISH;
         this.currency = Currency.US_DOLLAR;
         // defaults
         this.emailNotificationsFrequency = NotificationsFrequency.NEVER;
@@ -47,8 +87,25 @@ public final class Settings implements DatastoreObject {
         this.phone = (String) entity.getProperty("phone");
         this.phoneNotificationsFrequency =
                 NotificationsFrequency.fromDisplayed((String) entity.getProperty("phoneNf"));
-        this.language = Language.fromIsoCode((String) entity.getProperty("language"));
         this.currency = Currency.fromIsoCode((String) entity.getProperty("currency"));
+    }
+
+    public static Settings fromReader(Reader reader, Key advertiserKey) throws NumberParseException, ValidatorException, MalformedJsonException {
+        Gson gson = new Gson();
+        Map<String, String> jsonMap = gson.fromJson(reader, Map.class);
+        if (!(jsonMap != null && jsonMap.containsKey("email") && jsonMap.containsKey("phone") &&
+                jsonMap.containsKey("emailNotificationsFrequency") &&
+                jsonMap.containsKey("phoneNotificationsFrequency") &&
+                jsonMap.containsKey("currency"))) {
+            throw new MalformedJsonException("One or more missing keys in JSON.");
+        }
+        String email = jsonMap.get("email");
+        String phone = jsonMap.get("phone");
+        NotificationsFrequency emailNotifFreq = NotificationsFrequency.valueOf(jsonMap.get("emailNotificationsFrequency"));
+        NotificationsFrequency phoneNotifFreq = NotificationsFrequency.valueOf(jsonMap.get("phoneNotificationsFrequency"));
+        Language lang = Language.fromIsoCode(jsonMap.get("language"));
+        Currency curr = Currency.fromIsoCode(jsonMap.get("currency"));
+        return new Settings(advertiserKey, email, phone, emailNotifFreq, phoneNotifFreq, curr);
     }
 
     public String getEmail() {
@@ -65,10 +122,6 @@ public final class Settings implements DatastoreObject {
 
     public NotificationsFrequency getPhoneNotificationFrequency() {
         return phoneNotificationsFrequency;
-    }
-
-    public Language getLanguage() {
-        return language;
     }
 
     public Currency getCurrency() {
@@ -91,10 +144,6 @@ public final class Settings implements DatastoreObject {
         this.phoneNotificationsFrequency = phoneNotificationsFrequency;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
     public void setCurrency(Currency currency) {
         this.currency = currency;
     }
@@ -107,7 +156,6 @@ public final class Settings implements DatastoreObject {
         entity.setProperty("emailNf", emailNotificationsFrequency.getDisplayed());
         entity.setProperty("phone", phone);
         entity.setProperty("phoneNf", phoneNotificationsFrequency.getDisplayed());
-        entity.setProperty("language", language.getIsoCode());
         entity.setProperty("currency", currency.getIsoCode());
         return entity;
     }

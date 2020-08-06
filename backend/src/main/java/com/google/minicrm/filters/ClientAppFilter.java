@@ -49,13 +49,11 @@ public final class ClientAppFilter implements Filter {
       response.sendError(400, e.getMessage());
       return;
     }
-    if (isValidUrl(path)) {
+    if (isValidApiUrl(path)) {
       //allowed, continue navigation
       filterChain.doFilter(servletRequest, servletResponse);
     } else {
-      //Angular URL, send back to index.html
-      RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("/");
-      dispatcher.forward(servletRequest, servletResponse);
+      redirectToClient(servletRequest, servletResponse, path);
     }
   }
 
@@ -68,8 +66,22 @@ public final class ClientAppFilter implements Filter {
    * @param url the String representation of the url
    * @return    true if the url is a valid api url, false otherwise.
    */
-  private boolean isValidUrl(String url) {
+  private boolean isValidApiUrl(String url) {
     // valid urls start with /api (for API endpoints) or /_ah (for other GCP URLs)
     return url.startsWith("/api") || url.startsWith("/_ah");
+  }
+
+  private void redirectToClient(ServletRequest servletRequest, ServletResponse servletResponse,
+                                String path) throws IOException, ServletException {
+    RequestDispatcher dispatcher;
+    dispatcher = servletRequest.getRequestDispatcher(localizePath(path));
+    dispatcher.forward(servletRequest, servletResponse);
+  }
+
+  private String localizePath(String url) {
+    if (url.startsWith("/hi") || url.startsWith("/es") || url.startsWith("/pt")) {
+      return url.substring(0, 3) + "/index.html";
+    }
+    return "/index.html";
   }
 }

@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-
 import { LoginResponse } from '../models/server_responses/login-response.model';
 import { retry, catchError, first } from 'rxjs/operators';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private languageService: LanguageService) { }
 
   loginEndpoint = '/api/login';
 
@@ -24,10 +23,11 @@ export class LoginService {
   }
 
   getLoginResponse(): Observable<LoginResponse> {
-    const options = {
-      responseType: 'json' as const
-    };
-    return this.http.get<LoginResponse>(this.loginEndpoint, options)
+    const language = this.languageService.getCurrentLanguage().isoCode;
+    return this.http.get<LoginResponse>(this.loginEndpoint, {
+      responseType: 'json',
+      params: new HttpParams().set('language', language)
+    })
     .pipe(
       first(),
       retry(3), // retry 3 times

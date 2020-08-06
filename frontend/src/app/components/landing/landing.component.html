@@ -1,6 +1,16 @@
 <mat-toolbar color="primary">
     <mat-icon>layers</mat-icon>
     <h6>miniCRM</h6>
+    <span class="spacer"></span>
+    <button *ngIf="languageEnabled" mat-icon-button [matMenuTriggerFor]="langMenu">
+        <mat-icon>language</mat-icon>
+        <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #langMenu="matMenu">
+        <button *ngFor="let lang of supportedLanguages" mat-menu-item (click)="switchLanguage(lang.isoCode)">
+            <span>{{ lang.displayed }}</span>
+        </button>
+    </mat-menu>
 </mat-toolbar>
 <div id="content" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="57px">
     <div fxLayout="row" fxLayoutAlign="space-around center">
@@ -9,7 +19,7 @@
                 <span i18n>A simple, lightweight CRM app.</span><br>
             </div>
             <button id="login-button" (click)="login()" mat-flat-button color="primary">
-                <span class="mat-h3" i18n id="login">LOGIN</span>
+                <span class="mat-h3" i18n id="login">{{ loginButtonLabel }}</span>
                 <mat-icon> login</mat-icon>
             </button>
         </div>
