@@ -1,14 +1,14 @@
 # miniCRM 
 [![Build status](https://circleci.com/gh/MiniCRM-Group/MiniCRM.svg?style=svg)](https://circleci.com/gh/MiniCRM-Group/MiniCRM)
 
-This is the repository for our miniCRM website!
+This is the repository for [miniCRM](http://form-ads-leads.appspot.com/), a simple, lightweight CRM designed for SMBs using Google Form Ads!
 
 ![miniCRM Landing Page](screenshots/landingpagescreenshot.png?raw=true "miniCRM Landing Page")
 
 ## Getting Started
 
 Install the following tools:
-- Java 8
+- Java *8*
 - [npm](https://nodejs.org/en/)
 
 To run our project locally, you should run the frontend and backend separately,
@@ -42,9 +42,9 @@ To deploy our project onto GCP, you should run the production build of our front
 and then run the production build of our backend (which also deploys). You will need to specify a GCP project id in `backend/pom.xml`.
 
 ```
-# First, run prod build of frontend
+# First, run prod build of frontend in the frontend folder
 npm run build
-# Then, run prod build of backend
+# Then, deploy to Google App Engine in the backend folder
 mvn package appengine:deploy
 ```
 
@@ -75,4 +75,5 @@ Use the following name convention for branch naming:
 6. Once at least one intern and at least one host has approved your PR, you can merge into `master`.
 
 ## Contributors
-Alex, Amanuel, Roddy, Rodrigo, Anthoney
+Interns: Alex, Amanuel, Roddy
+Hosts: Rodrigo, Anthoney
