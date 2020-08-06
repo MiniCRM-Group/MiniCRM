@@ -8,14 +8,23 @@
         <mat-card-title>
           Conversion Rate
         </mat-card-title>
+        <div class="chart-container">
+          <ngx-charts-gauge
+            [results]="convertedLeads"
+            [max]="leads.length"
+            units="converted"
+            [bigSegments]="leads.length"
+            smallSegments="0"
+            >
+          </ngx-charts-gauge>
+        </div>
       </mat-card>
       <mat-card class="mat-elevation-z3">
         <mat-card-title>
           Leads by Status
         </mat-card-title>
-        <div class="pie-chart-container">
+        <div class="chart-container">
           <ngx-charts-pie-chart
-            
             [results]="leadsByStatus"
             labels="true"
             trimLabels="false"
@@ -31,9 +40,8 @@
         <mat-card-title>
           Leads by Form
         </mat-card-title>
-        <div class="pie-chart-container">
+        <div class="chart-container">
           <ngx-charts-pie-chart
-            
             [results]="leadsByForm"
             legend="true"
             labels="true"
@@ -45,9 +53,8 @@
         <mat-card-title>
           Leads by Campaign
         </mat-card-title>
-        <div class="pie-chart-container">
+        <div class="chart-container">
           <ngx-charts-pie-chart
-            
             [results]="leadsByCampaign"
             legend="true"
             labels="true"
