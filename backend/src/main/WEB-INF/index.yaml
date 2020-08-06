@@ -1,0 +1,16 @@
+indexes:
+  - kind: "Lead"
+    ancestor: yes
+    properties:
+      - name: "date"
+        direction: desc
+  - kind: "Form"
+    ancestor: yes
+    properties:
+      - name: "date"
+        direction: desc
+  - kind: "Campaign"
+    ancestor: yes
+    properties:
+      - name: "date"
+        direction: desc

@@ -49,11 +49,13 @@ public final class ClientAppFilter implements Filter {
       response.sendError(400, e.getMessage());
       return;
     }
-    if (isValidApiUrl(path)) {
+    if (isValidUrl(path)) {
       //allowed, continue navigation
       filterChain.doFilter(servletRequest, servletResponse);
     } else {
-      redirectToClient(servletRequest, servletResponse, path);
+      //Angular URL, send back to index.html
+      RequestDispatcher dispatcher = servletRequest.getRequestDispatcher("/");
+      dispatcher.forward(servletRequest, servletResponse);
     }
   }
 
@@ -66,7 +68,7 @@ public final class ClientAppFilter implements Filter {
    * @param url the String representation of the url
    * @return    true if the url is a valid api url, false otherwise.
    */
-  private boolean isValidApiUrl(String url) {
+  private boolean isValidUrl(String url) {
     // valid urls start with /api (for API endpoints) or /_ah (for other GCP URLs)
     return url.startsWith("/api") || url.startsWith("/_ah");
   }
