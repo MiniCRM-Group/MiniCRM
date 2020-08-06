@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
 import { Campaign, CampaignsResponse } from 'src/app/models/server_responses/campaign.model';
 import { CampaignService } from 'src/app/services/campaign.service';
 import { CrmTableComponent } from '../../shared/crm-table/crm-table.component';
