@@ -19,6 +19,7 @@
           "hi": "src/locales/messages/messages.hi.xlf",
           "pt": "src/locales/messages/messages.pt.xlf"
         }
+
       },
       "architect": {
         "build": {

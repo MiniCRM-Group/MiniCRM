@@ -48,6 +48,7 @@ export class LandingComponent implements OnInit {
   ngOnInit() {
     this.loginService.getLoginResponse().subscribe((res: LoginResponse) => {
       this.loginUrl = res.loggedIn ? 'crm/guide' : res.url;
+      this.loginButtonLabel = res.loggedIn ? 'Go to CRM' : 'LOGIN';
     });
   }
 

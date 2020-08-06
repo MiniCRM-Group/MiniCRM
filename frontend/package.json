@@ -11,14 +11,14 @@
     "build": "ng build --prod --localize && cp -a ../backend/src/main/webapp/en/. ../backend/src/main/webapp/ && rm -rf ../backend/src/main/webapp/en && npm run copy-web-inf",
     "build:ci": "ng build --prod",
     "build:dev": "ng build --configuration=developer && npm run copy-web-inf",
-    "build:prod": "ng build --prod && npm run copy-web-inf",
-    "build:es": "ng build --configuration=production-es",
-    "build:hi": "ng build --configuration=production-hi",
-    "build:pt": "ng build --configuration=production-pt",
-    "test": "ng test --watch=false --browsers=Chrome --source-map=false --code-coverage",
+    "build:es": "ng build --configuration=production-es && npm run copy-web-inf",
+    "build:hi": "ng build --configuration=production-hi && npm run copy-web-inf",
+    "build:pt": "ng build --configuration=production-pt && npm run copy-web-inf",
+    "test": "ng test --code-coverage",
     "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI --source-map=false",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "view-code-coverage": "http-server ./coverage/frontend"
   },
   "private": true,
   "dependencies": {
