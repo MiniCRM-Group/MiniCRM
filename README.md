@@ -59,6 +59,7 @@ Use the following name convention for branch naming:
 4. Ensure your PR successfully passes all applicable CI pipelines. You can test and debug this locally by running the following commands:
 
     ```
+    #Navigate to the front end folder
     # Installs npm dependencies
     npm install
 
@@ -68,8 +69,12 @@ Use the following name convention for branch naming:
     # Builds the app
     npm run build
 
-    # Runs unit tests
+    # Runs front end unit tests
     npm run test
+
+    #Navgate to the backend folder
+    #Run back end unit tests
+    mvn test
     ```
 5. Get at least one intern (Roddy, Alex, Amanuel) to review and approve your PR and at least one host (Rodrigo and Anthoney) to review and approve your PR. (Note: This can be done concurrently with step 3)
 6. Once at least one intern and at least one host has approved your PR, you can merge into `master`.
