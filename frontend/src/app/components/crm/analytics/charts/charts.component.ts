@@ -50,7 +50,7 @@ export class ChartsComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  
+
   generateData(): void {
     // fill out the leadsByStatus object
     const statusMap: Map<LeadStatus, number> = new Map<LeadStatus, number>();
