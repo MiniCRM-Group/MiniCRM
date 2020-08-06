@@ -60,7 +60,7 @@ Use the following name convention for branch naming:
 
     ```
     # Installs npm dependencies
-    npm run install
+    npm install
 
     # Lints your Typescript files
     npm run lint
