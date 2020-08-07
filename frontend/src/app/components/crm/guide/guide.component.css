@@ -14,6 +14,13 @@
 }
 
 #content {
-    margin-top: 57px;
+    padding-top: 57px;
+    height: 100%;
     width: 100%;
+}
+.footer {
+    margin: 20px;
+}
+#adsPortalPic {
+    width: 400px;
 }

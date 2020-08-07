@@ -20,6 +20,16 @@ export class CrmComponent implements OnInit {
       icon: 'info'
     },
     {
+      displayedName: $localize`Analytics`,
+      link: 'analytics',
+      icon: 'bar_chart'
+    },
+    {
+      displayedName: $localize`Leads`,
+      link: 'leads',
+      icon: 'group'
+    },
+    {
       displayedName: $localize`Forms`,
       link: 'forms',
       icon: 'ballot'
@@ -28,16 +38,6 @@ export class CrmComponent implements OnInit {
       displayedName: $localize`Campaigns`,
       link: 'campaigns',
       icon: 'monetization_on'
-    },
-    {
-      displayedName: $localize`Leads`,
-      link: 'leads',
-      icon: 'group'
-    },
-    {
-      displayedName: $localize`Analytics`,
-      link: 'analytics',
-      icon: 'bar_chart'
     },
     {
       displayedName: $localize`Settings`,

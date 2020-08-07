@@ -13,6 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CopyableFormFieldModule } from '../shared/copyable-form-field/copyable-form-field.module';
 import { MatButtonModule } from '@angular/material/button';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { ChatModule } from './chat/chat.module';
 
 @NgModule({
   declarations: [CrmComponent],
@@ -29,7 +30,8 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
     MatMenuModule,
     FlexLayoutModule,
     MatButtonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChatModule
   ]
 })
 export class CrmModule { }
