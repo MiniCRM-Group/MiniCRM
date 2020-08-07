@@ -80,5 +80,6 @@ Use the following name convention for branch naming:
 6. Once at least one intern and at least one host has approved your PR, you can merge into `master`.
 
 ## Contributors
-Interns: Alex, Amanuel, Roddy
+STEP Interns: Alex, Amanuel, Roddy
 Hosts: Rodrigo, Anthoney
+Developed during Summer 2020
