@@ -58,7 +58,7 @@ public final class Campaign implements DatastoreObject {
    * Generates a Campaign object based off an entity of kind Campaign.
    *
    * @param entity an entity to generate the Campaign object from
-   * @throw IllegalArgumentException if the entity passed is not of kind Campaign
+   * @throws IllegalArgumentException if the entity passed is not of kind Campaign
    */
   public Campaign(Entity entity) {
     if (!entity.getKind().equals(KIND_NAME)) {

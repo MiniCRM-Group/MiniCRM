@@ -1,0 +1,5 @@
+com.google.minicrm.data
+com.google.minicrm.filters
+com.google.minicrm.interfaces
+com.google.minicrm.servlets
+com.google.minicrm.utils

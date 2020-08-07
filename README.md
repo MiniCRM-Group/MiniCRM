@@ -79,7 +79,10 @@ Use the following name convention for branch naming:
 5. Get at least one intern (Roddy, Alex, Amanuel) to review and approve your PR and at least one host (Rodrigo and Anthoney) to review and approve your PR. (Note: This can be done concurrently with step 3)
 6. Once at least one intern and at least one host has approved your PR, you can merge into `master`.
 
+## Javadocs
+Backend Javadocs can be found at backend/javadocs/index.html
+
 ## Contributors
-STEP Interns: Alex, Amanuel, Roddy
-Hosts: Rodrigo, Anthoney
+STEP Interns: Alex, Amanuel, Roddy\
+Hosts: Rodrigo, Anthoney\
 Developed during Summer 2020

@@ -54,7 +54,7 @@ public class Advertiser implements DatastoreObject {
    * Constructs an Advertiser based off of an entity of Kind Advertiser
    *
    * @param entity an entity to generate the Advertiser from
-   * @throw IllegalArgumentException if the entity passed is not of kind Advertiser
+   * @throws IllegalArgumentException if the entity passed is not of kind Advertiser
    */
   public Advertiser(Entity entity) {
     if (!entity.getKind().equals(KIND_NAME)) {
